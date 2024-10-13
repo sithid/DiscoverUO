@@ -31,3 +31,5 @@ C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Api\obj\Debug\net
 C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Api\obj\Debug\net8.0\DiscoverUO.Api.pdb
 C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Api\obj\Debug\net8.0\DiscoverUO.Api.genruntimeconfig.cache
 C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Api\obj\Debug\net8.0\ref\DiscoverUO.Api.dll
+C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Api\bin\Debug\net8.0\DiscoverUO.Lib.dll
+C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Api\bin\Debug\net8.0\DiscoverUO.Lib.pdb

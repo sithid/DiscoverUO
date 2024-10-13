@@ -1,11 +1,30 @@
 {
   "version": 3,
   "targets": {
-    "net8.0": {}
+    "net8.0": {
+      "DiscoverUO.Lib/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v8.0",
+        "compile": {
+          "bin/placeholder/DiscoverUO.Lib.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/DiscoverUO.Lib.dll": {}
+        }
+      }
+    }
   },
-  "libraries": {},
+  "libraries": {
+    "DiscoverUO.Lib/1.0.0": {
+      "type": "project",
+      "path": "../DiscoverUO.Lib/DiscoverUO.Lib.csproj",
+      "msbuildProject": "../DiscoverUO.Lib/DiscoverUO.Lib.csproj"
+    }
+  },
   "projectFileDependencyGroups": {
-    "net8.0": []
+    "net8.0": [
+      "DiscoverUO.Lib >= 1.0.0"
+    ]
   },
   "packageFolders": {
     "C:\\Users\\demon\\.nuget\\packages\\": {},
@@ -39,7 +58,11 @@
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\Users\\demon\\OneDrive\\Documents\\GitHub\\DiscoverUO\\DiscoverUO.Lib\\DiscoverUO.Lib.csproj": {
+              "projectPath": "C:\\Users\\demon\\OneDrive\\Documents\\GitHub\\DiscoverUO\\DiscoverUO.Lib\\DiscoverUO.Lib.csproj"
+            }
+          }
         }
       },
       "warningProperties": {
