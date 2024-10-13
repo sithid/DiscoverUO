@@ -1,0 +1,12 @@
+C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Lib\bin\Debug\net8.0\DiscoverUO.Lib.deps.json
+C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Lib\bin\Debug\net8.0\DiscoverUO.Lib.dll
+C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Lib\bin\Debug\net8.0\DiscoverUO.Lib.pdb
+C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Lib\obj\Debug\net8.0\DiscoverUO.Lib.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Lib\obj\Debug\net8.0\DiscoverUO.Lib.AssemblyInfoInputs.cache
+C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Lib\obj\Debug\net8.0\DiscoverUO.Lib.AssemblyInfo.cs
+C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Lib\obj\Debug\net8.0\DiscoverUO.Lib.csproj.CoreCompileInputs.cache
+C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Lib\obj\Debug\net8.0\DiscoverUO.Lib.sourcelink.json
+C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Lib\obj\Debug\net8.0\DiscoverUO.Lib.dll
+C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Lib\obj\Debug\net8.0\refint\DiscoverUO.Lib.dll
+C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Lib\obj\Debug\net8.0\DiscoverUO.Lib.pdb
+C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Lib\obj\Debug\net8.0\ref\DiscoverUO.Lib.dll
