@@ -1,8 +1,7 @@
 # DiscoverUO
-Ultima Online Public Server List
-A Blazor WebApp © 2024, James Glosser
-demonicurges05@gmail.com 
-DUE: 12/13/2024 @ NOON
+- Ultima Online Public Server List
+- A Blazor WebApp © 2024, James Glosser
+- demonicurges05@gmail.com 
 
 ## Purpose
 DiscoverUO is a place where users can discover and share Ultima Online servers that are administered and maintained by players just like themselves.
