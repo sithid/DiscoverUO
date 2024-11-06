@@ -1,5 +1,4 @@
-﻿
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using DiscoverUO.Api.Models;
 using DiscoverUO.Api.Data.Repositories.Contracts;
 
@@ -17,14 +16,14 @@ namespace DiscoverUO.Api.Controllers
         }
 
         [HttpGet("GetServers")]
-        public async Task<ActionResult<IEnumerable<Server>>> GetServers()
+        public async Task<ActionResult<List<Server>>> GetServers()
         {
             try
             {
                 var serverList = await _dataRepository.GetServers();
 
-                if (serverList == null)
-                    return NotFound();
+                if (serverList == null || serverList.Count == 0)
+                    return NotFound("No servers found.");
                 else
                     return serverList;
             }
@@ -66,7 +65,7 @@ namespace DiscoverUO.Api.Controllers
                 var success = await _dataRepository.PutServer(server);
 
                 if (!success)
-                    return BadRequest("HttpPut failed.");
+                    return BadRequest();
 
                 return Ok(server);
             }
@@ -76,7 +75,7 @@ namespace DiscoverUO.Api.Controllers
             }
         }
 
-        [HttpPost("HttpPost")]
+        [HttpPost("PostServer")]
         public async Task<ActionResult<Server>> PostServer( Server server )
         {
             try
@@ -94,13 +93,11 @@ namespace DiscoverUO.Api.Controllers
             }
         }
 
-        [HttpDelete("HttpDelete/{id}")]
+        [HttpDelete("DeleteServer/{id}")]
         public async Task<IActionResult> DeleteServer( int id )
         {
             if( !await _dataRepository.ServerExists( id ) )
-            {
                 return NotFound();
-            }
 
             bool success = await _dataRepository.DeleteServer(id);
 

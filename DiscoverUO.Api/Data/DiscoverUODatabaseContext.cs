@@ -11,6 +11,10 @@ namespace DiscoverUO.Api.Data
     {
         public DbSet<Server> Servers { get; set; } = default!;
         public DbSet<User> Users { get; set; } = default!;
+        public DbSet<UserProfile> UserProfiles { get; set; }
+        public DbSet<UserFavoritesList> UserFavoritesLists { get; set; } = default!;
+        public DbSet<UserFavoritesListItem> UserFavoritesListItems{ get; set; }
+
 
         public DiscoverUODatabaseContext (DbContextOptions<DiscoverUODatabaseContext> options)
             : base(options)

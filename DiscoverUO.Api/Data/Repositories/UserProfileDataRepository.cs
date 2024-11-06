@@ -4,32 +4,32 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DiscoverUO.Api.Data.Repositories
 {
-    public class UserDataRepository : IUserDataRepository
+    public class UserProfileDataRepository : IUserProfileDataRepository
     {
         private readonly DiscoverUODatabaseContext _context;
 
-        public UserDataRepository(DiscoverUODatabaseContext context)
+        public UserProfileDataRepository(DiscoverUODatabaseContext context)
         {
             _context = context;
         }
 
-        public async Task<List<User>> GetUsers()
+        public async Task<List<UserProfile>> GetUserProfiles()
         {
-            var userList = await _context.Users.ToListAsync();
+            var userProfiles = await _context.UserProfiles.ToListAsync();
 
-            return userList;
+            return userProfiles;
         }
 
-        public async Task<User> GetUser(int id)
+        public async Task<UserProfile> GetUserProfile(int id)
         {
-            var user = await _context.Users.FindAsync(id);
+            var user = await _context.UserProfiles.FindAsync(id);
 
             return user;
         }
 
-        public async Task<bool> PutUser(User user)
+        public async Task<bool> PutUserProfile(UserProfile userProfile)
         {
-            _context.Entry(user).State = EntityState.Modified;
+            _context.Entry(userProfile).State = EntityState.Modified;
 
             try
             {
@@ -44,9 +44,9 @@ namespace DiscoverUO.Api.Data.Repositories
             return true;
         }
 
-        public async Task<bool> PostUser(User user)
+        public async Task<bool> PostUserProfile(UserProfile userProfile)
         {
-            _context.Users.Add(user);
+            _context.UserProfiles.Add(userProfile);
 
             try
             {
@@ -61,13 +61,13 @@ namespace DiscoverUO.Api.Data.Repositories
             return true;
         }
 
-        public async Task<bool> DeleteUser(int id)
+        public async Task<bool> DeleteUserProfile(int id)
         {
-            var user = await _context.Users.FindAsync(id);
+            var userProfile = await _context.UserProfiles.FindAsync(id);
 
-            if (user != null)
+            if (userProfile != null)
             {
-                _context.Users.Remove(user);
+                _context.UserProfiles.Remove(userProfile);
 
                 try
                 {
@@ -83,9 +83,9 @@ namespace DiscoverUO.Api.Data.Repositories
             return true;
         }
 
-        public async Task<bool> UserExists(int id)
+        public async Task<bool> UserProfileExists(int id)
         {
-            return _context.Users.Any( user => user.Id == id);
+            return _context.UserProfiles.Any(user => user.Id == id);
         }
     }
 }

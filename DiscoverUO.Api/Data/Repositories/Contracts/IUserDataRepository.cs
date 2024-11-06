@@ -1,4 +1,8 @@
 ﻿using DiscoverUO.Api.Models;
+using DiscoverUO.Api.Data;
+using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.OpenApi;
+using Microsoft.EntityFrameworkCore;
 
 namespace DiscoverUO.Api.Data.Repositories.Contracts
 {
@@ -9,7 +13,6 @@ namespace DiscoverUO.Api.Data.Repositories.Contracts
         Task<bool> PutUser(User user);
         Task<bool> PostUser(User user);
         Task<bool> DeleteUser(int id);
-        Task<bool> DeleteUser(User user);
         Task<bool> UserExists(int id);
     }
 }

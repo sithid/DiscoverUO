@@ -1,105 +1,12 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\Users\\demon\\OneDrive\\Documents\\GitHub\\DiscoverUO\\",
-  "Documents": [
-    {
-      "AbsoluteMoniker": "D:0:0:{F00225AC-CC4D-431C-B0D5-CD70A3704075}|DiscoverUO.Api\\DiscoverUO.Api.csproj|c:\\users\\demon\\onedrive\\documents\\github\\discoveruo\\discoveruo.api\\data\\repositories\\userdatarepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F00225AC-CC4D-431C-B0D5-CD70A3704075}|DiscoverUO.Api\\DiscoverUO.Api.csproj|solutionrelative:discoveruo.api\\data\\repositories\\userdatarepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F00225AC-CC4D-431C-B0D5-CD70A3704075}|DiscoverUO.Api\\DiscoverUO.Api.csproj|c:\\users\\demon\\onedrive\\documents\\github\\discoveruo\\discoveruo.api\\data\\repositories\\serverdatarepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F00225AC-CC4D-431C-B0D5-CD70A3704075}|DiscoverUO.Api\\DiscoverUO.Api.csproj|solutionrelative:discoveruo.api\\data\\repositories\\serverdatarepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F00225AC-CC4D-431C-B0D5-CD70A3704075}|DiscoverUO.Api\\DiscoverUO.Api.csproj|c:\\users\\demon\\onedrive\\documents\\github\\discoveruo\\discoveruo.api\\data\\repositories\\contracts\\iuserdatarepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F00225AC-CC4D-431C-B0D5-CD70A3704075}|DiscoverUO.Api\\DiscoverUO.Api.csproj|solutionrelative:discoveruo.api\\data\\repositories\\contracts\\iuserdatarepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F00225AC-CC4D-431C-B0D5-CD70A3704075}|DiscoverUO.Api\\DiscoverUO.Api.csproj|c:\\users\\demon\\onedrive\\documents\\github\\discoveruo\\discoveruo.api\\data\\repositories\\contracts\\iserverdatarepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F00225AC-CC4D-431C-B0D5-CD70A3704075}|DiscoverUO.Api\\DiscoverUO.Api.csproj|solutionrelative:discoveruo.api\\data\\repositories\\contracts\\iserverdatarepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F00225AC-CC4D-431C-B0D5-CD70A3704075}|DiscoverUO.Api\\DiscoverUO.Api.csproj|c:\\users\\demon\\onedrive\\documents\\github\\discoveruo\\discoveruo.api\\controllers\\discoveruoservercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F00225AC-CC4D-431C-B0D5-CD70A3704075}|DiscoverUO.Api\\DiscoverUO.Api.csproj|solutionrelative:discoveruo.api\\controllers\\discoveruoservercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    }
-  ],
+  "Documents": [],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
       "VerticalTabListWidth": 256,
-      "DocumentGroups": [
-        {
-          "DockedWidth": 200,
-          "SelectedChildIndex": 3,
-          "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "DiscoverUOServerController.cs",
-              "DocumentMoniker": "C:\\Users\\demon\\OneDrive\\Documents\\GitHub\\DiscoverUO\\DiscoverUO.Api\\Controllers\\DiscoverUOServerController.cs",
-              "RelativeDocumentMoniker": "DiscoverUO.Api\\Controllers\\DiscoverUOServerController.cs",
-              "ToolTip": "C:\\Users\\demon\\OneDrive\\Documents\\GitHub\\DiscoverUO\\DiscoverUO.Api\\Controllers\\DiscoverUOServerController.cs",
-              "RelativeToolTip": "DiscoverUO.Api\\Controllers\\DiscoverUOServerController.cs",
-              "ViewState": "AgIAABMAAAAAAAAAAAAwwEEAAAA/AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-06T06:40:06.477Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "IUserDataRepository.cs",
-              "DocumentMoniker": "C:\\Users\\demon\\OneDrive\\Documents\\GitHub\\DiscoverUO\\DiscoverUO.Api\\Data\\Repositories\\Contracts\\IUserDataRepository.cs",
-              "RelativeDocumentMoniker": "DiscoverUO.Api\\Data\\Repositories\\Contracts\\IUserDataRepository.cs",
-              "ToolTip": "C:\\Users\\demon\\OneDrive\\Documents\\GitHub\\DiscoverUO\\DiscoverUO.Api\\Data\\Repositories\\Contracts\\IUserDataRepository.cs",
-              "RelativeToolTip": "DiscoverUO.Api\\Data\\Repositories\\Contracts\\IUserDataRepository.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAbAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-06T06:35:14.884Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "IServerDataRepository.cs",
-              "DocumentMoniker": "C:\\Users\\demon\\OneDrive\\Documents\\GitHub\\DiscoverUO\\DiscoverUO.Api\\Data\\Repositories\\Contracts\\IServerDataRepository.cs",
-              "RelativeDocumentMoniker": "DiscoverUO.Api\\Data\\Repositories\\Contracts\\IServerDataRepository.cs",
-              "ToolTip": "C:\\Users\\demon\\OneDrive\\Documents\\GitHub\\DiscoverUO\\DiscoverUO.Api\\Data\\Repositories\\Contracts\\IServerDataRepository.cs",
-              "RelativeToolTip": "DiscoverUO.Api\\Data\\Repositories\\Contracts\\IServerDataRepository.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAeAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-06T06:34:55.645Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "UserDataRepository.cs",
-              "DocumentMoniker": "C:\\Users\\demon\\OneDrive\\Documents\\GitHub\\DiscoverUO\\DiscoverUO.Api\\Data\\Repositories\\UserDataRepository.cs",
-              "RelativeDocumentMoniker": "DiscoverUO.Api\\Data\\Repositories\\UserDataRepository.cs",
-              "ToolTip": "C:\\Users\\demon\\OneDrive\\Documents\\GitHub\\DiscoverUO\\DiscoverUO.Api\\Data\\Repositories\\UserDataRepository.cs",
-              "RelativeToolTip": "DiscoverUO.Api\\Data\\Repositories\\UserDataRepository.cs",
-              "ViewState": "AgIAAAsAAAAAAAAAAAAwwEQAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-06T06:22:22.581Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "ServerDataRepository.cs",
-              "DocumentMoniker": "C:\\Users\\demon\\OneDrive\\Documents\\GitHub\\DiscoverUO\\DiscoverUO.Api\\Data\\Repositories\\ServerDataRepository.cs",
-              "RelativeDocumentMoniker": "DiscoverUO.Api\\Data\\Repositories\\ServerDataRepository.cs",
-              "ToolTip": "C:\\Users\\demon\\OneDrive\\Documents\\GitHub\\DiscoverUO\\DiscoverUO.Api\\Data\\Repositories\\ServerDataRepository.cs",
-              "RelativeToolTip": "DiscoverUO.Api\\Data\\Repositories\\ServerDataRepository.cs",
-              "ViewState": "AgIAAB4AAAAAAAAAAAAuwGMAAAAJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-11-05T23:56:13.267Z",
-              "EditorCaption": ""
-            }
-          ]
-        }
-      ]
+      "DocumentGroups": []
     }
   ]
 }

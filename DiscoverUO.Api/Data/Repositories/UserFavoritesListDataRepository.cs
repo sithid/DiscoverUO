@@ -4,32 +4,32 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DiscoverUO.Api.Data.Repositories
 {
-    public class UserDataRepository : IUserDataRepository
+    public class UserFavoritesListDataRepository : IUserFavoritesListDataRepository
     {
         private readonly DiscoverUODatabaseContext _context;
 
-        public UserDataRepository(DiscoverUODatabaseContext context)
+        public UserFavoritesListDataRepository(DiscoverUODatabaseContext context)
         {
             _context = context;
         }
 
-        public async Task<List<User>> GetUsers()
+        public async Task<List<UserFavoritesList>> GetUserFavoritesLists()
         {
-            var userList = await _context.Users.ToListAsync();
+            var userList = await _context.UserFavoritesLists.ToListAsync();
 
             return userList;
         }
 
-        public async Task<User> GetUser(int id)
+        public async Task<UserFavoritesList> GetUserFavoritesList(int id)
         {
-            var user = await _context.Users.FindAsync(id);
+            var user = await _context.UserFavoritesLists.FindAsync(id);
 
             return user;
         }
 
-        public async Task<bool> PutUser(User user)
+        public async Task<bool> PutUserFavoritesList(UserFavoritesList userFavoritesList)
         {
-            _context.Entry(user).State = EntityState.Modified;
+            _context.Entry(userFavoritesList).State = EntityState.Modified;
 
             try
             {
@@ -44,9 +44,9 @@ namespace DiscoverUO.Api.Data.Repositories
             return true;
         }
 
-        public async Task<bool> PostUser(User user)
+        public async Task<bool> PostUserFavoritesList(UserFavoritesList userFavoritesList)
         {
-            _context.Users.Add(user);
+            _context.UserFavoritesLists.Add(userFavoritesList);
 
             try
             {
@@ -61,13 +61,13 @@ namespace DiscoverUO.Api.Data.Repositories
             return true;
         }
 
-        public async Task<bool> DeleteUser(int id)
+        public async Task<bool> DeleteUserFavoritesList(int id)
         {
-            var user = await _context.Users.FindAsync(id);
+            var userFavoritesList = await _context.UserFavoritesLists.FindAsync(id);
 
-            if (user != null)
+            if (userFavoritesList != null)
             {
-                _context.Users.Remove(user);
+                _context.UserFavoritesLists.Remove(userFavoritesList);
 
                 try
                 {
@@ -83,9 +83,9 @@ namespace DiscoverUO.Api.Data.Repositories
             return true;
         }
 
-        public async Task<bool> UserExists(int id)
+        public async Task<bool> UserFavoritesListExists(int id)
         {
-            return _context.Users.Any( user => user.Id == id);
+            return _context.UserFavoritesLists.Any(user => user.Id == id);
         }
     }
 }

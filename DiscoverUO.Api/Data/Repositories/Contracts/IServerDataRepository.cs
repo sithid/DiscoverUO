@@ -9,7 +9,6 @@ namespace DiscoverUO.Api.Data.Repositories.Contracts
         Task<bool> PutServer( Server server );
         Task<bool> PostServer(  Server server );
         Task<bool> DeleteServer( int id );
-        Task<bool> DeleteServer( Server server );
         Task<bool> ServerExists( int id );
     }
 }

@@ -1,8 +1,6 @@
 ﻿using DiscoverUO.Api.Data.Repositories.Contracts;
 using DiscoverUO.Api.Models;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Data;
 
 namespace DiscoverUO.Api.Data.Repositories
 {
@@ -48,7 +46,7 @@ namespace DiscoverUO.Api.Data.Repositories
 
         public async Task<bool> PostServer( Server server )
         {
-            _context.Add(server);
+            _context.Servers.Add(server);
 
             try
             {
