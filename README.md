@@ -26,48 +26,6 @@ This is a list of planned features.  It is my intention to put my best effort in
 - Class Library: Shared entity models / DTOs.
 - Database: SQLServer database with tables for users, servers,  reviews, server blacklist, user blacklist, and favorites.
 
-
-## Models - Backend
-User:			          			UserProfile:
-	int UserId,					int UserId,
-	str UserName,					str Biography,
-str Password,					str DisplayName,
-	int DailyVotesRemaining,			str Avatar,
-	UserProfile Profile					
-List<FavoritesList> Favorites
-Dictionary<int,Server> ServersAdded			
-
-FavoritesList:					Server:
- 	int UserId,					int UserId // Added By
-int ListId,		  			int ServerId,
-	str ListName,					str ServerName,
-	bool Public,                 		GameEra ServerEra,
-	List<ServerListing> Servers			str ServerAddress,
-								int ServerPort,
-								bool IsPublic,
-		     	     					int Votes,
-								int Rating
-
-
-Review:						Blacklist:
-	int ReviewId,					str BlacklistId,
-	int ServerId,					int UserId,
-	int UserId,					str BlacklistedBy,
-	str Content,					str ReasonForBan
-	int Rating,					
-DateTime Time
-
-Misc Data
-
-	Global
-		public List<Server> PublicServers
-		const int UserMaxPublicServers = 3
-		const int UserMaxPrivateServers = 3
-		const int VotingDelayHours = 24
-		const int MaxFavoritesLists = 5
-
-
-
 ## User Access Privileges
 Anonymous / Unregistered: Anon can access the WebApp and view the current public server listing. Anon may not add to, remove from, or otherwise modify the server listing in any way.
 
