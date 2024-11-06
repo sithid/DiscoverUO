@@ -1,15 +1,15 @@
 [
   {
-    "ContainingType": "DiscoverUO.Api.Controllers.WeatherForecastController",
-    "Method": "Get",
-    "RelativePath": "WeatherForecast",
+    "ContainingType": "DiscoverUO.Api.Controllers.DiscoverUOServerController",
+    "Method": "GetServer",
+    "RelativePath": "api/DiscoverUOServer",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[DiscoverUO.Api.WeatherForecast, DiscoverUO.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[DiscoverUO.Api.Models.Server, DiscoverUO.Api, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -17,7 +17,95 @@
         ],
         "StatusCode": 200
       }
+    ]
+  },
+  {
+    "ContainingType": "DiscoverUO.Api.Controllers.DiscoverUOServerController",
+    "Method": "PostServer",
+    "RelativePath": "api/DiscoverUOServer",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "server",
+        "Type": "DiscoverUO.Api.Models.Server",
+        "IsRequired": true
+      }
     ],
-    "EndpointName": "GetWeatherForecast"
+    "ReturnTypes": [
+      {
+        "Type": "DiscoverUO.Api.Models.Server",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "DiscoverUO.Api.Controllers.DiscoverUOServerController",
+    "Method": "GetServer",
+    "RelativePath": "api/DiscoverUOServer/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "DiscoverUO.Api.Models.Server",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "DiscoverUO.Api.Controllers.DiscoverUOServerController",
+    "Method": "PutServer",
+    "RelativePath": "api/DiscoverUOServer/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "server",
+        "Type": "DiscoverUO.Api.Models.Server",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DiscoverUO.Api.Controllers.DiscoverUOServerController",
+    "Method": "DeleteServer",
+    "RelativePath": "api/DiscoverUOServer/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
   }
 ]

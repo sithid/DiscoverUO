@@ -1,3 +1,8 @@
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using DiscoverUO.Api.Data;
+using DiscoverUO.Api.Data.Repositories;
+using DiscoverUO.Api.Data.Repositories.Contracts;
 
 namespace DiscoverUO.Api
 {
@@ -6,8 +11,11 @@ namespace DiscoverUO.Api
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            builder.Services.AddDbContext<DiscoverUODatabaseContext>(options =>
+                options.UseSqlServer(builder.Configuration.GetConnectionString("DiscoverUOConnection")));
 
             // Add services to the container.
+            builder.Services.AddScoped<IServerDataRepository, ServerDataRepository>();
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

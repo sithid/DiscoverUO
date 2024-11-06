@@ -3,16 +3,24 @@
   "WorkspaceRootPath": "C:\\Users\\demon\\OneDrive\\Documents\\GitHub\\DiscoverUO\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{F00225AC-CC4D-431C-B0D5-CD70A3704075}|DiscoverUO.Api\\DiscoverUO.Api.csproj|c:\\users\\demon\\onedrive\\documents\\github\\discoveruo\\discoveruo.api\\discoveruo.api.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
-      "RelativeMoniker": "D:0:0:{F00225AC-CC4D-431C-B0D5-CD70A3704075}|DiscoverUO.Api\\DiscoverUO.Api.csproj|solutionrelative:discoveruo.api\\discoveruo.api.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+      "AbsoluteMoniker": "D:0:0:{F00225AC-CC4D-431C-B0D5-CD70A3704075}|DiscoverUO.Api\\DiscoverUO.Api.csproj|c:\\users\\demon\\onedrive\\documents\\github\\discoveruo\\discoveruo.api\\data\\repositories\\userdatarepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F00225AC-CC4D-431C-B0D5-CD70A3704075}|DiscoverUO.Api\\DiscoverUO.Api.csproj|solutionrelative:discoveruo.api\\data\\repositories\\userdatarepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F00225AC-CC4D-431C-B0D5-CD70A3704075}|DiscoverUO.Api\\DiscoverUO.Api.csproj|c:\\users\\demon\\onedrive\\documents\\github\\discoveruo\\discoveruo.api\\data\\apidbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F00225AC-CC4D-431C-B0D5-CD70A3704075}|DiscoverUO.Api\\DiscoverUO.Api.csproj|solutionrelative:discoveruo.api\\data\\apidbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{F00225AC-CC4D-431C-B0D5-CD70A3704075}|DiscoverUO.Api\\DiscoverUO.Api.csproj|c:\\users\\demon\\onedrive\\documents\\github\\discoveruo\\discoveruo.api\\data\\repositories\\serverdatarepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F00225AC-CC4D-431C-B0D5-CD70A3704075}|DiscoverUO.Api\\DiscoverUO.Api.csproj|solutionrelative:discoveruo.api\\data\\repositories\\serverdatarepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F00225AC-CC4D-431C-B0D5-CD70A3704075}|DiscoverUO.Api\\DiscoverUO.Api.csproj|c:\\users\\demon\\onedrive\\documents\\github\\discoveruo\\discoveruo.api\\data\\discoveruodatabasecontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F00225AC-CC4D-431C-B0D5-CD70A3704075}|DiscoverUO.Api\\DiscoverUO.Api.csproj|solutionrelative:discoveruo.api\\data\\discoveruodatabasecontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{F00225AC-CC4D-431C-B0D5-CD70A3704075}|DiscoverUO.Api\\DiscoverUO.Api.csproj|c:\\users\\demon\\onedrive\\documents\\github\\discoveruo\\discoveruo.api\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F00225AC-CC4D-431C-B0D5-CD70A3704075}|DiscoverUO.Api\\DiscoverUO.Api.csproj|solutionrelative:discoveruo.api\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F00225AC-CC4D-431C-B0D5-CD70A3704075}|DiscoverUO.Api\\DiscoverUO.Api.csproj|c:\\users\\demon\\onedrive\\documents\\github\\discoveruo\\discoveruo.api\\models\\favoritelist.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F00225AC-CC4D-431C-B0D5-CD70A3704075}|DiscoverUO.Api\\DiscoverUO.Api.csproj|solutionrelative:discoveruo.api\\models\\favoritelist.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -22,24 +30,37 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "ApiDbContext.cs",
-              "DocumentMoniker": "C:\\Users\\demon\\OneDrive\\Documents\\GitHub\\DiscoverUO\\DiscoverUO.Api\\Data\\ApiDbContext.cs",
-              "RelativeDocumentMoniker": "DiscoverUO.Api\\Data\\ApiDbContext.cs",
-              "ToolTip": "C:\\Users\\demon\\OneDrive\\Documents\\GitHub\\DiscoverUO\\DiscoverUO.Api\\Data\\ApiDbContext.cs",
-              "RelativeToolTip": "DiscoverUO.Api\\Data\\ApiDbContext.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAA==",
+              "Title": "ServerDataRepository.cs",
+              "DocumentMoniker": "C:\\Users\\demon\\OneDrive\\Documents\\GitHub\\DiscoverUO\\DiscoverUO.Api\\Data\\Repositories\\ServerDataRepository.cs",
+              "RelativeDocumentMoniker": "DiscoverUO.Api\\Data\\Repositories\\ServerDataRepository.cs",
+              "ToolTip": "C:\\Users\\demon\\OneDrive\\Documents\\GitHub\\DiscoverUO\\DiscoverUO.Api\\Data\\Repositories\\ServerDataRepository.cs",
+              "RelativeToolTip": "DiscoverUO.Api\\Data\\Repositories\\ServerDataRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-13T05:31:14.718Z",
+              "WhenOpened": "2024-11-05T23:56:13.267Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 0,
+              "Title": "UserDataRepository.cs",
+              "DocumentMoniker": "C:\\Users\\demon\\OneDrive\\Documents\\GitHub\\DiscoverUO\\DiscoverUO.Api\\Data\\Repositories\\UserDataRepository.cs",
+              "RelativeDocumentMoniker": "DiscoverUO.Api\\Data\\Repositories\\UserDataRepository.cs",
+              "ToolTip": "C:\\Users\\demon\\OneDrive\\Documents\\GitHub\\DiscoverUO\\DiscoverUO.Api\\Data\\Repositories\\UserDataRepository.cs",
+              "RelativeToolTip": "DiscoverUO.Api\\Data\\Repositories\\UserDataRepository.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAgAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-05T23:54:40.314Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
               "Title": "User.cs",
               "DocumentMoniker": "C:\\Users\\demon\\OneDrive\\Documents\\GitHub\\DiscoverUO\\DiscoverUO.Api\\Models\\User.cs",
               "RelativeDocumentMoniker": "DiscoverUO.Api\\Models\\User.cs",
@@ -47,20 +68,33 @@
               "RelativeToolTip": "DiscoverUO.Api\\Models\\User.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-13T05:29:01.293Z",
+              "WhenOpened": "2024-11-05T23:50:13.403Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "DiscoverUO.Api",
-              "DocumentMoniker": "C:\\Users\\demon\\OneDrive\\Documents\\GitHub\\DiscoverUO\\DiscoverUO.Api\\DiscoverUO.Api.csproj",
-              "RelativeDocumentMoniker": "DiscoverUO.Api\\DiscoverUO.Api.csproj",
-              "ToolTip": "C:\\Users\\demon\\OneDrive\\Documents\\GitHub\\DiscoverUO\\DiscoverUO.Api\\DiscoverUO.Api.csproj",
-              "RelativeToolTip": "DiscoverUO.Api\\DiscoverUO.Api.csproj",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2024-10-13T05:28:19.701Z",
+              "DocumentIndex": 2,
+              "Title": "DiscoverUODatabaseContext.cs",
+              "DocumentMoniker": "C:\\Users\\demon\\OneDrive\\Documents\\GitHub\\DiscoverUO\\DiscoverUO.Api\\Data\\DiscoverUODatabaseContext.cs",
+              "RelativeDocumentMoniker": "DiscoverUO.Api\\Data\\DiscoverUODatabaseContext.cs",
+              "ToolTip": "C:\\Users\\demon\\OneDrive\\Documents\\GitHub\\DiscoverUO\\DiscoverUO.Api\\Data\\DiscoverUODatabaseContext.cs",
+              "RelativeToolTip": "DiscoverUO.Api\\Data\\DiscoverUODatabaseContext.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-05T23:49:49.451Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "FavoriteList.cs",
+              "DocumentMoniker": "C:\\Users\\demon\\OneDrive\\Documents\\GitHub\\DiscoverUO\\DiscoverUO.Api\\Models\\FavoriteList.cs",
+              "RelativeDocumentMoniker": "DiscoverUO.Api\\Models\\FavoriteList.cs",
+              "ToolTip": "C:\\Users\\demon\\OneDrive\\Documents\\GitHub\\DiscoverUO\\DiscoverUO.Api\\Models\\FavoriteList.cs",
+              "RelativeToolTip": "DiscoverUO.Api\\Models\\FavoriteList.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-05T20:48:35.984Z",
               "EditorCaption": ""
             }
           ]

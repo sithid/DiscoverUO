@@ -2,9 +2,10 @@
 {
     public class UserProfile
     {
+        public int Id { get; set; }
         public int UserId {  get; set; }
-        public string Biography { get; set; }
-        public string DisplayName { get; set; }
-        public string Avatar {  get; set; }
+        public string? UserBiography { get; set; }
+        public string? UserDisplayName { get; set; }
+        public string? UserAvatar {  get; set; }
     }
 }
