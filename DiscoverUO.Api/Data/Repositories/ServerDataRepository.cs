@@ -22,14 +22,14 @@ namespace DiscoverUO.Api.Data.Repositories
             return serverList;
         }
 
-        public async Task<Server> GetServerById( int id )
+        public async Task<Server> GetServer( int id )
         {
-            var server = await _context.Servers.FirstOrDefaultAsync( server => server.Id == id );
+            var server = await _context.Servers.FindAsync(id);
 
             return server;
         }
 
-        public async Task<bool> PutServer( int id, Server server )
+        public async Task<bool> PutServer( Server server )
         {
             _context.Entry(server).State = EntityState.Modified;
 
@@ -45,15 +45,61 @@ namespace DiscoverUO.Api.Data.Repositories
 
             return true;
         }
-        public async Task<Server> PostServer( Server server )
-        {
-            _context.AddAsync( server );
-            await _context.SaveChangesAsync();
 
-            return server;
+        public async Task<bool> PostServer( Server server )
+        {
+            _context.Add(server);
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch( Exception ex )
+            {
+                Console.WriteLine(ex.Message);
+                return false;
+            }
+
+            return true;
         }
 
-        public async Task<bool> ServerExists(int id)
+        public async Task<bool> DeleteServer( int id )
+        {
+            var server = await _context.Servers.FindAsync(id);
+
+            _context.Servers.Remove(server);
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch( Exception ex )
+            {
+                Console.WriteLine(ex.Message);
+                return false;
+            }
+
+            return true;
+        }
+
+        public async Task<bool> DeleteServer( Server server )
+        {
+            _context.Servers.Remove(server);
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch( Exception ex )
+            {
+                Console.WriteLine(ex.Message);
+                return false;
+            }
+
+            return true;
+        }
+
+        public async Task<bool> ServerExists( int id )
         {
             return _context.Servers.Any( server => server.Id == id);
         }

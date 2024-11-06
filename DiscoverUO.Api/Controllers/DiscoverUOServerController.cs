@@ -35,11 +35,11 @@ namespace DiscoverUO.Api.Controllers
         }
 
         [HttpGet("GetServer/{id}")]
-        public async Task<ActionResult<Server>> GetServer(int id)
+        public async Task<ActionResult<Server>> GetServer( int id )
         {
             try
             {
-                var server = await _dataRepository.GetServerById(id); ;
+                var server = await _dataRepository.GetServer(id); ;
 
                 if (server == null)
                     return NotFound($"The server you are looking for, with Id = {id}, was not found.");
@@ -53,7 +53,7 @@ namespace DiscoverUO.Api.Controllers
         }
 
         [HttpPut("PutServer/{id}")]
-        public async Task<IActionResult> PutServer(int id, Server server)
+        public async Task<IActionResult> PutServer( int id, Server server )
         {
             try
             {
@@ -63,7 +63,7 @@ namespace DiscoverUO.Api.Controllers
                 if (!await _dataRepository.ServerExists(id))
                     return NotFound("That server doesn't exist.");
 
-                var success = await _dataRepository.PutServer(id, server);
+                var success = await _dataRepository.PutServer(server);
 
                 if (!success)
                     return BadRequest("HttpPut failed.");
@@ -76,14 +76,14 @@ namespace DiscoverUO.Api.Controllers
             }
         }
 
-        [HttpPost]
-        public async Task<ActionResult<Server>> PostServer(Server server)
+        [HttpPost("HttpPost")]
+        public async Task<ActionResult<Server>> PostServer( Server server )
         {
             try
             {
                 var success = await _dataRepository.PostServer(server);
 
-                if (success != null)
+                if ( success )
                     return CreatedAtAction("GetServer", new { id = server.Id }, server);
                 else
                     return BadRequest();
@@ -94,20 +94,20 @@ namespace DiscoverUO.Api.Controllers
             }
         }
 
-        // DELETE: api/Servers/5
-        //[HttpDelete("{id}")]
-        //public async Task<IActionResult> DeleteServer(int id)
-        //{
-        //    var server = await _context.Servers.FindAsync(id);
-        //    if (server == null)
-        //    {
-        //        return NotFound();
-        //    }
+        [HttpDelete("HttpDelete/{id}")]
+        public async Task<IActionResult> DeleteServer( int id )
+        {
+            if( !await _dataRepository.ServerExists( id ) )
+            {
+                return NotFound();
+            }
 
-        //    _context.Servers.Remove(server);
-        //    await _context.SaveChangesAsync();
+            bool success = await _dataRepository.DeleteServer(id);
 
-        //    return NoContent();
-        //}
+            if (!success)
+                return BadRequest();
+
+            return NoContent();
+        }
     }
 }
