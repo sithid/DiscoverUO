@@ -1,108 +1,113 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using DiscoverUO.Api.Data;
 using DiscoverUO.Api.Models;
+using DiscoverUO.Api.Data.Repositories.Contracts;
 
 namespace DiscoverUO.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class DiscoverUOServerController : ControllerBase
+    public class DiscoverUOServersController : ControllerBase
     {
-        private readonly DiscoverUODatabaseContext _context;
-
-        public DiscoverUOServerController(DiscoverUODatabaseContext context)
+        private readonly IServerDataRepository _dataRepository;
+        
+        public DiscoverUOServersController(IServerDataRepository dataRepository)
         {
-            _context = context;
+            _dataRepository = dataRepository;
         }
 
-        // GET: api/Servers
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Server>>> GetServer()
+        [HttpGet("GetServers")]
+        public async Task<ActionResult<IEnumerable<Server>>> GetServers()
         {
-            return await _context.Servers.ToListAsync();
-        }
-
-        // GET: api/Servers/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Server>> GetServer(int id)
-        {
-            var server = await _context.Servers.FindAsync(id);
-
-            if (server == null)
-            {
-                return NotFound();
-            }
-
-            return server;
-        }
-
-        // PUT: api/Servers/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutServer(int id, Server server)
-        {
-            if (id != server.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(server).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ServerExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+                var serverList = await _dataRepository.GetServers();
 
-            return NoContent();
+                if (serverList == null)
+                    return NotFound();
+                else
+                    return serverList;
+            }
+            catch( Exception ex )
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
-        // POST: api/Servers
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpGet("GetServer/{id}")]
+        public async Task<ActionResult<Server>> GetServer(int id)
+        {
+            try
+            {
+                var server = await _dataRepository.GetServerById(id); ;
+
+                if (server == null)
+                    return NotFound($"The server you are looking for, with Id = {id}, was not found.");
+                else
+                    return server;
+            }
+            catch( Exception ex )
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPut("PutServer/{id}")]
+        public async Task<IActionResult> PutServer(int id, Server server)
+        {
+            try
+            {
+                if (id != server.Id)
+                    return BadRequest($"Id[{id}] does not match the Id[{server.Id}] of the server you are updating. Id's much match.");
+
+                if (!await _dataRepository.ServerExists(id))
+                    return NotFound("That server doesn't exist.");
+
+                var success = await _dataRepository.PutServer(id, server);
+
+                if (!success)
+                    return BadRequest("HttpPut failed.");
+
+                return Ok(server);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
+            }
+        }
+
         [HttpPost]
         public async Task<ActionResult<Server>> PostServer(Server server)
         {
-            _context.Servers.Add(server);
-            await _context.SaveChangesAsync();
+            try
+            {
+                var success = await _dataRepository.PostServer(server);
 
-            return CreatedAtAction("GetServer", new { id = server.Id }, server);
+                if (success != null)
+                    return CreatedAtAction("GetServer", new { id = server.Id }, server);
+                else
+                    return BadRequest();
+            }
+            catch ( Exception ex )
+            {
+                return BadRequest(ex);
+            }
         }
 
         // DELETE: api/Servers/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteServer(int id)
-        {
-            var server = await _context.Servers.FindAsync(id);
-            if (server == null)
-            {
-                return NotFound();
-            }
+        //[HttpDelete("{id}")]
+        //public async Task<IActionResult> DeleteServer(int id)
+        //{
+        //    var server = await _context.Servers.FindAsync(id);
+        //    if (server == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            _context.Servers.Remove(server);
-            await _context.SaveChangesAsync();
+        //    _context.Servers.Remove(server);
+        //    await _context.SaveChangesAsync();
 
-            return NoContent();
-        }
-
-        private bool ServerExists(int id)
-        {
-            return _context.Servers.Any(e => e.Id == id);
-        }
+        //    return NoContent();
+        //}
     }
 }
