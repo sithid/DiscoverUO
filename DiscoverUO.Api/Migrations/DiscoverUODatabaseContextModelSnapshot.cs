@@ -58,6 +58,8 @@ namespace DiscoverUO.Api.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("AddedById");
+
                     b.ToTable("Servers");
                 });
 
@@ -72,14 +74,8 @@ namespace DiscoverUO.Api.Migrations
                     b.Property<string>("DailyVotesRemaining")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("FavoritesListId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Password")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("ProfileId")
-                        .HasColumnType("int");
 
                     b.Property<string>("UserName")
                         .HasColumnType("nvarchar(max)");
@@ -102,6 +98,9 @@ namespace DiscoverUO.Api.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
                     b.ToTable("UserFavoritesLists");
                 });
 
@@ -116,14 +115,13 @@ namespace DiscoverUO.Api.Migrations
                     b.Property<int>("FavoritesListId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ServerId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserFavoritesListItemName")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("FavoritesListId");
 
                     b.ToTable("UserFavoritesListItems");
                 });
@@ -150,7 +148,70 @@ namespace DiscoverUO.Api.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
                     b.ToTable("UserProfiles");
+                });
+
+            modelBuilder.Entity("DiscoverUO.Api.Models.Server", b =>
+                {
+                    b.HasOne("DiscoverUO.Api.Models.User", "AddedBy")
+                        .WithMany("ServersAdded")
+                        .HasForeignKey("AddedById")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AddedBy");
+                });
+
+            modelBuilder.Entity("DiscoverUO.Api.Models.UserFavoritesList", b =>
+                {
+                    b.HasOne("DiscoverUO.Api.Models.User", "User")
+                        .WithOne("FavoritesList")
+                        .HasForeignKey("DiscoverUO.Api.Models.UserFavoritesList", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("DiscoverUO.Api.Models.UserFavoritesListItem", b =>
+                {
+                    b.HasOne("DiscoverUO.Api.Models.UserFavoritesList", "FavoritesList")
+                        .WithMany("Favorites")
+                        .HasForeignKey("FavoritesListId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("FavoritesList");
+                });
+
+            modelBuilder.Entity("DiscoverUO.Api.Models.UserProfile", b =>
+                {
+                    b.HasOne("DiscoverUO.Api.Models.User", "User")
+                        .WithOne("Profile")
+                        .HasForeignKey("DiscoverUO.Api.Models.UserProfile", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("DiscoverUO.Api.Models.User", b =>
+                {
+                    b.Navigation("FavoritesList")
+                        .IsRequired();
+
+                    b.Navigation("Profile")
+                        .IsRequired();
+
+                    b.Navigation("ServersAdded");
+                });
+
+            modelBuilder.Entity("DiscoverUO.Api.Models.UserFavoritesList", b =>
+                {
+                    b.Navigation("Favorites");
                 });
 #pragma warning restore 612, 618
         }

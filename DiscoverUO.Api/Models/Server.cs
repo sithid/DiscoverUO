@@ -1,11 +1,11 @@
 ﻿using System.Diagnostics;
+using System.Text.Json.Serialization;
 
 namespace DiscoverUO.Api.Models
 {
     public class Server
     {
         public int Id { get; set; }
-        public int AddedById {  get; set; }
         public string? ServerName { get; set; }
         public string? ServerAddress {  get; set; }
         public int ServerPort {  get; set; }
@@ -14,5 +14,6 @@ namespace DiscoverUO.Api.Models
         public bool IsPublic {  get; set; }
         public int Votes {  get; set; }
         public int Rating {  get; set; }
+        public User AddedBy { get; set; }
     }
 }
