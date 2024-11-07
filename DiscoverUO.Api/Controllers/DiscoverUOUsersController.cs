@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using DiscoverUO.Api.Models;
-using DiscoverUO.Api.Data.Repositories.Contracts;
+using DiscoverUO.Lib.DTOs;
+using Microsoft.EntityFrameworkCore;
 
 namespace DiscoverUO.Api.Controllers
 {
@@ -8,103 +9,68 @@ namespace DiscoverUO.Api.Controllers
     [ApiController]
     public class DiscoverUOUsersController : ControllerBase
     {
-        private readonly IUserDataRepository _dataRepository;
+        private readonly DiscoverUODatabaseContext _context;
 
-        public DiscoverUOUsersController(IUserDataRepository dataRepository)
+        public DiscoverUOUsersController(DiscoverUODatabaseContext context)
         {
-            _dataRepository = dataRepository;
+            _context = context;
         }
 
-        [HttpGet("GetUsers")]
-        public async Task<ActionResult<List<User>>> GetUsers()
+        [HttpPost("CreateUser")]
+        public async Task<ActionResult<UserDto>> CreateUser(UserDto userDto)
         {
-            try
+            var newUser = new User
             {
-                var userList = await _dataRepository.GetUsers();
+                UserName = userDto.UserName,
+                
+            };
 
-                if (userList == null || userList.Count == 0)
-                    return NotFound("No users found.");
-                else
-                    return userList;
-            }
-            catch (Exception ex)
+            _context.Users.Add(newUser);
+            await _context.SaveChangesAsync();
+
+            var createdUser = await _context.Users
+                .Include(user => user.ServersAdded)
+                .Include(user => user.Profile)
+                .Include(user => user.Favorites)
+                .FirstOrDefaultAsync(user => user.Id == newUser.Id);
+
+            var createdUserDto = new UserDto
             {
-                return BadRequest(ex.Message);
-            }
+                Id = createdUser.Id,
+                UserName = createdUser.UserName,
+                ServersAddedIds = createdUser.ServersAdded?.Select(s => s.Id).ToList(),
+                ProfileId = createdUser.Profile?.Id,
+                FavoritesId = createdUser.Favorites?.Id
+            };
+
+            return CreatedAtAction("GetUser", new { id = createdUserDto.Id }, createdUserDto);
         }
 
         [HttpGet("GetUser/{id}")]
-        public async Task<ActionResult<User>> GetUser(int id)
+        public async Task<ActionResult<UserDto>> GetUser(int id)
         {
-            try
+            var user = await _context.Users
+                .Include(u => u.ServersAdded)
+                .Include(u => u.Profile)
+                .Include(u => u.Favorites)
+                .FirstOrDefaultAsync(u => u.Id == id);
+
+            if (user == null)
             {
-                var user = await _dataRepository.GetUser(id); ;
-
-                if (user == null)
-                    return NotFound($"The user you are looking for, with Id = {id}, was not found.");
-                else
-                    return user;
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-
-        [HttpPut("PutUser/{id}")]
-        public async Task<IActionResult> PutUser(int id, User user)
-        {
-            try
-            {
-                if (id != user.Id)
-                    return BadRequest($"User Id = {id} does not match Id = {user.Id} of the user you are updating. Id's much match.");
-
-                if (!await _dataRepository.UserExists(id))
-                    return NotFound("That user doesn't exist.");
-
-                var success = await _dataRepository.PutUser(user);
-
-                if (!success)
-                    return BadRequest();
-
-                return Ok(user);
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex);
-            }
-        }
-
-        [HttpPost("PostUser")]
-        public async Task<ActionResult<User>> PostUser(User user)
-        {
-            try
-            {
-                var success = await _dataRepository.PostUser(user);
-
-                if (success)
-                    return CreatedAtAction("GetUser", new { id = user.Id }, user);
-                else
-                    return BadRequest();
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex);
-            }
-        }
-
-        [HttpDelete("DeleteUser/{id}")]
-        public async Task<IActionResult> DeleteUser(int id)
-        {
-            if (!await _dataRepository.UserExists(id))
                 return NotFound();
+            }
 
-            bool success = await _dataRepository.DeleteUser(id);
+            var userDto = new UserDto
+            {
+                Id = user.Id,
+                UserName = user.UserName,
+                DailyVotesRemaining = user.DailyVotesRemaining,
+                ServersAddedIds = user.ServersAdded.Select(s => s.Id).ToList(),
+                ProfileId = user.Profile?.Id,
+                FavoritesId = user.Favorites?.Id
+            };
 
-            if (!success)
-                return BadRequest();
-
-            return NoContent();
+            return Ok(userDto);
         }
     }
 }

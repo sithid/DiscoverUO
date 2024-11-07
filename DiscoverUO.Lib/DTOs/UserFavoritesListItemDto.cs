@@ -1,8 +1,12 @@
-﻿using System.Text.Json.Serialization;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace DiscoverUO.Api.Models
+namespace DiscoverUO.Lib.DTOs
 {
-    public class UserFavoritesListItem
+    public class UserFavoritesListItemDto
     {
         public int Id { get; set; }
         public string? ServerName { get; set; }
@@ -10,10 +14,6 @@ namespace DiscoverUO.Api.Models
         public int ServerPort { get; set; }
         public string? ServerEra { get; set; }
         public bool PvPEnabled { get; set; }
-
         public int FavoritesListId { get; set; }
-        [JsonIgnore]
-        public UserFavoritesList FavoritesList { get; set; }
-
     }
 }
