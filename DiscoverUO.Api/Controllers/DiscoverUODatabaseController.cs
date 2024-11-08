@@ -71,6 +71,7 @@ namespace DiscoverUO.Api.Controllers
 
                 var userDto = new UserDto
                 {
+                    Id = detailedUser.Id,
                     UserName = detailedUser.UserName,
                     Role = detailedUser.Role,
                     DailyVotesRemaining = detailedUser.DailyVotesRemaining,
@@ -102,6 +103,8 @@ namespace DiscoverUO.Api.Controllers
 
             var userDto = new UserDto
             {
+
+                Id = user.Id,
                 UserName = user.UserName,
                 DailyVotesRemaining = user.DailyVotesRemaining,
                 ServersAddedIds = user.ServersAdded?.Select(s => s.Id).ToList(),
@@ -147,6 +150,7 @@ namespace DiscoverUO.Api.Controllers
 
             var userDto = new UserDto
             {
+                Id = createdUser.Id,
                 UserName = createdUser.UserName,
                 Role = createdUser.Role,
                 DailyVotesRemaining = createdUser.DailyVotesRemaining,
@@ -194,6 +198,7 @@ namespace DiscoverUO.Api.Controllers
 
             var userDto = new UserDto
             {
+                Id = createdUser.Id,
                 UserName = createdUser.UserName,
                 DailyVotesRemaining = createdUser.DailyVotesRemaining,
                 ServersAddedIds = createdUser.ServersAdded?.Select(s => s.Id).ToList(),
@@ -245,6 +250,7 @@ namespace DiscoverUO.Api.Controllers
 
             var updatedUserDto = new UserDto
             {
+                Id = updatedUser.Id,
                 UserName = updatedUser.UserName,
                 DailyVotesRemaining = updatedUser.DailyVotesRemaining,
                 Role = updatedUser.Role,
@@ -302,6 +308,7 @@ namespace DiscoverUO.Api.Controllers
 
             var updatedUserDto = new UserDto
             {
+                Id = updatedUser.Id,
                 UserName = updatedUser.UserName,
                 DailyVotesRemaining = updatedUser.DailyVotesRemaining,
                 ServersAddedIds = updatedUser.ServersAdded.Select(s => s.Id).ToList(),
@@ -314,7 +321,7 @@ namespace DiscoverUO.Api.Controllers
 
         [Authorize(Policy = "OwnerOrAdmin")]
         [HttpPut("UpdateUserRole/{id}")]
-        public async Task<IActionResult> UpdateUserRole(int id, UpdateUserRoleDto roleDto)
+        public async Task<IActionResult> UpdateUserRole(int id, string role)
         {
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
 
@@ -323,7 +330,7 @@ namespace DiscoverUO.Api.Controllers
                 return NotFound();
             }
 
-            user.Role = roleDto.Role;
+            user.Role = role;
 
             _context.Entry(user).State = EntityState.Modified;
 
@@ -351,6 +358,7 @@ namespace DiscoverUO.Api.Controllers
 
             var updatedUserDto = new UserDto
             {
+                Id = updatedUser.Id,
                 UserName = updatedUser.UserName,
                 DailyVotesRemaining = updatedUser.DailyVotesRemaining,
                 Role = updatedUser.Role,
@@ -365,7 +373,7 @@ namespace DiscoverUO.Api.Controllers
 
         [Authorize]
         [HttpPut("UpdateUserVotesRemaining/{id}")]
-        public async Task<IActionResult> UpdateUserVotesRemaining(int id, UpdateUserVotesRemainingDto votesDto)
+        public async Task<IActionResult> UpdateUserVotesRemaining(int id, int votesRemaining)
         {
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
 
@@ -374,7 +382,7 @@ namespace DiscoverUO.Api.Controllers
                 return NotFound();
             }
 
-            user.DailyVotesRemaining = votesDto.DailyVotesRemaining;
+            user.DailyVotesRemaining = votesRemaining;
 
             _context.Entry(user).State = EntityState.Modified;
 
@@ -402,6 +410,7 @@ namespace DiscoverUO.Api.Controllers
 
             var updatedUserDto = new UserDto
             {
+                Id = updatedUser.Id,
                 UserName = updatedUser.UserName,
                 DailyVotesRemaining = updatedUser.DailyVotesRemaining,
                 Role = updatedUser.Role,

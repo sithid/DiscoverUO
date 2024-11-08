@@ -152,7 +152,7 @@
   },
   {
     "ContainingType": "DiscoverUO.Api.Controllers.DiscoverUODatabaseController",
-    "Method": "UpdateUser",
+    "Method": "UpdateUserPassword",
     "RelativePath": "api/DiscoverUODatabase/UpdateUserPassword/{id}",
     "HttpMethod": "PUT",
     "IsController": true,
@@ -185,9 +185,30 @@
         "IsRequired": true
       },
       {
-        "Name": "roleDto",
-        "Type": "DiscoverUO.Lib.DTOs.UpdateUserRoleDto",
+        "Name": "role",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DiscoverUO.Api.Controllers.DiscoverUODatabaseController",
+    "Method": "UpdateUserVotesRemaining",
+    "RelativePath": "api/DiscoverUODatabase/UpdateUserVotesRemaining/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
         "IsRequired": true
+      },
+      {
+        "Name": "votesRemaining",
+        "Type": "System.Int32",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []
