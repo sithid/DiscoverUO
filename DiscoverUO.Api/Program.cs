@@ -58,10 +58,9 @@ namespace DiscoverUO.Api
                         context.User.HasClaim(ClaimTypes.Role, "Owner")));
             });
 
-
-            builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
 
+            builder.Services.AddControllers();
             builder.Services.AddSwaggerGen(c =>
             {
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
