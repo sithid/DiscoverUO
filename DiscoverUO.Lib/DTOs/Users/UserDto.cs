@@ -4,10 +4,7 @@ namespace DiscoverUO.Lib.DTOs.Users
 {
     public class UserDto
     {
-        // I havn't decided if I want this exposed.
-        [JsonIgnore]
         public int Id { get; set; }
-
         public string? UserName { get; set; }
         public int DailyVotesRemaining { get; set; }
         public string? Email { get; set; }

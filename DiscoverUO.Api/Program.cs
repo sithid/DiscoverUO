@@ -16,7 +16,9 @@ namespace DiscoverUO.Api
             Environment.SetEnvironmentVariable("JWT_SECRET_KEY", secretKey);
 
             var builder = WebApplication.CreateBuilder(args);
-            
+
+            builder.Services.AddAutoMapper(typeof(Program).Assembly);
+
             builder.Services.AddDbContext<DiscoverUODatabaseContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DiscoverUOConnection")));
 

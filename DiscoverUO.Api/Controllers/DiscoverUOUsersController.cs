@@ -1,4 +1,5 @@
-﻿using DiscoverUO.Api.Models;
+﻿using AutoMapper;
+using DiscoverUO.Api.Models;
 using DiscoverUO.Lib.DTOs.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -15,11 +16,13 @@ namespace DiscoverUO.Api.Controllers
     public class DiscoverUOUsersController : ControllerBase
     {
         private readonly DiscoverUODatabaseContext _context;
+        private readonly IMapper _mapper;
         private readonly string secreteKey;
 
-        public DiscoverUOUsersController(DiscoverUODatabaseContext context)
+        public DiscoverUOUsersController(DiscoverUODatabaseContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
 
             secreteKey = Environment.GetEnvironmentVariable("JWT_SECRET_KEY");
 
@@ -57,33 +60,24 @@ namespace DiscoverUO.Api.Controllers
         [HttpGet("All")]
         public async Task<ActionResult<List<UserDto>>> GetUsers()
         {
-            var currentUsers = await _context.Users.ToListAsync();
-            var currentUsersDtos = new List<UserDto>();
+            var users = await _context.Users
+                .Include(u => u.ServersAdded)
+                .Include(u => u.Profile)
+                .Include(u => u.Favorites)
+                .ToListAsync();
 
-            foreach( var user in currentUsers)
+            var userDtos = users.Select(user => new UserDto
             {
-                var detailedUser = await _context.Users.FirstOrDefaultAsync(u => u.Id == user.Id);
+                Id = user.Id,
+                UserName = user.UserName,
+                Role = user.Role,
+                DailyVotesRemaining = user.DailyVotesRemaining,
+                ServersAddedIds = user.ServersAdded?.Select(s => s.Id).ToList(),
+                ProfileId = user.Profile?.Id,
+                FavoritesId = user.Favorites?.Id
+            }).ToList();
 
-                if (detailedUser == null)
-                {
-                    return NotFound();
-                }
-
-                var userDto = new UserDto
-                {
-                    Id = detailedUser.Id,
-                    UserName = detailedUser.UserName,
-                    Role = detailedUser.Role,
-                    DailyVotesRemaining = detailedUser.DailyVotesRemaining,
-                    ServersAddedIds = detailedUser.ServersAdded?.Select(s => s.Id).ToList(),
-                    ProfileId = detailedUser.Profile?.Id,
-                    FavoritesId = detailedUser.Favorites?.Id
-                };
-
-                currentUsersDtos.Add(userDto);
-            }
-
-            return Ok(currentUsersDtos);
+            return Ok(userDtos);
         }
 
         [Authorize]
@@ -153,12 +147,7 @@ namespace DiscoverUO.Api.Controllers
                 return BadRequest(ModelState);
             }
 
-            var user = new User
-            {
-                UserName = createUserDto.UserName,
-                PasswordHash = BCrypt.Net.BCrypt.HashPassword(createUserDto.Password),
-                Role = "BasicUser"
-            };
+            var user = _mapper.Map<User>(createUserDto);
 
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
@@ -177,36 +166,22 @@ namespace DiscoverUO.Api.Controllers
                 .Include(u => u.Favorites)
                 .FirstOrDefaultAsync(u => u.Id == user.Id);
 
-            var userDto = new UserDto
-            {
-                Id = createdUser.Id,
-                UserName = createdUser.UserName,
-                Role = createdUser.Role,
-                DailyVotesRemaining = createdUser.DailyVotesRemaining,
-                ServersAddedIds = createdUser.ServersAdded?.Select(s => s.Id).ToList(),
-                ProfileId = createdUser.Profile?.Id,
-                FavoritesId = createdUser.Favorites?.Id,
-            };
+            var userDto = _mapper.Map<User>(createdUser);
 
-            return CreatedAtAction(nameof(GetUserById), new { id = createdUser }, userDto);
+            return CreatedAtAction("GetUserById", new { id = createdUser.Id}, userDto);
 
         }
 
         [Authorize(Policy = "OwnerOrAdmin")]
         [HttpPost("admin/CreateUserWithRole")]
-        public async Task<ActionResult<UserDto>> CreateUserWithRole(CreateUserDto createdUserDto)
+        public async Task<ActionResult<UserDto>> CreateUserWithRole(CreateUserWithRoleDto createdUserDto)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var user = new User
-            {
-                UserName = createdUserDto.UserName,
-                PasswordHash = BCrypt.Net.BCrypt.HashPassword(createdUserDto.Password),
-                Role = createdUserDto.Role
-            };
+            var user = _mapper.Map<User>(createdUserDto);
 
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
@@ -225,23 +200,15 @@ namespace DiscoverUO.Api.Controllers
                 .Include(u => u.Favorites)
                 .FirstOrDefaultAsync(u => u.Id == user.Id);
 
-            var userDto = new UserDto
-            {
-                Id = createdUser.Id,
-                UserName = createdUser.UserName,
-                DailyVotesRemaining = createdUser.DailyVotesRemaining,
-                ServersAddedIds = createdUser.ServersAdded?.Select(s => s.Id).ToList(),
-                ProfileId = createdUser.Profile?.Id,
-                FavoritesId = createdUser.Favorites?.Id,
-            };
+            var userDto = _mapper.Map<UserDto>(createdUser);
 
-            return CreatedAtAction(nameof(GetUserById), new { id = createdUser.Id }, userDto);
+            return CreatedAtAction("GetUserById", new { id = createdUser.Id }, userDto);
 
         }
 
         [Authorize]
         [HttpPut("UpdateUser/{id}")]
-        public async Task<IActionResult> UpdateUser(int id, UpdateUserDto userDto)
+        public async Task<IActionResult> UpdateUser(int id, UpdateUserDto updateUserDto)
         {
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
 
@@ -250,8 +217,7 @@ namespace DiscoverUO.Api.Controllers
                 return NotFound();
             }
 
-            user.UserName = userDto.UserName;
-            user.Email = userDto.Email;
+            user = _mapper.Map<User>(updateUserDto);
 
             _context.Entry(user).State = EntityState.Modified;
 
@@ -277,17 +243,7 @@ namespace DiscoverUO.Api.Controllers
                 .Include(u => u.Favorites)
                 .FirstOrDefaultAsync(u => u.Id == id);
 
-            var updatedUserDto = new UserDto
-            {
-                Id = updatedUser.Id,
-                UserName = updatedUser.UserName,
-                DailyVotesRemaining = updatedUser.DailyVotesRemaining,
-                Role = updatedUser.Role,
-                Email = updatedUser.Email,
-                ServersAddedIds = updatedUser.ServersAdded.Select(s => s.Id).ToList(),
-                ProfileId = updatedUser.Profile?.Id,
-                FavoritesId = updatedUser.Favorites?.Id
-            };
+            var updatedUserDto = _mapper.Map<UserDto>(updatedUser);
 
             return Ok(updatedUserDto);
         }
@@ -335,21 +291,13 @@ namespace DiscoverUO.Api.Controllers
                 .Include(u => u.Favorites)
                 .FirstOrDefaultAsync(u => u.Id == id);
 
-            var updatedUserDto = new UserDto
-            {
-                Id = updatedUser.Id,
-                UserName = updatedUser.UserName,
-                DailyVotesRemaining = updatedUser.DailyVotesRemaining,
-                ServersAddedIds = updatedUser.ServersAdded.Select(s => s.Id).ToList(),
-                ProfileId = updatedUser.Profile?.Id,
-                FavoritesId = updatedUser.Favorites?.Id
-            };
+            var updatedUserDto = _mapper.Map<UserDto>(updatedUser);
 
             return Ok(updatedUserDto);
         }
 
         [Authorize(Policy = "OwnerOrAdmin")]
-        [HttpPut("admin/UpdateUser/{id}")]
+        [HttpPut("admin/UpdateUserRole/{id}")]
         public async Task<IActionResult> UpdateUserRole(int id, string role)
         {
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
@@ -385,17 +333,7 @@ namespace DiscoverUO.Api.Controllers
                 .Include(u => u.Favorites)
                 .FirstOrDefaultAsync(u => u.Id == id);
 
-            var updatedUserDto = new UserDto
-            {
-                Id = updatedUser.Id,
-                UserName = updatedUser.UserName,
-                DailyVotesRemaining = updatedUser.DailyVotesRemaining,
-                Role = updatedUser.Role,
-                Email = updatedUser.Email,
-                ServersAddedIds = updatedUser.ServersAdded.Select(s => s.Id).ToList(),
-                ProfileId = updatedUser.Profile?.Id,
-                FavoritesId = updatedUser.Favorites?.Id
-            };
+            var updatedUserDto = _mapper.Map<UserDto>(updatedUser);
 
             return Ok(updatedUserDto);
         }
@@ -456,20 +394,12 @@ namespace DiscoverUO.Api.Controllers
         [HttpDelete("admin/DeleteUser/{id}")]
         public async Task<IActionResult> DeleteUser( int id )
         {
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
-
+            var user = await _context.Users.FindAsync(id);
             if (user == null)
             {
                 return NotFound();
-            }
 
-            // Make sure we transfer any orphaned servers to a new owner to maintain data.
-            // If ownership of a server is not transfered when a user is deleted, by design 
-            // the related entities will be deleted aswell (cascading deletes).
-            // While I want this for Profiles, Favorites, and FavoriteItems, I do not want this for servers.
-            // Once a server has been added to the list, we want to keep that server.  If someones user
-            // is deleted, and they want their server removed from our list, they are gonna have to request
-            // that we remove it, otherwise we will maintain the server data for public consumption.
+            }
             var newServerOwner = await _context.Users.FirstOrDefaultAsync(u => u.UserName == "Admin");
 
             if (newServerOwner == null)
@@ -478,17 +408,13 @@ namespace DiscoverUO.Api.Controllers
 
                 if (newServerOwner == null)
                 {
-                    return BadRequest();
+                    return StatusCode(500, "No suitable server owner found.");
                 }
             }
 
-            var serversToTransfer = await _context.Servers.Where(s => s.OwnerId == id).ToListAsync();
-
-            foreach (var server in serversToTransfer)
-            {
-                server.OwnerId = newServerOwner.Id;
-            }
-            await _context.SaveChangesAsync();
+            await _context.Servers
+                .Where(s => s.OwnerId == id)
+                .ExecuteUpdateAsync(s => s.SetProperty(server => server.OwnerId, newServerOwner.Id));
 
             _context.Users.Remove(user);
             await _context.SaveChangesAsync();
