@@ -320,7 +320,7 @@
         "IsRequired": true
       },
       {
-        "Name": "userDto",
+        "Name": "updatePasswordDto",
         "Type": "DiscoverUO.Lib.DTOs.Users.UpdateUserPasswordDto",
         "IsRequired": true
       }

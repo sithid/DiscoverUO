@@ -66,16 +66,7 @@ namespace DiscoverUO.Api.Controllers
                 .Include(u => u.Favorites)
                 .ToListAsync();
 
-            var userDtos = users.Select(user => new UserDto
-            {
-                Id = user.Id,
-                UserName = user.UserName,
-                Role = user.Role,
-                DailyVotesRemaining = user.DailyVotesRemaining,
-                ServersAddedIds = user.ServersAdded?.Select(s => s.Id).ToList(),
-                ProfileId = user.Profile?.Id,
-                FavoritesId = user.Favorites?.Id
-            }).ToList();
+            var userDtos = _mapper.Map<List<UserDto>>(users);
 
             return Ok(userDtos);
         }
@@ -95,16 +86,7 @@ namespace DiscoverUO.Api.Controllers
                 return NotFound();
             }
 
-            var userDto = new UserDto
-            {
-
-                Id = user.Id,
-                UserName = user.UserName,
-                DailyVotesRemaining = user.DailyVotesRemaining,
-                ServersAddedIds = user.ServersAdded?.Select(s => s.Id).ToList(),
-                ProfileId = user.Profile?.Id,
-                FavoritesId = user.Favorites?.Id
-            };
+            var userDto = _mapper.Map<UserDto>(user);
 
             return Ok(userDto);
         }
@@ -124,16 +106,7 @@ namespace DiscoverUO.Api.Controllers
                 return NotFound();
             }
 
-            var userDto = new UserDto
-            {
-
-                Id = user.Id,
-                UserName = user.UserName,
-                DailyVotesRemaining = user.DailyVotesRemaining,
-                ServersAddedIds = user.ServersAdded?.Select(s => s.Id).ToList(),
-                ProfileId = user.Profile?.Id,
-                FavoritesId = user.Favorites?.Id
-            };
+            var userDto = _mapper.Map<UserDto>(user);
 
             return Ok(userDto);
         }
@@ -250,7 +223,7 @@ namespace DiscoverUO.Api.Controllers
 
         [Authorize]
         [HttpPut("UpdatePassword/{id}")]
-        public async Task<IActionResult> UpdatePassword(int id, UpdateUserPasswordDto userDto)
+        public async Task<IActionResult> UpdatePassword(int id, UpdateUserPasswordDto updatePasswordDto)
         {
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
 
@@ -259,13 +232,13 @@ namespace DiscoverUO.Api.Controllers
                 return NotFound();
             }
 
-            if (!BCrypt.Net.BCrypt.Verify(userDto.CurrentPassword, user.PasswordHash))
+            if (!BCrypt.Net.BCrypt.Verify(updatePasswordDto.CurrentPassword, user.PasswordHash))
             {
                 return Unauthorized("Invalid password.");
             }
 
 
-            user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(userDto.NewPassword);
+            user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(updatePasswordDto.NewPassword);
 
             _context.Entry(user).State = EntityState.Modified;
 
@@ -375,17 +348,7 @@ namespace DiscoverUO.Api.Controllers
                 .Include(u => u.Favorites)
                 .FirstOrDefaultAsync(u => u.Id == id);
 
-            var updatedUserDto = new UserDto
-            {
-                Id = updatedUser.Id,
-                UserName = updatedUser.UserName,
-                DailyVotesRemaining = updatedUser.DailyVotesRemaining,
-                Role = updatedUser.Role,
-                Email = updatedUser.Email,
-                ServersAddedIds = updatedUser.ServersAdded.Select(s => s.Id).ToList(),
-                ProfileId = updatedUser.Profile?.Id,
-                FavoritesId = updatedUser.Favorites?.Id
-            };
+            var updatedUserDto = _mapper.Map<UserDto>(updatedUser);
 
             return Ok(updatedUserDto);
         }
@@ -395,10 +358,10 @@ namespace DiscoverUO.Api.Controllers
         public async Task<IActionResult> DeleteUser( int id )
         {
             var user = await _context.Users.FindAsync(id);
+
             if (user == null)
             {
                 return NotFound();
-
             }
             var newServerOwner = await _context.Users.FirstOrDefaultAsync(u => u.UserName == "Admin");
 
