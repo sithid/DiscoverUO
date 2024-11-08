@@ -1,15 +1,15 @@
 [
   {
-    "ContainingType": "DiscoverUO.Api.Controllers.DiscoverUOUsersController",
+    "ContainingType": "DiscoverUO.Api.Controllers.DiscoverUODatabaseController",
     "Method": "CreateUser",
-    "RelativePath": "api/DiscoverUOUsers/CreateUser",
+    "RelativePath": "api/DiscoverUODatabase/CreateUser",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "userDto",
-        "Type": "DiscoverUO.Lib.DTOs.UserDto",
+        "Name": "createUserDto",
+        "Type": "DiscoverUO.Lib.DTOs.CreateUserDto",
         "IsRequired": true
       }
     ],
@@ -26,9 +26,71 @@
     ]
   },
   {
-    "ContainingType": "DiscoverUO.Api.Controllers.DiscoverUOUsersController",
+    "ContainingType": "DiscoverUO.Api.Controllers.DiscoverUODatabaseController",
+    "Method": "CreateUserWithRole",
+    "RelativePath": "api/DiscoverUODatabase/CreateUserWithRole",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "createdUserDto",
+        "Type": "DiscoverUO.Lib.DTOs.CreateUserDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "DiscoverUO.Lib.DTOs.UserDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "DiscoverUO.Api.Controllers.DiscoverUODatabaseController",
+    "Method": "DeleteUser",
+    "RelativePath": "api/DiscoverUODatabase/DeleteUser/{userId}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DiscoverUO.Api.Controllers.DiscoverUODatabaseController",
+    "Method": "GetAllUsers",
+    "RelativePath": "api/DiscoverUODatabase/GetAllUsers",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[DiscoverUO.Lib.DTOs.UserDto, DiscoverUO.Lib, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "DiscoverUO.Api.Controllers.DiscoverUODatabaseController",
     "Method": "GetUser",
-    "RelativePath": "api/DiscoverUOUsers/GetUser/{id}",
+    "RelativePath": "api/DiscoverUODatabase/GetUser/{id}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -50,5 +112,84 @@
         "StatusCode": 200
       }
     ]
+  },
+  {
+    "ContainingType": "DiscoverUO.Api.Controllers.DiscoverUODatabaseController",
+    "Method": "Login",
+    "RelativePath": "api/DiscoverUODatabase/Login",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "loginDto",
+        "Type": "LoginDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DiscoverUO.Api.Controllers.DiscoverUODatabaseController",
+    "Method": "UpdateUser",
+    "RelativePath": "api/DiscoverUODatabase/UpdateUser/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "userDto",
+        "Type": "DiscoverUO.Lib.DTOs.UpdateUserDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DiscoverUO.Api.Controllers.DiscoverUODatabaseController",
+    "Method": "UpdateUser",
+    "RelativePath": "api/DiscoverUODatabase/UpdateUserPassword/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "userDto",
+        "Type": "DiscoverUO.Lib.DTOs.UpdateUserPasswordDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DiscoverUO.Api.Controllers.DiscoverUODatabaseController",
+    "Method": "UpdateUserRole",
+    "RelativePath": "api/DiscoverUODatabase/UpdateUserRole/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "roleDto",
+        "Type": "DiscoverUO.Lib.DTOs.UpdateUserRoleDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
   }
 ]

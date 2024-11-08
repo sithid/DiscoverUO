@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using DiscoverUO.Api.Models;
+using System.Security.Cryptography;
 
 namespace DiscoverUO.Api
 {

@@ -1,4 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+using System.Security.Claims;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace DiscoverUO.Api
 {
@@ -6,18 +12,87 @@ namespace DiscoverUO.Api
     {
         public static void Main(string[] args)
         {
+            string secretKey = GenerateSecretKey();
+            Environment.SetEnvironmentVariable("JWT_SECRET_KEY", secretKey);
+
             var builder = WebApplication.CreateBuilder(args);
+            
             builder.Services.AddDbContext<DiscoverUODatabaseContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DiscoverUOConnection")));
 
+            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuerSigningKey = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(secretKey)),
+                        ValidateIssuer = false,
+                        ValidateAudience = false,
+                        RequireExpirationTime = true,
+                        ValidateLifetime = true,
+                        ClockSkew = TimeSpan.Zero
+                    };
+                });
+
+            builder.Services.AddAuthorization(options =>
+            {
+                options.AddPolicy("BasicUser", policy =>
+                    policy.RequireAssertion(context =>
+                        context.User.HasClaim(ClaimTypes.Role, "BasicUser") ||
+                        context.User.HasClaim(ClaimTypes.Role, "Owner") ||
+                        context.User.HasClaim(ClaimTypes.Role, "Admin") ||
+                        context.User.HasClaim(ClaimTypes.Role, "Moderator")));
+
+                options.AddPolicy("Privileged", policy =>
+                    policy.RequireAssertion(context =>
+                        context.User.HasClaim(ClaimTypes.Role, "Owner") ||
+                        context.User.HasClaim(ClaimTypes.Role, "Admin") ||
+                        context.User.HasClaim(ClaimTypes.Role, "Moderator")));
+                options.AddPolicy("OwnerOrAdmin", policy =>
+                    policy.RequireAssertion(context =>
+                        context.User.HasClaim(ClaimTypes.Role, "Owner") ||
+                        context.User.HasClaim(ClaimTypes.Role, "Admin")));
+                options.AddPolicy("Owner", policy =>
+                    policy.RequireAssertion(context =>
+                        context.User.HasClaim(ClaimTypes.Role, "Owner")));
+            });
+
+
             builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+
+            builder.Services.AddSwaggerGen(c =>
+            {
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    Description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token}\"",
+                    Name = "Authorization",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.Http,
+
+                    Scheme = "bearer",
+                    BearerFormat = "JWT"
+                });
+
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            }
+                        },
+                        Array.Empty<string>()
+                    }
+                });
+            });
 
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
@@ -32,6 +107,13 @@ namespace DiscoverUO.Api
             app.MapControllers();
 
             app.Run();
+        }
+
+        public static string GenerateSecretKey(int length = 64)
+        {
+            var bytes = new byte[length];
+            RandomNumberGenerator.Fill(bytes);
+            return Convert.ToBase64String(bytes);
         }
     }
 }
