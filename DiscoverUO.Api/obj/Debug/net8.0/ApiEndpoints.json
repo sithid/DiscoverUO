@@ -1,22 +1,6 @@
 [
   {
     "ContainingType": "DiscoverUO.Api.Controllers.DiscoverUOServersController",
-    "Method": "DeleteServer",
-    "RelativePath": "api/servers/{id}",
-    "HttpMethod": "DELETE",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "DiscoverUO.Api.Controllers.DiscoverUOServersController",
     "Method": "GetServers",
     "RelativePath": "api/servers/All",
     "HttpMethod": "GET",
@@ -71,7 +55,7 @@
     "Parameters": [
       {
         "Name": "serverDto",
-        "Type": "DiscoverUO.Lib.DTOs.Servers.ServerDto",
+        "Type": "DiscoverUO.Lib.DTOs.Servers.ServerUpdateDto",
         "IsRequired": true
       }
     ],
@@ -89,6 +73,27 @@
   },
   {
     "ContainingType": "DiscoverUO.Api.Controllers.DiscoverUOServersController",
+    "Method": "DeleteServer",
+    "RelativePath": "api/servers/DeleteServer/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "serverId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "id",
+        "Type": "",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DiscoverUO.Api.Controllers.DiscoverUOServersController",
     "Method": "UpdateServer",
     "RelativePath": "api/servers/UpdateServer/{id}",
     "HttpMethod": "PUT",
@@ -102,7 +107,7 @@
       },
       {
         "Name": "serverDto",
-        "Type": "DiscoverUO.Lib.DTOs.Servers.ServerDto",
+        "Type": "DiscoverUO.Lib.DTOs.Servers.ServerUpdateDto",
         "IsRequired": true
       }
     ],
@@ -321,7 +326,7 @@
       },
       {
         "Name": "updatePasswordDto",
-        "Type": "DiscoverUO.Lib.DTOs.Users.UpdateUserPasswordDto",
+        "Type": "DiscoverUO.Lib.DTOs.Users.UserUpdatePasswordDto",
         "IsRequired": true
       }
     ],
@@ -342,7 +347,7 @@
       },
       {
         "Name": "updateUserDto",
-        "Type": "DiscoverUO.Lib.DTOs.Users.UpdateUserDto",
+        "Type": "DiscoverUO.Lib.DTOs.Users.UserUpdateDto",
         "IsRequired": true
       }
     ],

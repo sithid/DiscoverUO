@@ -181,8 +181,13 @@ namespace DiscoverUO.Api.Controllers
 
         [Authorize]
         [HttpPut("UpdateUser/{id}")]
-        public async Task<IActionResult> UpdateUser(int id, UpdateUserDto updateUserDto)
+        public async Task<IActionResult> UpdateUser(int id, UserUpdateDto updateUserDto)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
 
             if (user == null)
@@ -223,8 +228,13 @@ namespace DiscoverUO.Api.Controllers
 
         [Authorize]
         [HttpPut("UpdatePassword/{id}")]
-        public async Task<IActionResult> UpdatePassword(int id, UpdateUserPasswordDto updatePasswordDto)
+        public async Task<IActionResult> UpdatePassword(int id, UserUpdatePasswordDto updatePasswordDto)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
 
             if (user == null)
@@ -288,16 +298,9 @@ namespace DiscoverUO.Api.Controllers
             {
                 await _context.SaveChangesAsync();
             }
-            catch (DbUpdateConcurrencyException ex)
+            catch (Exception ex)
             {
-                if (!UserExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    return BadRequest($"Something happened that noone was prepared for.\n\r{ex}");
-                }
+                return StatusCode(500, $"An error occurred while updating the server owner: {ex.Message}");
             }
 
             var updatedUser = await _context.Users
@@ -388,7 +391,7 @@ namespace DiscoverUO.Api.Controllers
         private string GenerateToken(User user)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(secreteKey); // temp until I decide if I want to stick with how I am doing login.
+            var key = Encoding.ASCII.GetBytes(secreteKey);
 
             var claims = new List<Claim>
             {
