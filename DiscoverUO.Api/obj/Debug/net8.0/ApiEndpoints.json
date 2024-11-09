@@ -1,6 +1,74 @@
 [
   {
     "ContainingType": "DiscoverUO.Api.Controllers.DiscoverUOServersController",
+    "Method": "DeleteServer",
+    "RelativePath": "api/servers/admin/DeleteServer/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "serverId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "id",
+        "Type": "",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DiscoverUO.Api.Controllers.DiscoverUOServersController",
+    "Method": "GetServersOwnedBy",
+    "RelativePath": "api/servers/admin/ServersOwnedBy/{userName}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userName",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[DiscoverUO.Lib.DTOs.Servers.ServerDto, DiscoverUO.Lib, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "DiscoverUO.Api.Controllers.DiscoverUOServersController",
+    "Method": "UpdateServerOwner",
+    "RelativePath": "api/servers/admin/UpdateServerOwner/{serverId}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "serverId",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "ownerId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DiscoverUO.Api.Controllers.DiscoverUOServersController",
     "Method": "GetServers",
     "RelativePath": "api/servers/All",
     "HttpMethod": "GET",
@@ -73,35 +141,34 @@
   },
   {
     "ContainingType": "DiscoverUO.Api.Controllers.DiscoverUOServersController",
-    "Method": "DeleteServer",
-    "RelativePath": "api/servers/DeleteServer/{id}",
-    "HttpMethod": "DELETE",
+    "Method": "GetOwnedServers",
+    "RelativePath": "api/servers/OwnedServers",
+    "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
-    "Parameters": [
+    "Parameters": [],
+    "ReturnTypes": [
       {
-        "Name": "serverId",
-        "Type": "System.Int32",
-        "IsRequired": false
-      },
-      {
-        "Name": "id",
-        "Type": "",
-        "IsRequired": true
+        "Type": "System.Collections.Generic.List\u00601[[DiscoverUO.Lib.DTOs.Servers.ServerDto, DiscoverUO.Lib, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
       }
-    ],
-    "ReturnTypes": []
+    ]
   },
   {
     "ContainingType": "DiscoverUO.Api.Controllers.DiscoverUOServersController",
     "Method": "UpdateServer",
-    "RelativePath": "api/servers/UpdateServer/{id}",
+    "RelativePath": "api/servers/UpdateServer/{serverId}",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "id",
+        "Name": "serverId",
         "Type": "System.Int32",
         "IsRequired": true
       },

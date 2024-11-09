@@ -15,9 +15,13 @@ namespace DiscoverUO.Api.Controllers
     [ApiController]
     public class DiscoverUOUsersController : ControllerBase
     {
+        #region Private Fields
+
         private readonly DiscoverUODatabaseContext _context;
         private readonly IMapper _mapper;
         private readonly string secreteKey;
+
+        #endregion
 
         public DiscoverUOUsersController(DiscoverUODatabaseContext context, IMapper mapper)
         {
@@ -33,6 +37,8 @@ namespace DiscoverUO.Api.Controllers
                 Console.WriteLine("Using a temporary key.  Fix this immediately.");
             }
         }
+
+        #region AllowAnonymous Endpoints
 
         [AllowAnonymous]
         [HttpPost("Authenticate")]
@@ -56,20 +62,43 @@ namespace DiscoverUO.Api.Controllers
             return Ok(new { Token = token });
         }
 
-        [Authorize(Policy = "OwnerOrAdmin")]
-        [HttpGet("All")]
-        public async Task<ActionResult<List<UserDto>>> GetUsers()
+        [AllowAnonymous]
+        [HttpPost("CreateUser")]
+        public async Task<ActionResult<UserDto>> CreateUser(CreateUserDto createUserDto)
         {
-            var users = await _context.Users
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var user = _mapper.Map<User>(createUserDto);
+
+            _context.Users.Add(user);
+            await _context.SaveChangesAsync();
+
+            var userProfile = new UserProfile { OwnerId = user.Id, UserDisplayName = user.UserName };
+            _context.UserProfiles.Add(userProfile);
+
+            var favoritesList = new UserFavoritesList { OwnerId = user.Id };
+            _context.UserFavoritesLists.Add(favoritesList);
+
+            await _context.SaveChangesAsync();
+
+            var createdUser = await _context.Users
                 .Include(u => u.ServersAdded)
                 .Include(u => u.Profile)
                 .Include(u => u.Favorites)
-                .ToListAsync();
+                .FirstOrDefaultAsync(u => u.Id == user.Id);
 
-            var userDtos = _mapper.Map<List<UserDto>>(users);
+            var userDto = _mapper.Map<User>(createdUser);
 
-            return Ok(userDtos);
+            return CreatedAtAction("GetUserById", new { id = createdUser.Id }, userDto);
+
         }
+
+        #endregion
+
+        #region BasicUser Endpoints
 
         [Authorize]
         [HttpGet("ById/{id}")]
@@ -109,74 +138,6 @@ namespace DiscoverUO.Api.Controllers
             var userDto = _mapper.Map<UserDto>(user);
 
             return Ok(userDto);
-        }
-
-        [AllowAnonymous]
-        [HttpPost("CreateUser")]
-        public async Task<ActionResult<UserDto>> CreateUser(CreateUserDto createUserDto)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var user = _mapper.Map<User>(createUserDto);
-
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
-
-            var userProfile = new UserProfile { OwnerId = user.Id, UserDisplayName = user.UserName };
-            _context.UserProfiles.Add(userProfile);
-
-            var favoritesList = new UserFavoritesList { OwnerId = user.Id };
-            _context.UserFavoritesLists.Add(favoritesList);
-
-            await _context.SaveChangesAsync();
-
-            var createdUser = await _context.Users
-                .Include(u => u.ServersAdded)
-                .Include(u => u.Profile)
-                .Include(u => u.Favorites)
-                .FirstOrDefaultAsync(u => u.Id == user.Id);
-
-            var userDto = _mapper.Map<User>(createdUser);
-
-            return CreatedAtAction("GetUserById", new { id = createdUser.Id}, userDto);
-
-        }
-
-        [Authorize(Policy = "OwnerOrAdmin")]
-        [HttpPost("admin/CreateUserWithRole")]
-        public async Task<ActionResult<UserDto>> CreateUserWithRole(CreateUserWithRoleDto createdUserDto)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var user = _mapper.Map<User>(createdUserDto);
-
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
-
-            var userProfile = new UserProfile { OwnerId = user.Id, UserDisplayName = user.UserName };
-            _context.UserProfiles.Add(userProfile);
-
-            var favoritesList = new UserFavoritesList { OwnerId = user.Id };
-            _context.UserFavoritesLists.Add(favoritesList);
-
-            await _context.SaveChangesAsync();
-
-            var createdUser = await _context.Users
-                .Include(u => u.ServersAdded)
-                .Include(u => u.Profile)
-                .Include(u => u.Favorites)
-                .FirstOrDefaultAsync(u => u.Id == user.Id);
-
-            var userDto = _mapper.Map<UserDto>(createdUser);
-
-            return CreatedAtAction("GetUserById", new { id = createdUser.Id }, userDto);
-
         }
 
         [Authorize]
@@ -279,40 +240,9 @@ namespace DiscoverUO.Api.Controllers
             return Ok(updatedUserDto);
         }
 
-        [Authorize(Policy = "OwnerOrAdmin")]
-        [HttpPut("admin/UpdateUserRole/{id}")]
-        public async Task<IActionResult> UpdateUserRole(int id, string role)
-        {
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
+        #endregion
 
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            user.Role = role;
-
-            _context.Entry(user).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"An error occurred while updating the server owner: {ex.Message}");
-            }
-
-            var updatedUser = await _context.Users
-                .Include(u => u.ServersAdded)
-                .Include(u => u.Profile)
-                .Include(u => u.Favorites)
-                .FirstOrDefaultAsync(u => u.Id == id);
-
-            var updatedUserDto = _mapper.Map<UserDto>(updatedUser);
-
-            return Ok(updatedUserDto);
-        }
+        #region Privileged Endpoints
 
         [Authorize(Policy = "Privileged")]
         [HttpPut("admin/ChangeRemainingVotes/{id}")]
@@ -388,16 +318,111 @@ namespace DiscoverUO.Api.Controllers
             return NoContent();
         }
 
-        private string GenerateToken(User user)
+        #endregion
+
+        #region Admin Endpoints
+
+        [Authorize(Policy = "OwnerOrAdmin")]
+        [HttpGet("All")]
+        public async Task<ActionResult<List<UserDto>>> GetUsers()
+        {
+            var users = await _context.Users
+                .Include(u => u.ServersAdded)
+                .Include(u => u.Profile)
+                .Include(u => u.Favorites)
+                .ToListAsync();
+
+            var userDtos = _mapper.Map<List<UserDto>>(users);
+
+            return Ok(userDtos);
+        }
+
+        [Authorize(Policy = "OwnerOrAdmin")]
+        [HttpPost("admin/CreateUserWithRole")]
+        public async Task<ActionResult<UserDto>> CreateUserWithRole(CreateUserWithRoleDto createdUserDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var user = _mapper.Map<User>(createdUserDto);
+
+            _context.Users.Add(user);
+            await _context.SaveChangesAsync();
+
+            var userProfile = new UserProfile { OwnerId = user.Id, UserDisplayName = user.UserName };
+            _context.UserProfiles.Add(userProfile);
+
+            var favoritesList = new UserFavoritesList { OwnerId = user.Id };
+            _context.UserFavoritesLists.Add(favoritesList);
+
+            await _context.SaveChangesAsync();
+
+            var createdUser = await _context.Users
+                .Include(u => u.ServersAdded)
+                .Include(u => u.Profile)
+                .Include(u => u.Favorites)
+                .FirstOrDefaultAsync(u => u.Id == user.Id);
+
+            var userDto = _mapper.Map<UserDto>(createdUser);
+
+            return CreatedAtAction("GetUserById", new { id = createdUser.Id }, userDto);
+
+        }
+
+        [Authorize(Policy = "OwnerOrAdmin")]
+        [HttpPut("admin/UpdateUserRole/{id}")]
+        public async Task<IActionResult> UpdateUserRole(int id, string role)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            user.Role = role;
+
+            _context.Entry(user).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred while updating the server owner: {ex.Message}");
+            }
+
+            var updatedUser = await _context.Users
+                .Include(u => u.ServersAdded)
+                .Include(u => u.Profile)
+                .Include(u => u.Favorites)
+                .FirstOrDefaultAsync(u => u.Id == id);
+
+            var updatedUserDto = _mapper.Map<UserDto>(updatedUser);
+
+            return Ok(updatedUserDto);
+        }
+
+        #endregion
+
+        #region Endpoint Utilities
+
+        /// <summary> Generates a JWT Token. </summary>
+        /// <param name="requester"> The user who needs a token. </param>
+        /// <returns> JWT Token String </returns>
+        private string GenerateToken(User requester)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(secreteKey);
 
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim(ClaimTypes.Role, user.Role),
-                new Claim(ClaimTypes.Name, user.UserName)
+                new Claim(ClaimTypes.NameIdentifier, requester.Id.ToString()),
+                new Claim(ClaimTypes.Role, requester.Role),
+                new Claim(ClaimTypes.Name, requester.UserName)
 
             };
 
@@ -417,5 +442,7 @@ namespace DiscoverUO.Api.Controllers
         {
             return _context.Users.Any(e => e.Id == id);
         }
+
+        #endregion
     }
 }

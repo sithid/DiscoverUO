@@ -1,17 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using DiscoverUO.Api;
 using DiscoverUO.Api.Models;
-
 using Microsoft.AspNetCore.Authorization;
 using DiscoverUO.Lib.DTOs.Servers;
-using DiscoverUO.Lib.DTOs.Users;
-using Microsoft.AspNetCore.Hosting.Server;
 using AutoMapper;
 using System.Security.Claims;
 
@@ -21,14 +13,20 @@ namespace DiscoverUO.Api.Controllers
     [ApiController]
     public class DiscoverUOServersController : ControllerBase
     {
+        #region Private Fields
+
         private readonly DiscoverUODatabaseContext _context;
         private readonly IMapper _mapper;
+
+        #endregion
 
         public DiscoverUOServersController(DiscoverUODatabaseContext context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;
         }
+
+        #region Anonymous Endpoints
 
         [AllowAnonymous]
         [HttpGet("All")]
@@ -66,7 +64,11 @@ namespace DiscoverUO.Api.Controllers
             return Ok(serverDtos);
         }
 
-        [Authorize]
+        #endregion 
+
+        #region BasicUser+ Endpoints
+
+        [Authorize(Policy ="BasicUser")]
         [HttpPost("CreateServer")]
         public async Task<ActionResult<ServerDto>> CreateServer(ServerUpdateDto serverDto)
         {
@@ -97,7 +99,7 @@ namespace DiscoverUO.Api.Controllers
             return CreatedAtAction("GetServer", new { id = createdServer.Id }, createdServerDto);
         }
 
-        [Authorize]
+        [Authorize(Policy = "BasicUser")]
         [HttpPut("UpdateServer/{serverId}")]
         public async Task<IActionResult> UpdateServer(int serverId, ServerUpdateDto serverDto)
         {
@@ -144,6 +146,33 @@ namespace DiscoverUO.Api.Controllers
             var updatedServerDto = _mapper.Map<ServerDto>(updatedServer);
 
             return Ok(updatedServerDto);
+        }
+
+        #endregion
+
+        #region Privileged+ Endpoints
+
+        [Authorize(Policy = "Privileged")]
+        [HttpGet("admin/ServersOwnedBy/{userName}")]
+        public async Task<ActionResult<List<ServerDto>>> GetServersOwnedBy(string userName)
+        {
+            var user = await _context.Users
+                .Include(u => u.ServersAdded)
+                .FirstOrDefaultAsync(u => u.UserName == userName);
+
+            if (user == null)
+            {
+                return NotFound("The user does not exist.");
+            }
+
+            if (user.ServersAdded == null || !user.ServersAdded.Any())
+            {
+                return NotFound($"No servers found for {userName}.");
+            }
+
+            var serverDtos = _mapper.Map<List<ServerDto>>(user.ServersAdded);
+
+            return Ok(serverDtos);
         }
 
         [Authorize(Policy = "Privileged")]
@@ -215,6 +244,21 @@ namespace DiscoverUO.Api.Controllers
             return NoContent();
         }
 
+        #endregion
+
+        #region Admin+ Endpoints
+
+        #endregion
+
+        #region Owner Endpoints
+
+        #endregion
+
+        #region Endpoint Utilities
+
+        /// <summary> Determines if the user has permission to modify the server. </summary>
+        /// <param name="serverOwnerId"> The server owners id. </param>
+        /// <returns> Returns true if the user has permission to modify the server. </returns>
         private bool HasModifyPermission( int serverOwnerId )
         {
             var userIdClaim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
@@ -228,12 +272,17 @@ namespace DiscoverUO.Api.Controllers
             int userId = int.Parse(userIdClaim.Value);
             string userRole = userRoleClaim.Value;
 
-            return (userId == serverOwnerId || userRole == "Admin" || userRole == "Owner");
+            return (userId == serverOwnerId || userRole == "Privileged" || userRole == "Admin" || userRole == "Owner");
         }
 
+        /// <summary> Determines if the server exists. </summary>
+        /// <param name="id"> The server id. </param>
+        /// <returns> Returns true if the server exists. </returns>
         private bool ServerExists(int id)
         {
             return _context.Servers.Any(e => e.Id == id);
         }
+
+        #endregion
     }
 }
