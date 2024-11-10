@@ -1,8 +1,24 @@
 [
   {
     "ContainingType": "DiscoverUO.Api.Controllers.DiscoverUOUserFavoritesListsController",
-    "Method": "UpdateFavoritesList",
-    "RelativePath": "api/favorites/update/{id}",
+    "Method": "AddFavoriteListItem",
+    "RelativePath": "api/favorites/list/item/add",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "favoritesListItemDto",
+        "Type": "DiscoverUO.Lib.DTOs.Favorites.UserFavoritesListItemDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DiscoverUO.Api.Controllers.DiscoverUOUserFavoritesListsController",
+    "Method": "UpdateFavoritesListItem",
+    "RelativePath": "api/favorites/list/item/update/{id}",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
@@ -13,14 +29,40 @@
         "IsRequired": true
       },
       {
-        "Name": "userFavoritesListDto",
-        "Type": "DiscoverUO.Lib.DTOs.Favorites.UserFavoritesListDto",
+        "Name": "userFavoritesListItemDto",
+        "Type": "DiscoverUO.Lib.DTOs.Favorites.UserFavoritesListItemDto",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "DiscoverUO.Lib.DTOs.Favorites.UserFavoritesListDto",
+        "Type": "DiscoverUO.Lib.DTOs.Favorites.UserFavoritesListItemDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "DiscoverUO.Api.Controllers.DiscoverUOUserFavoritesListsController",
+    "Method": "GetUserFavoritesListItem",
+    "RelativePath": "api/favorites/list/item/view/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "DiscoverUO.Lib.DTOs.Favorites.UserFavoritesListItemDto",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -33,14 +75,14 @@
   {
     "ContainingType": "DiscoverUO.Api.Controllers.DiscoverUOUserFavoritesListsController",
     "Method": "GetUserFavoritesLists",
-    "RelativePath": "api/favorites/view",
+    "RelativePath": "api/favorites/list/view",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[DiscoverUO.Lib.DTOs.Favorites.UserFavoritesListDto, DiscoverUO.Lib, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "DiscoverUO.Lib.DTOs.Favorites.UserFavoritesListDto",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -53,7 +95,7 @@
   {
     "ContainingType": "DiscoverUO.Api.Controllers.DiscoverUOUserFavoritesListsController",
     "Method": "GetUserFavoritesList",
-    "RelativePath": "api/favorites/view/{id}",
+    "RelativePath": "api/favorites/list/view/{id}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,

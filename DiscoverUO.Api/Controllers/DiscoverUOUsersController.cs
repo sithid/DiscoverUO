@@ -76,10 +76,14 @@ namespace DiscoverUO.Api.Controllers
             user.Role = UserRole.BasicUser;
 
             var userProfile = new UserProfile { OwnerId = user.Id, UserDisplayName = user.UserName };
+
             user.Profile = userProfile;
 
             var favoritesList = new UserFavoritesList { OwnerId = user.Id };
             user.Favorites = favoritesList;
+
+            var favoritedServers = new List<UserFavoritesListItem>();
+            user.Favorites.FavoritedItems = favoritedServers;
 
             _context.Users.Add(user);
 

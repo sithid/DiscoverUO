@@ -2,15 +2,9 @@
 using DiscoverUO.Api.Models;
 using DiscoverUO.Lib;
 using DiscoverUO.Lib.DTOs.Servers;
-using DiscoverUO.Lib.DTOs.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Update;
-using NuGet.Protocol;
-using NuGet.Protocol.Providers;
-using System.Security;
-using System.Security.Claims;
 
 namespace DiscoverUO.Api.Controllers
 {

@@ -2,6 +2,6 @@
 {
     public class UserFavoritesListDto
     {
-        public List<int>? FavoriteIds { get; set; }
+        public List<UserFavoritesListItemDto>? FavoritedItems { get; set; }
     }
 }
