@@ -1,10 +1,15 @@
-﻿
+﻿using AutoMapper;
+using DiscoverUO.Api.Models;
+using DiscoverUO.Lib;
+using DiscoverUO.Lib.DTOs.Servers;
+using DiscoverUO.Lib.DTOs.Users;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using DiscoverUO.Api.Models;
-using Microsoft.AspNetCore.Authorization;
-using DiscoverUO.Lib.DTOs.Servers;
-using AutoMapper;
+using Microsoft.EntityFrameworkCore.Update;
+using NuGet.Protocol;
+using NuGet.Protocol.Providers;
+using System.Security;
 using System.Security.Claims;
 
 namespace DiscoverUO.Api.Controllers
@@ -26,23 +31,22 @@ namespace DiscoverUO.Api.Controllers
             _mapper = mapper;
         }
 
-        #region Anonymous Endpoints
+        #region Anonymous+ Endpoints
 
         [AllowAnonymous]
-        [HttpGet("All")]
+        [HttpGet("public")]
         public async Task<ActionResult<IEnumerable<ServerDto>>> GetServers()
         {
             var servers = await _context.Servers.ToListAsync();
-            var serverDtos = _mapper.Map<List<ServerDto>>(servers);
-
-            return Ok(serverDtos);
+            return _mapper.Map<List<ServerDto>>(servers);
         }
 
         [AllowAnonymous]
         [HttpGet("ById/{id}")]
-        public async Task<ActionResult<ServerDto>> GetServer(int id)
+        public async Task<ActionResult<ServerDto>> GetServerById( int id )
         {
-            var server = await _context.Servers.FindAsync(id);
+            var server = await _context.Servers
+                .FirstOrDefaultAsync( server => server.Id == id);
 
             if (server == null)
             {
@@ -55,74 +59,151 @@ namespace DiscoverUO.Api.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet("OwnedServers")]
-        public async Task<ActionResult<List<ServerDto>>> GetOwnedServers()
+        [HttpGet("find-by-name/{serverName}")]
+        public async Task<ActionResult<int>> FindByName( string serverName )
         {
-            var servers = await _context.Servers.Where(s => HasModifyPermission(s.OwnerId)).ToListAsync();
-            var serverDtos = _mapper.Map<List<ServerDto>>(servers);
-
-            return Ok(serverDtos);
-        }
-
-        #endregion 
-
-        #region BasicUser+ Endpoints
-
-        [Authorize(Policy ="BasicUser")]
-        [HttpPost("CreateServer")]
-        public async Task<ActionResult<ServerDto>> CreateServer(ServerUpdateDto serverDto)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var server = _mapper.Map<Server>(serverDto);
-
-            var userIdClaim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
-
-            if (userIdClaim == null)
-            {
-                return Unauthorized("User ID not found in claims.");
-            }
-
-            server.OwnerId = int.Parse(userIdClaim.Value);
-
-            _context.Servers.Add(server);
-            await _context.SaveChangesAsync();
-
-            var createdServer = await _context.Servers
-                .FirstOrDefaultAsync(s => s.Id == server.Id);
-
-            var createdServerDto = _mapper.Map<ServerDto>(createdServer);
-
-            return CreatedAtAction("GetServer", new { id = createdServer.Id }, createdServerDto);
-        }
-
-        [Authorize(Policy = "BasicUser")]
-        [HttpPut("UpdateServer/{serverId}")]
-        public async Task<IActionResult> UpdateServer(int serverId, ServerUpdateDto serverDto)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var server = await _context.Servers.FindAsync(serverId);
+            var server = await _context.Servers
+                .FirstOrDefaultAsync(s => string.Equals( s.ServerName, serverName));
 
             if (server == null)
             {
                 return NotFound();
             }
 
-            if (!HasModifyPermission(server.OwnerId))
+            var serverDto = _mapper.Map<ServerDto>(server);
+
+            return Ok(serverDto);
+        }
+
+        [AllowAnonymous]
+        [HttpGet("find-by-owner/{userName}")]
+        public async Task<ActionResult<List<ServerDto>>> FindServersByOwner(string userName)
+        {
+            var currentUser = GetCurrentUser();
+
+            if (currentUser == null)
             {
-                return Unauthorized("Only the server owner can delete this server.");
+                return Unauthorized($"You must be logged in to do this.");
             }
 
-            server = _mapper.Map<Server>(serverDto);
+            var existingUser = await _context.Users
+                .FirstOrDefaultAsync(u => u.UserName == userName);
 
-            _context.Entry(server).State = EntityState.Modified;
+            if (existingUser == null)
+            {
+                return NotFound("The user does not exist.");
+            }
+
+            var ownedServers = await _context.Servers
+                .Where(server => server.OwnerId == existingUser.Id)
+                .ToListAsync();
+
+            if( ownedServers == null )
+            {
+                return NotFound("That user doesnt own any servers.");
+            }
+
+            var serverDtos = _mapper.Map<List<ServerDto>>(ownedServers);
+
+            return Ok(serverDtos);
+        }
+
+        #endregion
+
+        #region BasicUser+ Endpoints
+
+        [Authorize]
+        [HttpGet("owned")]
+        public async Task<ActionResult<List<ServerDto>>> GetOwnedServers()
+        {
+            var currentUser = await GetCurrentUser();
+
+            if (currentUser == null)
+            {
+                return Unauthorized($"You must be logged in to do this.");
+            }
+
+            var ownedServers = await _context.Servers
+                .Where( server => server.Id == currentUser.Id)
+                .ToListAsync();
+
+            if( ownedServers == null )
+            {
+                return NotFound("You do not own any servers.");
+            }
+
+            var serverDtos = _mapper.Map<List<ServerDto>>(ownedServers);
+
+            return Ok(serverDtos);
+        }
+
+        [Authorize] 
+        [HttpPost("add")]
+        public async Task<ActionResult<ServerDto>> AddServer(CreateServerDto createServerDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var currentUser = await GetCurrentUser();
+
+            if( currentUser == null )
+            {
+                return Unauthorized("You must be logged in to do this.");
+            }
+
+            var serverToAdd = _mapper.Map<Server>(createServerDto);
+            serverToAdd.OwnerId = currentUser.Id;
+
+            _context.Servers.Add(serverToAdd);
+
+            await _context.SaveChangesAsync();
+
+            var createdServer = await _context.Servers
+                .FirstOrDefaultAsync(s => s.Id == serverToAdd.Id);
+
+            var createdServerDto = _mapper.Map<ServerDto>(createdServer);
+
+            return CreatedAtAction("GetServerById", new { id = createdServer.Id }, createdServerDto);
+        }
+
+        [Authorize]
+        [HttpPut("update/{serverId}")]
+        public async Task<ActionResult<ServerDto>> UpdateServer(int serverId, UpdateServerDto serverUpdateDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var currentUser = await GetCurrentUser();
+
+            if (currentUser == null)
+            {
+                return Unauthorized($"You must be logged in to do this.");
+            }
+
+            var serverToUpdate = await _context.Servers.FirstOrDefaultAsync(server => server.Id == serverId);
+
+            if (serverToUpdate == null)
+            {
+                return NotFound("Server not found.");
+            }
+
+            if( !UserUtilities.HasServerPermissions(currentUser, serverToUpdate) )
+            {
+                return Unauthorized("Only the owner of a server or a privileged user can update a servers information.");
+            }
+
+            serverToUpdate.ServerName = serverUpdateDto.ServerName;
+            serverToUpdate.ServerAddress = serverUpdateDto.ServerAddress;
+            serverToUpdate.ServerPort = serverUpdateDto.ServerPort;
+            serverToUpdate.ServerEra = serverUpdateDto.ServerEra;
+            serverToUpdate.PvPEnabled = serverUpdateDto.PvPEnabled;
+            serverToUpdate.IsPublic = serverUpdateDto.IsPublic;
+
+            _context.Entry(serverToUpdate).State = EntityState.Modified;
 
             try
             {
@@ -130,70 +211,48 @@ namespace DiscoverUO.Api.Controllers
             }
             catch (DbUpdateConcurrencyException ex)
             {
-                if (!ServerExists(serverId))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    return BadRequest($"Something happened that no one was prepared for.\n\r{ex}");
-                }
+                return BadRequest($"Something happened that no one was prepared for.\n\r{ex}");
             }
 
             var updatedServer = await _context.Servers
-                .FirstOrDefaultAsync(s => s.Id == serverId);
+                .FirstOrDefaultAsync(s => s.Id == serverToUpdate.Id);
 
             var updatedServerDto = _mapper.Map<ServerDto>(updatedServer);
 
             return Ok(updatedServerDto);
         }
 
-        #endregion
-
-        #region Privileged+ Endpoints
-
-        [Authorize(Policy = "Privileged")]
-        [HttpGet("admin/ServersOwnedBy/{userName}")]
-        public async Task<ActionResult<List<ServerDto>>> GetServersOwnedBy(string userName)
+        [Authorize] 
+        [HttpPut("transfer-server")]
+        public async Task<ActionResult<ServerDto>>TransferOwnership(int serverId, int newOwnerId)
         {
-            var user = await _context.Users
-                .Include(u => u.ServersAdded)
-                .FirstOrDefaultAsync(u => u.UserName == userName);
+            var currentUser = await GetCurrentUser();
 
-            if (user == null)
+            if (currentUser == null)
             {
-                return NotFound("The user does not exist.");
+                return Unauthorized($"You must be logged in to do this.");
             }
 
-            if (user.ServersAdded == null || !user.ServersAdded.Any())
-            {
-                return NotFound($"No servers found for {userName}.");
-            }
-
-            var serverDtos = _mapper.Map<List<ServerDto>>(user.ServersAdded);
-
-            return Ok(serverDtos);
-        }
-
-        [Authorize(Policy = "Privileged")]
-        [HttpPut("admin/UpdateServerOwner/{serverId}")]
-        public async Task<IActionResult> UpdateServerOwner( int serverId, int ownerId )
-        {
-            var server = await _context.Servers.FindAsync(serverId);
+            var server = await _context.Servers.FirstOrDefaultAsync(s => s.Id == serverId);
 
             if (server == null)
             {
                 return NotFound("Server not found.");
             }
 
-            var newOwner = await _context.Users.FindAsync(ownerId);
+            if (!UserUtilities.HasServerPermissions(currentUser, server))
+            {
+                return Unauthorized("Only the owner of a server or a privileged user can transfer server ownership.");
+            }
+
+            var newOwner = await _context.Users.FirstOrDefaultAsync(user => user.Id == newOwnerId);
 
             if (newOwner == null)
             {
                 return NotFound("New owner not found.");
             }
 
-            server.OwnerId = ownerId;
+            server.OwnerId = newOwner.Id;
 
             _context.Entry(server).State = EntityState.Modified;
 
@@ -207,7 +266,7 @@ namespace DiscoverUO.Api.Controllers
             }
 
             var updatedServer = await _context.Servers
-                .FirstOrDefaultAsync(s => s.Id == serverId);
+                .FirstOrDefaultAsync(server => server.Id == serverId);
 
             var serverDto = _mapper.Map<ServerDto>(updatedServer);
 
@@ -215,24 +274,31 @@ namespace DiscoverUO.Api.Controllers
 
         }
 
-        [Authorize(Policy = "Privileged")]
-        [HttpDelete("admin/DeleteServer/{id}")]
-        public async Task<IActionResult> DeleteServer(int serverId)
+        [Authorize]
+        [HttpDelete("delete-server/{serverId}")]
+        public async Task<ActionResult> DeleteServer(int serverId)
         {
-            var server = await _context.Servers.FindAsync(serverId);
+            var currentUser = await GetCurrentUser();
+
+            if (currentUser == null)
+            {
+                return Unauthorized($"You must be logged in to do this.");
+            }
+
+            var server = await _context.Servers.FirstOrDefaultAsync(server => server.Id == serverId);
 
             if (server == null)
             {
                 return NotFound();
             }
 
-            if(!HasModifyPermission( server.OwnerId ))
+            if (!UserUtilities.HasServerPermissions(currentUser, server))
             {
-                return Unauthorized("Only the server owner can delete this server.");
+                return Unauthorized("Only the server owner or a privileged user can delete a server.");
             }
 
             await _context.UserFavoritesListItems
-                .Where(item => 
+                .Where(item =>
                     item.ServerName == server.ServerName &&
                     item.ServerAddress == server.ServerAddress &&
                     item.ServerPort == server.ServerPort)
@@ -246,41 +312,18 @@ namespace DiscoverUO.Api.Controllers
 
         #endregion
 
-        #region Admin+ Endpoints
-
-        #endregion
-
-        #region Owner Endpoints
-
-        #endregion
-
         #region Endpoint Utilities
 
-        /// <summary> Determines if the user has permission to modify the server. </summary>
-        /// <param name="serverOwnerId"> The server owners id. </param>
-        /// <returns> Returns true if the user has permission to modify the server. </returns>
-        private bool HasModifyPermission( int serverOwnerId )
+        private async Task<User> GetCurrentUser()
         {
-            var userIdClaim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
-            var userRoleClaim = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role);
+            var userId = await UserUtilities.GetCurrentUserId(this.User);
 
-            if (userIdClaim == null)
-            {
-                return false;
-            }
+            var currentUser = await _context.Users
+                .Include( u=>u.Favorites)
+                .Include(u=>u.Profile)
+                .FirstOrDefaultAsync(user => user.Id == userId);
 
-            int userId = int.Parse(userIdClaim.Value);
-            string userRole = userRoleClaim.Value;
-
-            return (userId == serverOwnerId || userRole == "Privileged" || userRole == "Admin" || userRole == "Owner");
-        }
-
-        /// <summary> Determines if the server exists. </summary>
-        /// <param name="id"> The server id. </param>
-        /// <returns> Returns true if the server exists. </returns>
-        private bool ServerExists(int id)
-        {
-            return _context.Servers.Any(e => e.Id == id);
+            return currentUser;
         }
 
         #endregion

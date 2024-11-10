@@ -11,19 +11,21 @@ namespace DiscoverUO.Api.Models
             CreateMap<UserDto, User>();
             CreateMap<CreateUserDto, User>();
             CreateMap<CreateUserWithRoleDto, User>();
-            CreateMap<UserUpdateDto, User>();
+            CreateMap<UpdateUserDto, User>();
 
             CreateMap<User, UserDto>();
             CreateMap<User, CreateUserDto>();
             CreateMap<User, CreateUserWithRoleDto>();
-            CreateMap<User, UserUpdateDto>();
+            CreateMap<User, UpdateUserDto>();
 
 
             CreateMap<ServerDto, Server>();
-            CreateMap<ServerUpdateDto, Server>();
+            CreateMap<CreateServerDto, Server>();
+            CreateMap<UpdateServerDto, Server>();
 
             CreateMap<Server, ServerDto>();
-            CreateMap<Server, ServerUpdateDto>();
+            CreateMap<Server, CreateServerDto>();
+            CreateMap<Server, UpdateServerDto>();
         }
     }
 }

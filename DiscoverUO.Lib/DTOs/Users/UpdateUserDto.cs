@@ -1,8 +1,8 @@
 ﻿namespace DiscoverUO.Lib.DTOs.Users
 {
-    public class CreateUserDto
+    public class UpdateUserDto
     {
         public string? UserName { get; set; }
-        public string? Password { get; set; }
+        public string? Email { get; set; }
     }
 }

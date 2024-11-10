@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using DiscoverUO.Api.Models;
 using Microsoft.EntityFrameworkCore;
-using DiscoverUO.Api.Models;
-using System.Security.Cryptography;
 
-namespace DiscoverUO.Api
+namespace DiscoverUO.Api.Controllers
 {
     public class DiscoverUODatabaseContext : DbContext
     {
@@ -15,7 +10,6 @@ namespace DiscoverUO.Api
         public DbSet<UserProfile> UserProfiles { get; set; } = default!;
         public DbSet<UserFavoritesList> UserFavoritesLists { get; set; } = default!;
         public DbSet<UserFavoritesListItem> UserFavoritesListItems { get; set; } = default!;
-
 
         public DiscoverUODatabaseContext(DbContextOptions<DiscoverUODatabaseContext> options)
             : base(options)

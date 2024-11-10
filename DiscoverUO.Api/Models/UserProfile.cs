@@ -7,7 +7,7 @@ namespace DiscoverUO.Api.Models
         public int Id { get; set; }
         public string? UserBiography { get; set; }
         public string? UserDisplayName { get; set; }
-        public string? UserAvatar {  get; set; }
+        public string? UserAvatar { get; set; }
 
         public int OwnerId { get; set; }
         [JsonIgnore]

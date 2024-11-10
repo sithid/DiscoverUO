@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
 using DiscoverUO.Api.Models;
+using DiscoverUO.Lib.DTOs.Servers;
 using DiscoverUO.Lib.DTOs.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using System.Data;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -30,11 +32,8 @@ namespace DiscoverUO.Api.Controllers
 
             secreteKey = Environment.GetEnvironmentVariable("JWT_SECRET_KEY");
 
-            if (string.IsNullOrEmpty(secreteKey))
-            {
+            if (string.IsNullOrEmpty(secreteKey)) {
                 secreteKey = "temp_secret_key_for_initial_setup";
-                Console.WriteLine("JWT secret key not found in environment variables.");
-                Console.WriteLine("Using a temporary key.  Fix this immediately.");
             }
         }
 
@@ -64,14 +63,14 @@ namespace DiscoverUO.Api.Controllers
 
         [AllowAnonymous]
         [HttpPost("CreateUser")]
-        public async Task<ActionResult<UserDto>> CreateUser(CreateUserDto createUserDto)
+        public async Task<ActionResult<UserDto>> CreateUser(CreateUserDto createdUserDto)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var user = _mapper.Map<User>(createUserDto);
+            var user = _mapper.Map<User>(createdUserDto);
 
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
@@ -85,9 +84,6 @@ namespace DiscoverUO.Api.Controllers
             await _context.SaveChangesAsync();
 
             var createdUser = await _context.Users
-                .Include(u => u.ServersAdded)
-                .Include(u => u.Profile)
-                .Include(u => u.Favorites)
                 .FirstOrDefaultAsync(u => u.Id == user.Id);
 
             var userDto = _mapper.Map<User>(createdUser);
@@ -105,10 +101,18 @@ namespace DiscoverUO.Api.Controllers
         public async Task<ActionResult<UserDto>> GetUserById(int id)
         {
             var user = await _context.Users
-                .Include(u => u.ServersAdded)
                 .Include(u => u.Profile)
                 .Include(u => u.Favorites)
                 .FirstOrDefaultAsync(u => u.Id == id);
+
+            _context.Users.Add(user);
+            await _context.SaveChangesAsync();
+
+            var userProfile = new UserProfile { OwnerId = user.Id, UserDisplayName = user.UserName };
+            _context.UserProfiles.Add(userProfile);
+
+            var favoritesList = new UserFavoritesList { OwnerId = user.Id };
+            _context.UserFavoritesLists.Add(favoritesList);
 
             if (user == null)
             {
@@ -122,10 +126,9 @@ namespace DiscoverUO.Api.Controllers
 
         [Authorize]
         [HttpGet("ByName/{userName}")]
-        public async Task<ActionResult<UserDto>> GetUserByName( string userName )
+        public async Task<ActionResult<UserDto>> GetUserByName(string userName)
         {
             var user = await _context.Users
-                .Include(u => u.ServersAdded)
                 .Include(u => u.Profile)
                 .Include(u => u.Favorites)
                 .FirstOrDefaultAsync(u => u.UserName == userName);
@@ -142,11 +145,18 @@ namespace DiscoverUO.Api.Controllers
 
         [Authorize]
         [HttpPut("UpdateUser/{id}")]
-        public async Task<IActionResult> UpdateUser(int id, UserUpdateDto updateUserDto)
+        public async Task<IActionResult> UpdateUser(int id, UpdateUserDto updateUserDto)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
+            }
+
+            var currentUser = await GetCurrentUser();
+
+            if (currentUser == null)
+            {
+                return Unauthorized($"You must be logged in to do this.");
             }
 
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
@@ -156,7 +166,16 @@ namespace DiscoverUO.Api.Controllers
                 return NotFound();
             }
 
-            user = _mapper.Map<User>(updateUserDto);
+            if (currentUser.Id != user.Id)
+            {
+                if (!UserUtilities.HasElevatedRole(currentUser.Role) && !UserUtilities.HasHigherPermission(currentUser.Role, user.Role))
+                {
+                    return Unauthorized("You do not have permission to edit that user.");
+                }
+            }
+
+            user.UserName = updateUserDto.UserName;
+            user.Email = updateUserDto.Email;
 
             _context.Entry(user).State = EntityState.Modified;
 
@@ -166,20 +185,10 @@ namespace DiscoverUO.Api.Controllers
             }
             catch (DbUpdateConcurrencyException ex)
             {
-                if (!UserExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    return BadRequest($"Something happened that noone was prepared for.\n\r{ex}");
-                }
+                return BadRequest($"Something happened that noone was prepared for.\n\r{ex}");
             }
 
             var updatedUser = await _context.Users
-                .Include(u => u.ServersAdded)
-                .Include(u => u.Profile)
-                .Include(u => u.Favorites)
                 .FirstOrDefaultAsync(u => u.Id == id);
 
             var updatedUserDto = _mapper.Map<UserDto>(updatedUser);
@@ -189,11 +198,18 @@ namespace DiscoverUO.Api.Controllers
 
         [Authorize]
         [HttpPut("UpdatePassword/{id}")]
-        public async Task<IActionResult> UpdatePassword(int id, UserUpdatePasswordDto updatePasswordDto)
+        public async Task<IActionResult> UpdatePassword(int id, UpdateUserPasswordDto updatePasswordDto)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
+            }
+            
+            var currentUser = await GetCurrentUser();
+
+            if (currentUser == null)
+            {
+                return Unauthorized($"You must be logged in to do this.");
             }
 
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
@@ -201,6 +217,14 @@ namespace DiscoverUO.Api.Controllers
             if (user == null)
             {
                 return NotFound();
+            }
+
+            if (currentUser.Id != user.Id)
+            {
+                if (!UserUtilities.HasElevatedRole(currentUser.Role) && !UserUtilities.HasHigherPermission(currentUser.Role, user.Role))
+                {
+                    return Unauthorized("You do not have permission to edit that user.");
+                }
             }
 
             if (!BCrypt.Net.BCrypt.Verify(updatePasswordDto.CurrentPassword, user.PasswordHash))
@@ -219,20 +243,10 @@ namespace DiscoverUO.Api.Controllers
             }
             catch (DbUpdateConcurrencyException ex)
             {
-                if (!UserExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    return BadRequest($"Something happened that noone was prepared for.\n\r{ex}");
-                }
+                return BadRequest($"Something happened that noone was prepared for.\n\r{ex}");
             }
 
             var updatedUser = await _context.Users
-                .Include(u => u.ServersAdded)
-                .Include(u => u.Profile)
-                .Include(u => u.Favorites)
                 .FirstOrDefaultAsync(u => u.Id == id);
 
             var updatedUserDto = _mapper.Map<UserDto>(updatedUser);
@@ -265,18 +279,12 @@ namespace DiscoverUO.Api.Controllers
             }
             catch (DbUpdateConcurrencyException ex)
             {
-                if (!UserExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    return BadRequest($"Something happened that noone was prepared for.\n\r{ex}");
-                }
+
+                return BadRequest($"Something happened that noone was prepared for.\n\r{ex}");
+
             }
 
             var updatedUser = await _context.Users
-                .Include(u => u.ServersAdded)
                 .Include(u => u.Profile)
                 .Include(u => u.Favorites)
                 .FirstOrDefaultAsync(u => u.Id == id);
@@ -288,14 +296,35 @@ namespace DiscoverUO.Api.Controllers
 
         [Authorize(Policy = "Privileged")]
         [HttpDelete("admin/DeleteUser/{id}")]
-        public async Task<IActionResult> DeleteUser( int id )
+        public async Task<IActionResult> DeleteUser(int id)
         {
-            var user = await _context.Users.FindAsync(id);
+            var currentUser = await GetCurrentUser();
+
+            if (currentUser == null)
+            {
+                return Unauthorized($"You must be logged in to do this.");
+            }
+
+            var user = await _context.Users.FirstOrDefaultAsync(user => user.Id == id);
 
             if (user == null)
             {
                 return NotFound();
             }
+
+            if (currentUser.Id != user.Id)
+            {
+                if (!UserUtilities.HasElevatedRole(currentUser.Role))
+                {
+                    return Unauthorized("You do not have permission to do that.");
+                }
+            }
+
+            if (!UserUtilities.HasHigherPermission(currentUser.Role, user.Role))
+            {
+                return Unauthorized("You do not have permission to do that.");
+            }
+
             var newServerOwner = await _context.Users.FirstOrDefaultAsync(u => u.UserName == "Admin");
 
             if (newServerOwner == null)
@@ -327,7 +356,6 @@ namespace DiscoverUO.Api.Controllers
         public async Task<ActionResult<List<UserDto>>> GetUsers()
         {
             var users = await _context.Users
-                .Include(u => u.ServersAdded)
                 .Include(u => u.Profile)
                 .Include(u => u.Favorites)
                 .ToListAsync();
@@ -360,9 +388,6 @@ namespace DiscoverUO.Api.Controllers
             await _context.SaveChangesAsync();
 
             var createdUser = await _context.Users
-                .Include(u => u.ServersAdded)
-                .Include(u => u.Profile)
-                .Include(u => u.Favorites)
                 .FirstOrDefaultAsync(u => u.Id == user.Id);
 
             var userDto = _mapper.Map<UserDto>(createdUser);
@@ -375,11 +400,31 @@ namespace DiscoverUO.Api.Controllers
         [HttpPut("admin/UpdateUserRole/{id}")]
         public async Task<IActionResult> UpdateUserRole(int id, string role)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
+            var currentUser = await GetCurrentUser();
+
+            if (currentUser == null)
+            {
+                return Unauthorized($"You must be logged in to do this.");
+            }
+
+            var user = await _context.Users.FirstOrDefaultAsync(user => user.Id == id);
 
             if (user == null)
             {
                 return NotFound();
+            }
+
+            if (currentUser.Id != user.Id)
+            {
+                if (!UserUtilities.HasElevatedRole(currentUser.Role))
+                {
+                    return Unauthorized("You do not have permission to do that.");
+                }
+            }
+
+            if( !UserUtilities.HasHigherPermission( currentUser.Role, role ))
+            {
+                return Unauthorized("You do not have permission to do that.");
             }
 
             user.Role = role;
@@ -396,16 +441,12 @@ namespace DiscoverUO.Api.Controllers
             }
 
             var updatedUser = await _context.Users
-                .Include(u => u.ServersAdded)
-                .Include(u => u.Profile)
-                .Include(u => u.Favorites)
-                .FirstOrDefaultAsync(u => u.Id == id);
+                 .FirstOrDefaultAsync(u => u.Id == id);
 
             var updatedUserDto = _mapper.Map<UserDto>(updatedUser);
 
             return Ok(updatedUserDto);
         }
-
         #endregion
 
         #region Endpoint Utilities
@@ -438,9 +479,16 @@ namespace DiscoverUO.Api.Controllers
             return tokenHandler.WriteToken(token);
         }
 
-        private bool UserExists(int id)
+        private async Task<User> GetCurrentUser()
         {
-            return _context.Users.Any(e => e.Id == id);
+            var userId = await UserUtilities.GetCurrentUserId(this.User);
+
+            var currentUser = await _context.Users
+                .Include(u => u.Favorites)
+                .Include(u => u.Profile)
+                .FirstOrDefaultAsync(user => user.Id == userId);
+
+            return currentUser;
         }
 
         #endregion

@@ -5,7 +5,7 @@ namespace DiscoverUO.Api.Models
     public class UserFavoritesListItem
     {
         public int Id { get; set; }
-        public int OwnerId {  get; set; }
+        public int OwnerId { get; set; }
         public string? ServerName { get; set; }
         public string? ServerAddress { get; set; }
         public int ServerPort { get; set; }

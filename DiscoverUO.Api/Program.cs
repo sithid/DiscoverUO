@@ -5,6 +5,7 @@ using Microsoft.OpenApi.Models;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
+using DiscoverUO.Api.Controllers;
 
 namespace DiscoverUO.Api
 {
@@ -63,6 +64,7 @@ namespace DiscoverUO.Api
             builder.Services.AddEndpointsApiExplorer();
 
             builder.Services.AddControllers();
+
             builder.Services.AddSwaggerGen(c =>
             {
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme

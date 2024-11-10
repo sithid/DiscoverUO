@@ -1,6 +1,6 @@
 ﻿namespace DiscoverUO.Lib.DTOs.Servers
 {
-    public class ServerDto
+    public class CreateServerDto
     {
         public string? ServerName { get; set; }
         public string? ServerAddress { get; set; }
@@ -8,7 +8,5 @@
         public string? ServerEra { get; set; }
         public bool PvPEnabled { get; set; }
         public bool IsPublic { get; set; }
-        public int Votes { get; set; }
-        public int Rating { get; set; }
     }
 }
