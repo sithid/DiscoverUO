@@ -1,19 +1,49 @@
 [
   {
     "ContainingType": "DiscoverUO.Api.Controllers.DiscoverUOUserFavoritesListsController",
-    "Method": "AddFavoriteListItem",
+    "Method": "DeleteFavoritesItem",
     "RelativePath": "api/favorites/list/item/add",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "DiscoverUO.Lib.DTOs.Favorites.UserFavoritesListItemDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "DiscoverUO.Api.Controllers.DiscoverUOUserFavoritesListsController",
+    "Method": "DeleteFavoritesItem",
+    "RelativePath": "api/favorites/list/item/delete/{itemId}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
     "Parameters": [
       {
-        "Name": "favoritesListItemDto",
-        "Type": "DiscoverUO.Lib.DTOs.Favorites.UserFavoritesListItemDto",
+        "Name": "itemId",
+        "Type": "System.Int32",
         "IsRequired": true
       }
     ],
-    "ReturnTypes": []
+    "ReturnTypes": [
+      {
+        "Type": "DiscoverUO.Lib.DTOs.Favorites.UserFavoritesListItemDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "DiscoverUO.Api.Controllers.DiscoverUOUserFavoritesListsController",

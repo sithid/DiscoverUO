@@ -1,6 +1,8 @@
 ﻿using DiscoverUO.Api.Models;
 using System.Security.Claims;
 using DiscoverUO.Lib.DTOs.Users;
+using Microsoft.EntityFrameworkCore;
+using DiscoverUO.Api.Controllers;
 
 namespace DiscoverUO.Api
 {
@@ -30,6 +32,18 @@ namespace DiscoverUO.Api
             return 
                 (user.Id == server.OwnerId) ||
                 HasElevatedRole(user.Role);
+        }
+        internal static async Task<User> GetCurrentUser(ClaimsPrincipal user, DiscoverUODatabaseContext context )
+        {
+            int userId = await GetCurrentUserId(user);
+
+            var currentUser = await context.Users
+                .Include(u => u.Profile)
+                .Include(u => u.Favorites)
+                .ThenInclude(favs => favs.FavoritedItems)
+                .FirstOrDefaultAsync(user => user.Id == userId);
+
+            return currentUser;
         }
         internal static async Task<int> GetCurrentUserId( ClaimsPrincipal user)
         {

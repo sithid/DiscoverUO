@@ -6,6 +6,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using DiscoverUO.Lib.DTOs.Servers;
 using DiscoverUO.Lib.DTOs.Users;
+using System.Security.Claims;
 
 namespace DiscoverUO.Api.Controllers
 {
@@ -32,7 +33,7 @@ namespace DiscoverUO.Api.Controllers
         [HttpGet("list/view")]
         public async Task<ActionResult<UserFavoritesListDto>> GetUserFavoritesLists()
         {
-            var currentUser = await GetCurrentUser();
+            var currentUser = await Permissions.GetCurrentUser( this.User, _context );
             var currentUserFavorites = await _context.UserFavoritesLists
                 .Include(flist => flist.FavoritedItems)
                 .FirstOrDefaultAsync(flist => flist.OwnerId == currentUser.Id);
@@ -46,7 +47,7 @@ namespace DiscoverUO.Api.Controllers
         [HttpGet("list/item/view/{id}")]
         public async Task<ActionResult<UserFavoritesListItemDto>> GetUserFavoritesListItem(int id)
         {
-            var currentUser = await GetCurrentUser();
+            var currentUser = await Permissions.GetCurrentUser(this.User, _context);
 
             if (currentUser == null)
             {
@@ -83,18 +84,28 @@ namespace DiscoverUO.Api.Controllers
                 return BadRequest(ModelState);
             }
 
-            var currentUser = GetCurrentUser();
+            var currentUser = await Permissions.GetCurrentUser(this.User, _context);
 
-            var userFavoritesList = await _context.UserFavoritesLists
-                .Include(flist => flist.FavoritedItems)
-                .FirstOrDefaultAsync(flist => flist.OwnerId == currentUser.Id);
-
-            if (userFavoritesList == null)
+            if (currentUser == null)
             {
-                return BadRequest();
+                return Unauthorized($"You must be logged in to do this.");
             }
 
-            var userFavoritesListItem  = userFavoritesList.FavoritedItems.FirstOrDefault( flItem => flItem.Id == id);
+            var userFavoritesListItem = await _context.UserFavoritesListItems
+                .FirstOrDefaultAsync(fListItem => fListItem.Id == id);
+
+            if ( userFavoritesListItem == null )
+            {
+                return NotFound("The favorites list item was not found.");
+            }
+
+            if (userFavoritesListItem.OwnerId != currentUser.Id)
+            {
+                if (!Permissions.HasElevatedRole(currentUser.Role))
+                {
+                    return Unauthorized("You can only edit your own favorites list.");
+                }
+            }
 
             userFavoritesListItem.ServerName = userFavoritesListItem.ServerName;
             userFavoritesListItem.ServerAddress = userFavoritesListItemDto.ServerAddress;
@@ -114,43 +125,40 @@ namespace DiscoverUO.Api.Controllers
             }
 
             var updatedUserFavoritesListItem = await _context.UserFavoritesListItems
-                .FirstOrDefaultAsync(flist => flist.Id == id);
+                .FirstOrDefaultAsync(fListItem => fListItem.Id == id);
 
             userFavoritesListItemDto = _mapper.Map<UserFavoritesListItemDto>(updatedUserFavoritesListItem);
 
             return Ok(userFavoritesListItemDto);
         }
-
+        
         [Authorize]
         [HttpPost("list/item/add")]
-        public async Task<IActionResult> AddFavoriteListItem(UserFavoritesListItemDto favoritesListItemDto)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
 
-            var currentUser = await GetCurrentUser();
+        [Authorize]
+        [HttpDelete("list/item/delete/{itemId}")]
+        public async Task<ActionResult<UserFavoritesListItemDto>> DeleteFavoritesItem(int itemId )
+        {
+            var currentUser = await Permissions.GetCurrentUser(this.User, _context);
 
             if (currentUser == null)
             {
                 return Unauthorized($"You must be logged in to do this.");
             }
 
-            if (currentUser.Favorites == null || currentUser.Favorites.FavoritedItems == null )
-                Console.WriteLine("Favorites List is Null or Favorites List Items is Null!");
+            var userFavoritesItem = await _context.UserFavoritesListItems
+                .Include(fli => fli.Id == itemId)
+                .FirstOrDefaultAsync(fli => fli.Id == itemId);
 
-            var favoritesListItem = new UserFavoritesListItem { OwnerId = currentUser.Id, FavoritesListId = currentUser.Favorites.Id };
+            if (userFavoritesItem.OwnerId != currentUser.Id)
+            {
+                if (!Permissions.HasElevatedRole(currentUser.Role))
+                {
+                    return Unauthorized("You can only edit your own favorites list.");
+                }
+            }
 
-            favoritesListItem.ServerName = favoritesListItemDto.ServerName;
-            favoritesListItem.ServerAddress = favoritesListItemDto.ServerAddress;
-            favoritesListItem.ServerPort = favoritesListItemDto.ServerPort;
-            favoritesListItem.ServerEra = favoritesListItemDto.ServerEra;
-            favoritesListItem.PvPEnabled = favoritesListItemDto.PvPEnabled;
-
-            currentUser.Favorites.FavoritedItems.Add(favoritesListItem);
-
-            _context.Entry(currentUser.Favorites).State = EntityState.Modified;
+            _context.UserFavoritesListItems.Remove(userFavoritesItem);
 
             try
             {
@@ -161,13 +169,9 @@ namespace DiscoverUO.Api.Controllers
                 return BadRequest($"Something happened that no one was prepared for.");
             }
 
-            var createdFavoritesListItem = await _context.UserFavoritesListItems
-                .FirstOrDefaultAsync(uflist => uflist.OwnerId == currentUser.Id);
-
-            var createdFavoritesItemDto = _mapper.Map<UserFavoritesListItemDto>(createdFavoritesListItem);
-
-            return CreatedAtAction("GetUserFavoritesListItem", new { id = createdFavoritesListItem.Id }, createdFavoritesItemDto);
+            return NoContent();
         }
+
         #endregion
 
         #region Privileged Endpoints
@@ -190,22 +194,6 @@ namespace DiscoverUO.Api.Controllers
             return Ok(userFavoritesListDto);
         }
 
-        #endregion
-
-        #region Endpoint Utilities
-
-        private async Task<User> GetCurrentUser()
-        {
-            var userId = await Permissions.GetCurrentUserId(this.User);
-
-            var currentUser = await _context.Users
-                .Include(u => u.Profile)
-                .Include(u => u.Favorites)
-                .ThenInclude(favs => favs.FavoritedItems )
-                .FirstOrDefaultAsync(user => user.Id == userId);
-
-            return currentUser;
-        }
         #endregion
     }
 }

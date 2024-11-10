@@ -160,7 +160,7 @@ namespace DiscoverUO.Api.Controllers
         [HttpGet("profiles/view")]
         public async Task<ActionResult<UserProfileDto>> GetProfile()
         {
-            var currentUser = await GetCurrentUser();
+            var currentUser = await Permissions.GetCurrentUser(this.User, _context);
 
             if (currentUser == null)
             {
@@ -180,7 +180,7 @@ namespace DiscoverUO.Api.Controllers
                 return BadRequest(ModelState);
             }
 
-            var currentUser = await GetCurrentUser();
+            var currentUser = await Permissions.GetCurrentUser(this.User, _context);
 
             if (currentUser == null)
             {
@@ -233,7 +233,7 @@ namespace DiscoverUO.Api.Controllers
                 return BadRequest(ModelState);
             }
 
-            var currentUser = await GetCurrentUser();
+            var currentUser = await Permissions.GetCurrentUser(this.User, _context);
 
             if (currentUser == null)
             {
@@ -292,7 +292,7 @@ namespace DiscoverUO.Api.Controllers
                 return NotFound();
             }
 
-            var currentUser = await GetCurrentUser();
+            var currentUser = await Permissions.GetCurrentUser(this.User, _context);
 
             if (currentUser.Id != userProfile.OwnerId && !Permissions.HasElevatedRole(currentUser.Role))
             {
@@ -357,7 +357,7 @@ namespace DiscoverUO.Api.Controllers
         [HttpDelete("admin/DeleteUser/{id}")]
         public async Task<IActionResult> DeleteUser(int id)
         {
-            var currentUser = await GetCurrentUser();
+            var currentUser = await Permissions.GetCurrentUser(this.User, _context);
 
             if (currentUser == null)
             {
@@ -428,7 +428,7 @@ namespace DiscoverUO.Api.Controllers
         [HttpPut("view/admin/UpdateUserRole/{id}")]
         public async Task<IActionResult> UpdateUserRole(int id, UserRole role)
         {
-            var currentUser = await GetCurrentUser();
+            var currentUser = await Permissions.GetCurrentUser(this.User, _context);
 
             if (currentUser == null)
             {
@@ -533,18 +533,6 @@ namespace DiscoverUO.Api.Controllers
 
             var token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token);
-        }
-
-        private async Task<User> GetCurrentUser()
-        {
-            var userId = await Permissions.GetCurrentUserId(this.User);
-
-            var currentUser = await _context.Users
-                .Include(u => u.Favorites)
-                .Include(u => u.Profile)
-                .FirstOrDefaultAsync(user => user.Id == userId);
-
-            return currentUser;
         }
 
         #endregion

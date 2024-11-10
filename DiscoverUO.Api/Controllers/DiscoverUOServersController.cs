@@ -73,15 +73,15 @@ namespace DiscoverUO.Api.Controllers
         [HttpGet("view/owner/{userName}")]
         public async Task<ActionResult<List<ServerDto>>> FindServersByOwner(string userName)
         {
-            var currentUser = GetCurrentUser();
+            var currentUser = await Permissions.GetCurrentUser(this.User, _context);
 
-            if (currentUser == null)
+            if (currentUser == null )
             {
                 return Unauthorized($"You must be logged in to do this.");
             }
 
             var existingUser = await _context.Users
-                .FirstOrDefaultAsync(u => u.UserName == userName);
+                .FirstOrDefaultAsync(u => string.Equals(u.UserName, userName));
 
             if (existingUser == null)
             {
@@ -110,7 +110,7 @@ namespace DiscoverUO.Api.Controllers
         [HttpGet("view/owned")]
         public async Task<ActionResult<List<ServerDto>>> GetOwnedServers()
         {
-            var currentUser = await GetCurrentUser();
+            var currentUser = await Permissions.GetCurrentUser(this.User, _context);
 
             if (currentUser == null)
             {
@@ -118,7 +118,7 @@ namespace DiscoverUO.Api.Controllers
             }
 
             var ownedServers = await _context.Servers
-                .Where( server => server.Id == currentUser.Id)
+                .Where( server => server.OwnerId == currentUser.Id)
                 .ToListAsync();
 
             if( ownedServers == null )
@@ -140,9 +140,9 @@ namespace DiscoverUO.Api.Controllers
                 return BadRequest(ModelState);
             }
 
-            var currentUser = await GetCurrentUser();
+            var currentUser = await Permissions.GetCurrentUser(this.User, _context);
 
-            if( currentUser == null )
+            if ( currentUser == null )
             {
                 return Unauthorized("You must be logged in to do this.");
             }
@@ -171,7 +171,7 @@ namespace DiscoverUO.Api.Controllers
                 return BadRequest(ModelState);
             }
 
-            var currentUser = await GetCurrentUser();
+            var currentUser = await Permissions.GetCurrentUser(this.User, _context);
 
             if (currentUser == null)
             {
@@ -220,7 +220,7 @@ namespace DiscoverUO.Api.Controllers
         [HttpPut("ownership/transfer/{serverId}_{newOwnerId}")]
         public async Task<ActionResult<ServerDto>>TransferOwnership(int serverId, int newOwnerId)
         {
-            var currentUser = await GetCurrentUser();
+            var currentUser = await Permissions.GetCurrentUser(this.User, _context);
 
             if (currentUser == null)
             {
@@ -272,7 +272,7 @@ namespace DiscoverUO.Api.Controllers
         [HttpDelete("delete/{serverId}")]
         public async Task<ActionResult> DeleteServer(int serverId)
         {
-            var currentUser = await GetCurrentUser();
+            var currentUser = await Permissions.GetCurrentUser(this.User, _context);
 
             if (currentUser == null)
             {
@@ -302,22 +302,6 @@ namespace DiscoverUO.Api.Controllers
             await _context.SaveChangesAsync();
 
             return NoContent();
-        }
-
-        #endregion
-
-        #region Endpoint Utilities
-
-        private async Task<User> GetCurrentUser()
-        {
-            var userId = await Permissions.GetCurrentUserId(this.User);
-
-            var currentUser = await _context.Users
-                .Include( u=>u.Favorites)
-                .Include(u=>u.Profile)
-                .FirstOrDefaultAsync(user => user.Id == userId);
-
-            return currentUser;
         }
 
         #endregion
