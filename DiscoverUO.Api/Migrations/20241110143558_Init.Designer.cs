@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DiscoverUO.Api.Migrations
 {
     [DbContext(typeof(DiscoverUODatabaseContext))]
-    [Migration("20241110110443_Init")]
+    [Migration("20241110143558_Init")]
     partial class Init
     {
         /// <inheritdoc />
@@ -202,7 +202,7 @@ namespace DiscoverUO.Api.Migrations
             modelBuilder.Entity("DiscoverUO.Api.Models.UserFavoritesListItem", b =>
                 {
                     b.HasOne("DiscoverUO.Api.Models.UserFavoritesList", "FavoritesList")
-                        .WithMany("FavoritedItem")
+                        .WithMany("FavoritedItems")
                         .HasForeignKey("FavoritesListId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -230,7 +230,7 @@ namespace DiscoverUO.Api.Migrations
 
             modelBuilder.Entity("DiscoverUO.Api.Models.UserFavoritesList", b =>
                 {
-                    b.Navigation("FavoritedItem");
+                    b.Navigation("FavoritedItems");
                 });
 #pragma warning restore 612, 618
         }

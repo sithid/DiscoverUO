@@ -46,11 +46,13 @@ namespace DiscoverUO.Api
         }
         internal static UserRole GetCurrentUserRole( ClaimsPrincipal user )
         {
-            var userRoleClaim = user.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role);
+            var userRoleClaim = user.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role );
 
-            if (userRoleClaim == null || !Enum.TryParse(userRoleClaim.Value, out UserRole role) || !HasValidRole(role))
+            bool success = Enum.TryParse(userRoleClaim.Value, out UserRole role );
+
+            if (userRoleClaim == null || !HasValidRole(role))
             {
-                return UserRole.BasicUser; // Default to BasicUser
+                return UserRole.BasicUser;
             }
 
             return role;

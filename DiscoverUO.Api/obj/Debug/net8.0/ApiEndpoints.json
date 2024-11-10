@@ -1,5 +1,82 @@
 [
   {
+    "ContainingType": "DiscoverUO.Api.Controllers.DiscoverUOUserFavoritesListsController",
+    "Method": "UpdateFavoritesList",
+    "RelativePath": "api/favorites/update/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "userFavoritesListDto",
+        "Type": "DiscoverUO.Lib.DTOs.Favorites.UserFavoritesListDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "DiscoverUO.Lib.DTOs.Favorites.UserFavoritesListDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "DiscoverUO.Api.Controllers.DiscoverUOUserFavoritesListsController",
+    "Method": "GetUserFavoritesLists",
+    "RelativePath": "api/favorites/view",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[DiscoverUO.Lib.DTOs.Favorites.UserFavoritesListDto, DiscoverUO.Lib, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "DiscoverUO.Api.Controllers.DiscoverUOUserFavoritesListsController",
+    "Method": "GetUserFavoritesList",
+    "RelativePath": "api/favorites/view/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "DiscoverUO.Lib.DTOs.Favorites.UserFavoritesListDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
     "ContainingType": "DiscoverUO.Api.Controllers.DiscoverUOServersController",
     "Method": "AddServer",
     "RelativePath": "api/servers/CreateServer",
@@ -411,58 +488,6 @@
   },
   {
     "ContainingType": "DiscoverUO.Api.Controllers.DiscoverUOUsersController",
-    "Method": "GetUserById",
-    "RelativePath": "api/users/view/{id}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "DiscoverUO.Lib.DTOs.Users.UserDto",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "DiscoverUO.Api.Controllers.DiscoverUOUsersController",
-    "Method": "GetUserByName",
-    "RelativePath": "api/users/view/{userName}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "userName",
-        "Type": "System.String",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "DiscoverUO.Lib.DTOs.Users.UserDto",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "DiscoverUO.Api.Controllers.DiscoverUOUsersController",
     "Method": "GetUsers",
     "RelativePath": "api/users/view/admin/All",
     "HttpMethod": "GET",
@@ -527,5 +552,57 @@
       }
     ],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "DiscoverUO.Api.Controllers.DiscoverUOUsersController",
+    "Method": "GetUserById",
+    "RelativePath": "api/users/view/id/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "DiscoverUO.Lib.DTOs.Users.UserDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "DiscoverUO.Api.Controllers.DiscoverUOUsersController",
+    "Method": "GetUserByName",
+    "RelativePath": "api/users/view/name/{userName}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userName",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "DiscoverUO.Lib.DTOs.Users.UserDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   }
 ]

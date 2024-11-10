@@ -2,6 +2,7 @@
 using DiscoverUO.Lib.DTOs.Servers;
 using DiscoverUO.Lib.DTOs.Users;
 using DiscoverUO.Lib.DTOs.Profiles;
+using DiscoverUO.Lib.DTOs.Favorites;
 
 namespace DiscoverUO.Api.Models
 {
@@ -30,6 +31,9 @@ namespace DiscoverUO.Api.Models
 
             CreateMap<UserProfile, UserProfileDto>();
             CreateMap<UserProfileDto, UserProfile>();
+
+            CreateMap<UserFavoritesListDto, UserFavoritesListDto>();
+            CreateMap<UserFavoritesListDto, UserFavoritesListDto>();
         }
     }
 }

@@ -2,11 +2,11 @@ namespace DiscoverUO.Lib.DTOs.Users
 {
     public enum UserRole
     {
-        BasicUser,
-        AdvancedUser,
-        Moderator,
-        Admin,
-        Owner
+        BasicUser       = 1,
+        AdvancedUser    = 2,
+        Moderator       = 3,
+        Admin           = 4,
+        Owner           = 5
     }
 
     public class UserDto
@@ -14,7 +14,7 @@ namespace DiscoverUO.Lib.DTOs.Users
         public string? UserName { get; set; }
         public int DailyVotesRemaining { get; set; }
         public string? Email { get; set; }
-        public UserRole Role { get; set; }
+        public string? Role { get; set; }
         public int? ProfileId { get; set; }
         public int? FavoritesId { get; set; }
     }

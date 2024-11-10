@@ -5,7 +5,7 @@ namespace DiscoverUO.Api.Models
     public class UserFavoritesList
     {
         public int Id { get; set; }
-        public ICollection<UserFavoritesListItem>? FavoritedItem { get; set; }
+        public ICollection<UserFavoritesListItem>? FavoritedItems { get; set; }
 
         public int OwnerId { get; set; }
         [JsonIgnore]

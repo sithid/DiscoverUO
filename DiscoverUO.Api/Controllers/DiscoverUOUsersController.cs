@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using DiscoverUO.Api.Models;
 using DiscoverUO.Lib.DTOs.Profiles;
-using DiscoverUO.Lib.DTOs.Servers;
 using DiscoverUO.Lib.DTOs.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -74,6 +73,7 @@ namespace DiscoverUO.Api.Controllers
             var user = _mapper.Map<User>(createdUserDto);
 
             user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(createdUserDto.Password);
+            user.Role = UserRole.BasicUser;
 
             var userProfile = new UserProfile { OwnerId = user.Id, UserDisplayName = user.UserName };
             user.Profile = userProfile;
@@ -115,22 +115,13 @@ namespace DiscoverUO.Api.Controllers
         #region BasicUser Endpoints
 
         [Authorize]
-        [HttpGet("view/{id}")]
+        [HttpGet("view/id/{id}")]
         public async Task<ActionResult<UserDto>> GetUserById(int id)
         {
             var user = await _context.Users
                 .Include(u => u.Profile)
                 .Include(u => u.Favorites)
                 .FirstOrDefaultAsync(u => u.Id == id);
-
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
-
-            var userProfile = new UserProfile { OwnerId = user.Id, UserDisplayName = user.UserName };
-            _context.UserProfiles.Add(userProfile);
-
-            var favoritesList = new UserFavoritesList { OwnerId = user.Id };
-            _context.UserFavoritesLists.Add(favoritesList);
 
             if (user == null)
             {
@@ -143,7 +134,7 @@ namespace DiscoverUO.Api.Controllers
         }
 
         [Authorize]
-        [HttpGet("view/{userName}")]
+        [HttpGet("view/name/{userName}")]
         public async Task<ActionResult<UserDto>> GetUserByName(string userName)
         {
             var user = await _context.Users
@@ -264,7 +255,6 @@ namespace DiscoverUO.Api.Controllers
             {
                 return Unauthorized("Invalid password.");
             }
-
 
             user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(updatePasswordDto.NewPassword);
 
@@ -492,6 +482,7 @@ namespace DiscoverUO.Api.Controllers
             }
 
             var user = _mapper.Map<User>(createdUserDto);
+            user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(createdUserDto.Password);
 
             var userProfile = new UserProfile { OwnerId = user.Id, UserDisplayName = user.UserName };
             user.Profile = userProfile;

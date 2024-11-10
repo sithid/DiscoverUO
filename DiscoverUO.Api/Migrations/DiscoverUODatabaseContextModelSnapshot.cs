@@ -199,7 +199,7 @@ namespace DiscoverUO.Api.Migrations
             modelBuilder.Entity("DiscoverUO.Api.Models.UserFavoritesListItem", b =>
                 {
                     b.HasOne("DiscoverUO.Api.Models.UserFavoritesList", "FavoritesList")
-                        .WithMany("FavoritedItem")
+                        .WithMany("FavoritedItems")
                         .HasForeignKey("FavoritesListId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -227,7 +227,7 @@ namespace DiscoverUO.Api.Migrations
 
             modelBuilder.Entity("DiscoverUO.Api.Models.UserFavoritesList", b =>
                 {
-                    b.Navigation("FavoritedItem");
+                    b.Navigation("FavoritedItems");
                 });
 #pragma warning restore 612, 618
         }
