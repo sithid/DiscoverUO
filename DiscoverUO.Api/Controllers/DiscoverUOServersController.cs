@@ -42,7 +42,7 @@ namespace DiscoverUO.Api.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet("ById/{id}")]
+        [HttpGet("view/id/{id}")]
         public async Task<ActionResult<ServerDto>> GetServerById( int id )
         {
             var server = await _context.Servers
@@ -59,8 +59,8 @@ namespace DiscoverUO.Api.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet("find-by-name/{serverName}")]
-        public async Task<ActionResult<int>> FindByName( string serverName )
+        [HttpGet("view/name/{serverName}")]
+        public async Task<ActionResult<int>> GetServerByName( string serverName )
         {
             var server = await _context.Servers
                 .FirstOrDefaultAsync(s => string.Equals( s.ServerName, serverName));
@@ -76,7 +76,7 @@ namespace DiscoverUO.Api.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet("find-by-owner/{userName}")]
+        [HttpGet("view/owner/{userName}")]
         public async Task<ActionResult<List<ServerDto>>> FindServersByOwner(string userName)
         {
             var currentUser = GetCurrentUser();
@@ -113,7 +113,7 @@ namespace DiscoverUO.Api.Controllers
         #region BasicUser+ Endpoints
 
         [Authorize]
-        [HttpGet("owned")]
+        [HttpGet("view/owned")]
         public async Task<ActionResult<List<ServerDto>>> GetOwnedServers()
         {
             var currentUser = await GetCurrentUser();
@@ -138,7 +138,7 @@ namespace DiscoverUO.Api.Controllers
         }
 
         [Authorize] 
-        [HttpPost("add")]
+        [HttpPost("CreateServer")]
         public async Task<ActionResult<ServerDto>> AddServer(CreateServerDto createServerDto)
         {
             if (!ModelState.IsValid)
@@ -169,7 +169,7 @@ namespace DiscoverUO.Api.Controllers
         }
 
         [Authorize]
-        [HttpPut("update/{serverId}")]
+        [HttpPut("update/UpdateServer/{serverId}")]
         public async Task<ActionResult<ServerDto>> UpdateServer(int serverId, UpdateServerDto serverUpdateDto)
         {
             if (!ModelState.IsValid)
@@ -191,7 +191,7 @@ namespace DiscoverUO.Api.Controllers
                 return NotFound("Server not found.");
             }
 
-            if( !UserUtilities.HasServerPermissions(currentUser, serverToUpdate) )
+            if( !Permissions.HasServerPermissions(currentUser, serverToUpdate) )
             {
                 return Unauthorized("Only the owner of a server or a privileged user can update a servers information.");
             }
@@ -211,7 +211,7 @@ namespace DiscoverUO.Api.Controllers
             }
             catch (DbUpdateConcurrencyException ex)
             {
-                return BadRequest($"Something happened that no one was prepared for.\n\r{ex}");
+                return BadRequest($"Something happened that no one was prepared for.");
             }
 
             var updatedServer = await _context.Servers
@@ -223,7 +223,7 @@ namespace DiscoverUO.Api.Controllers
         }
 
         [Authorize] 
-        [HttpPut("transfer-server")]
+        [HttpPut("ownership/transfer/{serverId}_{newOwnerId}")]
         public async Task<ActionResult<ServerDto>>TransferOwnership(int serverId, int newOwnerId)
         {
             var currentUser = await GetCurrentUser();
@@ -240,7 +240,7 @@ namespace DiscoverUO.Api.Controllers
                 return NotFound("Server not found.");
             }
 
-            if (!UserUtilities.HasServerPermissions(currentUser, server))
+            if (!Permissions.HasServerPermissions(currentUser, server))
             {
                 return Unauthorized("Only the owner of a server or a privileged user can transfer server ownership.");
             }
@@ -275,7 +275,7 @@ namespace DiscoverUO.Api.Controllers
         }
 
         [Authorize]
-        [HttpDelete("delete-server/{serverId}")]
+        [HttpDelete("delete/{serverId}")]
         public async Task<ActionResult> DeleteServer(int serverId)
         {
             var currentUser = await GetCurrentUser();
@@ -292,7 +292,7 @@ namespace DiscoverUO.Api.Controllers
                 return NotFound();
             }
 
-            if (!UserUtilities.HasServerPermissions(currentUser, server))
+            if (!Permissions.HasServerPermissions(currentUser, server))
             {
                 return Unauthorized("Only the server owner or a privileged user can delete a server.");
             }
@@ -316,7 +316,7 @@ namespace DiscoverUO.Api.Controllers
 
         private async Task<User> GetCurrentUser()
         {
-            var userId = await UserUtilities.GetCurrentUserId(this.User);
+            var userId = await Permissions.GetCurrentUserId(this.User);
 
             var currentUser = await _context.Users
                 .Include( u=>u.Favorites)

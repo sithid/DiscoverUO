@@ -14,7 +14,7 @@ namespace DiscoverUO.Api.Models
 
         public int FavoritesListId { get; set; }
         [JsonIgnore]
-        public UserFavoritesList FavoritesList { get; set; }
+        public UserFavoritesList? FavoritesList { get; set; }
 
     }
 }

@@ -11,6 +11,6 @@ namespace DiscoverUO.Api.Models
 
         public int OwnerId { get; set; }
         [JsonIgnore]
-        public User Owner { get; set; }
+        public User? Owner { get; set; }
     }
 }

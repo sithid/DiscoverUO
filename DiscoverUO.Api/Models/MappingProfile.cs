@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using DiscoverUO.Lib.DTOs.Servers;
 using DiscoverUO.Lib.DTOs.Users;
+using DiscoverUO.Lib.DTOs.Profiles;
 
 namespace DiscoverUO.Api.Models
 {
@@ -26,6 +27,9 @@ namespace DiscoverUO.Api.Models
             CreateMap<Server, ServerDto>();
             CreateMap<Server, CreateServerDto>();
             CreateMap<Server, UpdateServerDto>();
+
+            CreateMap<UserProfile, UserProfileDto>();
+            CreateMap<UserProfileDto, UserProfile>();
         }
     }
 }

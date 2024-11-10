@@ -19,7 +19,7 @@ namespace DiscoverUO.Api.Migrations
                     UserName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Role = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Role = table.Column<int>(type: "int", nullable: false),
                     DailyVotesRemaining = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>

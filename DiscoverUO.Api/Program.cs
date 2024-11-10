@@ -11,9 +11,10 @@ namespace DiscoverUO.Api
 {
     public class Program
     {
+        private static readonly string secretKey = GenerateSecretKey();
+
         public static void Main(string[] args)
         {
-            string secretKey = GenerateSecretKey();
             Environment.SetEnvironmentVariable("JWT_SECRET_KEY", secretKey);
 
             var builder = WebApplication.CreateBuilder(args);

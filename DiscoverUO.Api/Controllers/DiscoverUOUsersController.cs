@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DiscoverUO.Api.Models;
+using DiscoverUO.Lib.DTOs.Profiles;
 using DiscoverUO.Lib.DTOs.Servers;
 using DiscoverUO.Lib.DTOs.Users;
 using Microsoft.AspNetCore.Authorization;
@@ -93,12 +94,28 @@ namespace DiscoverUO.Api.Controllers
 
         }
 
+        [AllowAnonymous]
+        [HttpGet("profiles/view/{id}")]
+        public async Task<ActionResult<UserProfileDto>> ViewProfileByID(int id)
+        {
+            var userProfile = await _context.UserProfiles
+                .FirstOrDefaultAsync(prof => prof.Id == id);
+
+            if (userProfile == null)
+            {
+                return NotFound();
+            }
+
+            var userProfileDto = _mapper.Map<UserProfileDto>(userProfile);
+            return Ok(userProfileDto);
+        }
+
         #endregion
 
         #region BasicUser Endpoints
 
         [Authorize]
-        [HttpGet("ById/{id}")]
+        [HttpGet("view/{id}")]
         public async Task<ActionResult<UserDto>> GetUserById(int id)
         {
             var user = await _context.Users
@@ -126,7 +143,7 @@ namespace DiscoverUO.Api.Controllers
         }
 
         [Authorize]
-        [HttpGet("ByName/{userName}")]
+        [HttpGet("view/{userName}")]
         public async Task<ActionResult<UserDto>> GetUserByName(string userName)
         {
             var user = await _context.Users
@@ -145,7 +162,22 @@ namespace DiscoverUO.Api.Controllers
         }
 
         [Authorize]
-        [HttpPut("UpdateUser/{id}")]
+        [HttpGet("profiles/view")]
+        public async Task<ActionResult<UserProfileDto>> GetProfile()
+        {
+            var currentUser = await GetCurrentUser();
+
+            if (currentUser == null)
+            {
+                return Unauthorized($"You must be logged in to do this.");
+            }
+
+            var userProfileDto = _mapper.Map<UserProfileDto>(currentUser.Profile);
+            return Ok(userProfileDto);
+        }
+
+        [Authorize]
+        [HttpPut("update/UpdateUser/{id}")]
         public async Task<IActionResult> UpdateUser(int id, UpdateUserDto updateUserDto)
         {
             if (!ModelState.IsValid)
@@ -169,7 +201,7 @@ namespace DiscoverUO.Api.Controllers
 
             if (currentUser.Id != user.Id)
             {
-                if (!UserUtilities.HasElevatedRole(currentUser.Role) && !UserUtilities.HasHigherPermission(currentUser.Role, user.Role))
+                if (!Permissions.HasElevatedRole(currentUser.Role) && !Permissions.HasHigherPermission(currentUser.Role, user.Role))
                 {
                     return Unauthorized("You do not have permission to edit that user.");
                 }
@@ -196,16 +228,16 @@ namespace DiscoverUO.Api.Controllers
 
             return Ok(updatedUserDto);
         }
-
+       
         [Authorize]
-        [HttpPut("UpdatePassword/{id}")]
+        [HttpPut("update/UpdatePassword/{id}")]
         public async Task<IActionResult> UpdatePassword(int id, UpdateUserPasswordDto updatePasswordDto)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            
+
             var currentUser = await GetCurrentUser();
 
             if (currentUser == null)
@@ -222,7 +254,7 @@ namespace DiscoverUO.Api.Controllers
 
             if (currentUser.Id != user.Id)
             {
-                if (!UserUtilities.HasElevatedRole(currentUser.Role) && !UserUtilities.HasHigherPermission(currentUser.Role, user.Role))
+                if (!Permissions.HasElevatedRole(currentUser.Role) && !Permissions.HasHigherPermission(currentUser.Role, user.Role))
                 {
                     return Unauthorized("You do not have permission to edit that user.");
                 }
@@ -255,12 +287,44 @@ namespace DiscoverUO.Api.Controllers
             return Ok(updatedUserDto);
         }
 
+        [Authorize]
+        [HttpPut("profiles/update/UpdateProfile/{id}")]
+        public async Task<IActionResult> UpdateProfile(int id, UserProfileDto profileDto)
+        {
+            var userProfile = await _context.UserProfiles.FindAsync(id);
+
+            if (userProfile == null)
+            {
+                return NotFound();
+            }
+
+            var currentUser = await GetCurrentUser();
+
+            if (currentUser.Id != userProfile.OwnerId && !Permissions.HasElevatedRole(currentUser.Role))
+            {
+                return Unauthorized("You are not authorized to update this profile.");
+            }
+
+            var profile = _mapper.Map<UserProfile>(profileDto);
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                return BadRequest($"Something happened that no one was prepared for.");
+            }
+
+            return NoContent();
+        }
+
         #endregion
 
         #region Privileged Endpoints
 
         [Authorize(Policy = "Privileged")]
-        [HttpPut("admin/ChangeRemainingVotes/{id}")]
+        [HttpPut("admin/update/ChangeRemainingVotes/{id}")]
         public async Task<IActionResult> ChangeRemainingVotes(int id, int votesRemaining)
         {
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
@@ -315,13 +379,13 @@ namespace DiscoverUO.Api.Controllers
 
             if (currentUser.Id != user.Id)
             {
-                if (!UserUtilities.HasElevatedRole(currentUser.Role))
+                if (!Permissions.HasElevatedRole(currentUser.Role))
                 {
                     return Unauthorized("You do not have permission to do that.");
                 }
             }
 
-            if (!UserUtilities.HasHigherPermission(currentUser.Role, user.Role))
+            if (!Permissions.HasHigherPermission(currentUser.Role, user.Role))
             {
                 return Unauthorized("You do not have permission to do that.");
             }
@@ -353,7 +417,7 @@ namespace DiscoverUO.Api.Controllers
         #region Admin Endpoints
 
         [Authorize(Policy = "OwnerOrAdmin")]
-        [HttpGet("All")]
+        [HttpGet("view/admin/All")]
         public async Task<ActionResult<List<UserDto>>> GetUsers()
         {
             var users = await _context.Users
@@ -367,7 +431,59 @@ namespace DiscoverUO.Api.Controllers
         }
 
         [Authorize(Policy = "OwnerOrAdmin")]
-        [HttpPost("admin/CreateUserWithRole")]
+        [HttpPut("view/admin/UpdateUserRole/{id}")]
+        public async Task<IActionResult> UpdateUserRole(int id, UserRole role)
+        {
+            var currentUser = await GetCurrentUser();
+
+            if (currentUser == null)
+            {
+                return Unauthorized($"You must be logged in to do this.");
+            }
+
+            var user = await _context.Users.FirstOrDefaultAsync(user => user.Id == id);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            if (currentUser.Id != user.Id)
+            {
+                if (!Permissions.HasElevatedRole(currentUser.Role))
+                {
+                    return Unauthorized("You do not have permission to do that.");
+                }
+            }
+
+            if( !Permissions.HasHigherPermission( currentUser.Role, role ))
+            {
+                return Unauthorized("You do not have permission to do that.");
+            }
+
+            user.Role = role;
+
+            _context.Entry(user).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred while updating the server owner: {ex.Message}");
+            }
+
+            var updatedUser = await _context.Users
+                 .FirstOrDefaultAsync(u => u.Id == id);
+
+            var updatedUserDto = _mapper.Map<UserDto>(updatedUser);
+
+            return Ok(updatedUserDto);
+        }
+
+        [Authorize(Policy = "OwnerOrAdmin")]
+        [HttpPost("view/admin/CreateUserWithRole")]
         public async Task<ActionResult<UserDto>> CreateUserWithRole(CreateUserWithRoleDto createdUserDto)
         {
             if (!ModelState.IsValid)
@@ -395,57 +511,6 @@ namespace DiscoverUO.Api.Controllers
 
         }
 
-        [Authorize(Policy = "OwnerOrAdmin")]
-        [HttpPut("admin/UpdateUserRole/{id}")]
-        public async Task<IActionResult> UpdateUserRole(int id, string role)
-        {
-            var currentUser = await GetCurrentUser();
-
-            if (currentUser == null)
-            {
-                return Unauthorized($"You must be logged in to do this.");
-            }
-
-            var user = await _context.Users.FirstOrDefaultAsync(user => user.Id == id);
-
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            if (currentUser.Id != user.Id)
-            {
-                if (!UserUtilities.HasElevatedRole(currentUser.Role))
-                {
-                    return Unauthorized("You do not have permission to do that.");
-                }
-            }
-
-            if( !UserUtilities.HasHigherPermission( currentUser.Role, role ))
-            {
-                return Unauthorized("You do not have permission to do that.");
-            }
-
-            user.Role = role;
-
-            _context.Entry(user).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"An error occurred while updating the server owner: {ex.Message}");
-            }
-
-            var updatedUser = await _context.Users
-                 .FirstOrDefaultAsync(u => u.Id == id);
-
-            var updatedUserDto = _mapper.Map<UserDto>(updatedUser);
-
-            return Ok(updatedUserDto);
-        }
         #endregion
 
         #region Endpoint Utilities
@@ -458,7 +523,7 @@ namespace DiscoverUO.Api.Controllers
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.NameIdentifier, requester.Id.ToString()),
-                new Claim(ClaimTypes.Role, requester.Role),
+                new Claim(ClaimTypes.Role, requester.Role.ToString()),
                 new Claim(ClaimTypes.Name, requester.UserName)
 
             };
@@ -477,7 +542,7 @@ namespace DiscoverUO.Api.Controllers
 
         private async Task<User> GetCurrentUser()
         {
-            var userId = await UserUtilities.GetCurrentUserId(this.User);
+            var userId = await Permissions.GetCurrentUserId(this.User);
 
             var currentUser = await _context.Users
                 .Include(u => u.Favorites)

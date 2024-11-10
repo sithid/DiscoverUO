@@ -1,55 +1,29 @@
 ﻿using DiscoverUO.Api.Models;
-using Microsoft.AspNetCore.Authorization;
-using System.Net.Security;
 using System.Security.Claims;
+using DiscoverUO.Lib.DTOs.Users;
 
 namespace DiscoverUO.Api
 {
-    public static class UserUtilities
+    public static class Permissions
     {
-        internal static readonly string[] StandardPermissions = { "BasicUser", "AdvancedUser", };
-        internal static readonly string[] ElevatedPermissions = { "Moderator", "Admin", "Owner" };
-        internal static readonly string[] AllPermissions = UserUtilities.StandardPermissions.Concat(UserUtilities.ElevatedPermissions).ToArray();
-        internal static bool HasValidRole(string role)
+        internal static readonly UserRole[] StandardPermissions = { UserRole.BasicUser, UserRole.AdvancedUser };
+        internal static readonly UserRole[] ElevatedPermissions = { UserRole.Moderator, UserRole.Admin, UserRole.Owner };
+        internal static readonly UserRole[] AllPermissions = StandardPermissions.Concat(ElevatedPermissions).ToArray();
+        internal static bool HasValidRole(UserRole role)
         {
-            return UserUtilities.AllPermissions.Contains(role);
+            return AllPermissions.Contains(role);
         }
-        internal static bool HasStandardRole(string role)
+        internal static bool HasStandardRole(UserRole role)
         {
-            if ( UserUtilities.StandardPermissions.Contains(role))
-                return true;
-            else
-                return false;
+            return StandardPermissions.Contains(role);
         }
-        internal static bool HasElevatedRole(string role)
+        internal static bool HasElevatedRole(UserRole role)
         {
-            if ( UserUtilities.ElevatedPermissions.Contains(role) )
-                return true;
-            else
-                return false;
+            return ElevatedPermissions.Contains(role);
         }
-        internal static bool HasHigherPermission( string updaterRole, string updatedRole )
+        internal static bool HasHigherPermission(UserRole updaterRole, UserRole updatedRole)
         {
-            int currentUserRoleIndex = 0;
-            int userToUpdateRoleIndex = 0;
-
-            for (int i = 0; i < UserUtilities.AllPermissions.Count(); ++i)
-            {
-                if (string.Equals(updaterRole, UserUtilities.AllPermissions[i]))
-                {
-                    currentUserRoleIndex = i;
-                }
-
-                if (string.Equals(updatedRole, UserUtilities.AllPermissions[i]))
-                {
-                    userToUpdateRoleIndex = i;
-                }
-            }
-
-            if (currentUserRoleIndex >= userToUpdateRoleIndex)
-                return true;
-
-            return false;
+            return updaterRole > updatedRole;
         }
         internal static bool HasServerPermissions( User user, Server server)
         {
@@ -70,16 +44,16 @@ namespace DiscoverUO.Api
 
             return userId;
         }
-        internal static async Task<string> GetCurrentUserRole( ClaimsPrincipal user)
+        internal static UserRole GetCurrentUserRole( ClaimsPrincipal user )
         {
             var userRoleClaim = user.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role);
 
-            if (userRoleClaim == null || !HasValidRole(userRoleClaim.Value))
+            if (userRoleClaim == null || !Enum.TryParse(userRoleClaim.Value, out UserRole role) || !HasValidRole(role))
             {
-                return "BasicUser";
+                return UserRole.BasicUser; // Default to BasicUser
             }
 
-            return userRoleClaim.Value;
+            return role;
         }
     }
 }
