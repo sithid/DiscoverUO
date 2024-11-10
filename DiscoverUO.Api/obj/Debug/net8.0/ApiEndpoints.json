@@ -402,7 +402,7 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "createUserDto",
+        "Name": "createdUserDto",
         "Type": "DiscoverUO.Lib.DTOs.Users.CreateUserDto",
         "IsRequired": true
       }
@@ -410,6 +410,26 @@
     "ReturnTypes": [
       {
         "Type": "DiscoverUO.Lib.DTOs.Users.UserDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "DiscoverUO.Api.Controllers.DiscoverUOUsersController",
+    "Method": "GetProfiles",
+    "RelativePath": "api/users/profiles",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[DiscoverUO.Lib.DTOs.Users.UserDto, DiscoverUO.Lib, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",

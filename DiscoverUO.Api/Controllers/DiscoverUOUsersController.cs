@@ -72,14 +72,15 @@ namespace DiscoverUO.Api.Controllers
 
             var user = _mapper.Map<User>(createdUserDto);
 
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
+            user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(createdUserDto.Password);
 
             var userProfile = new UserProfile { OwnerId = user.Id, UserDisplayName = user.UserName };
-            _context.UserProfiles.Add(userProfile);
+            user.Profile = userProfile;
 
             var favoritesList = new UserFavoritesList { OwnerId = user.Id };
-            _context.UserFavoritesLists.Add(favoritesList);
+            user.Favorites = favoritesList;
+
+            _context.Users.Add(user);
 
             await _context.SaveChangesAsync();
 
@@ -376,15 +377,13 @@ namespace DiscoverUO.Api.Controllers
 
             var user = _mapper.Map<User>(createdUserDto);
 
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
-
             var userProfile = new UserProfile { OwnerId = user.Id, UserDisplayName = user.UserName };
-            _context.UserProfiles.Add(userProfile);
+            user.Profile = userProfile;
 
             var favoritesList = new UserFavoritesList { OwnerId = user.Id };
-            _context.UserFavoritesLists.Add(favoritesList);
+            user.Favorites = favoritesList;
 
+            _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
             var createdUser = await _context.Users
@@ -451,9 +450,6 @@ namespace DiscoverUO.Api.Controllers
 
         #region Endpoint Utilities
 
-        /// <summary> Generates a JWT Token. </summary>
-        /// <param name="requester"> The user who needs a token. </param>
-        /// <returns> JWT Token String </returns>
         private string GenerateToken(User requester)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
