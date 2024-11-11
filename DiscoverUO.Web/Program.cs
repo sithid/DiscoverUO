@@ -1,4 +1,7 @@
 using DiscoverUO.Web.Components;
+using DiscoverUO.Web.Services.Authentication;
+using Microsoft.Extensions.DependencyInjection;
+using System.Net.Http;
 
 namespace DiscoverUO.Web
 {
@@ -8,8 +11,14 @@ namespace DiscoverUO.Web
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
             builder.Services.AddRazorComponents();
+
+            builder.Services.AddScoped(sp => new HttpClient
+            {
+                BaseAddress = new Uri("http://localhost:7015/"),
+            });
+
+            builder.Services.AddTransient<AuthenticationService>();
 
             var app = builder.Build();
 
