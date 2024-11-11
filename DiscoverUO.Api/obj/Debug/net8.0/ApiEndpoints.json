@@ -417,7 +417,7 @@
     "Parameters": [
       {
         "Name": "loginDto",
-        "Type": "LoginDto",
+        "Type": "LoginRequest",
         "IsRequired": true
       }
     ],

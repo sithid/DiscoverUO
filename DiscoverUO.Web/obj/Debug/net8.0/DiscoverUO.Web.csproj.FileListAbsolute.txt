@@ -12,9 +12,11 @@ C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\bin\Debug\net
 C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\bin\Debug\net8.0\wwwroot\_framework\icudt_EFIGS.dat
 C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\bin\Debug\net8.0\wwwroot\_framework\icudt_no_CJK.dat
 C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\bin\Debug\net8.0\wwwroot\_framework\Microsoft.AspNetCore.Authorization.wasm
+C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\bin\Debug\net8.0\wwwroot\_framework\Microsoft.AspNetCore.Components.Authorization.wasm
 C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\bin\Debug\net8.0\wwwroot\_framework\Microsoft.AspNetCore.Components.Forms.wasm
 C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\bin\Debug\net8.0\wwwroot\_framework\Microsoft.AspNetCore.Components.wasm
 C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\bin\Debug\net8.0\wwwroot\_framework\Microsoft.AspNetCore.Components.Web.wasm
+C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\bin\Debug\net8.0\wwwroot\_framework\Microsoft.AspNetCore.Components.WebAssembly.Authentication.wasm
 C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\bin\Debug\net8.0\wwwroot\_framework\Microsoft.AspNetCore.Components.WebAssembly.wasm
 C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\bin\Debug\net8.0\wwwroot\_framework\Microsoft.AspNetCore.Metadata.wasm
 C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\bin\Debug\net8.0\wwwroot\_framework\Microsoft.CSharp.wasm
@@ -229,6 +231,7 @@ C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\bin\Debug\net
 C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\bin\Debug\net8.0\wwwroot\_framework\Microsoft.Extensions.Configuration.FileExtensions.wasm.gz
 C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\bin\Debug\net8.0\wwwroot\_framework\System.Private.Uri.wasm.gz
 C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\bin\Debug\net8.0\wwwroot\_framework\System.Runtime.Intrinsics.wasm.gz
+C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\bin\Debug\net8.0\wwwroot\_framework\Microsoft.AspNetCore.Components.Authorization.wasm.gz
 C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\bin\Debug\net8.0\wwwroot\_framework\System.IO.Pipes.AccessControl.wasm.gz
 C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\bin\Debug\net8.0\wwwroot\_framework\Microsoft.Extensions.Configuration.Abstractions.wasm.gz
 C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\bin\Debug\net8.0\wwwroot\_framework\System.Net.wasm.gz
@@ -288,6 +291,7 @@ C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\bin\Debug\net
 C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\bin\Debug\net8.0\wwwroot\_framework\System.Dynamic.Runtime.wasm.gz
 C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\bin\Debug\net8.0\wwwroot\_framework\System.Collections.Immutable.wasm.gz
 C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\bin\Debug\net8.0\wwwroot\_framework\System.Net.HttpListener.wasm.gz
+C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\bin\Debug\net8.0\wwwroot\_framework\Microsoft.AspNetCore.Components.WebAssembly.Authentication.wasm.gz
 C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\bin\Debug\net8.0\wwwroot\_framework\System.Net.WebProxy.wasm.gz
 C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\bin\Debug\net8.0\wwwroot\_framework\System.Security.Cryptography.Primitives.wasm.gz
 C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\bin\Debug\net8.0\wwwroot\_framework\Microsoft.Extensions.DependencyInjection.Abstractions.wasm.gz
@@ -411,9 +415,11 @@ C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\bin\Debug\net
 C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\bin\Debug\net8.0\DiscoverUO.Web.pdb
 C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\bin\Debug\net8.0\Microsoft.AspNetCore.Authorization.dll
 C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\bin\Debug\net8.0\Microsoft.AspNetCore.Components.dll
+C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\bin\Debug\net8.0\Microsoft.AspNetCore.Components.Authorization.dll
 C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\bin\Debug\net8.0\Microsoft.AspNetCore.Components.Forms.dll
 C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\bin\Debug\net8.0\Microsoft.AspNetCore.Components.Web.dll
 C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\bin\Debug\net8.0\Microsoft.AspNetCore.Components.WebAssembly.dll
+C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\bin\Debug\net8.0\Microsoft.AspNetCore.Components.WebAssembly.Authentication.dll
 C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\bin\Debug\net8.0\Microsoft.AspNetCore.Metadata.dll
 C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\bin\Debug\net8.0\Microsoft.Extensions.Configuration.dll
 C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\bin\Debug\net8.0\Microsoft.Extensions.Configuration.Abstractions.dll
@@ -618,9 +624,11 @@ C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\obj\Debug\net
 C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\obj\Debug\net8.0\DiscoverUO.Web.sourcelink.json
 C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\obj\Debug\net8.0\webcil\Microsoft.AspNetCore.Authorization.wasm
 C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\obj\Debug\net8.0\webcil\Microsoft.AspNetCore.Components.wasm
+C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\obj\Debug\net8.0\webcil\Microsoft.AspNetCore.Components.Authorization.wasm
 C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\obj\Debug\net8.0\webcil\Microsoft.AspNetCore.Components.Forms.wasm
 C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\obj\Debug\net8.0\webcil\Microsoft.AspNetCore.Components.Web.wasm
 C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\obj\Debug\net8.0\webcil\Microsoft.AspNetCore.Components.WebAssembly.wasm
+C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\obj\Debug\net8.0\webcil\Microsoft.AspNetCore.Components.WebAssembly.Authentication.wasm
 C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\obj\Debug\net8.0\webcil\Microsoft.AspNetCore.Metadata.wasm
 C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\obj\Debug\net8.0\webcil\Microsoft.Extensions.Configuration.wasm
 C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\obj\Debug\net8.0\webcil\Microsoft.Extensions.Configuration.Abstractions.wasm
@@ -824,9 +832,11 @@ C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\obj\Debug\net
 C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\obj\Debug\net8.0\compressed\ui0frotkfu.gz
 C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\obj\Debug\net8.0\compressed\9xgmtdaxpw.gz
 C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\obj\Debug\net8.0\compressed\ivv0dclgqa.gz
+C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\obj\Debug\net8.0\compressed\54rvpxqt7w.gz
 C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\obj\Debug\net8.0\compressed\syqcdrblwx.gz
 C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\obj\Debug\net8.0\compressed\zkxb3n21id.gz
 C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\obj\Debug\net8.0\compressed\8vpt1o7igh.gz
+C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\obj\Debug\net8.0\compressed\ej3439upls.gz
 C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\obj\Debug\net8.0\compressed\tu314qg6z8.gz
 C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\obj\Debug\net8.0\compressed\yr1r0g0mao.gz
 C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\obj\Debug\net8.0\compressed\5je2cautu0.gz

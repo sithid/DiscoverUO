@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DiscoverUO.Lib", "DiscoverU
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DiscoverUO.Api", "DiscoverUO.Api\DiscoverUO.Api.csproj", "{F00225AC-CC4D-431C-B0D5-CD70A3704075}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiscoverUO.Web", "DiscoverUO.Web\DiscoverUO.Web.csproj", "{03C12613-3669-4974-91EB-FE99E0398671}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiscoverUO.Web", "DiscoverUO.Web\DiscoverUO.Web.csproj", "{6C72AE15-DA80-4FBB-9A88-0F5AA3EAE44B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +23,10 @@ Global
 		{F00225AC-CC4D-431C-B0D5-CD70A3704075}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F00225AC-CC4D-431C-B0D5-CD70A3704075}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F00225AC-CC4D-431C-B0D5-CD70A3704075}.Release|Any CPU.Build.0 = Release|Any CPU
-		{03C12613-3669-4974-91EB-FE99E0398671}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{03C12613-3669-4974-91EB-FE99E0398671}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{03C12613-3669-4974-91EB-FE99E0398671}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{03C12613-3669-4974-91EB-FE99E0398671}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6C72AE15-DA80-4FBB-9A88-0F5AA3EAE44B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6C72AE15-DA80-4FBB-9A88-0F5AA3EAE44B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6C72AE15-DA80-4FBB-9A88-0F5AA3EAE44B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6C72AE15-DA80-4FBB-9A88-0F5AA3EAE44B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

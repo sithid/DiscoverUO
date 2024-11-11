@@ -1,7 +1,7 @@
 {
   "mainAssemblyName": "DiscoverUO.Web",
   "resources": {
-    "hash": "sha256-+pMxefs7OO8MF/sgMg8hYLgxhtnngBYfuuDRq6Q/pCU=",
+    "hash": "sha256-tjMtVKSAIg5OPX0lCNaiCCEDQWnj7fOwkmVdO18lugk=",
     "jsModuleNative": {
       "dotnet.native.8.0.8.c4jfs4jebr.js": "sha256-juC5sA7gHTLXFEhAKgdM2/RavswpwCtDfjYGsAz2FXg="
     },
@@ -19,9 +19,11 @@
     "assembly": {
       "Microsoft.AspNetCore.Authorization.wasm": "sha256-H1yH7iBNYt/rilvQT6qsv2frcFFOBUKBnRrGQ1AIHnI=",
       "Microsoft.AspNetCore.Components.wasm": "sha256-kPAmhH4D4UN/DyWkGyB1Sxs7tQyVDV150swtUfTSJJ8=",
+      "Microsoft.AspNetCore.Components.Authorization.wasm": "sha256-V1DjV5FIfpwmhLHgE+6Sv/E95t+50ilGiAk6J5mqNFA=",
       "Microsoft.AspNetCore.Components.Forms.wasm": "sha256-ZB9Iu49s5SYUpy+xnFe+KIg2LeHGglqjWkohvxQ8m30=",
       "Microsoft.AspNetCore.Components.Web.wasm": "sha256-AXG8nDVuFAkAqYk+rpFBOg7YgamHxzut3Upfr4na8wA=",
       "Microsoft.AspNetCore.Components.WebAssembly.wasm": "sha256-6tnMX4ZUNb9MmcIXWPmq2IFtKS7q7xsafG8+oeE62uk=",
+      "Microsoft.AspNetCore.Components.WebAssembly.Authentication.wasm": "sha256-iqU1rt64IjJ60eAGbgaXPiPxX1PzX81e/FoR2vvk2QU=",
       "Microsoft.AspNetCore.Metadata.wasm": "sha256-EYT9/h/Kkwk4uu2T+qwhrF7jHJ/1nGEphQJCSlwzA5Y=",
       "Microsoft.Extensions.Configuration.wasm": "sha256-UDGEQR7J3WTfzYMgOzxVIBwFQtKEeJvO8UgrWagypdE=",
       "Microsoft.Extensions.Configuration.Abstractions.wasm": "sha256-yNdqbqDWGiJo943D7LPak5xryCBEsNH0wtdiuU1R9VE=",
@@ -208,14 +210,18 @@
       "mscorlib.wasm": "sha256-Gz8PyW2/fwihe5ul81OwmRUrU71r+KtbyRw6xlOGD+Q=",
       "netstandard.wasm": "sha256-jMTqIQzoDS810lyhZpMO5eEC36EzntXqSVn+2qwkOMQ=",
       "System.Private.CoreLib.wasm": "sha256-NFj5WE5VLP2LptZIRJCUIc1AMk06FmxpsSILfPISwAw=",
-      "DiscoverUO.Web.wasm": "sha256-12sj+1iGd6XZpEqS23jbAfpAIoSHv0xbnzIG/qUAAr4="
+      "DiscoverUO.Web.wasm": "sha256-SNVVoKYZQDBBfpHVoqAX3vvseUNY/EFaBlLc60AaYbM="
     },
     "pdb": {
-      "DiscoverUO.Web.pdb": "sha256-RVGPfYrJoBvgbr6z35qD4YQ25T450H9vvnuqdN9SOtA="
+      "DiscoverUO.Web.pdb": "sha256-ZOQizMquH3EasLVAQ58S2ZhgNLeVLhfOMZj8NLTn6TM="
     }
   },
   "cacheBootResources": true,
   "debugLevel": -1,
+  "appsettings": [
+    "../appsettings.Development.json",
+    "../appsettings.json"
+  ],
   "globalizationMode": "sharded",
   "extensions": {
     "blazor": {}
