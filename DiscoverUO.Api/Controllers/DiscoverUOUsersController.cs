@@ -3,6 +3,7 @@ using DiscoverUO.Api.Models;
 using DiscoverUO.Lib.DTOs.Profiles;
 using DiscoverUO.Lib.DTOs.Users;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -41,9 +42,9 @@ namespace DiscoverUO.Api.Controllers
 
         [AllowAnonymous]
         [HttpPost("Authenticate")]
-        public async Task<IActionResult> Login(LoginRequest loginDto)
+        public async Task<IActionResult> Authenticate(LoginRequest loginDto)
         {
-            var user = await _context.Users.SingleOrDefaultAsync(u => u.UserName == loginDto.UserName);
+            var user = await _context.Users.SingleOrDefaultAsync(u => u.UserName == loginDto.Username);
 
             if (user == null)
             {
@@ -57,6 +58,8 @@ namespace DiscoverUO.Api.Controllers
             }
 
             var token = GenerateToken(user);
+
+            Console.WriteLine($"Successful completion of authentication for registered user: {loginDto.Username}");
 
             return Ok(new { Token = token });
         }
@@ -531,8 +534,8 @@ namespace DiscoverUO.Api.Controllers
 
             };
 
-            var token = tokenHandler.CreateToken(tokenDescriptor);
-            return tokenHandler.WriteToken(token);
+            var tokenString = tokenHandler.CreateToken(tokenDescriptor);
+            return tokenHandler.WriteToken(tokenString);
         }
 
         #endregion

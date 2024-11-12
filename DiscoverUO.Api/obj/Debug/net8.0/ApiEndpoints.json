@@ -409,7 +409,7 @@
   },
   {
     "ContainingType": "DiscoverUO.Api.Controllers.DiscoverUOUsersController",
-    "Method": "Login",
+    "Method": "Authenticate",
     "RelativePath": "api/users/Authenticate",
     "HttpMethod": "POST",
     "IsController": true,
