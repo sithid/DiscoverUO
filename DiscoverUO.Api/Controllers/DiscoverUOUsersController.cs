@@ -3,7 +3,6 @@ using DiscoverUO.Api.Models;
 using DiscoverUO.Lib.DTOs.Profiles;
 using DiscoverUO.Lib.DTOs.Users;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -33,9 +32,6 @@ namespace DiscoverUO.Api.Controllers
 
             secreteKey = Environment.GetEnvironmentVariable("JWT_SECRET_KEY");
 
-            if (string.IsNullOrEmpty(secreteKey)) {
-                secreteKey = "temp_secret_key_for_initial_setup";
-            }
         }
 
         #region AllowAnonymous Endpoints
@@ -48,20 +44,21 @@ namespace DiscoverUO.Api.Controllers
 
             if (user == null)
             {
-                return Unauthorized("Invalid username or password.");
-
+                Console.WriteLine($"Authentication Failed: {loginDto.Username}, {loginDto.Password}");
+                Console.WriteLine("Invalid username.");
+                return Unauthorized("Invalid username.");
             }
 
             if (!BCrypt.Net.BCrypt.Verify(loginDto.Password, user.PasswordHash))
             {
-                return Unauthorized("Invalid username or password.");
+                Console.WriteLine($"Authentication Failed: {loginDto.Username}, {loginDto.Password}");
+                Console.WriteLine("Invalid password.");
+                return Unauthorized("Invalid password.");
             }
 
             var token = GenerateToken(user);
 
-            Console.WriteLine($"Successful completion of authentication for registered user: {loginDto.Username}");
-
-            return Ok(new { Token = token });
+            return Ok(token);
         }
 
         [AllowAnonymous]
@@ -529,7 +526,7 @@ namespace DiscoverUO.Api.Controllers
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.UtcNow.AddDays(7),
+                Expires = DateTime.UtcNow.AddDays(1),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
 
             };

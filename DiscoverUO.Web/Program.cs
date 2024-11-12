@@ -14,13 +14,13 @@ namespace DiscoverUO.Web
 
             builder.Services.AddHttpClient("DiscoverUOApiClient", client =>
             {
-                client.BaseAddress = new Uri("https://localhost:7015");
+                client.BaseAddress = new Uri("https://localhost:7015/");
             }).AddHttpMessageHandler<JWTTokenHandler>();
 
             #region Dependency Injection
 
-            builder.Services.AddScoped<LoginComponent>();
             builder.Services.AddScoped<JWTTokenHandler>();
+
 
             #endregion
 

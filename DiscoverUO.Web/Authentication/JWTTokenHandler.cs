@@ -14,16 +14,16 @@ namespace DiscoverUO.Web.Authentication
             _localStorage = localStorage;
         }
 
-        protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+        protected override HttpResponseMessage Send(HttpRequestMessage request, CancellationToken cancellationToken)
         {
-            var token = await _localStorage.GetItemAsync<string>("jwtToken");
+            var token = _localStorage.GetItemAsync<string>("jwtToken").Result;
 
             if (!string.IsNullOrEmpty(token))
             {
-                request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
-
+                request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token );
             }
-            return await base.SendAsync(request, cancellationToken);
+
+            return base.SendAsync(request, cancellationToken).Result;
         }
     }
 }

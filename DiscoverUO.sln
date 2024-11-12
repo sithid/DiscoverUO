@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DiscoverUO.Lib", "DiscoverU
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DiscoverUO.Api", "DiscoverUO.Api\DiscoverUO.Api.csproj", "{F00225AC-CC4D-431C-B0D5-CD70A3704075}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiscoverUO.Web", "DiscoverUO.Web\DiscoverUO.Web.csproj", "{BF22AD62-58D1-4348-951A-3A3D6B7F9010}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DiscoverUO.Web", "DiscoverUO.Web\DiscoverUO.Web.csproj", "{BF22AD62-58D1-4348-951A-3A3D6B7F9010}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

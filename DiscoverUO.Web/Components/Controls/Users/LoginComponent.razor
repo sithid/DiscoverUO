@@ -1,0 +1,85 @@
+﻿@inject IHttpClientFactory _httpClientFactory
+@inject ILocalStorageService _localStorage
+@inject NavigationManager _navigationManager
+
+<h3>DiscoverUO User Login</h3>
+
+<form @onsubmit="HandleLogin">
+    <div class="form-group">
+        <label for="username">Username:</label>
+        <input type="text" class="form-control" id="username" @bind="Username" />
+    </div>
+    <div class="form-group">
+        <label for="password">Password:</label>
+        <input type="password" class="form-control" id="password" @bind="Password" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Login</button>
+
+    @if( ShowErrorMessage )
+    {
+        <div class="alert alert-danger mt-2">@ErrorMessage</div>
+    }
+</form>
+
+@code
+{
+    public string Username { get; set; }
+    public string Password { get; set; } 
+    public string ErrorMessage { get; set; }
+    public bool ShowErrorMessage { get; set; }
+
+    public async Task HandleLogin()
+    {
+        ShowErrorMessage = false;
+
+        try
+        {
+            var client = _httpClientFactory.CreateClient("DiscoverUOApiClient");
+            var response = await client.PostAsJsonAsync("api/users/Authenticate", new LoginRequest(Username, Password));
+
+            response.EnsureSuccessStatusCode();
+
+            var responseString = await response.Content.ReadAsStringAsync();
+            jwtTokenString = responseString;
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var jwtSecurityToken = tokenHandler.ReadJwtToken(responseString);
+
+            _navigationManager.NavigateTo("/");
+        }
+        catch (HttpRequestException ex)
+        {
+            ErrorMessage = $"Authentication failed: {ex.Message}";
+            ShowErrorMessage = true;
+        }
+        catch (Exception ex)
+        {
+            ErrorMessage = $"An error occurred: {ex.Message}";
+            ShowErrorMessage = true;
+        }
+    }
+    private string jwtTokenString;
+
+    protected async override Task OnAfterRenderAsync(bool firstRender)
+    {
+        Console.WriteLine("First Render");
+
+        if( !firstRender )
+        {
+            Console.WriteLine("NOT First Render");
+
+            if( !string.IsNullOrEmpty(jwtTokenString))
+            {
+                var tokenHandler = new JwtSecurityTokenHandler();
+                var jwtSecurityToken = tokenHandler.ReadJwtToken(jwtTokenString);
+
+                await _localStorage.SetItemAsync("jwtToken", jwtSecurityToken.RawData);
+                await _localStorage.SetItemAsync("jwtExpiration", jwtSecurityToken.ValidTo);
+            }
+
+        }
+
+        await base.OnAfterRenderAsync(firstRender);
+    }
+}

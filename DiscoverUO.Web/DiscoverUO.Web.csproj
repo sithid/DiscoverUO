@@ -18,8 +18,4 @@
     <ProjectReference Include="..\DiscoverUO.Lib\DiscoverUO.Lib.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Components\Controls\Users\" />
-  </ItemGroup>
-
 </Project>
