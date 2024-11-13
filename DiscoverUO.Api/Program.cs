@@ -6,6 +6,7 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using DiscoverUO.Api.Controllers;
+using System.Text.Json;
 
 namespace DiscoverUO.Api
 {
@@ -67,7 +68,23 @@ namespace DiscoverUO.Api
 
             builder.Services.AddEndpointsApiExplorer();
 
-            builder.Services.AddControllers();
+            builder.Services.AddControllers().AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+
+                options.JsonSerializerOptions.WriteIndented = true;
+            });
+
+            builder.Services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(builder =>
+                {
+                    builder.WithOrigins("https://localhost:7222/")
+                           .AllowAnyMethod()
+                           .AllowAnyHeader()
+                           .AllowCredentials();
+                });
+            });
 
             builder.Services.AddSwaggerGen(c =>
             {

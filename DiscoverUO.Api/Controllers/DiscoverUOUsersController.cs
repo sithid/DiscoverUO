@@ -150,10 +150,7 @@ namespace DiscoverUO.Api.Controllers
 
             if (dashboardData != null)
             {
-                var data = JsonSerializer.Serialize(dashboardData);
-
-                HttpContext.Response.Headers.ContentType = "application/json";
-                return Ok(data);
+                return Ok(dashboardData);
             }
             else
                 return BadRequest("dashboardData is NULL");
