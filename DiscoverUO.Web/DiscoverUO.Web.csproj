@@ -33,8 +33,4 @@
     <ProjectReference Include="..\DiscoverUO.Lib\DiscoverUO.Lib.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Shared\Users\" />
-  </ItemGroup>
-
 </Project>

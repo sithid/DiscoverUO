@@ -641,7 +641,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "DiscoverUO.Lib.DTOs.DashboardDto",
+        "Type": "DiscoverUO.Lib.DTOs.Users.DashboardDto",
         "MediaTypes": [
           "text/plain",
           "application/json",

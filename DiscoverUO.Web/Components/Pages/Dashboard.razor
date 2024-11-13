@@ -1,14 +1,21 @@
 ﻿@page "/dashboard"
-@using DiscoverUO.Web.Shared;
-@using DiscoverUO.Lib.DTOs.Users;
-@using System.Net.Http.Headers;
+@using DiscoverUO.Lib.Shared
+@using DiscoverUO.Lib.DTOs.Users
+@using System.Net.Http.Headers
 
 @inject ILocalStorageService _localStorage
 @inject HttpClient _client
 
 @if (dashboard == null)
 {
-    <p><em>Loading...</em></p>
+    @if (ShowErrorMessage)
+    {
+        <p><em>Error: @ErrorMessage</em></p>
+    }
+    else
+    {
+        <p><em>Loading...</em></p>
+    }
 }
 else
 {
@@ -20,6 +27,9 @@ else
 
 @code
 {
+    public string ErrorMessage { get; set; }
+    public bool ShowErrorMessage { get; set; }
+
     private DashboardDto dashboard { get; set; } = default!;
 
     protected async override Task OnInitializedAsync()
@@ -30,29 +40,26 @@ else
 
         var response = _client.GetAsync("https://localhost:7015/api/users/view/dashboard").Result;
 
-        if (response.StatusCode == System.Net.HttpStatusCode.OK)
+        try
         {
-            try
-            {
-                dashboard = response.Content.ReadFromJsonAsync<DashboardDto>().Result;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"User dashboard is null: {ex}");
-            }
+            var dashboardResponse = response.Content.ReadFromJsonAsync<DashboardResponse>().Result;
 
-            if (dashboard == null)
+            if (response.IsSuccessStatusCode)
             {
+                dashboard = dashboardResponse.Data;
 
+                StateHasChanged();
             }
             else
             {
-                StateHasChanged(); // Trigger a re-render when data is fetched
+                ErrorMessage = response.StatusCode.ToString();
+                ShowErrorMessage = true;
             }
+
         }
-        else
+        catch(Exception ex)
         {
-            
+            Console.WriteLine($"User dashboard is null: {ex}");
         }
     }
 }

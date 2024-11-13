@@ -1,18 +1,18 @@
 ﻿using AutoMapper;
 using DiscoverUO.Api.Models;
-using DiscoverUO.Lib.DTOs;
 using DiscoverUO.Lib.DTOs.Profiles;
 using DiscoverUO.Lib.DTOs.Users;
+using DiscoverUO.Lib.Shared;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Data;
+using System.Net;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using System.Text.Json;
+using DiscoverUO.Lib.DTOs.Favorites;
 
 namespace DiscoverUO.Api.Controllers
 {
@@ -148,9 +148,22 @@ namespace DiscoverUO.Api.Controllers
                 UserDisplayName = user.Profile.UserDisplayName,
             };
 
+            var favoritesLists = _context.UserFavoritesLists.FirstOrDefaultAsync( fl => fl.Id == user.Id);
+
+            if (favoritesLists != null)
+                dashboardData.Favorites = _mapper.Map<UserFavoritesListDto>(favoritesLists);
+
             if (dashboardData != null)
             {
-                return Ok(dashboardData);
+                var _dashboardResponse = new DashboardResponse
+                {
+                    Success = true,
+                    StatusCode = HttpStatusCode.OK,
+                    Message = "You eceived the dashboard data",
+                    Data = dashboardData
+                };
+
+                return Ok(_dashboardResponse);
             }
             else
                 return BadRequest("dashboardData is NULL");
