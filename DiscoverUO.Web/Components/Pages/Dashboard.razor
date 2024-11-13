@@ -1,0 +1,75 @@
+﻿@page "/dashboard"
+@using DiscoverUO.Web.Shared;
+@using DiscoverUO.Lib.DTOs;
+@using System.Net.Http.Headers;
+
+@inject ILocalStorageService _localStorage
+@inject HttpClient _client
+
+@if (dashboard == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <h3>Welcome to DiscoverUO!</h3>
+    <div>
+        <label>Username: @dashboard?.Username</label>
+    </div>
+}
+
+@code
+{
+    private DashboardDto dashboard;
+
+    protected async override Task OnInitializedAsync()
+    {
+        DebugLogger.LogInfo(new string[]
+        {
+            "Dashboard",
+            "OnInitializedAsync"
+        });
+
+
+        var token = await _localStorage.GetItemAsync<string>("jwtToken");
+
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+        var response = await _client.GetAsync("https://localhost:7015/api/users/Authenticate");
+
+
+        try
+        {
+            dashboard = await response.Content.ReadFromJsonAsync<DashboardDto>();
+        }
+        catch( Exception ex )
+        {
+            Console.WriteLine(ex);
+        }
+
+        if (dashboard == null)
+        {
+            // dont mind this debug stuff im weird with how i like things formatted.
+            DebugLogger.LogInfo(new string[]
+            {
+                "Dashboard",
+                "OnInitializedAsync",
+                "->dashboard",
+                "null"
+            });
+        }
+        else
+        {
+            DebugLogger.LogInfo(new string[]
+            {
+                "Dashboard",
+                "OnInitializedAsync",
+                "->dashboard",
+                "null"
+            });
+
+            StateHasChanged(); // Trigger a re-render when data is fetched
+        }
+
+    }
+}

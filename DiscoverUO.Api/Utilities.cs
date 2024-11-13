@@ -45,6 +45,7 @@ namespace DiscoverUO.Api
 
             return currentUser;
         }
+
         internal static async Task<int> GetCurrentUserId( ClaimsPrincipal user)
         {
             var userIdClaim = user.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);

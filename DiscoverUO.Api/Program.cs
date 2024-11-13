@@ -11,10 +11,11 @@ namespace DiscoverUO.Api
 {
     public class Program
     {
-        private static readonly string secretKey = GenerateSecretKey();
+        private static string secretKey;
 
         public static void Main(string[] args)
         {
+            secretKey = GenerateSecretKey();
             Environment.SetEnvironmentVariable("JWT_SECRET_KEY", secretKey);
 
             var builder = WebApplication.CreateBuilder(args);
@@ -28,17 +29,16 @@ namespace DiscoverUO.Api
             {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
             }).AddJwtBearer(options =>
             {
+                options.RequireHttpsMetadata = false;
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(secretKey)),
                     ValidateIssuer = false,
                     ValidateAudience = false,
-                    RequireExpirationTime = true,
-                    ValidateLifetime = true,
-                    ClockSkew = TimeSpan.Zero
                 };
             });
 

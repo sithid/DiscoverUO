@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using DiscoverUO.Api.Models;
+using DiscoverUO.Lib.DTOs;
 using DiscoverUO.Lib.DTOs.Profiles;
 using DiscoverUO.Lib.DTOs.Users;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -10,6 +12,7 @@ using System.Data;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using System.Text.Json;
 
 namespace DiscoverUO.Api.Controllers
 {
@@ -40,21 +43,23 @@ namespace DiscoverUO.Api.Controllers
         [HttpPost("Authenticate")]
         public async Task<IActionResult> Authenticate(LoginRequest loginDto)
         {
+            Console.WriteLine($"\n\rAuthenticate::LoginRequest({loginDto.Username}, *****)");
+
             var user = await _context.Users.SingleOrDefaultAsync(u => u.UserName == loginDto.Username);
 
             if (user == null)
             {
-                Console.WriteLine($"Authentication Failed: {loginDto.Username}, {loginDto.Password}");
-                Console.WriteLine("Invalid username.");
+                Console.WriteLine($"\n\rAuthenticate::LoginRequest::Failed, Invalid Username: {loginDto.Username}");
                 return Unauthorized("Invalid username.");
             }
 
             if (!BCrypt.Net.BCrypt.Verify(loginDto.Password, user.PasswordHash))
             {
-                Console.WriteLine($"Authentication Failed: {loginDto.Username}, {loginDto.Password}");
-                Console.WriteLine("Invalid password.");
+                Console.WriteLine($"\n\rAuthenticate::LoginRequest::Failed, Invalid Password for: {user.UserName} ");
                 return Unauthorized("Invalid password.");
             }
+
+            Console.WriteLine($"\n\rAuthenticate::LoginRequest::Success: {user.UserName}[{user.Role}]");
 
             var token = GenerateToken(user);
 
@@ -117,6 +122,42 @@ namespace DiscoverUO.Api.Controllers
         #endregion
 
         #region BasicUser Endpoints
+
+        [Authorize]
+        [HttpGet("view/dashboard")]
+        public async Task<ActionResult<DashboardDto>> GetDashboardData()
+        {
+            var user = await Permissions.GetCurrentUser(this.User, _context);
+
+            System.Diagnostics.Debug.WriteLine($"DEBUG::User may be null.");
+
+            if (user == null)
+            {
+                return NotFound("Your user is missing!");
+            }
+
+            System.Diagnostics.Debug.WriteLine($"DEBUG::User NOT null.");
+
+            var dashboardData = new DashboardDto
+            {
+                Username = user.UserName,
+                DailyVotesRemaining = user.DailyVotesRemaining,
+                Email = user.Email,
+                Role = user.Role.ToString(),
+                UserBiography = user.Profile.UserBiography,
+                UserDisplayName = user.Profile.UserDisplayName,
+            };
+
+            if (dashboardData != null)
+            {
+                var data = JsonSerializer.Serialize(dashboardData);
+
+                HttpContext.Response.Headers.ContentType = "application/json";
+                return Ok(data);
+            }
+            else
+                return BadRequest("dashboardData is NULL");
+        }
 
         [Authorize]
         [HttpGet("view/id/{id}")]
@@ -307,7 +348,7 @@ namespace DiscoverUO.Api.Controllers
             }
             catch (DbUpdateConcurrencyException ex)
             {
-                return BadRequest($"Something happened that no one was prepared for.");
+                return BadRequest($"Something happened that no one was prepared for: {ex}");
             }
 
             return NoContent();

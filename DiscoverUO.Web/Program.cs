@@ -1,6 +1,8 @@
 using Blazored.LocalStorage;
-using DiscoverUO.Web.Authentication;
+using DiscoverUO.Lib.DTOs;
 using DiscoverUO.Web.Components;
+using System.Net.Http.Headers;
+using System.Net.Http;
 
 namespace DiscoverUO.Web
 {
@@ -12,29 +14,24 @@ namespace DiscoverUO.Web
 
             builder.Services.AddBlazoredLocalStorage();
 
-            builder.Services.AddHttpClient("DiscoverUOApiClient", client =>
-            {
-                client.BaseAddress = new Uri("https://localhost:7015/");
-            }).AddHttpMessageHandler<JWTTokenHandler>();
+            #region Dependency Injection & Services
 
-            #region Dependency Injection
+            builder.Services.AddScoped<HttpClient>();
 
-            builder.Services.AddScoped<JWTTokenHandler>();
-
-
-            #endregion
-
-            // Add services to the container.
             builder.Services.AddRazorComponents()
                 .AddInteractiveServerComponents();
 
+            #endregion
+
+            #region Application Confirguration
+
             var app = builder.Build();
+
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
             {
                 app.UseExceptionHandler("/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
 
@@ -47,6 +44,8 @@ namespace DiscoverUO.Web
                 .AddInteractiveServerRenderMode();
 
             app.Run();
+
+            #endregion
         }
     }
 }

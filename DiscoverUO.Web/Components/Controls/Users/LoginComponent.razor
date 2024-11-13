@@ -1,5 +1,9 @@
-﻿@inject IHttpClientFactory _httpClientFactory
+﻿@using Blazored.LocalStorage
+@using System.IdentityModel.Tokens.Jwt
+@using System.Net.Http.Headers;
+
 @inject ILocalStorageService _localStorage
+@inject HttpClient _client;
 @inject NavigationManager _navigationManager
 
 <h3>DiscoverUO User Login</h3>
@@ -35,18 +39,22 @@
 
         try
         {
-            var client = _httpClientFactory.CreateClient("DiscoverUOApiClient");
-            var response = await client.PostAsJsonAsync("api/users/Authenticate", new LoginRequest(Username, Password));
+            var token = await _localStorage.GetItemAsync<string>("jwtToken");
+
+            _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token );
+
+            var response = await _client.PostAsJsonAsync("https://localhost:7015/api/users/Authenticate", new LoginRequest(Username, Password));
 
             response.EnsureSuccessStatusCode();
 
             var responseString = await response.Content.ReadAsStringAsync();
-            jwtTokenString = responseString;
 
             var tokenHandler = new JwtSecurityTokenHandler();
             var jwtSecurityToken = tokenHandler.ReadJwtToken(responseString);
 
-            _navigationManager.NavigateTo("/");
+            jwtTokenString = responseString;
+
+            _navigationManager.NavigateTo("/dashboard");
         }
         catch (HttpRequestException ex)
         {
@@ -59,25 +67,17 @@
             ShowErrorMessage = true;
         }
     }
+
     private string jwtTokenString;
 
     protected async override Task OnAfterRenderAsync(bool firstRender)
     {
-        Console.WriteLine("First Render");
-
         if( !firstRender )
         {
-            Console.WriteLine("NOT First Render");
-
             if( !string.IsNullOrEmpty(jwtTokenString))
             {
-                var tokenHandler = new JwtSecurityTokenHandler();
-                var jwtSecurityToken = tokenHandler.ReadJwtToken(jwtTokenString);
-
-                await _localStorage.SetItemAsync("jwtToken", jwtSecurityToken.RawData);
-                await _localStorage.SetItemAsync("jwtExpiration", jwtSecurityToken.ValidTo);
+                await _localStorage.SetItemAsync("jwtToken", jwtTokenString);
             }
-
         }
 
         await base.OnAfterRenderAsync(firstRender);

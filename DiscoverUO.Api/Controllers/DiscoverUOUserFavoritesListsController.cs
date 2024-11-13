@@ -121,7 +121,7 @@ namespace DiscoverUO.Api.Controllers
             }
             catch (DbUpdateConcurrencyException ex)
             {
-                return BadRequest($"Something happened that no one was prepared for.");
+                return BadRequest($"Something happened that no one was prepared for. {ex}");
             }
 
             var updatedUserFavoritesListItem = await _context.UserFavoritesListItems
@@ -134,6 +134,40 @@ namespace DiscoverUO.Api.Controllers
         
         [Authorize]
         [HttpPost("list/item/add")]
+        public async Task<ActionResult<UserFavoritesListItemDto>> AddFavoritesItem(UserFavoritesListItemDto userFavoritesListItemDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var currentUser = await Permissions.GetCurrentUser(this.User, _context);
+
+            if (currentUser == null)
+            {
+                return Unauthorized($"You must be logged in to add a favorite item.");
+            }
+
+            var favoritesItemToAdd = _mapper.Map<UserFavoritesListItem>(userFavoritesListItemDto);
+
+            _context.UserFavoritesListItems.Add(favoritesItemToAdd);
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException ex)
+            {
+                return BadRequest($"An error occurred while adding the favorite item: {ex.Message}");
+            }
+
+            var createdFavoritesListItem = await _context.UserFavoritesListItems
+                .FirstOrDefaultAsync(f => f.Id == favoritesItemToAdd.Id);
+
+            var createdFavoritesListItemDto = _mapper.Map<UserFavoritesListItemDto>(createdFavoritesListItem);
+
+            return CreatedAtRoute( "GetUserFavoritesListItem", new { id = createdFavoritesListItem.Id }, createdFavoritesListItemDto);
+        }
 
         [Authorize]
         [HttpDelete("list/item/delete/{itemId}")]
@@ -166,7 +200,7 @@ namespace DiscoverUO.Api.Controllers
             }
             catch (DbUpdateConcurrencyException ex)
             {
-                return BadRequest($"Something happened that no one was prepared for.");
+                return BadRequest($"Something happened that no one was prepared for: {ex}");
             }
 
             return NoContent();

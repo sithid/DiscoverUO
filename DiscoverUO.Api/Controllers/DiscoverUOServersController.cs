@@ -205,7 +205,7 @@ namespace DiscoverUO.Api.Controllers
             }
             catch (DbUpdateConcurrencyException ex)
             {
-                return BadRequest($"Something happened that no one was prepared for.");
+                return BadRequest($"Something happened that no one was prepared for: {ex}");
             }
 
             var updatedServer = await _context.Servers

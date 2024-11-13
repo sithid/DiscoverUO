@@ -1,12 +1,165 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\Users\\demon\\OneDrive\\Documents\\GitHub\\DiscoverUO\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{F00225AC-CC4D-431C-B0D5-CD70A3704075}|DiscoverUO.Api\\DiscoverUO.Api.csproj|c:\\users\\demon\\onedrive\\documents\\github\\discoveruo\\discoveruo.api\\controllers\\discoveruouserscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F00225AC-CC4D-431C-B0D5-CD70A3704075}|DiscoverUO.Api\\DiscoverUO.Api.csproj|solutionrelative:discoveruo.api\\controllers\\discoveruouserscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BF22AD62-58D1-4348-951A-3A3D6B7F9010}|DiscoverUO.Web\\DiscoverUO.Web.csproj|c:\\users\\demon\\onedrive\\documents\\github\\discoveruo\\discoveruo.web\\components\\pages\\dashboard.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{BF22AD62-58D1-4348-951A-3A3D6B7F9010}|DiscoverUO.Web\\DiscoverUO.Web.csproj|solutionrelative:discoveruo.web\\components\\pages\\dashboard.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9AB945B4-62B7-440A-84D3-3C18A325C477}|DiscoverUO.Lib\\DiscoverUO.Lib.csproj|c:\\users\\demon\\onedrive\\documents\\github\\discoveruo\\discoveruo.lib\\dtos\\dashboarddto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9AB945B4-62B7-440A-84D3-3C18A325C477}|DiscoverUO.Lib\\DiscoverUO.Lib.csproj|solutionrelative:discoveruo.lib\\dtos\\dashboarddto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BF22AD62-58D1-4348-951A-3A3D6B7F9010}|DiscoverUO.Web\\DiscoverUO.Web.csproj|c:\\users\\demon\\onedrive\\documents\\github\\discoveruo\\discoveruo.web\\shared\\debug\\debuglogger.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{BF22AD62-58D1-4348-951A-3A3D6B7F9010}|DiscoverUO.Web\\DiscoverUO.Web.csproj|solutionrelative:discoveruo.web\\shared\\debug\\debuglogger.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F00225AC-CC4D-431C-B0D5-CD70A3704075}|DiscoverUO.Api\\DiscoverUO.Api.csproj|c:\\users\\demon\\onedrive\\documents\\github\\discoveruo\\discoveruo.api\\utilities.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F00225AC-CC4D-431C-B0D5-CD70A3704075}|DiscoverUO.Api\\DiscoverUO.Api.csproj|solutionrelative:discoveruo.api\\utilities.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BF22AD62-58D1-4348-951A-3A3D6B7F9010}|DiscoverUO.Web\\DiscoverUO.Web.csproj|c:\\users\\demon\\onedrive\\documents\\github\\discoveruo\\discoveruo.web\\components\\pages\\login.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{BF22AD62-58D1-4348-951A-3A3D6B7F9010}|DiscoverUO.Web\\DiscoverUO.Web.csproj|solutionrelative:discoveruo.web\\components\\pages\\login.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F00225AC-CC4D-431C-B0D5-CD70A3704075}|DiscoverUO.Api\\DiscoverUO.Api.csproj|c:\\users\\demon\\onedrive\\documents\\github\\discoveruo\\discoveruo.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F00225AC-CC4D-431C-B0D5-CD70A3704075}|DiscoverUO.Api\\DiscoverUO.Api.csproj|solutionrelative:discoveruo.api\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F00225AC-CC4D-431C-B0D5-CD70A3704075}|DiscoverUO.Api\\DiscoverUO.Api.csproj|c:\\users\\demon\\onedrive\\documents\\github\\discoveruo\\discoveruo.api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{F00225AC-CC4D-431C-B0D5-CD70A3704075}|DiscoverUO.Api\\DiscoverUO.Api.csproj|solutionrelative:discoveruo.api\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BF22AD62-58D1-4348-951A-3A3D6B7F9010}|DiscoverUO.Web\\DiscoverUO.Web.csproj|c:\\users\\demon\\onedrive\\documents\\github\\discoveruo\\discoveruo.web\\components\\controls\\users\\logincomponent.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{BF22AD62-58D1-4348-951A-3A3D6B7F9010}|DiscoverUO.Web\\DiscoverUO.Web.csproj|solutionrelative:discoveruo.web\\components\\controls\\users\\logincomponent.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
       "VerticalTabListWidth": 256,
-      "DocumentGroups": []
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "DiscoverUOUsersController.cs",
+              "DocumentMoniker": "C:\\Users\\demon\\OneDrive\\Documents\\GitHub\\DiscoverUO\\DiscoverUO.Api\\Controllers\\DiscoverUOUsersController.cs",
+              "RelativeDocumentMoniker": "DiscoverUO.Api\\Controllers\\DiscoverUOUsersController.cs",
+              "ToolTip": "C:\\Users\\demon\\OneDrive\\Documents\\GitHub\\DiscoverUO\\DiscoverUO.Api\\Controllers\\DiscoverUOUsersController.cs",
+              "RelativeToolTip": "DiscoverUO.Api\\Controllers\\DiscoverUOUsersController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAHsAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-13T04:48:33.528Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\demon\\OneDrive\\Documents\\GitHub\\DiscoverUO\\DiscoverUO.Api\\Program.cs",
+              "RelativeDocumentMoniker": "DiscoverUO.Api\\Program.cs",
+              "ToolTip": "C:\\Users\\demon\\OneDrive\\Documents\\GitHub\\DiscoverUO\\DiscoverUO.Api\\Program.cs",
+              "RelativeToolTip": "DiscoverUO.Api\\Program.cs",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAAABoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-13T04:41:58.745Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\demon\\OneDrive\\Documents\\GitHub\\DiscoverUO\\DiscoverUO.Api\\appsettings.json",
+              "RelativeDocumentMoniker": "DiscoverUO.Api\\appsettings.json",
+              "ToolTip": "C:\\Users\\demon\\OneDrive\\Documents\\GitHub\\DiscoverUO\\DiscoverUO.Api\\appsettings.json",
+              "RelativeToolTip": "DiscoverUO.Api\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAALAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-11-13T04:37:21.008Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Utilities.cs",
+              "DocumentMoniker": "C:\\Users\\demon\\OneDrive\\Documents\\GitHub\\DiscoverUO\\DiscoverUO.Api\\Utilities.cs",
+              "RelativeDocumentMoniker": "DiscoverUO.Api\\Utilities.cs",
+              "ToolTip": "C:\\Users\\demon\\OneDrive\\Documents\\GitHub\\DiscoverUO\\DiscoverUO.Api\\Utilities.cs",
+              "RelativeToolTip": "DiscoverUO.Api\\Utilities.cs",
+              "ViewState": "AgIAABoAAAAAAAAAAAArwDAAAAAoAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-13T04:35:45.985Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "DebugLogger.cs",
+              "DocumentMoniker": "C:\\Users\\demon\\OneDrive\\Documents\\GitHub\\DiscoverUO\\DiscoverUO.Web\\Shared\\Debug\\DebugLogger.cs",
+              "RelativeDocumentMoniker": "DiscoverUO.Web\\Shared\\Debug\\DebugLogger.cs",
+              "ToolTip": "C:\\Users\\demon\\OneDrive\\Documents\\GitHub\\DiscoverUO\\DiscoverUO.Web\\Shared\\Debug\\DebugLogger.cs",
+              "RelativeToolTip": "DiscoverUO.Web\\Shared\\Debug\\DebugLogger.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAxAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-13T04:00:52.116Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "DashboardDto.cs",
+              "DocumentMoniker": "C:\\Users\\demon\\OneDrive\\Documents\\GitHub\\DiscoverUO\\DiscoverUO.Lib\\DTOs\\DashboardDto.cs",
+              "RelativeDocumentMoniker": "DiscoverUO.Lib\\DTOs\\DashboardDto.cs",
+              "ToolTip": "C:\\Users\\demon\\OneDrive\\Documents\\GitHub\\DiscoverUO\\DiscoverUO.Lib\\DTOs\\DashboardDto.cs",
+              "RelativeToolTip": "DiscoverUO.Lib\\DTOs\\DashboardDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-13T03:41:28.884Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Login.razor",
+              "DocumentMoniker": "C:\\Users\\demon\\OneDrive\\Documents\\GitHub\\DiscoverUO\\DiscoverUO.Web\\Components\\Pages\\Login.razor",
+              "RelativeDocumentMoniker": "DiscoverUO.Web\\Components\\Pages\\Login.razor",
+              "ToolTip": "C:\\Users\\demon\\OneDrive\\Documents\\GitHub\\DiscoverUO\\DiscoverUO.Web\\Components\\Pages\\Login.razor",
+              "RelativeToolTip": "DiscoverUO.Web\\Components\\Pages\\Login.razor",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-11-13T04:02:44.325Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "LoginComponent.razor",
+              "DocumentMoniker": "C:\\Users\\demon\\OneDrive\\Documents\\GitHub\\DiscoverUO\\DiscoverUO.Web\\Components\\Controls\\Users\\LoginComponent.razor",
+              "RelativeDocumentMoniker": "DiscoverUO.Web\\Components\\Controls\\Users\\LoginComponent.razor",
+              "ToolTip": "C:\\Users\\demon\\OneDrive\\Documents\\GitHub\\DiscoverUO\\DiscoverUO.Web\\Components\\Controls\\Users\\LoginComponent.razor",
+              "RelativeToolTip": "DiscoverUO.Web\\Components\\Controls\\Users\\LoginComponent.razor",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-11-13T04:02:46.837Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Dashboard.razor",
+              "DocumentMoniker": "C:\\Users\\demon\\OneDrive\\Documents\\GitHub\\DiscoverUO\\DiscoverUO.Web\\Components\\Pages\\Dashboard.razor",
+              "RelativeDocumentMoniker": "DiscoverUO.Web\\Components\\Pages\\Dashboard.razor",
+              "ToolTip": "C:\\Users\\demon\\OneDrive\\Documents\\GitHub\\DiscoverUO\\DiscoverUO.Web\\Components\\Pages\\Dashboard.razor",
+              "RelativeToolTip": "DiscoverUO.Web\\Components\\Pages\\Dashboard.razor",
+              "ViewState": "AgIAACEAAAAAAAAAAAArwCYAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-11-13T00:49:52.663Z"
+            }
+          ]
+        }
+      ]
     }
   ]
 }
