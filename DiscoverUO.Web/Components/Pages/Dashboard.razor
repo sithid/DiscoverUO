@@ -35,7 +35,7 @@ else
 
         _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
-        var response = await _client.GetAsync("https://localhost:7015/api/users/Authenticate");
+        var response = await _client.GetAsync("https://localhost:7015/api/users/dashboard");
 
 
         try
