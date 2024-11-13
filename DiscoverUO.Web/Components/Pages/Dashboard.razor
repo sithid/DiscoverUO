@@ -1,6 +1,6 @@
 ﻿@page "/dashboard"
 @using DiscoverUO.Web.Shared;
-@using DiscoverUO.Lib.DTOs;
+@using DiscoverUO.Lib.DTOs.Users;
 @using System.Net.Http.Headers;
 
 @inject ILocalStorageService _localStorage
@@ -24,13 +24,6 @@ else
 
     protected async override Task OnInitializedAsync()
     {
-        DebugLogger.LogInfo(new string[]
-        {
-            "Dashboard",
-            "OnInitializedAsync"
-        });
-
-
         var token = await _localStorage.GetItemAsync<string>("jwtToken");
 
         _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
@@ -45,14 +38,7 @@ else
             }
             catch (Exception ex)
             {
-                DebugLogger.LogInfo(new string[]
-    {
-                "Dashboard",
-                "OnInitializedAsync",
-                "->dashboard",
-                "->null",
-                $"::->  {ex}"
-    });
+                Console.WriteLine($"User dashboard is null: {ex}");
             }
 
             if (dashboard == null)

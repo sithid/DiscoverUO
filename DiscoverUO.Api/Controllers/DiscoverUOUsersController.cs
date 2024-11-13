@@ -43,23 +43,23 @@ namespace DiscoverUO.Api.Controllers
         [HttpPost("Authenticate")]
         public async Task<IActionResult> Authenticate(LoginRequest loginDto)
         {
-            Console.WriteLine($"\n\rAuthenticate::LoginRequest({loginDto.Username}, *****)");
+            Console.WriteLine($"\n\rLogin Request: Username: {loginDto.Username}");
 
             var user = await _context.Users.SingleOrDefaultAsync(u => u.UserName == loginDto.Username);
 
             if (user == null)
             {
-                Console.WriteLine($"\n\rAuthenticate::LoginRequest::Failed, Invalid Username: {loginDto.Username}");
+                Console.WriteLine($"\n\rLogin Request Failed: Invalid username [{loginDto.Username}] or password");
                 return Unauthorized("Invalid username.");
             }
 
             if (!BCrypt.Net.BCrypt.Verify(loginDto.Password, user.PasswordHash))
             {
-                Console.WriteLine($"\n\rAuthenticate::LoginRequest::Failed, Invalid Password for: {user.UserName} ");
+                Console.WriteLine($"\n\rLogin Request Failed: Invalid username [{loginDto.Username}] or password");
                 return Unauthorized("Invalid password.");
             }
 
-            Console.WriteLine($"\n\rAuthenticate::LoginRequest::Success: {user.UserName}[{user.Role}]");
+            Console.WriteLine($"\n\rLogin Request Successful: Username: {user.UserName}, Role: [{user.Role}]");
 
             var token = GenerateToken(user);
 
