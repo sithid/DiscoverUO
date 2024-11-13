@@ -43,38 +43,16 @@ else
 
             if (dashboard == null)
             {
-                // dont mind this debug stuff im weird with how i like things formatted.
-                DebugLogger.LogInfo(new string[]
-                {
-                "Dashboard",
-                "OnInitializedAsync",
-                "->dashboard",
-                "null"
-                });
+
             }
             else
             {
-                DebugLogger.LogInfo(new string[]
-                {
-                "Dashboard",
-                "OnInitializedAsync",
-                "->dashboard",
-                "null"
-                });
-
                 StateHasChanged(); // Trigger a re-render when data is fetched
             }
         }
         else
         {
-            DebugLogger.LogInfo(new string[]
-            {
-                "Dashboard",
-                "OnInitializedAsync",
-                "->Response",
-                "->StatusCode",
-                $"{response.StatusCode}"
-            });
+            
         }
     }
 }
