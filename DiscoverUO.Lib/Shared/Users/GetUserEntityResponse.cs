@@ -1,9 +1,9 @@
-﻿using DiscoverUO.Lib.Shared.Contracts;
-using System.Net;
+﻿using System.Net;
+using DiscoverUO.Lib.Shared.Contracts;
 
 namespace DiscoverUO.Lib.Shared.Users
 {
-    public class RegisterUserResponse : IEntityResponse<GetUserEntityRequest>
+    public class GetUserEntityResponse : IEntityResponse<GetUserEntityRequest>
     {
         public bool Success { get; set; }
         public string Message { get; set; }

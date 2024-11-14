@@ -1,4 +1,6 @@
-﻿namespace DiscoverUO.Lib.Shared.Contracts
+﻿using System.Net;
+
+namespace DiscoverUO.Lib.Shared.Contracts
 {
     public interface IEntityResponse<T> : IResponse
     {

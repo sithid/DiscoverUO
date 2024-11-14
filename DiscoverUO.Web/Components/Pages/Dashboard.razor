@@ -60,7 +60,7 @@ else
         {
             if (response.IsSuccessStatusCode)
             {
-                var dashboardResponse = response.Content.ReadFromJsonAsync<DashboardResponse>().Result;
+                var dashboardResponse = response.Content.ReadFromJsonAsync<GetDashboardResponse>().Result;
                 dashboard = dashboardResponse.Entity;
 
                 await UpdateSessionData();

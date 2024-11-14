@@ -1,13 +1,13 @@
 ﻿using DiscoverUO.Lib.Shared.Contracts;
 using System.Net;
 
-namespace DiscoverUO.Lib.Shared.Users
+namespace DiscoverUO.Lib.Shared.Profiles
 {
-    public class RegisterUserResponse : IEntityResponse<GetUserEntityRequest>
+    public class GetProfileResponse : IEntityResponse<GetProfileRequest>
     {
         public bool Success { get; set; }
         public string Message { get; set; }
         public HttpStatusCode StatusCode { get; set; }
-        public GetUserEntityRequest Entity { get; set; }
+        public GetProfileRequest Entity { get; set; }
     }
 }

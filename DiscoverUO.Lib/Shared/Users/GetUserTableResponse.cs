@@ -4,11 +4,11 @@ using DiscoverUO.Lib.Shared.Contracts;
 
 namespace DiscoverUO.Lib.Shared.Users
 {
-    public class UserTableResponse : IListResponse<GetUserRequest>
+    public class GetUserTableResponse : IListResponse<GetUserEntityRequest>
     {
         public bool Success { get; set; }
         public string Message { get; set; }
         public HttpStatusCode StatusCode { get; set; }
-        public List<GetUserRequest> Table { get; set; }
+        public List<GetUserEntityRequest> Table { get; set; }
     }
 }
