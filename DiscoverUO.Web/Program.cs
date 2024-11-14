@@ -1,8 +1,5 @@
 using Blazored.LocalStorage;
-using DiscoverUO.Lib.DTOs;
 using DiscoverUO.Web.Components;
-using System.Net.Http.Headers;
-using System.Net.Http;
 
 namespace DiscoverUO.Web
 {

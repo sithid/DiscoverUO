@@ -427,25 +427,9 @@
         "IsRequired": true
       }
     ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "DiscoverUO.Api.Controllers.DiscoverUOUsersController",
-    "Method": "CreateUser",
-    "RelativePath": "api/users/CreateUser",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "createdUserDto",
-        "Type": "DiscoverUO.Lib.DTOs.Users.CreateUserDto",
-        "IsRequired": true
-      }
-    ],
     "ReturnTypes": [
       {
-        "Type": "DiscoverUO.Lib.DTOs.Users.UserDto",
+        "Type": "DiscoverUO.Lib.Shared.AuthenticationResponse",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -524,6 +508,32 @@
   },
   {
     "ContainingType": "DiscoverUO.Api.Controllers.DiscoverUOUsersController",
+    "Method": "RegisterUser",
+    "RelativePath": "api/users/RegisterUser",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "registeredUserDto",
+        "Type": "DiscoverUO.Lib.DTOs.Users.RegisterUserRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "DiscoverUO.Lib.Shared.RegisterUserResponse",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "DiscoverUO.Api.Controllers.DiscoverUOUsersController",
     "Method": "UpdatePassword",
     "RelativePath": "api/users/update/UpdatePassword/{id}",
     "HttpMethod": "PUT",
@@ -537,7 +547,7 @@
       },
       {
         "Name": "updatePasswordDto",
-        "Type": "DiscoverUO.Lib.DTOs.Users.UpdateUserPasswordDto",
+        "Type": "DiscoverUO.Lib.DTOs.Users.UpdateUserPasswordRequest",
         "IsRequired": true
       }
     ],
@@ -558,7 +568,7 @@
       },
       {
         "Name": "updateUserDto",
-        "Type": "DiscoverUO.Lib.DTOs.Users.UpdateUserDto",
+        "Type": "DiscoverUO.Lib.DTOs.Users.UpdateUserRequestRequest",
         "IsRequired": true
       }
     ],
@@ -574,7 +584,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.List\u00601[[DiscoverUO.Lib.DTOs.Users.UserDto, DiscoverUO.Lib, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[DiscoverUO.Lib.DTOs.Users.UserRequest, DiscoverUO.Lib, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -586,21 +596,21 @@
   },
   {
     "ContainingType": "DiscoverUO.Api.Controllers.DiscoverUOUsersController",
-    "Method": "CreateUserWithRole",
+    "Method": "RegisterUserWithRole",
     "RelativePath": "api/users/view/admin/CreateUserWithRole",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "createdUserDto",
-        "Type": "DiscoverUO.Lib.DTOs.Users.CreateUserWithRoleDto",
+        "Name": "registeredUserDto",
+        "Type": "DiscoverUO.Lib.DTOs.Users.RegisterUserWithRoleRequest",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "DiscoverUO.Lib.DTOs.Users.UserDto",
+        "Type": "DiscoverUO.Lib.DTOs.Users.UserRequest",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -641,7 +651,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "DiscoverUO.Lib.DTOs.Users.DashboardDto",
+        "Type": "DiscoverUO.Lib.Shared.DashboardResponse",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -667,7 +677,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "DiscoverUO.Lib.DTOs.Users.UserDto",
+        "Type": "DiscoverUO.Lib.DTOs.Users.UserRequest",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -693,7 +703,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "DiscoverUO.Lib.DTOs.Users.UserDto",
+        "Type": "DiscoverUO.Lib.DTOs.Users.UserRequest",
         "MediaTypes": [
           "text/plain",
           "application/json",

@@ -1,8 +1,8 @@
-﻿using DiscoverUO.Api.Models;
-using System.Security.Claims;
+﻿using DiscoverUO.Api.Controllers;
+using DiscoverUO.Api.Models;
 using DiscoverUO.Lib.DTOs.Users;
 using Microsoft.EntityFrameworkCore;
-using DiscoverUO.Api.Controllers;
+using System.Security.Claims;
 
 namespace DiscoverUO.Api
 {
@@ -27,13 +27,13 @@ namespace DiscoverUO.Api
         {
             return updaterRole > updatedRole;
         }
-        internal static bool HasServerPermissions( User user, Server server)
+        internal static bool HasServerPermissions(User user, Server server)
         {
-            return 
+            return
                 (user.Id == server.OwnerId) ||
                 HasElevatedRole(user.Role);
         }
-        internal static async Task<User> GetCurrentUser(ClaimsPrincipal user, DiscoverUODatabaseContext context )
+        internal static async Task<User> GetCurrentUser(ClaimsPrincipal user, DiscoverUODatabaseContext context)
         {
             int userId = await GetCurrentUserId(user);
 
@@ -46,7 +46,7 @@ namespace DiscoverUO.Api
             return currentUser;
         }
 
-        internal static async Task<int> GetCurrentUserId( ClaimsPrincipal user)
+        internal static async Task<int> GetCurrentUserId(ClaimsPrincipal user)
         {
             var userIdClaim = user.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
 
@@ -59,11 +59,11 @@ namespace DiscoverUO.Api
 
             return userId;
         }
-        internal static UserRole GetCurrentUserRole( ClaimsPrincipal user )
+        internal static UserRole GetCurrentUserRole(ClaimsPrincipal user)
         {
-            var userRoleClaim = user.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role );
+            var userRoleClaim = user.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role);
 
-            bool success = Enum.TryParse(userRoleClaim.Value, out UserRole role );
+            bool success = Enum.TryParse(userRoleClaim.Value, out UserRole role);
 
             if (userRoleClaim == null || !HasValidRole(role))
             {

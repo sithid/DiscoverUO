@@ -19,10 +19,35 @@
 }
 else
 {
-    <h3>Welcome to DiscoverUO!</h3>
-    <div>
-        <label>Username: @dashboard?.Username</label>
+<style>
+    .dashboard {
+        border: 5pm outset red;
+        background-color: orangered;
+        text-align: left
+    }
+
+</style>
+<h3>Welcome to DiscoverUO!</h3>
+<div class="dashboard">
+    <div class="dashboard">
+        <div>
+            <label>Username  : @dashboard.UserDisplayName</label>
+        </div>
+        <div>
+            <label>User Daily Votes Remaining: @dashboard.DailyVotesRemaining</label>
+        </div>
+        <div>
+            <label>User Email: @dashboard.Email</label>
+        </div>
+        <div>
+            <label>User Avatar: @dashboard.UserAvatar</label>
+        </div>
+        <div><label>User Daily Votes Remaining: @dashboard.UserBiography</label></div>
+        <div>
+            <label>User Role: @dashboard.Role</label>
+        </div>
     </div>
+</div>
 }
 
 @code
@@ -30,25 +55,23 @@ else
     public string ErrorMessage { get; set; }
     public bool ShowErrorMessage { get; set; }
 
-    private DashboardDto dashboard { get; set; } = default!;
+    private DashboardRequest dashboard { get; set; } = default!;
 
     protected async override Task OnInitializedAsync()
     {
         var token = await _localStorage.GetItemAsync<string>("jwtToken");
-
-        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue( "Bearer", token);
 
         var response = _client.GetAsync("https://localhost:7015/api/users/view/dashboard").Result;
 
         try
         {
-            var dashboardResponse = response.Content.ReadFromJsonAsync<DashboardResponse>().Result;
-
             if (response.IsSuccessStatusCode)
             {
+                var dashboardResponse = response.Content.ReadFromJsonAsync<DashboardResponse>().Result;
                 dashboard = dashboardResponse.Data;
 
-                StateHasChanged();
+                await UpdateSessionData();
             }
             else
             {
@@ -61,5 +84,18 @@ else
         {
             Console.WriteLine($"User dashboard is null: {ex}");
         }
+    }
+
+    public async Task UpdateSessionData()
+    {   
+        await _localStorage.SetItemAsync("Username", dashboard.Username);
+        await _localStorage.SetItemAsync("DailyVotesRemaining", dashboard.DailyVotesRemaining);
+        await _localStorage.SetItemAsync("UserDisplayName", dashboard.UserDisplayName);
+        await _localStorage.SetItemAsync("UserEmail", dashboard.Email);
+        await _localStorage.SetItemAsync("UserRole", dashboard.Role);
+        await _localStorage.SetItemAsync("UserBiography", dashboard.UserBiography);
+        await _localStorage.SetItemAsync("UserAvatar", dashboard.UserAvatar);
+        await _localStorage.SetItemAsync("UserFavorites", dashboard.Favorites);
+        StateHasChanged();
     }
 }

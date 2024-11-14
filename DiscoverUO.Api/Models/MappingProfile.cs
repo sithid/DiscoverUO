@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
+using DiscoverUO.Lib.DTOs.Favorites;
+using DiscoverUO.Lib.DTOs.Profiles;
 using DiscoverUO.Lib.DTOs.Servers;
 using DiscoverUO.Lib.DTOs.Users;
-using DiscoverUO.Lib.DTOs.Profiles;
-using DiscoverUO.Lib.DTOs.Favorites;
 
 namespace DiscoverUO.Api.Models
 {
@@ -10,15 +10,15 @@ namespace DiscoverUO.Api.Models
     {
         public MappingProfile()
         {
-            CreateMap<UserDto, User>();
-            CreateMap<CreateUserDto, User>();
-            CreateMap<CreateUserWithRoleDto, User>();
-            CreateMap<UpdateUserDto, User>();
+            CreateMap<UserRequest, User>();
+            CreateMap<RegisterUserRequest, User>();
+            CreateMap<RegisterUserWithRoleRequest, User>();
+            CreateMap<UpdateUserRequestRequest, User>();
 
-            CreateMap<User, UserDto>();
-            CreateMap<User, CreateUserDto>();
-            CreateMap<User, CreateUserWithRoleDto>();
-            CreateMap<User, UpdateUserDto>();
+            CreateMap<User, UserRequest>();
+            CreateMap<User, RegisterUserRequest>();
+            CreateMap<User, RegisterUserWithRoleRequest>();
+            CreateMap<User, UpdateUserRequestRequest>();
 
 
             CreateMap<ServerDto, Server>();

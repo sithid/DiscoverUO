@@ -1,12 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
 using DiscoverUO.Api.Models;
 using DiscoverUO.Lib.DTOs.Favorites;
-using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
-using DiscoverUO.Lib.DTOs.Servers;
-using DiscoverUO.Lib.DTOs.Users;
-using System.Security.Claims;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace DiscoverUO.Api.Controllers
 {
@@ -33,7 +30,7 @@ namespace DiscoverUO.Api.Controllers
         [HttpGet("list/view")]
         public async Task<ActionResult<UserFavoritesListDto>> GetUserFavoritesLists()
         {
-            var currentUser = await Permissions.GetCurrentUser( this.User, _context );
+            var currentUser = await Permissions.GetCurrentUser(this.User, _context);
             var currentUserFavorites = await _context.UserFavoritesLists
                 .Include(flist => flist.FavoritedItems)
                 .FirstOrDefaultAsync(flist => flist.OwnerId == currentUser.Id);
@@ -94,7 +91,7 @@ namespace DiscoverUO.Api.Controllers
             var userFavoritesListItem = await _context.UserFavoritesListItems
                 .FirstOrDefaultAsync(fListItem => fListItem.Id == id);
 
-            if ( userFavoritesListItem == null )
+            if (userFavoritesListItem == null)
             {
                 return NotFound("The favorites list item was not found.");
             }
@@ -131,7 +128,7 @@ namespace DiscoverUO.Api.Controllers
 
             return Ok(userFavoritesListItemDto);
         }
-        
+
         [Authorize]
         [HttpPost("list/item/add")]
         public async Task<ActionResult<UserFavoritesListItemDto>> AddFavoritesItem(UserFavoritesListItemDto userFavoritesListItemDto)
@@ -166,12 +163,12 @@ namespace DiscoverUO.Api.Controllers
 
             var createdFavoritesListItemDto = _mapper.Map<UserFavoritesListItemDto>(createdFavoritesListItem);
 
-            return CreatedAtRoute( "GetUserFavoritesListItem", new { id = createdFavoritesListItem.Id }, createdFavoritesListItemDto);
+            return CreatedAtRoute("GetUserFavoritesListItem", new { id = createdFavoritesListItem.Id }, createdFavoritesListItemDto);
         }
 
         [Authorize]
         [HttpDelete("list/item/delete/{itemId}")]
-        public async Task<ActionResult<UserFavoritesListItemDto>> DeleteFavoritesItem(int itemId )
+        public async Task<ActionResult<UserFavoritesListItemDto>> DeleteFavoritesItem(int itemId)
         {
             var currentUser = await Permissions.GetCurrentUser(this.User, _context);
 
@@ -215,7 +212,7 @@ namespace DiscoverUO.Api.Controllers
         public async Task<ActionResult<UserFavoritesListDto>> GetUserFavoritesList(int id)
         {
             var userFavoritesList = await _context.UserFavoritesLists
-                .Include( flist => flist.FavoritedItems )
+                .Include(flist => flist.FavoritedItems)
                 .FirstOrDefaultAsync(flist => flist.Id == id);
 
             if (userFavoritesList == null)

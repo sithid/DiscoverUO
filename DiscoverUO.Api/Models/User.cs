@@ -1,6 +1,4 @@
-﻿using System.Diagnostics.Tracing;
-using System.Text.Json.Serialization;
-using DiscoverUO.Lib.DTOs.Users;
+﻿using DiscoverUO.Lib.DTOs.Users;
 namespace DiscoverUO.Api.Models
 {
     public class User

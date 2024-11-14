@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using DiscoverUO.Api.Models;
-using DiscoverUO.Lib;
 using DiscoverUO.Lib.DTOs.Servers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -37,10 +36,10 @@ namespace DiscoverUO.Api.Controllers
 
         [AllowAnonymous]
         [HttpGet("view/id/{id}")]
-        public async Task<ActionResult<ServerDto>> GetServerById( int id )
+        public async Task<ActionResult<ServerDto>> GetServerById(int id)
         {
             var server = await _context.Servers
-                .FirstOrDefaultAsync( server => server.Id == id);
+                .FirstOrDefaultAsync(server => server.Id == id);
 
             if (server == null)
             {
@@ -54,10 +53,10 @@ namespace DiscoverUO.Api.Controllers
 
         [AllowAnonymous]
         [HttpGet("view/name/{serverName}")]
-        public async Task<ActionResult<int>> GetServerByName( string serverName )
+        public async Task<ActionResult<int>> GetServerByName(string serverName)
         {
             var server = await _context.Servers
-                .FirstOrDefaultAsync(s => string.Equals( s.ServerName, serverName));
+                .FirstOrDefaultAsync(s => string.Equals(s.ServerName, serverName));
 
             if (server == null)
             {
@@ -75,7 +74,7 @@ namespace DiscoverUO.Api.Controllers
         {
             var currentUser = await Permissions.GetCurrentUser(this.User, _context);
 
-            if (currentUser == null )
+            if (currentUser == null)
             {
                 return Unauthorized($"You must be logged in to do this.");
             }
@@ -92,7 +91,7 @@ namespace DiscoverUO.Api.Controllers
                 .Where(server => server.OwnerId == existingUser.Id)
                 .ToListAsync();
 
-            if( ownedServers == null )
+            if (ownedServers == null)
             {
                 return NotFound("That user doesnt own any servers.");
             }
@@ -118,10 +117,10 @@ namespace DiscoverUO.Api.Controllers
             }
 
             var ownedServers = await _context.Servers
-                .Where( server => server.OwnerId == currentUser.Id)
+                .Where(server => server.OwnerId == currentUser.Id)
                 .ToListAsync();
 
-            if( ownedServers == null )
+            if (ownedServers == null)
             {
                 return NotFound("You do not own any servers.");
             }
@@ -131,7 +130,7 @@ namespace DiscoverUO.Api.Controllers
             return Ok(serverDtos);
         }
 
-        [Authorize] 
+        [Authorize]
         [HttpPost("CreateServer")]
         public async Task<ActionResult<ServerDto>> AddServer(CreateServerDto createServerDto)
         {
@@ -142,7 +141,7 @@ namespace DiscoverUO.Api.Controllers
 
             var currentUser = await Permissions.GetCurrentUser(this.User, _context);
 
-            if ( currentUser == null )
+            if (currentUser == null)
             {
                 return Unauthorized("You must be logged in to do this.");
             }
@@ -185,7 +184,7 @@ namespace DiscoverUO.Api.Controllers
                 return NotFound("Server not found.");
             }
 
-            if( !Permissions.HasServerPermissions(currentUser, serverToUpdate) )
+            if (!Permissions.HasServerPermissions(currentUser, serverToUpdate))
             {
                 return Unauthorized("Only the owner of a server or a privileged user can update a servers information.");
             }
@@ -216,9 +215,9 @@ namespace DiscoverUO.Api.Controllers
             return Ok(updatedServerDto);
         }
 
-        [Authorize] 
+        [Authorize]
         [HttpPut("ownership/transfer/{serverId}_{newOwnerId}")]
-        public async Task<ActionResult<ServerDto>>TransferOwnership(int serverId, int newOwnerId)
+        public async Task<ActionResult<ServerDto>> TransferOwnership(int serverId, int newOwnerId)
         {
             var currentUser = await Permissions.GetCurrentUser(this.User, _context);
 

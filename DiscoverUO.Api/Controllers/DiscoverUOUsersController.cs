@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
+using Azure.Core;
 using DiscoverUO.Api.Models;
+using DiscoverUO.Lib.DTOs.Favorites;
 using DiscoverUO.Lib.DTOs.Profiles;
 using DiscoverUO.Lib.DTOs.Users;
 using DiscoverUO.Lib.Shared;
@@ -8,11 +10,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Data;
-using System.Net;
 using System.IdentityModel.Tokens.Jwt;
+using System.Net;
+using System.Numerics;
 using System.Security.Claims;
 using System.Text;
-using DiscoverUO.Lib.DTOs.Favorites;
 
 namespace DiscoverUO.Api.Controllers
 {
@@ -40,48 +42,63 @@ namespace DiscoverUO.Api.Controllers
         #region AllowAnonymous Endpoints
 
         [AllowAnonymous]
-        [HttpPost("Authenticate")]
-        public async Task<IActionResult> Authenticate(LoginRequest loginDto)
+        [HttpPost("Authenticate")] // Complete W/ LoginResponse
+        public async Task<ActionResult<AuthenticationResponse>> Authenticate(LoginRequest loginDto)
         {
-            Console.WriteLine($"\n\rLogin Request: Username: {loginDto.Username}");
-
             var user = await _context.Users.SingleOrDefaultAsync(u => u.UserName == loginDto.Username);
 
             if (user == null)
             {
-                Console.WriteLine($"\n\rLogin Request Failed: Invalid username [{loginDto.Username}] or password");
-                return Unauthorized("Invalid username.");
+                var failedAuthorizationResponse = new AuthenticationResponse
+                {
+                    Success = false,
+                    Message = "Invalid username or password.",
+                    StatusCode = HttpStatusCode.Unauthorized,
+                    Data = null
+                };
+
+                return Unauthorized(failedAuthorizationResponse);
             }
 
             if (!BCrypt.Net.BCrypt.Verify(loginDto.Password, user.PasswordHash))
             {
-                Console.WriteLine($"\n\rLogin Request Failed: Invalid username [{loginDto.Username}] or password");
-                return Unauthorized("Invalid password.");
+                var failedAuthorizationResponse = new AuthenticationResponse
+                {
+                    Success = false,
+                    Message = "Invalid username or password.",
+                    StatusCode = HttpStatusCode.Unauthorized,
+                    Data = null
+                };
+
+                return Unauthorized(failedAuthorizationResponse);
             }
 
-            Console.WriteLine($"\n\rLogin Request Successful: Username: {user.UserName}, Role: [{user.Role}]");
+            var authResponse = new AuthenticationResponse
+            {
+                Success = true,
+                Message = "You have been authenticated.",
+                StatusCode = HttpStatusCode.OK,
+                Data = GenerateToken(user)
+            };
 
-            var token = GenerateToken(user);
-
-            return Ok(token);
+            return Ok(authResponse);
         }
 
         [AllowAnonymous]
-        [HttpPost("CreateUser")]
-        public async Task<ActionResult<UserDto>> CreateUser(CreateUserDto createdUserDto)
+        [HttpPost("RegisterUser")] // Complete W/ UserResponse
+        public async Task<ActionResult<RegisterUserResponse>> RegisterUser(RegisterUserRequest registeredUserDto)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var user = _mapper.Map<User>(createdUserDto);
+            var user = _mapper.Map<User>(registeredUserDto);
 
-            user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(createdUserDto.Password);
+            user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(registeredUserDto.Password);
             user.Role = UserRole.BasicUser;
 
             var userProfile = new UserProfile { OwnerId = user.Id, UserDisplayName = user.UserName };
-
             user.Profile = userProfile;
 
             var favoritesList = new UserFavoritesList { OwnerId = user.Id };
@@ -97,9 +114,15 @@ namespace DiscoverUO.Api.Controllers
             var createdUser = await _context.Users
                 .FirstOrDefaultAsync(u => u.Id == user.Id);
 
-            var userDto = _mapper.Map<User>(createdUser);
+            var createUserResponse = new RegisterUserResponse
+            {
+                Success = true,
+                StatusCode = HttpStatusCode.Created,
+                Message = "User created successfully!",
+                Data = _mapper.Map<UserRequest>(createdUser)
+            };
 
-            return CreatedAtAction("GetUserById", new { id = createdUser.Id }, userDto);
+            return CreatedAtAction(nameof(GetUserById), new { id = createdUser.Id }, createUserResponse );
 
         }
 
@@ -123,9 +146,9 @@ namespace DiscoverUO.Api.Controllers
 
         #region BasicUser Endpoints
 
-        [Authorize]
+        [Authorize] // Complete W/ Response
         [HttpGet("view/dashboard")]
-        public async Task<ActionResult<DashboardDto>> GetDashboardData()
+        public async Task<ActionResult<DashboardResponse>> GetDashboardData()
         {
             var user = await Permissions.GetCurrentUser(this.User, _context);
 
@@ -138,7 +161,7 @@ namespace DiscoverUO.Api.Controllers
 
             System.Diagnostics.Debug.WriteLine($"DEBUG::User NOT null.");
 
-            var dashboardData = new DashboardDto
+            var dashboardData = new DashboardRequest
             {
                 Username = user.UserName,
                 DailyVotesRemaining = user.DailyVotesRemaining,
@@ -146,16 +169,12 @@ namespace DiscoverUO.Api.Controllers
                 Role = user.Role.ToString(),
                 UserBiography = user.Profile.UserBiography,
                 UserDisplayName = user.Profile.UserDisplayName,
+                Favorites = _mapper.Map<UserFavoritesListDto>(user.Favorites),
             };
-
-            var favoritesLists = _context.UserFavoritesLists.FirstOrDefaultAsync( fl => fl.Id == user.Id);
-
-            if (favoritesLists != null)
-                dashboardData.Favorites = _mapper.Map<UserFavoritesListDto>(favoritesLists);
 
             if (dashboardData != null)
             {
-                var _dashboardResponse = new DashboardResponse
+                var dashboardResponse = new DashboardResponse
                 {
                     Success = true,
                     StatusCode = HttpStatusCode.OK,
@@ -163,7 +182,7 @@ namespace DiscoverUO.Api.Controllers
                     Data = dashboardData
                 };
 
-                return Ok(_dashboardResponse);
+                return Ok(dashboardResponse);
             }
             else
                 return BadRequest("dashboardData is NULL");
@@ -171,7 +190,7 @@ namespace DiscoverUO.Api.Controllers
 
         [Authorize]
         [HttpGet("view/id/{id}")]
-        public async Task<ActionResult<UserDto>> GetUserById(int id)
+        public async Task<ActionResult<UserRequest>> GetUserById(int id)
         {
             var user = await _context.Users
                 .Include(u => u.Profile)
@@ -183,14 +202,22 @@ namespace DiscoverUO.Api.Controllers
                 return NotFound();
             }
 
-            var userDto = _mapper.Map<UserDto>(user);
+            var userRequest = _mapper.Map<UserRequest>(user);
 
-            return Ok(userDto);
+            var userResponse = new UserResponse
+            {
+                Success = true,
+                Message = "User lookup successfull.",
+                StatusCode = HttpStatusCode.OK,
+                Data = userRequest
+            };
+
+            return Ok(userResponse);
         }
 
         [Authorize]
         [HttpGet("view/name/{userName}")]
-        public async Task<ActionResult<UserDto>> GetUserByName(string userName)
+        public async Task<ActionResult<UserRequest>> GetUserByName(string userName)
         {
             var user = await _context.Users
                 .Include(u => u.Profile)
@@ -202,7 +229,7 @@ namespace DiscoverUO.Api.Controllers
                 return NotFound();
             }
 
-            var userDto = _mapper.Map<UserDto>(user);
+            var userDto = _mapper.Map<UserRequest>(user);
 
             return Ok(userDto);
         }
@@ -224,7 +251,7 @@ namespace DiscoverUO.Api.Controllers
 
         [Authorize]
         [HttpPut("update/UpdateUser/{id}")]
-        public async Task<IActionResult> UpdateUser(int id, UpdateUserDto updateUserDto)
+        public async Task<IActionResult> UpdateUser(int id, UpdateUserRequestRequest updateUserDto)
         {
             if (!ModelState.IsValid)
             {
@@ -270,14 +297,14 @@ namespace DiscoverUO.Api.Controllers
             var updatedUser = await _context.Users
                 .FirstOrDefaultAsync(u => u.Id == id);
 
-            var updatedUserDto = _mapper.Map<UserDto>(updatedUser);
+            var updatedUserDto = _mapper.Map<UserRequest>(updatedUser);
 
             return Ok(updatedUserDto);
         }
-       
+
         [Authorize]
         [HttpPut("update/UpdatePassword/{id}")]
-        public async Task<IActionResult> UpdatePassword(int id, UpdateUserPasswordDto updatePasswordDto)
+        public async Task<IActionResult> UpdatePassword(int id, UpdateUserPasswordRequest updatePasswordDto)
         {
             if (!ModelState.IsValid)
             {
@@ -327,7 +354,7 @@ namespace DiscoverUO.Api.Controllers
             var updatedUser = await _context.Users
                 .FirstOrDefaultAsync(u => u.Id == id);
 
-            var updatedUserDto = _mapper.Map<UserDto>(updatedUser);
+            var updatedUserDto = _mapper.Map<UserRequest>(updatedUser);
 
             return Ok(updatedUserDto);
         }
@@ -399,7 +426,7 @@ namespace DiscoverUO.Api.Controllers
                 .Include(u => u.Favorites)
                 .FirstOrDefaultAsync(u => u.Id == id);
 
-            var updatedUserDto = _mapper.Map<UserDto>(updatedUser);
+            var updatedUserDto = _mapper.Map<UserRequest>(updatedUser);
 
             return Ok(updatedUserDto);
         }
@@ -463,14 +490,14 @@ namespace DiscoverUO.Api.Controllers
 
         [Authorize(Policy = "OwnerOrAdmin")]
         [HttpGet("view/admin/All")]
-        public async Task<ActionResult<List<UserDto>>> GetUsers()
+        public async Task<ActionResult<List<UserRequest>>> GetUsers()
         {
             var users = await _context.Users
                 .Include(u => u.Profile)
                 .Include(u => u.Favorites)
                 .ToListAsync();
 
-            var userDtos = _mapper.Map<List<UserDto>>(users);
+            var userDtos = _mapper.Map<List<UserRequest>>(users);
 
             return Ok(userDtos);
         }
@@ -501,7 +528,7 @@ namespace DiscoverUO.Api.Controllers
                 }
             }
 
-            if( !Permissions.HasHigherPermission( currentUser.Role, role ))
+            if (!Permissions.HasHigherPermission(currentUser.Role, role))
             {
                 return Unauthorized("You do not have permission to do that.");
             }
@@ -522,22 +549,22 @@ namespace DiscoverUO.Api.Controllers
             var updatedUser = await _context.Users
                  .FirstOrDefaultAsync(u => u.Id == id);
 
-            var updatedUserDto = _mapper.Map<UserDto>(updatedUser);
+            var updatedUserDto = _mapper.Map<UserRequest>(updatedUser);
 
             return Ok(updatedUserDto);
         }
 
         [Authorize(Policy = "OwnerOrAdmin")]
         [HttpPost("view/admin/CreateUserWithRole")]
-        public async Task<ActionResult<UserDto>> CreateUserWithRole(CreateUserWithRoleDto createdUserDto)
+        public async Task<ActionResult<UserRequest>> RegisterUserWithRole(RegisterUserWithRoleRequest registeredUserDto)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var user = _mapper.Map<User>(createdUserDto);
-            user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(createdUserDto.Password);
+            var user = _mapper.Map<User>(registeredUserDto);
+            user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(registeredUserDto.Password);
 
             var userProfile = new UserProfile { OwnerId = user.Id, UserDisplayName = user.UserName };
             user.Profile = userProfile;
@@ -551,7 +578,7 @@ namespace DiscoverUO.Api.Controllers
             var createdUser = await _context.Users
                 .FirstOrDefaultAsync(u => u.Id == user.Id);
 
-            var userDto = _mapper.Map<UserDto>(createdUser);
+            var userDto = _mapper.Map<UserRequest>(createdUser);
 
             return CreatedAtAction("GetUserById", new { id = createdUser.Id }, userDto);
 
