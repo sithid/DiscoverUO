@@ -1,6 +1,6 @@
-﻿namespace DiscoverUO.Lib.DTOs.Servers
+﻿namespace DiscoverUO.Lib.Shared.Servers
 {
-    public class CreateServerDto
+    public class UpdateServerRequest
     {
         public string? ServerName { get; set; }
         public string? ServerAddress { get; set; }

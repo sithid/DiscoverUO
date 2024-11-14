@@ -1,6 +1,6 @@
-﻿namespace DiscoverUO.Lib.DTOs.Favorites
+﻿namespace DiscoverUO.Lib.Shared.Favorites
 {
-    public class UserFavoritesListItemDto
+    public class GetFavoriteItemRequest
     {
         public string? ServerName { get; set; }
         public string? ServerAddress { get; set; }

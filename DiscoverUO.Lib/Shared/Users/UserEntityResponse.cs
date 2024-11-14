@@ -1,14 +1,13 @@
-﻿using DiscoverUO.Lib.DTOs.Users;
+﻿using System.Net;
 using DiscoverUO.Lib.Shared.Contracts;
-using System.Net;
 
-namespace DiscoverUO.Lib.Shared
+namespace DiscoverUO.Lib.Shared.Users
 {
-    public class AuthenticationResponse : IDataResponse<string>
+    public class UserEntityResponse : IEntityResponse<GetUserRequest>
     {
         public bool Success { get; set; }
         public string Message { get; set; }
         public HttpStatusCode StatusCode { get; set; }
-        public string Data { get; set; }
+        public GetUserRequest Entity { get; set; }
     }
 }

@@ -1,4 +1,4 @@
-﻿using DiscoverUO.Lib.DTOs.Users;
+﻿using DiscoverUO.Lib.Shared.Users;
 namespace DiscoverUO.Api.Models
 {
     public class User

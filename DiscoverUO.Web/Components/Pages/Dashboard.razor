@@ -1,8 +1,7 @@
 ﻿@page "/dashboard"
 @using DiscoverUO.Lib.Shared
-@using DiscoverUO.Lib.DTOs.Users
+@using DiscoverUO.Lib.Shared.Users
 @using System.Net.Http.Headers
-
 @inject ILocalStorageService _localStorage
 @inject HttpClient _client
 
@@ -19,14 +18,7 @@
 }
 else
 {
-<style>
-    .dashboard {
-        border: 5pm outset red;
-        background-color: orangered;
-        text-align: left
-    }
 
-</style>
 <h3>Welcome to DiscoverUO!</h3>
 <div class="dashboard">
     <div class="dashboard">
@@ -55,7 +47,7 @@ else
     public string ErrorMessage { get; set; }
     public bool ShowErrorMessage { get; set; }
 
-    private DashboardRequest dashboard { get; set; } = default!;
+    private GetDashboardRequest dashboard { get; set; } = default!;
 
     protected async override Task OnInitializedAsync()
     {
@@ -69,7 +61,7 @@ else
             if (response.IsSuccessStatusCode)
             {
                 var dashboardResponse = response.Content.ReadFromJsonAsync<DashboardResponse>().Result;
-                dashboard = dashboardResponse.Data;
+                dashboard = dashboardResponse.Entity;
 
                 await UpdateSessionData();
             }

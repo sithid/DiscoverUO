@@ -1,4 +1,4 @@
-﻿namespace DiscoverUO.Lib.DTOs.Users
+﻿namespace DiscoverUO.Lib.Shared.Users
 {
     public class RegisterUserRequest
     {

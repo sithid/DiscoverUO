@@ -1,4 +1,4 @@
-namespace DiscoverUO.Lib.DTOs.Users
+namespace DiscoverUO.Lib.Shared.Users
 {
     public enum UserRole
     {
@@ -9,7 +9,7 @@ namespace DiscoverUO.Lib.DTOs.Users
         Owner = 5
     }
 
-    public class UserRequest
+    public class GetUserRequest
     {
         public string? UserName { get; set; }
         public int DailyVotesRemaining { get; set; }

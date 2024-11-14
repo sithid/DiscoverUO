@@ -1,6 +1,6 @@
 ﻿using DiscoverUO.Api.Controllers;
 using DiscoverUO.Api.Models;
-using DiscoverUO.Lib.DTOs.Users;
+using DiscoverUO.Lib.Shared.Users;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 

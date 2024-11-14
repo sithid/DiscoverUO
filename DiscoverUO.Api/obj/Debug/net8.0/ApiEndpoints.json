@@ -9,13 +9,13 @@
     "Parameters": [
       {
         "Name": "userFavoritesListItemDto",
-        "Type": "DiscoverUO.Lib.DTOs.Favorites.UserFavoritesListItemDto",
+        "Type": "DiscoverUO.Lib.Shared.Favorites.GetFavoriteItemRequest",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "DiscoverUO.Lib.DTOs.Favorites.UserFavoritesListItemDto",
+        "Type": "DiscoverUO.Lib.Shared.Favorites.GetFavoriteItemRequest",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -41,7 +41,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "DiscoverUO.Lib.DTOs.Favorites.UserFavoritesListItemDto",
+        "Type": "DiscoverUO.Lib.Shared.Favorites.GetFavoriteItemRequest",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -66,13 +66,13 @@
       },
       {
         "Name": "userFavoritesListItemDto",
-        "Type": "DiscoverUO.Lib.DTOs.Favorites.UserFavoritesListItemDto",
+        "Type": "DiscoverUO.Lib.Shared.Favorites.GetFavoriteItemRequest",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "DiscoverUO.Lib.DTOs.Favorites.UserFavoritesListItemDto",
+        "Type": "DiscoverUO.Lib.Shared.Favorites.GetFavoriteItemRequest",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -98,7 +98,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "DiscoverUO.Lib.DTOs.Favorites.UserFavoritesListItemDto",
+        "Type": "DiscoverUO.Lib.Shared.Favorites.GetFavoriteItemRequest",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -118,7 +118,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "DiscoverUO.Lib.DTOs.Favorites.UserFavoritesListDto",
+        "Type": "DiscoverUO.Lib.Shared.Favorites.GetFavoritesRequest",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -144,7 +144,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "DiscoverUO.Lib.DTOs.Favorites.UserFavoritesListDto",
+        "Type": "DiscoverUO.Lib.Shared.Favorites.GetFavoritesRequest",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -164,13 +164,13 @@
     "Parameters": [
       {
         "Name": "createServerDto",
-        "Type": "DiscoverUO.Lib.DTOs.Servers.CreateServerDto",
+        "Type": "DiscoverUO.Lib.Shared.Servers.RegisterServerRequest",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "DiscoverUO.Lib.DTOs.Servers.ServerDto",
+        "Type": "DiscoverUO.Lib.Shared.Servers.GetServerRequest",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -217,7 +217,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "DiscoverUO.Lib.DTOs.Servers.ServerDto",
+        "Type": "DiscoverUO.Lib.Shared.Servers.GetServerRequest",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -237,7 +237,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[DiscoverUO.Lib.DTOs.Servers.ServerDto, DiscoverUO.Lib, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[DiscoverUO.Lib.Shared.Servers.GetServerRequest, DiscoverUO.Lib, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -262,13 +262,13 @@
       },
       {
         "Name": "serverUpdateDto",
-        "Type": "DiscoverUO.Lib.DTOs.Servers.UpdateServerDto",
+        "Type": "DiscoverUO.Lib.Shared.Servers.UpdateServerRequest",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "DiscoverUO.Lib.DTOs.Servers.ServerDto",
+        "Type": "DiscoverUO.Lib.Shared.Servers.GetServerRequest",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -294,7 +294,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "DiscoverUO.Lib.DTOs.Servers.ServerDto",
+        "Type": "DiscoverUO.Lib.Shared.Servers.GetServerRequest",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -340,7 +340,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.List\u00601[[DiscoverUO.Lib.DTOs.Servers.ServerDto, DiscoverUO.Lib, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[DiscoverUO.Lib.Shared.Servers.GetServerRequest, DiscoverUO.Lib, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -366,7 +366,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.List\u00601[[DiscoverUO.Lib.DTOs.Servers.ServerDto, DiscoverUO.Lib, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[DiscoverUO.Lib.Shared.Servers.GetServerRequest, DiscoverUO.Lib, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -423,13 +423,13 @@
     "Parameters": [
       {
         "Name": "loginDto",
-        "Type": "LoginRequest",
+        "Type": "DiscoverUO.Lib.Shared.Users.AuthenticationRequest",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "DiscoverUO.Lib.Shared.AuthenticationResponse",
+        "Type": "DiscoverUO.Lib.Shared.Users.AuthenticationResponse",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -454,7 +454,7 @@
       },
       {
         "Name": "profileDto",
-        "Type": "DiscoverUO.Lib.DTOs.Profiles.UserProfileDto",
+        "Type": "DiscoverUO.Lib.Shared.Profiles.GetProfileRequest",
         "IsRequired": true
       }
     ],
@@ -470,7 +470,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "DiscoverUO.Lib.DTOs.Profiles.UserProfileDto",
+        "Type": "DiscoverUO.Lib.Shared.Profiles.GetProfileRequest",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -496,7 +496,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "DiscoverUO.Lib.DTOs.Profiles.UserProfileDto",
+        "Type": "DiscoverUO.Lib.Shared.Profiles.GetProfileRequest",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -516,13 +516,13 @@
     "Parameters": [
       {
         "Name": "registeredUserDto",
-        "Type": "DiscoverUO.Lib.DTOs.Users.RegisterUserRequest",
+        "Type": "DiscoverUO.Lib.Shared.Users.RegisterUserRequest",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "DiscoverUO.Lib.Shared.RegisterUserResponse",
+        "Type": "DiscoverUO.Lib.Shared.Users.RegisterUserResponse",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -547,7 +547,7 @@
       },
       {
         "Name": "updatePasswordDto",
-        "Type": "DiscoverUO.Lib.DTOs.Users.UpdateUserPasswordRequest",
+        "Type": "DiscoverUO.Lib.Shared.Users.UpdateUserPasswordRequest",
         "IsRequired": true
       }
     ],
@@ -568,7 +568,7 @@
       },
       {
         "Name": "updateUserDto",
-        "Type": "DiscoverUO.Lib.DTOs.Users.UpdateUserRequestRequest",
+        "Type": "DiscoverUO.Lib.Shared.Users.UpdateUserRequestRequest",
         "IsRequired": true
       }
     ],
@@ -584,7 +584,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.List\u00601[[DiscoverUO.Lib.DTOs.Users.UserRequest, DiscoverUO.Lib, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "DiscoverUO.Lib.Shared.Users.UserTableResponse",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -604,13 +604,13 @@
     "Parameters": [
       {
         "Name": "registeredUserDto",
-        "Type": "DiscoverUO.Lib.DTOs.Users.RegisterUserWithRoleRequest",
+        "Type": "DiscoverUO.Lib.Shared.Users.RegisterUserWithRoleRequest",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "DiscoverUO.Lib.DTOs.Users.UserRequest",
+        "Type": "DiscoverUO.Lib.Shared.Users.RegisterUserResponse",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -651,7 +651,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "DiscoverUO.Lib.Shared.DashboardResponse",
+        "Type": "DiscoverUO.Lib.Shared.Users.DashboardResponse",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -677,7 +677,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "DiscoverUO.Lib.DTOs.Users.UserRequest",
+        "Type": "DiscoverUO.Lib.Shared.Users.UserEntityResponse",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -703,7 +703,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "DiscoverUO.Lib.DTOs.Users.UserRequest",
+        "Type": "DiscoverUO.Lib.Shared.Users.UserEntityResponse",
         "MediaTypes": [
           "text/plain",
           "application/json",

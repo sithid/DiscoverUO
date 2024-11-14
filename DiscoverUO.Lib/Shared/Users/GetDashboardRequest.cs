@@ -1,8 +1,8 @@
-﻿using DiscoverUO.Lib.DTOs.Favorites;
+﻿using DiscoverUO.Lib.Shared.Favorites;
 
-namespace DiscoverUO.Lib.DTOs.Users
+namespace DiscoverUO.Lib.Shared.Users
 {
-    public class DashboardRequest
+    public class GetDashboardRequest
     {
         public string? Username { get; set; }
         public int DailyVotesRemaining { get; set; }
@@ -11,6 +11,6 @@ namespace DiscoverUO.Lib.DTOs.Users
         public string? UserBiography { get; set; }
         public string? UserDisplayName { get; set; }
         public string? UserAvatar { get; set; }
-        public UserFavoritesListDto Favorites { get; set; }
+        public GetFavoritesRequest Favorites { get; set; }
     }
 }

@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using DiscoverUO.Lib.DTOs.Favorites;
-using DiscoverUO.Lib.DTOs.Profiles;
-using DiscoverUO.Lib.DTOs.Servers;
-using DiscoverUO.Lib.DTOs.Users;
+using DiscoverUO.Lib.Shared.Users;
+using DiscoverUO.Lib.Shared.Favorites;
+using DiscoverUO.Lib.Shared.Profiles;
+using DiscoverUO.Lib.Shared.Servers;
 
 namespace DiscoverUO.Api.Models
 {
@@ -10,33 +10,33 @@ namespace DiscoverUO.Api.Models
     {
         public MappingProfile()
         {
-            CreateMap<UserRequest, User>();
+            CreateMap<GetUserRequest, User>();
             CreateMap<RegisterUserRequest, User>();
             CreateMap<RegisterUserWithRoleRequest, User>();
             CreateMap<UpdateUserRequestRequest, User>();
 
-            CreateMap<User, UserRequest>();
+            CreateMap<User, GetUserRequest>();
             CreateMap<User, RegisterUserRequest>();
             CreateMap<User, RegisterUserWithRoleRequest>();
             CreateMap<User, UpdateUserRequestRequest>();
 
 
-            CreateMap<ServerDto, Server>();
-            CreateMap<CreateServerDto, Server>();
-            CreateMap<UpdateServerDto, Server>();
+            CreateMap<GetServerRequest, Server>();
+            CreateMap<RegisterServerRequest, Server>();
+            CreateMap<UpdateServerRequest, Server>();
 
-            CreateMap<Server, ServerDto>();
-            CreateMap<Server, CreateServerDto>();
-            CreateMap<Server, UpdateServerDto>();
+            CreateMap<Server, GetServerRequest>();
+            CreateMap<Server, RegisterServerRequest>();
+            CreateMap<Server, UpdateServerRequest>();
 
-            CreateMap<UserProfile, UserProfileDto>();
-            CreateMap<UserProfileDto, UserProfile>();
+            CreateMap<UserProfile, GetProfileRequest>();
+            CreateMap<GetProfileRequest, UserProfile>();
 
-            CreateMap<UserFavoritesList, UserFavoritesListDto>();
-            CreateMap<UserFavoritesListDto, UserFavoritesList>();
+            CreateMap<UserFavoritesList, GetFavoritesRequest>();
+            CreateMap<GetFavoritesRequest, UserFavoritesList>();
 
-            CreateMap<UserFavoritesListItem, UserFavoritesListItemDto>();
-            CreateMap<UserFavoritesListItemDto, UserFavoritesListItem>();
+            CreateMap<UserFavoritesListItem, GetFavoriteItemRequest>();
+            CreateMap<GetFavoriteItemRequest, UserFavoritesListItem>();
         }
     }
 }

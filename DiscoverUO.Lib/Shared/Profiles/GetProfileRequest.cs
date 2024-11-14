@@ -1,6 +1,6 @@
-﻿namespace DiscoverUO.Lib.DTOs.Profiles
+﻿namespace DiscoverUO.Lib.Shared.Profiles
 {
-    public class UserProfileDto
+    public class GetProfileRequest
     {
         public string? UserBiography { get; set; }
         public string? UserDisplayName { get; set; }
