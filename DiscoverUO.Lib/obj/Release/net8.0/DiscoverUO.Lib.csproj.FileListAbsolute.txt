@@ -10,3 +10,4 @@ C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Lib\obj\Release\n
 C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Lib\obj\Release\net8.0\refint\DiscoverUO.Lib.dll
 C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Lib\obj\Release\net8.0\DiscoverUO.Lib.pdb
 C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Lib\obj\Release\net8.0\ref\DiscoverUO.Lib.dll
+C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Lib\obj\Release\net8.0\DiscoverUO.Lib.csproj.AssemblyReference.cache

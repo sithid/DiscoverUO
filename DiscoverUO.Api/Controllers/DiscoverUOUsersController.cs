@@ -46,12 +46,28 @@ namespace DiscoverUO.Api.Controllers
 
             if (user == null)
             {
-                return Unauthorized("Username or password invalid.");
+                var failedAuthorizationResponse = new AuthenticationResponse
+                {
+                    Success = false,
+                    Message = "Invalid username or password.",
+                    StatusCode = HttpStatusCode.Unauthorized,
+                    Value = null
+                };
+
+                return Unauthorized(failedAuthorizationResponse);
             }
 
             if (!BCrypt.Net.BCrypt.Verify(loginDto.Password, user.PasswordHash))
             {
-                return Unauthorized("Username or password invalid.");
+                var failedAuthorizationResponse = new AuthenticationResponse
+                {
+                    Success = false,
+                    Message = "Invalid username or password.",
+                    StatusCode = HttpStatusCode.Unauthorized,
+                    Value = null
+                };
+
+                return Unauthorized(failedAuthorizationResponse);
             }
 
             var authResponse = new AuthenticationResponse
@@ -134,8 +150,8 @@ namespace DiscoverUO.Api.Controllers
 
         #region BasicUser Endpoints
 
-        [Authorize] 
-        [HttpGet("view/dashboard")] // Complete W/ GetDashboardResponse
+        [Authorize] // Complete W/ GetDashboardResponse
+        [HttpGet("view/dashboard")]
         public async Task<ActionResult<GetDashboardResponse>> GetDashboardData()
         {
             var user = await Permissions.GetCurrentUser(this.User, _context);
@@ -423,8 +439,8 @@ namespace DiscoverUO.Api.Controllers
 
         #region Privileged Endpoints
 
-        [Authorize(Policy = "Privileged")]
-        [HttpPut("admin/update/ChangeRemainingVotes/{id}")] // Complete W/ GetUserEntityResponse
+        [Authorize(Policy = "Privileged")] // Complete W/ GetUserEntityResponse
+        [HttpPut("admin/update/ChangeRemainingVotes/{id}")]
         public async Task<ActionResult<GetUserEntityResponse>> ChangeRemainingVotes(int userId, int votesRemaining)
         {
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
@@ -466,8 +482,8 @@ namespace DiscoverUO.Api.Controllers
         }
 
         [Authorize(Policy = "Privileged")]
-        [HttpDelete("admin/DeleteUser/{id}")] // Complete W/ DeleteUserResponse
-        public async Task<ActionResult<DeleteUserResponse>> DeleteUser(int userId)
+        [HttpDelete("admin/DeleteUser/{id}")]
+        public async Task<IActionResult> DeleteUser(int userId)
         {
             var currentUser = await Permissions.GetCurrentUser(this.User, _context);
 
@@ -513,18 +529,9 @@ namespace DiscoverUO.Api.Controllers
                 .ExecuteUpdateAsync(s => s.SetProperty(server => server.OwnerId, newServerOwner.Id));
 
             _context.Users.Remove(user);
-
             await _context.SaveChangesAsync();
 
-            var deleteResopnse = new DeleteUserResponse
-            {
-                Success = true,
-                Message = "User deleted successfully.",
-                StatusCode = HttpStatusCode.NoContent,
-                Value = userId
-            };
-
-            return Ok(deleteResopnse);
+            return NoContent();
         }
 
         #endregion
@@ -554,7 +561,7 @@ namespace DiscoverUO.Api.Controllers
             return Ok(tableResponse);
         }
 
-        [Authorize(Policy = "OwnerOrAdmin")] // Complete W/ GetUserEntityResponse
+        [Authorize(Policy = "OwnerOrAdmin")]
         [HttpPut("view/admin/UpdateUserRole/{id}")]
         public async Task<IActionResult> UpdateUserRole(int id, UserRole role)
         {
@@ -595,21 +602,15 @@ namespace DiscoverUO.Api.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest($"An error occurred while updating the server owner: {ex.Message}");
+                return StatusCode(500, $"An error occurred while updating the server owner: {ex.Message}");
             }
 
             var updatedUser = await _context.Users
                  .FirstOrDefaultAsync(u => u.Id == id);
 
-            var updatedUserResponse = new GetUserEntityResponse
-            {
-                Success = true,
-                Message = "User permissions role updated successfully.",
-                StatusCode = HttpStatusCode.OK,
-                Entity = _mapper.Map<GetUserEntityRequest>(updatedUser)
-            };
+            var updatedUserDto = _mapper.Map<GetUserEntityRequest>(updatedUser);
 
-            return Ok(updatedUserResponse);
+            return Ok(updatedUserDto);
         }
 
         [Authorize(Policy = "OwnerOrAdmin")]

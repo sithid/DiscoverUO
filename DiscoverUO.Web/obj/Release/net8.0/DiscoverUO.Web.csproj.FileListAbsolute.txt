@@ -379,3 +379,4 @@ C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\obj\Release\n
 C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\obj\Release\net8.0\DiscoverUO.Web.pdb
 C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\obj\Release\net8.0\DiscoverUO.Web.genruntimeconfig.cache
 C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\obj\Release\net8.0\ref\DiscoverUO.Web.dll
+C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\bin\Release\net8.0\Newtonsoft.Json.dll

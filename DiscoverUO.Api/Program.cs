@@ -1,6 +1,7 @@
 ﻿using DiscoverUO.Api.Controllers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Security.Claims;
@@ -24,7 +25,7 @@ namespace DiscoverUO.Api
             builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
             builder.Services.AddDbContext<DiscoverUODatabaseContext>(options =>
-                options.UseSqlServer(builder.Configuration.GetConnectionString("DiscoverUOConnection")));
+                options.UseSqlite(builder.Configuration.GetConnectionString("DiscoverUOConnection")));
 
             builder.Services.AddAuthentication(x =>
             {

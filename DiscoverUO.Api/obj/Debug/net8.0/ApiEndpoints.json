@@ -385,8 +385,13 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "id",
+        "Name": "userId",
         "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "id",
+        "Type": "",
         "IsRequired": true
       }
     ],
@@ -401,17 +406,32 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "id",
+        "Name": "userId",
         "Type": "System.Int32",
-        "IsRequired": true
+        "IsRequired": false
       },
       {
         "Name": "votesRemaining",
         "Type": "System.Int32",
         "IsRequired": false
+      },
+      {
+        "Name": "id",
+        "Type": "",
+        "IsRequired": true
       }
     ],
-    "ReturnTypes": []
+    "ReturnTypes": [
+      {
+        "Type": "DiscoverUO.Lib.Shared.Users.GetUserEntityResponse",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "DiscoverUO.Api.Controllers.DiscoverUOUsersController",
@@ -441,24 +461,39 @@
   },
   {
     "ContainingType": "DiscoverUO.Api.Controllers.DiscoverUOUsersController",
-    "Method": "UpdateProfile",
+    "Method": "UpdateProfileById",
     "RelativePath": "api/users/profiles/update/UpdateProfile/{id}",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "id",
+        "Name": "ownerId",
         "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "profileRequest",
+        "Type": "DiscoverUO.Lib.Shared.Profiles.GetProfileRequest",
         "IsRequired": true
       },
       {
-        "Name": "profileDto",
-        "Type": "DiscoverUO.Lib.Shared.Profiles.GetProfileRequest",
+        "Name": "id",
+        "Type": "",
         "IsRequired": true
       }
     ],
-    "ReturnTypes": []
+    "ReturnTypes": [
+      {
+        "Type": "DiscoverUO.Lib.Shared.Profiles.GetProfileResponse",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "DiscoverUO.Api.Controllers.DiscoverUOUsersController",
@@ -470,7 +505,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "DiscoverUO.Lib.Shared.Profiles.GetProfileRequest",
+        "Type": "DiscoverUO.Lib.Shared.Profiles.GetProfileResponse",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -496,7 +531,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "DiscoverUO.Lib.Shared.Profiles.GetProfileRequest",
+        "Type": "DiscoverUO.Lib.Shared.Profiles.GetProfileResponse",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -541,38 +576,68 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "id",
+        "Name": "userId",
         "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "updatePasswordRequest",
+        "Type": "DiscoverUO.Lib.Shared.Users.UpdateUserPasswordRequest",
         "IsRequired": true
       },
       {
-        "Name": "updatePasswordDto",
-        "Type": "DiscoverUO.Lib.Shared.Users.UpdateUserPasswordRequest",
+        "Name": "id",
+        "Type": "",
         "IsRequired": true
       }
     ],
-    "ReturnTypes": []
+    "ReturnTypes": [
+      {
+        "Type": "DiscoverUO.Lib.Shared.Users.GetUserEntityResponse",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "DiscoverUO.Api.Controllers.DiscoverUOUsersController",
-    "Method": "UpdateUser",
+    "Method": "UpdateUserById",
     "RelativePath": "api/users/update/UpdateUser/{id}",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "id",
+        "Name": "userId",
         "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "updateUserRequest",
+        "Type": "DiscoverUO.Lib.Shared.Users.UpdateUserRequest",
         "IsRequired": true
       },
       {
-        "Name": "updateUserDto",
-        "Type": "DiscoverUO.Lib.Shared.Users.UpdateUserRequestRequest",
+        "Name": "id",
+        "Type": "",
         "IsRequired": true
       }
     ],
-    "ReturnTypes": []
+    "ReturnTypes": [
+      {
+        "Type": "DiscoverUO.Lib.Shared.Users.GetUserEntityResponse",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "DiscoverUO.Api.Controllers.DiscoverUOUsersController",
@@ -584,7 +649,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "DiscoverUO.Lib.Shared.Users.UserTableResponse",
+        "Type": "DiscoverUO.Lib.Shared.Users.GetUserTableResponse",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -651,7 +716,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "DiscoverUO.Lib.Shared.Users.DashboardResponse",
+        "Type": "DiscoverUO.Lib.Shared.Users.GetDashboardResponse",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -677,7 +742,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "DiscoverUO.Lib.Shared.Users.UserEntityResponse",
+        "Type": "DiscoverUO.Lib.Shared.Users.GetUserEntityResponse",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -703,7 +768,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "DiscoverUO.Lib.Shared.Users.UserEntityResponse",
+        "Type": "DiscoverUO.Lib.Shared.Users.GetUserEntityResponse",
         "MediaTypes": [
           "text/plain",
           "application/json",
