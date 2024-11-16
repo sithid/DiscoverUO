@@ -1,6 +1,7 @@
 ﻿@page "/dashboard"
 @using DiscoverUO.Lib.Shared
 @using DiscoverUO.Lib.Shared.Users
+@using DiscoverUO.Web.Components.Data
 @using System.Net.Http.Headers
 @inject ILocalStorageService _localStorage
 @inject HttpClient _client
@@ -19,9 +20,8 @@
 else
 {
 
-<h3>Welcome to DiscoverUO!</h3>
 <div class="dashboard">
-    <div class="dashboard">
+    <div>
         <div>
             <label>Username  : @dashboard.UserDisplayName</label>
         </div>
@@ -34,7 +34,9 @@ else
         <div>
             <label>User Avatar: @dashboard.UserAvatar</label>
         </div>
-        <div><label>User Daily Votes Remaining: @dashboard.UserBiography</label></div>
+        <div>
+            <label>User Biography: @dashboard.UserBiography</label>
+        </div>
         <div>
             <label>User Role: @dashboard.Role</label>
         </div>
@@ -46,48 +48,12 @@ else
 {
     public string ErrorMessage { get; set; }
     public bool ShowErrorMessage { get; set; }
-
-    private GetDashboardRequest dashboard { get; set; } = default!;
+    public DashboardRequest dashboard{ get; set;
+    }
 
     protected async override Task OnInitializedAsync()
     {
-        var token = await _localStorage.GetItemAsync<string>("jwtToken");
-        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue( "Bearer", token);
-
-        var response = _client.GetAsync("https://localhost:7015/api/users/view/dashboard").Result;
-
-        try
-        {
-            if (response.IsSuccessStatusCode)
-            {
-                var dashboardResponse = response.Content.ReadFromJsonAsync<GetDashboardResponse>().Result;
-                dashboard = dashboardResponse.Entity;
-
-                await UpdateSessionData();
-            }
-            else
-            {
-                ErrorMessage = response.StatusCode.ToString();
-                ShowErrorMessage = true;
-            }
-
-        }
-        catch(Exception ex)
-        {
-            Console.WriteLine($"User dashboard is null: {ex}");
-        }
-    }
-
-    public async Task UpdateSessionData()
-    {   
-        await _localStorage.SetItemAsync("Username", dashboard.Username);
-        await _localStorage.SetItemAsync("DailyVotesRemaining", dashboard.DailyVotesRemaining);
-        await _localStorage.SetItemAsync("UserDisplayName", dashboard.UserDisplayName);
-        await _localStorage.SetItemAsync("UserEmail", dashboard.Email);
-        await _localStorage.SetItemAsync("UserRole", dashboard.Role);
-        await _localStorage.SetItemAsync("UserBiography", dashboard.UserBiography);
-        await _localStorage.SetItemAsync("UserAvatar", dashboard.UserAvatar);
-        await _localStorage.SetItemAsync("UserFavorites", dashboard.Favorites);
+        dashboard = await DataManager.GetDashboard(_client, _localStorage);
         StateHasChanged();
     }
 }

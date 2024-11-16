@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "mneEvtHzckV/rSwq6ZB/tzPSQhCyiuyWQslqmHNc/uI=",
+  "Hash": "x25Tz5Vkr9ux0BxM9vKKWfIlBxdRwi85yRXY+OQYRKg=",
   "Source": "DiscoverUO.Web",
   "BasePath": "_content/DiscoverUO.Web",
   "Mode": "Default",
@@ -148,6 +148,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\favicon.png"
+    },
+    {
+      "Identity": "C:\\Users\\demon\\OneDrive\\Documents\\GitHub\\DiscoverUO\\DiscoverUO.Web\\wwwroot\\images\\anon.jpg",
+      "SourceId": "DiscoverUO.Web",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\demon\\OneDrive\\Documents\\GitHub\\DiscoverUO\\DiscoverUO.Web\\wwwroot\\",
+      "BasePath": "_content/DiscoverUO.Web",
+      "RelativePath": "images/anon.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\anon.jpg"
     },
     {
       "Identity": "C:\\Users\\demon\\OneDrive\\Documents\\GitHub\\DiscoverUO\\DiscoverUO.Web\\wwwroot\\images\\server_icon.png",

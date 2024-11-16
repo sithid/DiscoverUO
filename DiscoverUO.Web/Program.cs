@@ -1,7 +1,5 @@
-using Arora.Blazor.StateContainer;
 using Blazored.LocalStorage;
 using DiscoverUO.Web.Components;
-using DiscoverUO.Web.Data;
 
 namespace DiscoverUO.Web
 {
@@ -16,9 +14,6 @@ namespace DiscoverUO.Web
             #region Dependency Injection & Services
 
             builder.Services.AddScoped<HttpClient>();
-
-            builder.Services.AddSingleton<StateContainer>();
-            builder.Services.AddSingleton<SessionState>();
 
             builder.Services.AddRazorComponents()
                 .AddInteractiveServerComponents();

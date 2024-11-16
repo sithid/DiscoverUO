@@ -21,6 +21,10 @@
       "PackagePath": "staticwebassets\\favicon.png"
     },
     {
+      "Id": "C:\\Users\\demon\\OneDrive\\Documents\\GitHub\\DiscoverUO\\DiscoverUO.Web\\wwwroot\\images\\anon.jpg",
+      "PackagePath": "staticwebassets\\images\\anon.jpg"
+    },
+    {
       "Id": "C:\\Users\\demon\\OneDrive\\Documents\\GitHub\\DiscoverUO\\DiscoverUO.Web\\wwwroot\\images\\server_icon.png",
       "PackagePath": "staticwebassets\\images\\server_icon.png"
     },

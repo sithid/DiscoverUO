@@ -2,14 +2,14 @@
 @using Blazored.LocalStorage
 @using DiscoverUO.Lib.Shared;
 @using DiscoverUO.Lib.Shared.Users
-
+@using DiscoverUO.Web.Components.Pages
 @inject ILocalStorageService _localStorage
 @inject HttpClient _client
 @inject NavigationManager _navigationManager
 
 <h3>DiscoverUO User Login</h3>
 
-<form @onsubmit="HandleLogin">
+<form @onsubmit="HandleSignIn">
     <div class="form-group">
         <label for="username">Username:</label>
         <input type="text" class="form-control" id="username" @bind="Username" />
@@ -19,7 +19,7 @@
         <input type="password" class="form-control" id="password" @bind="Password" />
     </div>
 
-    <button type="submit" class="btn btn-primary">Login</button>
+    <button type="submit" class="btn btn-primary">Sign In</button>
 
     @if( ShowUIResponseMessage )
     {
@@ -34,15 +34,13 @@
     public string UIResponseMessage { get; set; }
     public bool ShowUIResponseMessage { get; set; }
 
-    public async Task HandleLogin()
+    public async Task HandleSignIn()
     {
         ShowUIResponseMessage = false;
 
         try
         {
-            var passHash = BCrypt.HashPassword(Password);
-
-            var httpResponse = await _client.PostAsJsonAsync("https://localhost:7015/api/users/Authenticate", new AuthenticationRequest(Username, passHash));
+            var httpResponse = await _client.PostAsJsonAsync("https://localhost:7015/api/users/Authenticate", new AuthenticationRequest(Username, BCrypt.HashPassword(Password)));
 
             if (httpResponse.IsSuccessStatusCode)
             {

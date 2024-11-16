@@ -87,7 +87,14 @@ namespace DiscoverUO.Api.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                var registerUserResponse = new RegisterUserResponse
+                {
+                    Success = false,
+                    StatusCode = HttpStatusCode.BadRequest,
+                    Message = "Something went wrong!",
+                };
+
+                return BadRequest(registerUserResponse);
             }
 
             var user = _mapper.Map<User>(registeredUserDto);
@@ -138,8 +145,8 @@ namespace DiscoverUO.Api.Controllers
             var profileResponse = new GetProfileResponse
             {
                 Success = true,
-                Message = $"User profile for {userProfile.UserDisplayName} found.",
-                StatusCode = HttpStatusCode.OK,
+                StatusCode = HttpStatusCode.Created,
+                Message = "User created successfully!",
                 Entity = _mapper.Map<GetProfileRequest>(userProfile)
             };
 
@@ -152,20 +159,23 @@ namespace DiscoverUO.Api.Controllers
 
         [Authorize] // Complete W/ GetDashboardResponse
         [HttpGet("view/dashboard")]
-        public async Task<ActionResult<GetDashboardResponse>> GetDashboardData()
+        public async Task<ActionResult<DashboardResponse>> GetDashboardData()
         {
             var user = await Permissions.GetCurrentUser(this.User, _context);
 
-            System.Diagnostics.Debug.WriteLine($"DEBUG::User may be null.");
-
             if (user == null)
             {
-                return NotFound("Your user is missing!");
+                var notFound = new DashboardResponse
+                {
+                    Success = false,
+                    StatusCode = HttpStatusCode.NotFound,
+                    Message = "Your user data is missing!",
+                };
+
+                return NotFound(notFound);
             }
 
-            System.Diagnostics.Debug.WriteLine($"DEBUG::User NOT null.");
-
-            var dashboardData = new GetDashboardRequest
+            var dashboardData = new DashboardRequest
             {
                 Username = user.UserName,
                 DailyVotesRemaining = user.DailyVotesRemaining,
@@ -178,18 +188,27 @@ namespace DiscoverUO.Api.Controllers
 
             if (dashboardData != null)
             {
-                var dashboardResponse = new GetDashboardResponse
+                var dashboardResponse = new DashboardResponse
                 {
                     Success = true,
                     StatusCode = HttpStatusCode.OK,
-                    Message = "You eceived the dashboard data",
+                    Message = "Dashboard data located.",
                     Entity = dashboardData
                 };
 
                 return Ok(dashboardResponse);
             }
             else
-                return BadRequest("dashboardData is NULL");
+            {
+                var badRequest = new DashboardResponse
+                {
+                    Success = false,
+                    StatusCode = HttpStatusCode.BadRequest,
+                    Message = "The dashboard data associated with your user is missing!",
+                };
+
+                return BadRequest(badRequest);
+            }
         }
 
         [Authorize] 
@@ -247,7 +266,7 @@ namespace DiscoverUO.Api.Controllers
         }
 
         [Authorize]
-        [HttpGet("profiles/view")] // Complete W/ UserResponse
+        [HttpGet("profiles/view")] // Complete W/ ProfileResponse
         public async Task<ActionResult<GetProfileResponse>> GetProfile()
         {
             var currentUser = await Permissions.GetCurrentUser(this.User, _context);

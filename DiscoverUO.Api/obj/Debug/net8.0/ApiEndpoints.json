@@ -716,7 +716,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "DiscoverUO.Lib.Shared.Users.GetDashboardResponse",
+        "Type": "DiscoverUO.Lib.Shared.Users.DashboardResponse",
         "MediaTypes": [
           "text/plain",
           "application/json",
