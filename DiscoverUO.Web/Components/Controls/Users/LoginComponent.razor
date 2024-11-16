@@ -40,7 +40,9 @@
 
         try
         {
-            var httpResponse = await _client.PostAsJsonAsync("https://localhost:7015/api/users/Authenticate", new AuthenticationRequest(Username, Password));
+            var passHash = BCrypt.HashPassword(Password);
+
+            var httpResponse = await _client.PostAsJsonAsync("https://localhost:7015/api/users/Authenticate", new AuthenticationRequest(Username, passHash));
 
             if (httpResponse.IsSuccessStatusCode)
             {

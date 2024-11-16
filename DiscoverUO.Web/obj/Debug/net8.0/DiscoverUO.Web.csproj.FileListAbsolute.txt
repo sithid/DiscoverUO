@@ -297,6 +297,7 @@ C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\bin\Debug\net
 C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\bin\Debug\net8.0\refs\System.Xml.XPath.dll
 C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\bin\Debug\net8.0\refs\System.Xml.XPath.XDocument.dll
 C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\bin\Debug\net8.0\refs\WindowsBase.dll
+C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\bin\Debug\net8.0\Arora.Blazor.StateContainer.dll
 C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\bin\Debug\net8.0\BCrypt.Net-Next.dll
 C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\bin\Debug\net8.0\Blazored.LocalStorage.dll
 C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll

@@ -2,6 +2,18 @@
   "version": 3,
   "targets": {
     "net8.0": {
+      "Arora.Blazor.StateContainer/1.0.2": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Extensions.DependencyInjection": "8.0.0"
+        },
+        "compile": {
+          "lib/netstandard2.1/Arora.Blazor.StateContainer.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.1/Arora.Blazor.StateContainer.dll": {}
+        }
+      },
       "BCrypt.Net-Next/4.0.3": {
         "type": "package",
         "compile": {
@@ -724,6 +736,19 @@
     }
   },
   "libraries": {
+    "Arora.Blazor.StateContainer/1.0.2": {
+      "sha512": "N4nZ6Il5DYf2fMZ08GrnfPc83KOZ16pOkQxGnsHpdQd7lgdLdm1YwFItm6S4a9XkwQxgK3jrnmxZg68dwtYPNQ==",
+      "type": "package",
+      "path": "arora.blazor.statecontainer/1.0.2",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "README.md",
+        "arora.blazor.statecontainer.1.0.2.nupkg.sha512",
+        "arora.blazor.statecontainer.nuspec",
+        "lib/netstandard2.1/Arora.Blazor.StateContainer.dll"
+      ]
+    },
     "BCrypt.Net-Next/4.0.3": {
       "sha512": "W+U9WvmZQgi5cX6FS5GDtDoPzUCV4LkBLkywq/kRZhuDwcbavOzcDAr3LXJFqHUi952Yj3LEYoWW0jbEUQChsA==",
       "type": "package",
@@ -1860,6 +1885,7 @@
   },
   "projectFileDependencyGroups": {
     "net8.0": [
+      "Arora.Blazor.StateContainer >= 1.0.2",
       "BCrypt.Net-Next >= 4.0.3",
       "Blazored.LocalStorage >= 4.5.0",
       "DiscoverUO.Lib >= 1.0.0",
@@ -1923,6 +1949,10 @@
       "net8.0": {
         "targetAlias": "net8.0",
         "dependencies": {
+          "Arora.Blazor.StateContainer": {
+            "target": "Package",
+            "version": "[1.0.2, )"
+          },
           "BCrypt.Net-Next": {
             "target": "Package",
             "version": "[4.0.3, )"

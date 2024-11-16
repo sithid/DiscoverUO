@@ -57,7 +57,7 @@ namespace DiscoverUO.Api.Controllers
                 return Unauthorized(failedAuthorizationResponse);
             }
 
-            if (!BCrypt.Net.BCrypt.Verify(loginDto.Password, user.PasswordHash))
+            if (loginDto.Password == user.PasswordHash)
             {
                 var failedAuthorizationResponse = new AuthenticationResponse
                 {
@@ -92,7 +92,7 @@ namespace DiscoverUO.Api.Controllers
 
             var user = _mapper.Map<User>(registeredUserDto);
 
-            user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(registeredUserDto.Password);
+            user.PasswordHash = registeredUserDto.Password;
             user.Role = UserRole.BasicUser;
 
             var userProfile = new UserProfile { OwnerId = user.Id, UserDisplayName = user.UserName };

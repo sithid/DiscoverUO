@@ -36,6 +36,7 @@
     ".NETCoreApp,Version=v8.0": {
       "DiscoverUO.Web/1.0.0": {
         "dependencies": {
+          "Arora.Blazor.StateContainer": "1.0.2",
           "BCrypt.Net-Next": "4.0.3",
           "Blazored.LocalStorage": "4.5.0",
           "DiscoverUO.Lib": "1.0.0",
@@ -340,6 +341,20 @@
         },
         "compile": {
           "DiscoverUO.Web.dll": {}
+        }
+      },
+      "Arora.Blazor.StateContainer/1.0.2": {
+        "dependencies": {
+          "Microsoft.Extensions.DependencyInjection": "8.0.1"
+        },
+        "runtime": {
+          "lib/netstandard2.1/Arora.Blazor.StateContainer.dll": {
+            "assemblyVersion": "1.0.2.0",
+            "fileVersion": "1.0.2.0"
+          }
+        },
+        "compile": {
+          "lib/netstandard2.1/Arora.Blazor.StateContainer.dll": {}
         }
       },
       "BCrypt.Net-Next/4.0.3": {
@@ -2625,6 +2640,13 @@
       "type": "project",
       "serviceable": false,
       "sha512": ""
+    },
+    "Arora.Blazor.StateContainer/1.0.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-N4nZ6Il5DYf2fMZ08GrnfPc83KOZ16pOkQxGnsHpdQd7lgdLdm1YwFItm6S4a9XkwQxgK3jrnmxZg68dwtYPNQ==",
+      "path": "arora.blazor.statecontainer/1.0.2",
+      "hashPath": "arora.blazor.statecontainer.1.0.2.nupkg.sha512"
     },
     "BCrypt.Net-Next/4.0.3": {
       "type": "package",

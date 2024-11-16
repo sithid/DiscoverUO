@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "16AtKU3fMfE=",
+  "dgSpecHash": "uiBELyZMw/w=",
   "success": true,
   "projectFilePath": "C:\\Users\\demon\\OneDrive\\Documents\\GitHub\\DiscoverUO\\DiscoverUO.Web\\DiscoverUO.Web.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\demon\\.nuget\\packages\\arora.blazor.statecontainer\\1.0.2\\arora.blazor.statecontainer.1.0.2.nupkg.sha512",
     "C:\\Users\\demon\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
     "C:\\Users\\demon\\.nuget\\packages\\blazored.localstorage\\4.5.0\\blazored.localstorage.4.5.0.nupkg.sha512",
     "C:\\Users\\demon\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\8.0.10\\microsoft.aspnetcore.authentication.jwtbearer.8.0.10.nupkg.sha512",

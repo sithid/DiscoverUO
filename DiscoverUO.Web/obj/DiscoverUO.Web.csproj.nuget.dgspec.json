@@ -125,6 +125,10 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "Arora.Blazor.StateContainer": {
+              "target": "Package",
+              "version": "[1.0.2, )"
+            },
             "BCrypt.Net-Next": {
               "target": "Package",
               "version": "[4.0.3, )"
