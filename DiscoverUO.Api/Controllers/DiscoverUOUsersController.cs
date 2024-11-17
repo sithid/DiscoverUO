@@ -175,17 +175,53 @@ namespace DiscoverUO.Api.Controllers
                 return NotFound(notFound);
             }
 
+            Console.WriteLine($"Current User found: {user.UserName}, {user.Id}");
+
             var dashboardData = new DashboardRequest
             {
                 Username = user.UserName,
                 DailyVotesRemaining = user.DailyVotesRemaining,
                 Email = user.Email,
                 Role = user.Role.ToString(),
-                UserBiography = user.Profile.UserBiography,
-                UserDisplayName = user.Profile.UserDisplayName,
-                Favorites = _mapper.Map<GetFavoritesRequest>(user.Favorites),
             };
 
+            try
+            {
+                var prof = await _context.UserProfiles.FirstOrDefaultAsync(p => p.OwnerId == user.Id);
+
+                if (prof != null && prof != default)
+                {
+                    dashboardData.UserBiography = prof.UserBiography;
+                    dashboardData.UserAvatar = prof.UserAvatar;
+                    dashboardData.UserDisplayName = prof.UserDisplayName;
+                }
+            }
+            catch( Exception ex )
+            {
+                Console.WriteLine($"Something broke: {ex.Message}");
+            }
+
+            if ( user.Favorites != null )
+            {
+                dashboardData.Favorites = new GetFavoritesRequest();
+
+                if( user.Favorites.FavoritedItems != null )
+                {
+                    dashboardData.Favorites.FavoritedItems = new List<GetFavoriteItemRequest>();
+
+                    foreach( var fav in user.Favorites.FavoritedItems )
+                    {
+                        dashboardData.Favorites.FavoritedItems.Add(new GetFavoriteItemRequest
+                        {
+                            ServerName = fav.ServerName,
+                            ServerAddress = fav.ServerAddress,
+                            ServerPort = fav.ServerPort,
+                            ServerEra = fav.ServerEra,
+                            PvPEnabled = fav.PvPEnabled
+                        });
+                    }
+                }
+            }
             if (dashboardData != null)
             {
                 var dashboardResponse = new DashboardResponse

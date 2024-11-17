@@ -47,6 +47,8 @@
                 var authResponse = httpResponse.Content.ReadFromJsonAsync<AuthenticationResponse>().Result;
                 var tokenString = authResponse.Value;
 
+                _localStorage.ClearAsync();
+
                 await _localStorage.SetItemAsync("jwtToken", tokenString );
                 _navigationManager.NavigateTo("/dashboard");
             }

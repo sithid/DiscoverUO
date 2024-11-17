@@ -38,9 +38,6 @@ namespace DiscoverUO.Api
             int userId = await GetCurrentUserId(user);
 
             var currentUser = await context.Users
-                .Include(u => u.Profile)
-                .Include(u => u.Favorites)
-                .ThenInclude(favs => favs.FavoritedItems)
                 .FirstOrDefaultAsync(user => user.Id == userId);
 
             return currentUser;

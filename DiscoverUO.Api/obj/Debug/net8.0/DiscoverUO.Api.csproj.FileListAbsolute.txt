@@ -298,3 +298,7 @@ C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Api\obj\Debug\net
 C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Api\obj\Debug\net8.0\DiscoverUO.Api.pdb
 C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Api\obj\Debug\net8.0\DiscoverUO.Api.genruntimeconfig.cache
 C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Api\obj\Debug\net8.0\ref\DiscoverUO.Api.dll
+C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Api\bin\Debug\net8.0\DiscoverUO.Api.staticwebassets.endpoints.json
+C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Api\obj\Debug\net8.0\staticwebassets.build.endpoints.json
+C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Api\obj\Debug\net8.0\staticwebassets\msbuild.DiscoverUO.Api.Microsoft.AspNetCore.StaticWebAssetEndpoints.props
+C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Api\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt

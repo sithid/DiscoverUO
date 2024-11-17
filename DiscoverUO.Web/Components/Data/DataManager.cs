@@ -13,15 +13,23 @@ namespace DiscoverUO.Web.Components.Data
 
         public static async Task SaveDashboardData(ILocalStorageService local, DashboardRequest data)
         {
-            string favsJson = JsonSerializer.Serialize<GetFavoritesRequest>(data.Favorites);
-            await local.SetItemAsync("UserFavorites", favsJson);
-            await local.SetItemAsync("Username", data.Username);
-            await local.SetItemAsync("DailyVotesRemaining", data.DailyVotesRemaining.ToString());
-            await local.SetItemAsync("UserDisplayName", data.UserDisplayName);
-            await local.SetItemAsync("UserEmail", data.Email);
-            await local.SetItemAsync("UserRole", data.Role);
-            await local.SetItemAsync("UserBiography", data.UserBiography);
-            await local.SetItemAsync("UserAvatar", data.UserAvatar);
+            try
+            {
+                string favsJson = JsonSerializer.Serialize<GetFavoritesRequest>(data.Favorites);
+                await local.SetItemAsStringAsync("UserFavorites", favsJson);
+            }
+            catch( Exception ex )
+            {
+                await local.SetItemAsStringAsync("UserFavorites", string.Empty);
+            }
+
+            await local.SetItemAsStringAsync("Username", data.Username);
+            await local.SetItemAsStringAsync("DailyVotesRemaining", data.DailyVotesRemaining.ToString());
+            await local.SetItemAsStringAsync("UserDisplayName", data.UserDisplayName);
+            await local.SetItemAsStringAsync("UserEmail", data.Email);
+            await local.SetItemAsStringAsync("UserRole", data.Role);
+            await local.SetItemAsStringAsync("UserBiography", data.UserBiography);
+            await local.SetItemAsStringAsync("UserAvatar", data.UserAvatar);
         }
 
         public static async Task<DashboardRequest> LoadDashboardData( ILocalStorageService local )
@@ -36,17 +44,31 @@ namespace DiscoverUO.Web.Components.Data
             dashboard.UserAvatar = await local.GetItemAsStringAsync("UserAvatar");
 
             var votesString = await local.GetItemAsStringAsync("DailyVotesRemaining");
-            var votes = Convert.ToInt32(votesString);
 
-            dashboard.DailyVotesRemaining = votes;
+            try
+            {
+                var votes = Convert.ToInt32(votesString);
+                dashboard.DailyVotesRemaining = votes;
+            }
+            catch (Exception ex)
+            {
+                dashboard.DailyVotesRemaining = 0;
+            }
 
             var favsString = await local.GetItemAsStringAsync("UserFavorites");
 
             if (!string.IsNullOrEmpty(favsString))
             {
-                var favorites = JsonSerializer.Deserialize<GetFavoritesRequest>(favsString);
+                try
+                {
+                    var favorites = JsonSerializer.Deserialize<GetFavoritesRequest>(favsString);
 
-                dashboard.Favorites = favorites;
+                    dashboard.Favorites = favorites;
+                }
+                catch
+                {
+                    dashboard.Favorites = new GetFavoritesRequest();
+                }
             }
 
             return dashboard;
@@ -62,6 +84,8 @@ namespace DiscoverUO.Web.Components.Data
                 _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
                 var response = _client.GetAsync("https://localhost:7015/api/users/view/dashboard").Result;
+
+                response.EnsureSuccessStatusCode();
 
                 dashboard = new DashboardRequest();
 
@@ -80,15 +104,6 @@ namespace DiscoverUO.Web.Components.Data
                 }
                 finally
                 {
-                    dashboard.Username = "anonymous";
-                    dashboard.DailyVotesRemaining = 0;
-                    dashboard.UserDisplayName = "Anonymous";
-                    dashboard.UserBiography = "I like to be anonymous.";
-                    dashboard.Email = "anonymous@gmail.com";
-                    dashboard.UserAvatar = "images/anon.jpg";
-                    dashboard.Role = "BasicUser";
-                    dashboard.Favorites = new GetFavoritesRequest();
-
                     SaveDashboardData(local, dashboard);
                 }
 

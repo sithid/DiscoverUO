@@ -380,3 +380,17 @@ C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\obj\Debug\net
 C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\obj\Debug\net8.0\DiscoverUO.Web.pdb
 C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\obj\Debug\net8.0\DiscoverUO.Web.genruntimeconfig.cache
 C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\obj\Debug\net8.0\ref\DiscoverUO.Web.dll
+C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\bin\Debug\net8.0\DiscoverUO.Web.staticwebassets.endpoints.json
+C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\bin\Debug\net8.0\refs\Microsoft.AspNetCore.Authorization.dll
+C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\bin\Debug\net8.0\refs\Microsoft.AspNetCore.Components.Authorization.dll
+C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\bin\Debug\net8.0\refs\Microsoft.AspNetCore.Components.dll
+C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\bin\Debug\net8.0\refs\Microsoft.AspNetCore.Components.Forms.dll
+C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\bin\Debug\net8.0\refs\Microsoft.AspNetCore.Components.Web.dll
+C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\bin\Debug\net8.0\refs\Microsoft.AspNetCore.Metadata.dll
+C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\bin\Debug\net8.0\refs\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\bin\Debug\net8.0\refs\Microsoft.Extensions.DependencyInjection.dll
+C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\bin\Debug\net8.0\refs\Microsoft.Extensions.Logging.Abstractions.dll
+C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\bin\Debug\net8.0\refs\Microsoft.JSInterop.dll
+C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\obj\Debug\net8.0\staticwebassets.build.endpoints.json
+C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\obj\Debug\net8.0\staticwebassets\msbuild.DiscoverUO.Web.Microsoft.AspNetCore.StaticWebAssetEndpoints.props
+C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
