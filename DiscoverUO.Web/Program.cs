@@ -1,5 +1,6 @@
 using Blazored.LocalStorage;
 using DiscoverUO.Web.Components;
+using MudBlazor.Services;
 
 namespace DiscoverUO.Web
 {
@@ -14,7 +15,7 @@ namespace DiscoverUO.Web
             #region Dependency Injection & Services
 
             builder.Services.AddScoped<HttpClient>();
-
+            builder.Services.AddMudServices();
             builder.Services.AddRazorComponents()
                 .AddInteractiveServerComponents();
 

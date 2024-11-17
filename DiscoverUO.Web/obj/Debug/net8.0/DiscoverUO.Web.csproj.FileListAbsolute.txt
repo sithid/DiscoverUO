@@ -394,3 +394,6 @@ C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\bin\Debug\net
 C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\obj\Debug\net8.0\staticwebassets.build.endpoints.json
 C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\obj\Debug\net8.0\staticwebassets\msbuild.DiscoverUO.Web.Microsoft.AspNetCore.StaticWebAssetEndpoints.props
 C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
+C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\bin\Debug\net8.0\Microsoft.Extensions.Localization.dll
+C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\bin\Debug\net8.0\Microsoft.Extensions.Localization.Abstractions.dll
+C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\bin\Debug\net8.0\MudBlazor.dll

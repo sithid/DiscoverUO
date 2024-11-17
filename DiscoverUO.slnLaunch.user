@@ -1,0 +1,15 @@
+[
+  {
+    "Name": "New Profile",
+    "Projects": [
+      {
+        "Path": "DiscoverUO.Api\\DiscoverUO.Api.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "DiscoverUO.Web\\DiscoverUO.Web.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]
