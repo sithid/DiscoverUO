@@ -2,7 +2,7 @@
   "Files": [
     {
       "Id": "C:\\Users\\demon\\OneDrive\\Documents\\GitHub\\DiscoverUO\\DiscoverUO.Web\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\DiscoverUO.Web.bundle.scp.css",
-      "PackagePath": "staticwebassets\\DiscoverUO.Web.tuhcit1jud.bundle.scp.css"
+      "PackagePath": "staticwebassets\\DiscoverUO.Web.txabi4y4i8.bundle.scp.css"
     },
     {
       "Id": "C:\\Users\\demon\\OneDrive\\Documents\\GitHub\\DiscoverUO\\DiscoverUO.Web\\wwwroot\\app.css",
@@ -21,12 +21,12 @@
       "PackagePath": "staticwebassets\\favicon.png"
     },
     {
-      "Id": "C:\\Users\\demon\\OneDrive\\Documents\\GitHub\\DiscoverUO\\DiscoverUO.Web\\wwwroot\\images\\anon.jpg",
-      "PackagePath": "staticwebassets\\images\\anon.jpg"
-    },
-    {
       "Id": "C:\\Users\\demon\\OneDrive\\Documents\\GitHub\\DiscoverUO\\DiscoverUO.Web\\wwwroot\\images\\server_icon.png",
       "PackagePath": "staticwebassets\\images\\server_icon.png"
+    },
+    {
+      "Id": "C:\\Users\\demon\\OneDrive\\Documents\\GitHub\\DiscoverUO\\DiscoverUO.Web\\wwwroot\\images\\vivi_icon.png",
+      "PackagePath": "staticwebassets\\images\\vivi_icon.png"
     },
     {
       "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.DiscoverUO.Web.Microsoft.AspNetCore.StaticWebAssetEndpoints.props",

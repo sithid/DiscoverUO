@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("DiscoverUO.Lib")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+50cbb82e27df2467a7ce5285664773a1d6250a42")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ebce80d8a4c95d0547d2d8b6f877b32bb4845d8f")]
 [assembly: System.Reflection.AssemblyProductAttribute("DiscoverUO.Lib")]
 [assembly: System.Reflection.AssemblyTitleAttribute("DiscoverUO.Lib")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

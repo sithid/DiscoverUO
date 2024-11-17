@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "lDhS3iLTHcZ1oRC3QHNfiyKjtaV8NrmsmRyjNLq8m3g=",
+  "Hash": "N5MFuJXipYWcAaYUT/+DH1e2+1gfB6EUxHvquynAZ2c=",
   "Source": "DiscoverUO.Web",
   "BasePath": "_content/DiscoverUO.Web",
   "Mode": "Default",
@@ -52,8 +52,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "ScopedCss",
       "AssetTraitValue": "ApplicationBundle",
-      "Fingerprint": "tuhcit1jud",
-      "Integrity": "ZZu6L8j6ve5VhDfkmzXFlQRkgsskYzZRbygUCpY7atQ=",
+      "Fingerprint": "txabi4y4i8",
+      "Integrity": "IQ7LdTWtJ9RkADllXnAhXlV3digBttKWvVq6H/ByJyg=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\demon\\OneDrive\\Documents\\GitHub\\DiscoverUO\\DiscoverUO.Web\\obj\\Debug\\net8.0\\scopedcss\\bundle\\DiscoverUO.Web.styles.css"
@@ -73,8 +73,8 @@
       "RelatedAsset": "",
       "AssetTraitName": "ScopedCss",
       "AssetTraitValue": "ProjectBundle",
-      "Fingerprint": "tuhcit1jud",
-      "Integrity": "ZZu6L8j6ve5VhDfkmzXFlQRkgsskYzZRbygUCpY7atQ=",
+      "Fingerprint": "txabi4y4i8",
+      "Integrity": "IQ7LdTWtJ9RkADllXnAhXlV3digBttKWvVq6H/ByJyg=",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Users\\demon\\OneDrive\\Documents\\GitHub\\DiscoverUO\\DiscoverUO.Web\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\DiscoverUO.Web.bundle.scp.css"
@@ -164,27 +164,6 @@
       "OriginalItemSpec": "wwwroot\\favicon.png"
     },
     {
-      "Identity": "C:\\Users\\demon\\OneDrive\\Documents\\GitHub\\DiscoverUO\\DiscoverUO.Web\\wwwroot\\images\\anon.jpg",
-      "SourceId": "DiscoverUO.Web",
-      "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\demon\\OneDrive\\Documents\\GitHub\\DiscoverUO\\DiscoverUO.Web\\wwwroot\\",
-      "BasePath": "_content/DiscoverUO.Web",
-      "RelativePath": "images/anon#[.{fingerprint}]?.jpg",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "AssetMergeBehavior": "",
-      "AssetMergeSource": "",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "Fingerprint": "7tz28ddy8v",
-      "Integrity": "y82FgKl2/fxhnCUTS9mIKJ4BR+o8WC4H7H5Xo7lRPWk=",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\images\\anon.jpg"
-    },
-    {
       "Identity": "C:\\Users\\demon\\OneDrive\\Documents\\GitHub\\DiscoverUO\\DiscoverUO.Web\\wwwroot\\images\\server_icon.png",
       "SourceId": "DiscoverUO.Web",
       "SourceType": "Discovered",
@@ -204,6 +183,27 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\server_icon.png"
+    },
+    {
+      "Identity": "C:\\Users\\demon\\OneDrive\\Documents\\GitHub\\DiscoverUO\\DiscoverUO.Web\\wwwroot\\images\\vivi_icon.png",
+      "SourceId": "DiscoverUO.Web",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\demon\\OneDrive\\Documents\\GitHub\\DiscoverUO\\DiscoverUO.Web\\wwwroot\\",
+      "BasePath": "_content/DiscoverUO.Web",
+      "RelativePath": "images/vivi_icon#[.{fingerprint}]?.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "6ai0ly54o4",
+      "Integrity": "clYfYDCo9MXBXnWW9qCrxZpO/jBSw1X8ljUbj4srZtw=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\vivi_icon.png"
     }
   ],
   "Endpoints": [
@@ -501,7 +501,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "4951"
+          "Value": "4954"
         },
         {
           "Name": "Content-Type",
@@ -509,11 +509,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"ZZu6L8j6ve5VhDfkmzXFlQRkgsskYzZRbygUCpY7atQ=\""
+          "Value": "\"IQ7LdTWtJ9RkADllXnAhXlV3digBttKWvVq6H/ByJyg=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Sun, 17 Nov 2024 06:14:44 GMT"
+          "Value": "Sun, 17 Nov 2024 07:52:03 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -523,7 +523,7 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-ZZu6L8j6ve5VhDfkmzXFlQRkgsskYzZRbygUCpY7atQ="
+          "Value": "sha256-IQ7LdTWtJ9RkADllXnAhXlV3digBttKWvVq6H/ByJyg="
         }
       ]
     },
@@ -538,7 +538,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "4951"
+          "Value": "4954"
         },
         {
           "Name": "Content-Type",
@@ -546,11 +546,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"ZZu6L8j6ve5VhDfkmzXFlQRkgsskYzZRbygUCpY7atQ=\""
+          "Value": "\"IQ7LdTWtJ9RkADllXnAhXlV3digBttKWvVq6H/ByJyg=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Sun, 17 Nov 2024 06:14:44 GMT"
+          "Value": "Sun, 17 Nov 2024 07:52:03 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -560,12 +560,12 @@
       "EndpointProperties": [
         {
           "Name": "integrity",
-          "Value": "sha256-ZZu6L8j6ve5VhDfkmzXFlQRkgsskYzZRbygUCpY7atQ="
+          "Value": "sha256-IQ7LdTWtJ9RkADllXnAhXlV3digBttKWvVq6H/ByJyg="
         }
       ]
     },
     {
-      "Route": "DiscoverUO.Web.tuhcit1jud.bundle.scp.css",
+      "Route": "DiscoverUO.Web.txabi4y4i8.bundle.scp.css",
       "AssetFile": "C:\\Users\\demon\\OneDrive\\Documents\\GitHub\\DiscoverUO\\DiscoverUO.Web\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\DiscoverUO.Web.bundle.scp.css",
       "Selectors": [],
       "ResponseHeaders": [
@@ -575,7 +575,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "4951"
+          "Value": "4954"
         },
         {
           "Name": "Content-Type",
@@ -583,11 +583,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"ZZu6L8j6ve5VhDfkmzXFlQRkgsskYzZRbygUCpY7atQ=\""
+          "Value": "\"IQ7LdTWtJ9RkADllXnAhXlV3digBttKWvVq6H/ByJyg=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Sun, 17 Nov 2024 06:14:44 GMT"
+          "Value": "Sun, 17 Nov 2024 07:52:03 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -597,7 +597,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "tuhcit1jud"
+          "Value": "txabi4y4i8"
         },
         {
           "Name": "label",
@@ -605,12 +605,12 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-ZZu6L8j6ve5VhDfkmzXFlQRkgsskYzZRbygUCpY7atQ="
+          "Value": "sha256-IQ7LdTWtJ9RkADllXnAhXlV3digBttKWvVq6H/ByJyg="
         }
       ]
     },
     {
-      "Route": "DiscoverUO.Web.tuhcit1jud.styles.css",
+      "Route": "DiscoverUO.Web.txabi4y4i8.styles.css",
       "AssetFile": "C:\\Users\\demon\\OneDrive\\Documents\\GitHub\\DiscoverUO\\DiscoverUO.Web\\obj\\Debug\\net8.0\\scopedcss\\bundle\\DiscoverUO.Web.styles.css",
       "Selectors": [],
       "ResponseHeaders": [
@@ -620,7 +620,7 @@
         },
         {
           "Name": "Content-Length",
-          "Value": "4951"
+          "Value": "4954"
         },
         {
           "Name": "Content-Type",
@@ -628,11 +628,11 @@
         },
         {
           "Name": "ETag",
-          "Value": "\"ZZu6L8j6ve5VhDfkmzXFlQRkgsskYzZRbygUCpY7atQ=\""
+          "Value": "\"IQ7LdTWtJ9RkADllXnAhXlV3digBttKWvVq6H/ByJyg=\""
         },
         {
           "Name": "Last-Modified",
-          "Value": "Sun, 17 Nov 2024 06:14:44 GMT"
+          "Value": "Sun, 17 Nov 2024 07:52:03 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -642,7 +642,7 @@
       "EndpointProperties": [
         {
           "Name": "fingerprint",
-          "Value": "tuhcit1jud"
+          "Value": "txabi4y4i8"
         },
         {
           "Name": "label",
@@ -650,7 +650,7 @@
         },
         {
           "Name": "integrity",
-          "Value": "sha256-ZZu6L8j6ve5VhDfkmzXFlQRkgsskYzZRbygUCpY7atQ="
+          "Value": "sha256-IQ7LdTWtJ9RkADllXnAhXlV3digBttKWvVq6H/ByJyg="
         }
       ]
     },
@@ -737,88 +737,6 @@
       ]
     },
     {
-      "Route": "images/anon.7tz28ddy8v.jpg",
-      "AssetFile": "C:\\Users\\demon\\OneDrive\\Documents\\GitHub\\DiscoverUO\\DiscoverUO.Web\\wwwroot\\images\\anon.jpg",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "265387"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "image/jpeg"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"y82FgKl2/fxhnCUTS9mIKJ4BR+o8WC4H7H5Xo7lRPWk=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Sat, 16 Nov 2024 06:34:54 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=31536000, immutable"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "fingerprint",
-          "Value": "7tz28ddy8v"
-        },
-        {
-          "Name": "label",
-          "Value": "images/anon.jpg"
-        },
-        {
-          "Name": "integrity",
-          "Value": "sha256-y82FgKl2/fxhnCUTS9mIKJ4BR+o8WC4H7H5Xo7lRPWk="
-        }
-      ]
-    },
-    {
-      "Route": "images/anon.jpg",
-      "AssetFile": "C:\\Users\\demon\\OneDrive\\Documents\\GitHub\\DiscoverUO\\DiscoverUO.Web\\wwwroot\\images\\anon.jpg",
-      "Selectors": [],
-      "ResponseHeaders": [
-        {
-          "Name": "Accept-Ranges",
-          "Value": "bytes"
-        },
-        {
-          "Name": "Content-Length",
-          "Value": "265387"
-        },
-        {
-          "Name": "Content-Type",
-          "Value": "image/jpeg"
-        },
-        {
-          "Name": "ETag",
-          "Value": "\"y82FgKl2/fxhnCUTS9mIKJ4BR+o8WC4H7H5Xo7lRPWk=\""
-        },
-        {
-          "Name": "Last-Modified",
-          "Value": "Sat, 16 Nov 2024 06:34:54 GMT"
-        },
-        {
-          "Name": "Cache-Control",
-          "Value": "max-age=3600, must-revalidate"
-        }
-      ],
-      "EndpointProperties": [
-        {
-          "Name": "integrity",
-          "Value": "sha256-y82FgKl2/fxhnCUTS9mIKJ4BR+o8WC4H7H5Xo7lRPWk="
-        }
-      ]
-    },
-    {
       "Route": "images/server_icon.png",
       "AssetFile": "C:\\Users\\demon\\OneDrive\\Documents\\GitHub\\DiscoverUO\\DiscoverUO.Web\\wwwroot\\images\\server_icon.png",
       "Selectors": [],
@@ -897,6 +815,88 @@
         {
           "Name": "integrity",
           "Value": "sha256-ThyyQdH+C6ElTCxwoHydqrt9slldQ8ZHET5dFfJo6oo="
+        }
+      ]
+    },
+    {
+      "Route": "images/vivi_icon.6ai0ly54o4.png",
+      "AssetFile": "C:\\Users\\demon\\OneDrive\\Documents\\GitHub\\DiscoverUO\\DiscoverUO.Web\\wwwroot\\images\\vivi_icon.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "89849"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"clYfYDCo9MXBXnWW9qCrxZpO/jBSw1X8ljUbj4srZtw=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sun, 17 Nov 2024 07:19:03 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "6ai0ly54o4"
+        },
+        {
+          "Name": "label",
+          "Value": "images/vivi_icon.png"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-clYfYDCo9MXBXnWW9qCrxZpO/jBSw1X8ljUbj4srZtw="
+        }
+      ]
+    },
+    {
+      "Route": "images/vivi_icon.png",
+      "AssetFile": "C:\\Users\\demon\\OneDrive\\Documents\\GitHub\\DiscoverUO\\DiscoverUO.Web\\wwwroot\\images\\vivi_icon.png",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "89849"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "image/png"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"clYfYDCo9MXBXnWW9qCrxZpO/jBSw1X8ljUbj4srZtw=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Sun, 17 Nov 2024 07:19:03 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=3600, must-revalidate"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-clYfYDCo9MXBXnWW9qCrxZpO/jBSw1X8ljUbj4srZtw="
         }
       ]
     }

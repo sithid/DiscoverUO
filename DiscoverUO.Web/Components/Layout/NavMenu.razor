@@ -1,4 +1,7 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
+﻿@inject ILocalStorageService _localStorage
+@inject HttpClient _client
+
+<div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="">DiscoverUO</a>
         <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
@@ -32,8 +35,21 @@
 
     private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
 
+    public DashboardRequest DashboardData{ get; set; }
+
     private void ToggleNavMenu()
     {
         collapseNavMenu = !collapseNavMenu;
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        base.OnAfterRender(firstRender);
+
+        if( !firstRender )
+        {
+            DashboardData = await DataManager.GetDashboard(_client, _localStorage);
+            StateHasChanged();
+        }
     }
 }

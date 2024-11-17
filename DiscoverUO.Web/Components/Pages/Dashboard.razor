@@ -6,7 +6,7 @@
 @inject ILocalStorageService _localStorage
 @inject HttpClient _client
 
-@if (dashboard == null)
+@if (DashboardData == null)
 {
     @if (ShowErrorMessage)
     {
@@ -19,41 +19,24 @@
 }
 else
 {
-
-<div class="dashboard">
     <div>
         <div>
-            <label>Username  : @dashboard.UserDisplayName</label>
-        </div>
-        <div>
-            <label>User Daily Votes Remaining: @dashboard.DailyVotesRemaining</label>
-        </div>
-        <div>
-            <label>User Email: @dashboard.Email</label>
-        </div>
-        <div>
-            <label>User Avatar: @dashboard.UserAvatar</label>
-        </div>
-        <div>
-            <label>User Biography: @dashboard.UserBiography</label>
-        </div>
-        <div>
-            <label>User Role: @dashboard.Role</label>
+            <div>
+                Welcome back, @DashboardData.UserDisplayName!
+            </div>
         </div>
     </div>
-</div>
 }
 
 @code
 {
     public string ErrorMessage { get; set; }
     public bool ShowErrorMessage { get; set; }
-    public DashboardRequest dashboard{ get; set;
-    }
+    public DashboardRequest DashboardData { get; set; }
 
     protected async override Task OnInitializedAsync()
     {
-        dashboard = await DataManager.GetDashboard(_client, _localStorage);
+        DashboardData = await DataManager.GetDashboard(_client, _localStorage);
         StateHasChanged();
     }
 }

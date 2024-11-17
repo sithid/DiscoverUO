@@ -1,4 +1,6 @@
 ﻿@inherits LayoutComponentBase
+@inject ILocalStorageService _localStorage
+@inject HttpClient _client
 
 <div class="page">
     <div class="sidebar">
@@ -7,7 +9,14 @@
 
     <main>
         <div class="top-row px-3">
-            <NavLink class="nav-link" href="/signin" Match=NavLinkMatch.All>Sign In</NavLink>
+@if( DashboardData != null )
+{
+            <a href="/dashboard">@DashboardData.UserDisplayName</a>
+}
+else
+{
+            <a href="/signin">Sign In</a>
+}
         </div>
 
         <article class="content px-4">
@@ -15,3 +24,18 @@
         </article>
     </main>
 </div>
+
+@code
+{
+    public DashboardRequest DashboardData{ get; set; }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        base.OnAfterRender(firstRender);
+
+        if (!firstRender)
+        {
+            DashboardData = await DataManager.GetDashboard(_client, _localStorage);
+        }
+    }
+}

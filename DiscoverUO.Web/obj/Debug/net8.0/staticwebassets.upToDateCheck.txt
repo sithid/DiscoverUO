@@ -2,5 +2,5 @@ wwwroot\app.css
 wwwroot\bootstrap\bootstrap.min.css
 wwwroot\bootstrap\bootstrap.min.css.map
 wwwroot\favicon.png
-wwwroot\images\anon.jpg
 wwwroot\images\server_icon.png
+wwwroot\images\vivi_icon.png
