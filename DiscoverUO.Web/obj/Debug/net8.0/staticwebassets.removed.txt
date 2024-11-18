@@ -1,0 +1,2 @@
+C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\wwwroot\bootstrap\bootstrap.min.css
+C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\wwwroot\bootstrap\bootstrap.min.css.map

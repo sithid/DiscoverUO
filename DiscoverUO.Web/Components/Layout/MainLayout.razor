@@ -1,41 +1,31 @@
 ﻿@inherits LayoutComponentBase
-@inject ILocalStorageService _localStorage
-@inject HttpClient _client
 
-<div class="page">
-    <div class="sidebar">
-        <NavMenu />
-    </div>
+<MudThemeProvider />
+<MudPopoverProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
 
-    <main>
-        <div class="top-row px-3">
-@if( DashboardData != null )
-{
-            <a href="/dashboard">@DashboardData.UserDisplayName</a>
-}
-else
-{
-            <a href="/signin">Sign In</a>
-}
-        </div>
-
-        <article class="content px-4">
+<MudLayout>
+    <MudAppBar>
+        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
+        DiscoverUO
+    </MudAppBar>
+    <MudDrawer @bind-Open="@_drawerOpen">
+        <NavMenu/>
+    </MudDrawer>
+    <MudMainContent>
+        <MudContainer MaxWidth="MaxWidth.Medium">
             @Body
-        </article>
-    </main>
-</div>
+        </MudContainer>
+    </MudMainContent>
+</MudLayout>
 
-@code
-{
-    public DashboardRequest DashboardData{ get; set; }
+@code {
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+    public bool _drawerOpen = true;
+
+    void DrawerToggle()
     {
-        base.OnAfterRender(firstRender);
-
-        if (!firstRender)
-        {
-            DashboardData = await DataManager.GetDashboard(_client, _localStorage);
-        }
+        _drawerOpen = !_drawerOpen;
     }
 }
