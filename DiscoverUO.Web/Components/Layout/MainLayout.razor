@@ -1,32 +1,53 @@
-﻿@inherits LayoutComponentBase
+﻿@using Blazored.LocalStorage
+@using System.Net
+@inherits LayoutComponentBase
+@inject ILocalStorageService _localStorage
+@inject HttpClient _client
+@inject NavigationManager _navManager
 
 <MudThemeProvider Theme="UOTheme" />
 <MudPopoverProvider />
 <MudDialogProvider />
 <MudSnackbarProvider />
 
+
 <MudLayout>
-    <MudAppBar>
+    <MudAppBar Elevation="1">
         <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
-        DiscoverUO
+        <MudText Typo="Typo.h5" Class="ml-3">DiscoverUO</MudText>"
+        <MudSpacer />
+        <MudIconButton Icon="@Icons.Material.Filled.Dashboard" Color="Color.Inherit" Edge="Edge.End" OnClick="@((e) => AppBarNavToSignIn())" />
     </MudAppBar>
     <MudDrawer @bind-Open="@_drawerOpen">
-        <NavMenu/>
+        <NavMenu DashboardData="DashboardData"/>
     </MudDrawer>
     <MudMainContent>
-        <MudContainer MaxWidth="MaxWidth.Medium">
-            @Body
-        </MudContainer>
+        @Body
     </MudMainContent>
 </MudLayout>
 
 @code
 {
+    public DashboardRequest DashboardData { get; set; }
+
+    protected async override Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender)
+        {
+            DashboardData = await DataManager.GetDashboard(_client, _localStorage);
+            StateHasChanged();
+        }
+    }
     public bool _drawerOpen = true;
 
     void DrawerToggle()
     {
         _drawerOpen = !_drawerOpen;
+    }
+
+    void AppBarNavToSignIn()
+    {
+        _navManager.NavigateTo("/signin");
     }
 
     MudTheme UOTheme = new MudTheme()

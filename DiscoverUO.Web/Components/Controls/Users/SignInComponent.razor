@@ -7,40 +7,47 @@
 @inject HttpClient _client
 @inject NavigationManager _navigationManager
 
-<h3>DiscoverUO User Login</h3>
-
-<form @onsubmit="HandleSignIn">
-    <div class="form-group">
-        <label for="username">Username:</label>
-        <input type="text" class="form-control" id="username" @bind="Username" />
-    </div>
-    <div class="form-group">
-        <label for="password">Password:</label>
-        <input type="password" class="form-control" id="password" @bind="Password" />
-    </div>
-
-    <button type="submit" class="btn btn-primary">Sign In</button>
-
-    @if( ShowUIResponseMessage )
-    {
-        <div class="alert alert-danger mt-2">@UIResponseMessage</div>
-    }
-</form>
+<MudContainer Class="mt-16 px-8" MaxWidth="MaxWidth.False">
+    <MudGrid>
+        <MudItem xs="12" sm="6" md="4">
+            <MudPaper Elevation="1" Height="200" Width="200">
+                <MudForm Model="@Details" Class="flex-shrink-1 py-8 mud-theme-primary">
+                    <MudItem>
+                        <MudSpacer/>
+                        <MudTextField Label="Username" @bind-Value="Details.Username" />
+                        <MudTextField Label="Password" @bind-Value="Details.Password" />
+                    </MudItem>
+                    <MudSpacer />
+                    <MudItem Class="flex-shrink-1 py-8 mud-theme-primary">
+                        <MudButton Variant="Variant.Outlined" Color="Color.Secondary" OnClick="@HandleSignIn">Submit</MudButton>
+                    </MudItem>
+                 </MudForm>
+            </MudPaper>
+        </MudItem>
+    </MudGrid>>
+</MudContainer>
 
 @code
 {
-    public string Username{ get; set; }
-    public string Password{ get; set; }
     public string UIResponseMessage { get; set; }
     public bool ShowUIResponseMessage { get; set; }
+    public LoginDetails Details = new LoginDetails();
 
     public async Task HandleSignIn()
     {
         ShowUIResponseMessage = false;
 
+        var userName = Details.Username;
+
+        Console.WriteLine($"Details.Username: {userName}");
+
+        var passwordHash = BCrypt.HashPassword(Details.Password);
+
+        Console.WriteLine($"Details.Username: {userName}, Details.PasswordHash: {passwordHash}");
+
         try
         {
-            var httpResponse = await _client.PostAsJsonAsync("https://localhost:7015/api/users/Authenticate", new AuthenticationRequest(Username, BCrypt.HashPassword(Password)));
+            var httpResponse = await _client.PostAsJsonAsync("https://localhost:7015/api/users/Authenticate", new AuthenticationRequest(userName, passwordHash));
 
             if (httpResponse.IsSuccessStatusCode)
             {
@@ -49,7 +56,7 @@
 
                 _localStorage.ClearAsync();
 
-                await _localStorage.SetItemAsync("jwtToken", tokenString );
+                await _localStorage.SetItemAsync("jwtToken", tokenString);
                 _navigationManager.NavigateTo("/dashboard");
             }
             else
@@ -64,7 +71,7 @@
             UIResponseMessage = $"An HttpRequest Exception was thrown: {ex.Message}";
             ShowUIResponseMessage = true;
         }
-        catch( Exception ex )
+        catch (Exception ex)
         {
             UIResponseMessage = $"An unknown error occurred: {ex.Message}";
             ShowUIResponseMessage = true;
@@ -73,5 +80,11 @@
         {
             StateHasChanged();
         }
+    }
+
+    public class LoginDetails
+    {
+        public string Username{ get; set; }
+        public string Password{ get; set; }
     }
 }

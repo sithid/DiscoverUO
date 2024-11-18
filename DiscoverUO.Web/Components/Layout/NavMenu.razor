@@ -1,7 +1,34 @@
-﻿<MudNavMenu>
+﻿@using Blazored.LocalStorage
+@using System.Net
+@inject ILocalStorageService _localStorage
+@inject HttpClient _client
+
+<MudNavMenu>
     <MudNavGroup Title="DiscoverUO" Expanded="true">
-        <MudNavLink Href="/signin" Match="NavLinkMatch.All">Sign-In</MudNavLink>
-        <MudNavLink Href="/dashboard" Match="NavLinkMatch.Prefix">Dashboard</MudNavLink>
-        <MudNavLink Href="/servers" Match="NavLinkMatch.All">Servers</MudNavLink>
+        @if (DashboardData == null)
+        {
+            <MudNavLink Href="/signin" Match="NavLinkMatch.All">Sign-In</MudNavLink>
+        }
+        else
+        {
+            <MudNavLink Href="/dashboard" Match="NavLinkMatch.All">Dashboard</MudNavLink>
+            <MudNavLink Href="/favorites" Match="NavLinkMatch.Prefix">Favorites</MudNavLink>
+        }
+        <MudNavLink Href="/servers" Match="NavLinkMatch.All">Server List</MudNavLink>
     </MudNavGroup>
 </MudNavMenu>
+
+@code{
+
+    [Parameter]
+    public DashboardRequest DashboardData { get; set; }
+
+    protected async override Task OnAfterRenderAsync( bool firstRender)
+    {
+        if (!firstRender)
+        {
+            DashboardData = await DataManager.GetDashboard(_client, _localStorage);
+            StateHasChanged();
+        }
+    }
+}

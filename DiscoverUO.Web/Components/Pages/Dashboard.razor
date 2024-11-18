@@ -8,20 +8,16 @@
 
 <PageTitle>Dashboard</PageTitle>
 
-<MudContainer Class="mt-16 px-8" Fixed="true">
-    <MudGrid>
-        <MudItem xs="12" sm="6" md="4">
-            <MudPaper Elevation="2" Class=" flex-shrink-1 py-8 mud-theme-primary" Width="900px" Height="200px"Outlined="true" Square="true">
-                <div Style="font-family: Courier New, Courier, monospace;font-size: 32px">Welcome back, @DashboardData?.Username!</div>
-            </MudPaper>
-        </MudItem>
-    </MudGrid>
+<MudContainer Class="flex-shrink-1 py-8 mud-theme-primary" MaxWidth="MaxWidth.False">
+    <MudItem xs="12" sm="6" md="4">
+        <MudPaper Elevation="1" Class="flex-shrink-1 py-8 mud-theme-primary" Width="250px" Height="100px" Outlined="true" Square="true">
+            This is where the dashboard will be!
+        </MudPaper>
+    </MudItem>
 </MudContainer>
 
 @code
 {
-    public string ErrorMessage { get; set; }
-    public bool ShowErrorMessage { get; set; }
     public DashboardRequest DashboardData { get; set; }
 
     protected async override Task OnInitializedAsync()
