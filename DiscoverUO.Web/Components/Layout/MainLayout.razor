@@ -1,6 +1,6 @@
 ﻿@inherits LayoutComponentBase
 
-<MudThemeProvider />
+<MudThemeProvider Theme="UOTheme" />
 <MudPopoverProvider />
 <MudDialogProvider />
 <MudSnackbarProvider />
@@ -20,12 +20,38 @@
     </MudMainContent>
 </MudLayout>
 
-@code {
-
+@code
+{
     public bool _drawerOpen = true;
 
     void DrawerToggle()
     {
         _drawerOpen = !_drawerOpen;
     }
+
+    MudTheme UOTheme = new MudTheme()
+        {
+            PaletteLight = new PaletteLight()
+            {
+                
+                Primary = Colors.Gray.Default,
+                PrimaryLighten = Colors.Gray.Lighten2,
+                PrimaryDarken = Colors.Gray.Darken2,
+                PrimaryContrastText = Colors.Gray.Darken4,
+                TextPrimary = Colors.Gray.Lighten5,
+                Secondary = Colors.Brown.Darken2,
+                SecondaryLighten = Colors.Brown.Default,
+                SecondaryDarken = Colors.Brown.Darken4,
+                SecondaryContrastText = Colors.Gray.Lighten5,
+                TextSecondary = Colors.Gray.Darken1,
+                AppbarBackground = Colors.Gray.Darken2,
+            },
+
+            LayoutProperties = new LayoutProperties()
+            {
+                DrawerWidthLeft = "200px",
+                DrawerWidthRight = "200px",
+                AppbarHeight = "100px"
+            }
+        };
 }
