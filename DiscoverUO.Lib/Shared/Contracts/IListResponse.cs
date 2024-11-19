@@ -2,6 +2,6 @@
 {
     public interface IListResponse<T> : IResponse
     {
-        public List<T> Table { get; set; }
+        public List<T> List { get; set; }
     }
 }

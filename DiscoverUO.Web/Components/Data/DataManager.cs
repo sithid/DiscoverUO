@@ -5,13 +5,15 @@ using DiscoverUO.Web.Components.Pages;
 using System.Net.Http.Headers;
 using System.Text.Json;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using DiscoverUO.Lib.Shared.Servers;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace DiscoverUO.Web.Components.Data
 {
     public static class DataManager
     {
 
-        public static async Task SaveDashboardData(ILocalStorageService local, DashboardRequest data)
+        public static async Task SaveDashboardData(ILocalStorageService local, DashboardData data)
         {
             try
             {
@@ -32,9 +34,9 @@ namespace DiscoverUO.Web.Components.Data
             await local.SetItemAsStringAsync("UserAvatar", data.UserAvatar);
         }
 
-        public static async Task<DashboardRequest> LoadDashboardData( ILocalStorageService local )
+        public static async Task<DashboardData> LoadDashboardData( ILocalStorageService local )
         {
-            DashboardRequest dashboard = new DashboardRequest();
+            DashboardData dashboard = new DashboardData();
 
             dashboard.Username = await local.GetItemAsStringAsync("Username");
             dashboard.UserDisplayName = await local.GetItemAsStringAsync("UserDisplayName");
@@ -74,7 +76,7 @@ namespace DiscoverUO.Web.Components.Data
             return dashboard;
         }
 
-        public static async Task<DashboardRequest> GetDashboard(HttpClient _client, ILocalStorageService local)
+        public static async Task<DashboardData> GetDashboard(HttpClient _client, ILocalStorageService local)
         {
             var dashboard = await LoadDashboardData(local);
 
@@ -87,14 +89,14 @@ namespace DiscoverUO.Web.Components.Data
 
                 if( !response.IsSuccessStatusCode )
                 {
-                    return new DashboardRequest();
+                    return new DashboardData();
                 }
 
-                dashboard = new DashboardRequest();
+                dashboard = new DashboardData();
 
                 try
                 {
-                    var dashboardResponse = response.Content.ReadFromJsonAsync<DashboardResponse>().Result;
+                    var dashboardResponse = response.Content.ReadFromJsonAsync<DashboardDataResponse>().Result;
 
                     if (response.IsSuccessStatusCode)
                     {
@@ -114,6 +116,32 @@ namespace DiscoverUO.Web.Components.Data
             }
 
             return dashboard;
+        }
+
+        public static async Task<List<ServerData>> GetPublicServers(HttpClient _client, ILocalStorageService local)
+        {
+            var publicServers = new List<ServerData>();
+
+            var token = await local.GetItemAsync<string>("jwtToken");
+            _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            var response = _client.GetAsync("https://localhost:7015/api/servers/public").Result;
+
+            try
+            {
+                var serverListReponse = response.Content.ReadFromJsonAsync<ServerDataResponse>().Result;
+
+                if (response.IsSuccessStatusCode)
+                {
+                    publicServers = serverListReponse.List;
+                }
+            }
+            catch( Exception ex )
+            {
+                Console.WriteLine($"Exception: {ex.Message}");
+            }
+
+            return publicServers;
         }
     }
 }

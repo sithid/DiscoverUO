@@ -18,7 +18,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/GetServerRequest"
+                    "$ref": "#/components/schemas/ServerData"
                   }
                 }
               },
@@ -26,7 +26,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/GetServerRequest"
+                    "$ref": "#/components/schemas/ServerData"
                   }
                 }
               },
@@ -34,7 +34,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/GetServerRequest"
+                    "$ref": "#/components/schemas/ServerData"
                   }
                 }
               }
@@ -65,17 +65,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetServerRequest"
+                  "$ref": "#/components/schemas/ServerData"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetServerRequest"
+                  "$ref": "#/components/schemas/ServerData"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetServerRequest"
+                  "$ref": "#/components/schemas/ServerData"
                 }
               }
             }
@@ -148,7 +148,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/GetServerRequest"
+                    "$ref": "#/components/schemas/ServerData"
                   }
                 }
               },
@@ -156,7 +156,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/GetServerRequest"
+                    "$ref": "#/components/schemas/ServerData"
                   }
                 }
               },
@@ -164,7 +164,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/GetServerRequest"
+                    "$ref": "#/components/schemas/ServerData"
                   }
                 }
               }
@@ -186,7 +186,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/GetServerRequest"
+                    "$ref": "#/components/schemas/ServerData"
                   }
                 }
               },
@@ -194,7 +194,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/GetServerRequest"
+                    "$ref": "#/components/schemas/ServerData"
                   }
                 }
               },
@@ -202,7 +202,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/GetServerRequest"
+                    "$ref": "#/components/schemas/ServerData"
                   }
                 }
               }
@@ -220,17 +220,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/RegisterServerRequest"
+                "$ref": "#/components/schemas/ServerRegistrationData"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/RegisterServerRequest"
+                "$ref": "#/components/schemas/ServerRegistrationData"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/RegisterServerRequest"
+                "$ref": "#/components/schemas/ServerRegistrationData"
               }
             }
           }
@@ -241,17 +241,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetServerRequest"
+                  "$ref": "#/components/schemas/ServerData"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetServerRequest"
+                  "$ref": "#/components/schemas/ServerData"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetServerRequest"
+                  "$ref": "#/components/schemas/ServerData"
                 }
               }
             }
@@ -279,17 +279,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/UpdateServerRequest"
+                "$ref": "#/components/schemas/ServerUpdateData"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/UpdateServerRequest"
+                "$ref": "#/components/schemas/ServerUpdateData"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/UpdateServerRequest"
+                "$ref": "#/components/schemas/ServerUpdateData"
               }
             }
           }
@@ -300,17 +300,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetServerRequest"
+                  "$ref": "#/components/schemas/ServerData"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetServerRequest"
+                  "$ref": "#/components/schemas/ServerData"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetServerRequest"
+                  "$ref": "#/components/schemas/ServerData"
                 }
               }
             }
@@ -349,17 +349,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetServerRequest"
+                  "$ref": "#/components/schemas/ServerData"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetServerRequest"
+                  "$ref": "#/components/schemas/ServerData"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetServerRequest"
+                  "$ref": "#/components/schemas/ServerData"
                 }
               }
             }
@@ -793,17 +793,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/DashboardResponse"
+                  "$ref": "#/components/schemas/DashboardDataResponse"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/DashboardResponse"
+                  "$ref": "#/components/schemas/DashboardDataResponse"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/DashboardResponse"
+                  "$ref": "#/components/schemas/DashboardDataResponse"
                 }
               }
             }
@@ -1213,17 +1213,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetUserTableResponse"
+                  "$ref": "#/components/schemas/GetUserListResponse"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetUserTableResponse"
+                  "$ref": "#/components/schemas/GetUserListResponse"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetUserTableResponse"
+                  "$ref": "#/components/schemas/GetUserListResponse"
                 }
               }
             }
@@ -1346,7 +1346,7 @@
         },
         "additionalProperties": false
       },
-      "DashboardRequest": {
+      "DashboardData": {
         "type": "object",
         "properties": {
           "username": {
@@ -1383,7 +1383,7 @@
         },
         "additionalProperties": false
       },
-      "DashboardResponse": {
+      "DashboardDataResponse": {
         "type": "object",
         "properties": {
           "success": {
@@ -1397,7 +1397,7 @@
             "$ref": "#/components/schemas/HttpStatusCode"
           },
           "entity": {
-            "$ref": "#/components/schemas/DashboardRequest"
+            "$ref": "#/components/schemas/DashboardData"
           }
         },
         "additionalProperties": false
@@ -1477,42 +1477,6 @@
         },
         "additionalProperties": false
       },
-      "GetServerRequest": {
-        "type": "object",
-        "properties": {
-          "serverName": {
-            "type": "string",
-            "nullable": true
-          },
-          "serverAddress": {
-            "type": "string",
-            "nullable": true
-          },
-          "serverPort": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "serverEra": {
-            "type": "string",
-            "nullable": true
-          },
-          "pvPEnabled": {
-            "type": "boolean"
-          },
-          "isPublic": {
-            "type": "boolean"
-          },
-          "votes": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "rating": {
-            "type": "integer",
-            "format": "int32"
-          }
-        },
-        "additionalProperties": false
-      },
       "GetUserEntityRequest": {
         "type": "object",
         "properties": {
@@ -1564,7 +1528,7 @@
         },
         "additionalProperties": false
       },
-      "GetUserTableResponse": {
+      "GetUserListResponse": {
         "type": "object",
         "properties": {
           "success": {
@@ -1577,7 +1541,7 @@
           "statusCode": {
             "$ref": "#/components/schemas/HttpStatusCode"
           },
-          "table": {
+          "list": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/GetUserEntityRequest"
@@ -1654,34 +1618,6 @@
         "type": "integer",
         "format": "int32"
       },
-      "RegisterServerRequest": {
-        "type": "object",
-        "properties": {
-          "serverName": {
-            "type": "string",
-            "nullable": true
-          },
-          "serverAddress": {
-            "type": "string",
-            "nullable": true
-          },
-          "serverPort": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "serverEra": {
-            "type": "string",
-            "nullable": true
-          },
-          "pvPEnabled": {
-            "type": "boolean"
-          },
-          "isPublic": {
-            "type": "boolean"
-          }
-        },
-        "additionalProperties": false
-      },
       "RegisterUserRequest": {
         "type": "object",
         "properties": {
@@ -1740,7 +1676,71 @@
         },
         "additionalProperties": false
       },
-      "UpdateServerRequest": {
+      "ServerData": {
+        "type": "object",
+        "properties": {
+          "serverName": {
+            "type": "string",
+            "nullable": true
+          },
+          "serverAddress": {
+            "type": "string",
+            "nullable": true
+          },
+          "serverPort": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "serverEra": {
+            "type": "string",
+            "nullable": true
+          },
+          "pvPEnabled": {
+            "type": "boolean"
+          },
+          "isPublic": {
+            "type": "boolean"
+          },
+          "votes": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "rating": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ServerRegistrationData": {
+        "type": "object",
+        "properties": {
+          "serverName": {
+            "type": "string",
+            "nullable": true
+          },
+          "serverAddress": {
+            "type": "string",
+            "nullable": true
+          },
+          "serverPort": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "serverEra": {
+            "type": "string",
+            "nullable": true
+          },
+          "pvPEnabled": {
+            "type": "boolean"
+          },
+          "isPublic": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ServerUpdateData": {
         "type": "object",
         "properties": {
           "serverName": {

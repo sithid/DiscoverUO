@@ -28,15 +28,15 @@ namespace DiscoverUO.Api.Controllers
 
         [AllowAnonymous]
         [HttpGet("public")]
-        public async Task<ActionResult<IEnumerable<GetServerRequest>>> GetServers()
+        public async Task<ActionResult<IEnumerable<ServerData>>> GetServers()
         {
             var servers = await _context.Servers.ToListAsync();
-            return _mapper.Map<List<GetServerRequest>>(servers);
+            return _mapper.Map<List<ServerData>>(servers);
         }
 
         [AllowAnonymous]
         [HttpGet("view/id/{id}")]
-        public async Task<ActionResult<GetServerRequest>> GetServerById(int id)
+        public async Task<ActionResult<ServerData>> GetServerById(int id)
         {
             var server = await _context.Servers
                 .FirstOrDefaultAsync(server => server.Id == id);
@@ -46,7 +46,7 @@ namespace DiscoverUO.Api.Controllers
                 return NotFound();
             }
 
-            var serverDto = _mapper.Map<GetServerRequest>(server);
+            var serverDto = _mapper.Map<ServerData>(server);
 
             return Ok(serverDto);
         }
@@ -63,14 +63,14 @@ namespace DiscoverUO.Api.Controllers
                 return NotFound();
             }
 
-            var serverDto = _mapper.Map<GetServerRequest>(server);
+            var serverDto = _mapper.Map<ServerData>(server);
 
             return Ok(serverDto);
         }
 
         [AllowAnonymous]
         [HttpGet("view/owner/{userName}")]
-        public async Task<ActionResult<List<GetServerRequest>>> FindServersByOwner(string userName)
+        public async Task<ActionResult<List<ServerData>>> FindServersByOwner(string userName)
         {
             var currentUser = await Permissions.GetCurrentUser(this.User, _context);
 
@@ -96,7 +96,7 @@ namespace DiscoverUO.Api.Controllers
                 return NotFound("That user doesnt own any servers.");
             }
 
-            var serverDtos = _mapper.Map<List<GetServerRequest>>(ownedServers);
+            var serverDtos = _mapper.Map<List<ServerData>>(ownedServers);
 
             return Ok(serverDtos);
         }
@@ -107,7 +107,7 @@ namespace DiscoverUO.Api.Controllers
 
         [Authorize]
         [HttpGet("view/owned")]
-        public async Task<ActionResult<List<GetServerRequest>>> GetOwnedServers()
+        public async Task<ActionResult<List<ServerData>>> GetOwnedServers()
         {
             var currentUser = await Permissions.GetCurrentUser(this.User, _context);
 
@@ -125,14 +125,14 @@ namespace DiscoverUO.Api.Controllers
                 return NotFound("You do not own any servers.");
             }
 
-            var serverDtos = _mapper.Map<List<GetServerRequest>>(ownedServers);
+            var serverDtos = _mapper.Map<List<ServerData>>(ownedServers);
 
             return Ok(serverDtos);
         }
 
         [Authorize]
         [HttpPost("CreateServer")]
-        public async Task<ActionResult<GetServerRequest>> AddServer(RegisterServerRequest createServerDto)
+        public async Task<ActionResult<ServerData>> AddServer(ServerRegistrationData createServerDto)
         {
             if (!ModelState.IsValid)
             {
@@ -156,14 +156,14 @@ namespace DiscoverUO.Api.Controllers
             var createdServer = await _context.Servers
                 .FirstOrDefaultAsync(s => s.Id == serverToAdd.Id);
 
-            var createdServerDto = _mapper.Map<GetServerRequest>(createdServer);
+            var createdServerDto = _mapper.Map<ServerData>(createdServer);
 
             return CreatedAtAction("GetServerById", new { id = createdServer.Id }, createdServerDto);
         }
 
         [Authorize]
         [HttpPut("update/UpdateServer/{serverId}")]
-        public async Task<ActionResult<GetServerRequest>> UpdateServer(int serverId, UpdateServerRequest serverUpdateDto)
+        public async Task<ActionResult<ServerData>> UpdateServer(int serverId, ServerUpdateData serverUpdateDto)
         {
             if (!ModelState.IsValid)
             {
@@ -210,14 +210,14 @@ namespace DiscoverUO.Api.Controllers
             var updatedServer = await _context.Servers
                 .FirstOrDefaultAsync(s => s.Id == serverToUpdate.Id);
 
-            var updatedServerDto = _mapper.Map<GetServerRequest>(updatedServer);
+            var updatedServerDto = _mapper.Map<ServerData>(updatedServer);
 
             return Ok(updatedServerDto);
         }
 
         [Authorize]
         [HttpPut("ownership/transfer/{serverId}_{newOwnerId}")]
-        public async Task<ActionResult<GetServerRequest>> TransferOwnership(int serverId, int newOwnerId)
+        public async Task<ActionResult<ServerData>> TransferOwnership(int serverId, int newOwnerId)
         {
             var currentUser = await Permissions.GetCurrentUser(this.User, _context);
 
@@ -261,7 +261,7 @@ namespace DiscoverUO.Api.Controllers
             var updatedServer = await _context.Servers
                 .FirstOrDefaultAsync(server => server.Id == serverId);
 
-            var serverDto = _mapper.Map<GetServerRequest>(updatedServer);
+            var serverDto = _mapper.Map<ServerData>(updatedServer);
 
             return Ok(serverDto);
 

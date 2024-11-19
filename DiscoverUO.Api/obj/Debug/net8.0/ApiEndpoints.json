@@ -164,13 +164,13 @@
     "Parameters": [
       {
         "Name": "createServerDto",
-        "Type": "DiscoverUO.Lib.Shared.Servers.RegisterServerRequest",
+        "Type": "DiscoverUO.Lib.Shared.Servers.ServerRegistrationData",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "DiscoverUO.Lib.Shared.Servers.GetServerRequest",
+        "Type": "DiscoverUO.Lib.Shared.Servers.ServerData",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -217,7 +217,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "DiscoverUO.Lib.Shared.Servers.GetServerRequest",
+        "Type": "DiscoverUO.Lib.Shared.Servers.ServerData",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -237,7 +237,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[DiscoverUO.Lib.Shared.Servers.GetServerRequest, DiscoverUO.Lib, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[DiscoverUO.Lib.Shared.Servers.ServerData, DiscoverUO.Lib, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -262,13 +262,13 @@
       },
       {
         "Name": "serverUpdateDto",
-        "Type": "DiscoverUO.Lib.Shared.Servers.UpdateServerRequest",
+        "Type": "DiscoverUO.Lib.Shared.Servers.ServerUpdateData",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "DiscoverUO.Lib.Shared.Servers.GetServerRequest",
+        "Type": "DiscoverUO.Lib.Shared.Servers.ServerData",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -294,7 +294,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "DiscoverUO.Lib.Shared.Servers.GetServerRequest",
+        "Type": "DiscoverUO.Lib.Shared.Servers.ServerData",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -340,7 +340,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.List\u00601[[DiscoverUO.Lib.Shared.Servers.GetServerRequest, DiscoverUO.Lib, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[DiscoverUO.Lib.Shared.Servers.ServerData, DiscoverUO.Lib, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -366,7 +366,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.List\u00601[[DiscoverUO.Lib.Shared.Servers.GetServerRequest, DiscoverUO.Lib, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[DiscoverUO.Lib.Shared.Servers.ServerData, DiscoverUO.Lib, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -649,7 +649,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "DiscoverUO.Lib.Shared.Users.GetUserTableResponse",
+        "Type": "DiscoverUO.Lib.Shared.Users.GetUserListResponse",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -716,7 +716,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "DiscoverUO.Lib.Shared.Users.DashboardResponse",
+        "Type": "DiscoverUO.Lib.Shared.Users.DashboardDataResponse",
         "MediaTypes": [
           "text/plain",
           "application/json",

@@ -8,17 +8,17 @@
 
 <PageTitle>Dashboard</PageTitle>
 
-<MudContainer Class="flex-shrink-1 py-8 mud-theme-primary" MaxWidth="MaxWidth.False">
-    <MudItem xs="12" sm="6" md="4">
-        <MudPaper Elevation="1" Class="flex-shrink-1 py-8 mud-theme-primary" Width="250px" Height="100px" Outlined="true" Square="true">
-            This is where the dashboard will be!
+<MudContainer >
+    <MudItem>
+        <MudPaper Elevation="1" >
+            Welcome back, @DashboardData?.Username!
         </MudPaper>
     </MudItem>
 </MudContainer>
 
 @code
 {
-    public DashboardRequest DashboardData { get; set; }
+    public DashboardData DashboardData { get; set; }
 
     protected async override Task OnInitializedAsync()
     {

@@ -282,7 +282,6 @@ C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Api\obj\Debug\net
 C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Api\obj\Debug\net8.0\DiscoverUO.Api.AssemblyInfoInputs.cache
 C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Api\obj\Debug\net8.0\DiscoverUO.Api.AssemblyInfo.cs
 C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Api\obj\Debug\net8.0\DiscoverUO.Api.csproj.CoreCompileInputs.cache
-C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Api\obj\Debug\net8.0\DiscoverUO.Api.MvcApplicationPartsAssemblyInfo.cs
 C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Api\obj\Debug\net8.0\DiscoverUO.Api.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Api\obj\Debug\net8.0\DiscoverUO.Api.sourcelink.json
 C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Api\obj\Debug\net8.0\scopedcss\bundle\DiscoverUO.Api.styles.css

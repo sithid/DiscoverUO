@@ -3,11 +3,11 @@ using System.Net;
 
 namespace DiscoverUO.Lib.Shared.Users
 {
-    public class DashboardResponse : IEntityResponse<DashboardRequest>
+    public class DashboardDataResponse : IEntityResponse<DashboardData>
     {
         public bool Success { get; set; }
         public string Message { get; set; }
         public HttpStatusCode StatusCode { get; set; }
-        public DashboardRequest Entity { get; set; }
+        public DashboardData Entity { get; set; }
     }
 }

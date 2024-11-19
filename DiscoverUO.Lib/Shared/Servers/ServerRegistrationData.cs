@@ -1,6 +1,6 @@
 ﻿namespace DiscoverUO.Lib.Shared.Servers
 {
-    public class RegisterServerRequest
+    public class ServerRegistrationData
     {
         public string? ServerName { get; set; }
         public string? ServerAddress { get; set; }

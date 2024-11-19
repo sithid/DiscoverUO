@@ -21,13 +21,13 @@ namespace DiscoverUO.Api.Models
             CreateMap<User, UpdateUserRequest>();
 
 
-            CreateMap<GetServerRequest, Server>();
-            CreateMap<RegisterServerRequest, Server>();
-            CreateMap<UpdateServerRequest, Server>();
+            CreateMap<ServerData, Server>();
+            CreateMap<ServerRegistrationData, Server>();
+            CreateMap<ServerUpdateData, Server>();
 
-            CreateMap<Server, GetServerRequest>();
-            CreateMap<Server, RegisterServerRequest>();
-            CreateMap<Server, UpdateServerRequest>();
+            CreateMap<Server, ServerData>();
+            CreateMap<Server, ServerRegistrationData>();
+            CreateMap<Server, ServerUpdateData>();
 
             CreateMap<UserProfile, GetProfileRequest>();
             CreateMap<GetProfileRequest, UserProfile>();

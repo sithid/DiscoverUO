@@ -1,11 +1,30 @@
-﻿@page "/servers"
+﻿@using DiscoverUO.Lib.Shared.Servers
+@using Blazored.LocalStorage
+@using System.Net
+@inject ILocalStorageService _localStorage
+@inject HttpClient _client
+
+@page "/servers"
 
 <PageTitle>Servers</PageTitle>
 
-<MudContainer Class="mt-16 px-8" Style="text-align: center">
-    <MudItem xs="12" sm="6" md="4">
-        <MudPaper Elevation="1" Class="flex-shrink-1 py-8 mud-theme-primary" Width="250px" Height="100px" Outlined="true" Square="true">
+<MudContainer>
+    <MudItem xs="12" sm="7">
+        <MudPaper Elevation="1" Width="250px" Height="100px" Outlined="true">
             This is where the public service list content will be.
+            ------------------------------------------------------
+            <MudTable Items="@_serverlist" />
         </MudPaper>
     </MudItem>
 </MudContainer>
+
+@code{
+
+    public List<ServerData> _serverlist{ get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        _serverlist = await DataManager.GetPublicServers(_client, _localStorage);
+        base.OnInitializedAsync();
+    }
+}

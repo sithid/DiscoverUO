@@ -159,13 +159,13 @@ namespace DiscoverUO.Api.Controllers
 
         [Authorize] // Complete W/ GetDashboardResponse
         [HttpGet("view/dashboard")]
-        public async Task<ActionResult<DashboardResponse>> GetDashboardData()
+        public async Task<ActionResult<DashboardDataResponse>> GetDashboardData()
         {
             var user = await Permissions.GetCurrentUser(this.User, _context);
 
             if (user == null)
             {
-                var notFound = new DashboardResponse
+                var notFound = new DashboardDataResponse
                 {
                     Success = false,
                     StatusCode = HttpStatusCode.NotFound,
@@ -177,7 +177,7 @@ namespace DiscoverUO.Api.Controllers
 
             Console.WriteLine($"Current User found: {user.UserName}, {user.Id}");
 
-            var dashboardData = new DashboardRequest
+            var dashboardData = new DashboardData
             {
                 Username = user.UserName,
                 DailyVotesRemaining = user.DailyVotesRemaining,
@@ -224,7 +224,7 @@ namespace DiscoverUO.Api.Controllers
             }
             if (dashboardData != null)
             {
-                var dashboardResponse = new DashboardResponse
+                var dashboardResponse = new DashboardDataResponse
                 {
                     Success = true,
                     StatusCode = HttpStatusCode.OK,
@@ -236,7 +236,7 @@ namespace DiscoverUO.Api.Controllers
             }
             else
             {
-                var badRequest = new DashboardResponse
+                var badRequest = new DashboardDataResponse
                 {
                     Success = false,
                     StatusCode = HttpStatusCode.BadRequest,
@@ -595,7 +595,7 @@ namespace DiscoverUO.Api.Controllers
 
         [Authorize(Policy = "OwnerOrAdmin")] // Complete W/ GetUserTableResponse
         [HttpGet("view/admin/All")]
-        public async Task<ActionResult<GetUserTableResponse>> GetUsers()
+        public async Task<ActionResult<GetUserListResponse>> GetUsers()
         {
             var users = await _context.Users
                 .Include(u => u.Profile)
@@ -605,12 +605,12 @@ namespace DiscoverUO.Api.Controllers
             var allUsers = _mapper.Map<List<GetUserEntityRequest>>(users);
 
 
-            var tableResponse = new GetUserTableResponse
+            var tableResponse = new GetUserListResponse
             {
                 Success = true,
                 Message = "User lookup successfull.",
                 StatusCode = HttpStatusCode.OK,
-                Table = allUsers
+                List = allUsers
             };
 
             return Ok(tableResponse);

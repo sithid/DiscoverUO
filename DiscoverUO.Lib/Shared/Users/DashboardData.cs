@@ -2,7 +2,7 @@
 
 namespace DiscoverUO.Lib.Shared.Users
 {
-    public class DashboardRequest
+    public class DashboardData
     {
         public string? Username { get; set; }
         public int DailyVotesRemaining { get; set; }
