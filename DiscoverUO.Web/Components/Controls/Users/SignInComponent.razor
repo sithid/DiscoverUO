@@ -11,17 +11,17 @@
     <MudGrid>
         <MudItem xs="12" sm="6" md="4">
             <MudPaper Elevation="1" Height="200" Width="200">
-                <MudForm Model="@Details" Class="flex-shrink-1 py-8 mud-theme-primary">
+                <MudForm Model="@Details" Class="flex-shrink-1 py-8">
                     <MudItem>
                         <MudSpacer/>
-                        <MudTextField Label="Username" @bind-Value="Details.Username" />
-                        <MudTextField Label="Password" @bind-Value="Details.Password" />
+                        <MudTextField Label="Username" @bind-Value="@Details.Username" />
+                        <MudTextField Label="Password" @bind-Value="@Details.Password" />
                     </MudItem>
                     <MudSpacer />
-                    <MudItem Class="flex-shrink-1 py-8 mud-theme-primary">
-                        <MudButton Variant="Variant.Outlined" Color="Color.Secondary" OnClick="@HandleSignIn">Submit</MudButton>
+                    <MudItem Class="flex-shrink-1 py-8">
+                        <MudButton Variant="Variant.Filled" OnClick="@HandleSignIn">Submit</MudButton>
                     </MudItem>
-                 </MudForm>
+                </MudForm>
             </MudPaper>
         </MudItem>
     </MudGrid>>
@@ -53,8 +53,6 @@
             {
                 var authResponse = httpResponse.Content.ReadFromJsonAsync<AuthenticationResponse>().Result;
                 var tokenString = authResponse.Value;
-
-                _localStorage.ClearAsync();
 
                 await _localStorage.SetItemAsync("jwtToken", tokenString);
                 _navigationManager.NavigateTo("/dashboard");

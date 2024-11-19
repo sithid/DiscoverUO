@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "MYZjtxx29UA=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\demon\\OneDrive\\Documents\\GitHub\\DiscoverUO\\DiscoverUO.Lib\\DiscoverUO.Lib.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\demon\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512"
+  ],
+  "logs": []
+}

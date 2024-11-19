@@ -85,7 +85,10 @@ namespace DiscoverUO.Web.Components.Data
 
                 var response = _client.GetAsync("https://localhost:7015/api/users/view/dashboard").Result;
 
-                response.EnsureSuccessStatusCode();
+                if( !response.IsSuccessStatusCode )
+                {
+                    return new DashboardRequest();
+                }
 
                 dashboard = new DashboardRequest();
 
