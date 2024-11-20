@@ -401,17 +401,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetFavoritesRequest"
+                  "$ref": "#/components/schemas/FavoritesData"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetFavoritesRequest"
+                  "$ref": "#/components/schemas/FavoritesData"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetFavoritesRequest"
+                  "$ref": "#/components/schemas/FavoritesData"
                 }
               }
             }
@@ -441,17 +441,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetFavoriteItemRequest"
+                  "$ref": "#/components/schemas/FavoriteItemData"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetFavoriteItemRequest"
+                  "$ref": "#/components/schemas/FavoriteItemData"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetFavoriteItemRequest"
+                  "$ref": "#/components/schemas/FavoriteItemData"
                 }
               }
             }
@@ -479,17 +479,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/GetFavoriteItemRequest"
+                "$ref": "#/components/schemas/FavoriteItemData"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/GetFavoriteItemRequest"
+                "$ref": "#/components/schemas/FavoriteItemData"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/GetFavoriteItemRequest"
+                "$ref": "#/components/schemas/FavoriteItemData"
               }
             }
           }
@@ -500,17 +500,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetFavoriteItemRequest"
+                  "$ref": "#/components/schemas/FavoriteItemData"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetFavoriteItemRequest"
+                  "$ref": "#/components/schemas/FavoriteItemData"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetFavoriteItemRequest"
+                  "$ref": "#/components/schemas/FavoriteItemData"
                 }
               }
             }
@@ -527,17 +527,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/GetFavoriteItemRequest"
+                "$ref": "#/components/schemas/FavoriteItemData"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/GetFavoriteItemRequest"
+                "$ref": "#/components/schemas/FavoriteItemData"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/GetFavoriteItemRequest"
+                "$ref": "#/components/schemas/FavoriteItemData"
               }
             }
           }
@@ -548,17 +548,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetFavoriteItemRequest"
+                  "$ref": "#/components/schemas/FavoriteItemData"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetFavoriteItemRequest"
+                  "$ref": "#/components/schemas/FavoriteItemData"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetFavoriteItemRequest"
+                  "$ref": "#/components/schemas/FavoriteItemData"
                 }
               }
             }
@@ -588,17 +588,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetFavoriteItemRequest"
+                  "$ref": "#/components/schemas/FavoriteItemData"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetFavoriteItemRequest"
+                  "$ref": "#/components/schemas/FavoriteItemData"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetFavoriteItemRequest"
+                  "$ref": "#/components/schemas/FavoriteItemData"
                 }
               }
             }
@@ -628,17 +628,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetFavoritesRequest"
+                  "$ref": "#/components/schemas/FavoritesData"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetFavoritesRequest"
+                  "$ref": "#/components/schemas/FavoritesData"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetFavoritesRequest"
+                  "$ref": "#/components/schemas/FavoritesData"
                 }
               }
             }
@@ -1378,7 +1378,7 @@
             "nullable": true
           },
           "favorites": {
-            "$ref": "#/components/schemas/GetFavoritesRequest"
+            "$ref": "#/components/schemas/FavoritesData"
           }
         },
         "additionalProperties": false
@@ -1402,7 +1402,7 @@
         },
         "additionalProperties": false
       },
-      "GetFavoriteItemRequest": {
+      "FavoriteItemData": {
         "type": "object",
         "properties": {
           "serverName": {
@@ -1427,13 +1427,13 @@
         },
         "additionalProperties": false
       },
-      "GetFavoritesRequest": {
+      "FavoritesData": {
         "type": "object",
         "properties": {
           "favoritedItems": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/GetFavoriteItemRequest"
+              "$ref": "#/components/schemas/FavoriteItemData"
             },
             "nullable": true
           }

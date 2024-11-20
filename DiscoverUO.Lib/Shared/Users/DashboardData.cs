@@ -11,6 +11,6 @@ namespace DiscoverUO.Lib.Shared.Users
         public string? UserBiography { get; set; }
         public string? UserDisplayName { get; set; }
         public string? UserAvatar { get; set; }
-        public GetFavoritesRequest Favorites { get; set; }
+        public FavoritesData Favorites { get; set; }
     }
 }

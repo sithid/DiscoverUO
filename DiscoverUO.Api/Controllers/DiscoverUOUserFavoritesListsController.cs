@@ -28,21 +28,21 @@ namespace DiscoverUO.Api.Controllers
 
         [Authorize]
         [HttpGet("list/view")]
-        public async Task<ActionResult<GetFavoritesRequest>> GetUserFavoritesLists()
+        public async Task<ActionResult<FavoritesData>> GetUserFavoritesLists()
         {
             var currentUser = await Permissions.GetCurrentUser(this.User, _context);
             var currentUserFavorites = await _context.UserFavoritesLists
                 .Include(flist => flist.FavoritedItems)
                 .FirstOrDefaultAsync(flist => flist.OwnerId == currentUser.Id);
 
-            var favoritesListDto = _mapper.Map<GetFavoritesRequest>(currentUser.Favorites);
+            var favoritesListDto = _mapper.Map<FavoritesData>(currentUser.Favorites);
 
             return Ok(favoritesListDto);
         }
 
         [Authorize]
         [HttpGet("list/item/view/{id}")]
-        public async Task<ActionResult<GetFavoriteItemRequest>> GetUserFavoritesListItem(int id)
+        public async Task<ActionResult<FavoriteItemData>> GetUserFavoritesListItem(int id)
         {
             var currentUser = await Permissions.GetCurrentUser(this.User, _context);
 
@@ -67,14 +67,14 @@ namespace DiscoverUO.Api.Controllers
                 }
             }
 
-            var favoritesListItemDto = _mapper.Map<GetFavoriteItemRequest>(favoritesListItem);
+            var favoritesListItemDto = _mapper.Map<FavoriteItemData>(favoritesListItem);
 
             return Ok(favoritesListItemDto);
         }
 
         [Authorize]
         [HttpPut("list/item/update/{id}")]
-        public async Task<ActionResult<GetFavoriteItemRequest>> UpdateFavoritesListItem(int id, GetFavoriteItemRequest userFavoritesListItemDto)
+        public async Task<ActionResult<FavoriteItemData>> UpdateFavoritesListItem(int id, FavoriteItemData userFavoritesListItemDto)
         {
             if (!ModelState.IsValid)
             {
@@ -124,14 +124,14 @@ namespace DiscoverUO.Api.Controllers
             var updatedUserFavoritesListItem = await _context.UserFavoritesListItems
                 .FirstOrDefaultAsync(fListItem => fListItem.Id == id);
 
-            userFavoritesListItemDto = _mapper.Map<GetFavoriteItemRequest>(updatedUserFavoritesListItem);
+            userFavoritesListItemDto = _mapper.Map<FavoriteItemData>(updatedUserFavoritesListItem);
 
             return Ok(userFavoritesListItemDto);
         }
 
         [Authorize]
         [HttpPost("list/item/add")]
-        public async Task<ActionResult<GetFavoriteItemRequest>> AddFavoritesItem(GetFavoriteItemRequest userFavoritesListItemDto)
+        public async Task<ActionResult<FavoriteItemData>> AddFavoritesItem(FavoriteItemData userFavoritesListItemDto)
         {
             if (!ModelState.IsValid)
             {
@@ -161,14 +161,14 @@ namespace DiscoverUO.Api.Controllers
             var createdFavoritesListItem = await _context.UserFavoritesListItems
                 .FirstOrDefaultAsync(f => f.Id == favoritesItemToAdd.Id);
 
-            var createdFavoritesListItemDto = _mapper.Map<GetFavoriteItemRequest>(createdFavoritesListItem);
+            var createdFavoritesListItemDto = _mapper.Map<FavoriteItemData>(createdFavoritesListItem);
 
             return CreatedAtRoute("GetUserFavoritesListItem", new { id = createdFavoritesListItem.Id }, createdFavoritesListItemDto);
         }
 
         [Authorize]
         [HttpDelete("list/item/delete/{itemId}")]
-        public async Task<ActionResult<GetFavoriteItemRequest>> DeleteFavoritesItem(int itemId)
+        public async Task<ActionResult<FavoriteItemData>> DeleteFavoritesItem(int itemId)
         {
             var currentUser = await Permissions.GetCurrentUser(this.User, _context);
 
@@ -209,7 +209,7 @@ namespace DiscoverUO.Api.Controllers
 
         [Authorize(Policy = "Privileged")]
         [HttpGet("list/view/{id}")]
-        public async Task<ActionResult<GetFavoritesRequest>> GetUserFavoritesList(int id)
+        public async Task<ActionResult<FavoritesData>> GetUserFavoritesList(int id)
         {
             var userFavoritesList = await _context.UserFavoritesLists
                 .Include(flist => flist.FavoritedItems)
@@ -220,7 +220,7 @@ namespace DiscoverUO.Api.Controllers
                 return NotFound();
             }
 
-            var userFavoritesListDto = _mapper.Map<GetFavoritesRequest>(userFavoritesList);
+            var userFavoritesListDto = _mapper.Map<FavoritesData>(userFavoritesList);
 
             return Ok(userFavoritesListDto);
         }

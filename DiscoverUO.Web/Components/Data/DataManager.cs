@@ -17,7 +17,7 @@ namespace DiscoverUO.Web.Components.Data
         {
             try
             {
-                string favsJson = JsonSerializer.Serialize<GetFavoritesRequest>(data.Favorites);
+                string favsJson = JsonSerializer.Serialize<FavoritesData>(data.Favorites);
                 await local.SetItemAsStringAsync("UserFavorites", favsJson);
             }
             catch( Exception ex )
@@ -63,13 +63,13 @@ namespace DiscoverUO.Web.Components.Data
             {
                 try
                 {
-                    var favorites = JsonSerializer.Deserialize<GetFavoritesRequest>(favsString);
+                    var favorites = JsonSerializer.Deserialize<FavoritesData>(favsString);
 
                     dashboard.Favorites = favorites;
                 }
                 catch
                 {
-                    dashboard.Favorites = new GetFavoritesRequest();
+                    dashboard.Favorites = new FavoritesData();
                 }
             }
 

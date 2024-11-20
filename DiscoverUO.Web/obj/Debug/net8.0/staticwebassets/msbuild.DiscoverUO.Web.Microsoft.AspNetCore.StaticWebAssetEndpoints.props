@@ -16,13 +16,13 @@
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\DiscoverUO.Web.txabi4y4i8.bundle.scp.css'))</AssetFile>
       <Selectors><![CDATA[[]]]></Selectors>
       <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-IQ7LdTWtJ9RkADllXnAhXlV3digBttKWvVq6H/ByJyg="}]]]></EndpointProperties>
-      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"no-cache"},{"Name":"Content-Length","Value":"4954"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u0022IQ7LdTWtJ9RkADllXnAhXlV3digBttKWvVq6H/ByJyg=\u0022"},{"Name":"Last-Modified","Value":"Tue, 19 Nov 2024 06:54:44 GMT"}]]]></ResponseHeaders>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"no-cache"},{"Name":"Content-Length","Value":"4954"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u0022IQ7LdTWtJ9RkADllXnAhXlV3digBttKWvVq6H/ByJyg=\u0022"},{"Name":"Last-Modified","Value":"Wed, 20 Nov 2024 05:10:38 GMT"}]]]></ResponseHeaders>
     </StaticWebAssetEndpoint>
     <StaticWebAssetEndpoint Include="_content/DiscoverUO.Web/DiscoverUO.Web.txabi4y4i8.bundle.scp.css">
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\DiscoverUO.Web.txabi4y4i8.bundle.scp.css'))</AssetFile>
       <Selectors><![CDATA[[]]]></Selectors>
       <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"txabi4y4i8"},{"Name":"integrity","Value":"sha256-IQ7LdTWtJ9RkADllXnAhXlV3digBttKWvVq6H/ByJyg="},{"Name":"label","Value":"_content/DiscoverUO.Web/DiscoverUO.Web.bundle.scp.css"}]]]></EndpointProperties>
-      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"4954"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u0022IQ7LdTWtJ9RkADllXnAhXlV3digBttKWvVq6H/ByJyg=\u0022"},{"Name":"Last-Modified","Value":"Tue, 19 Nov 2024 06:54:44 GMT"}]]]></ResponseHeaders>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"4954"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u0022IQ7LdTWtJ9RkADllXnAhXlV3digBttKWvVq6H/ByJyg=\u0022"},{"Name":"Last-Modified","Value":"Wed, 20 Nov 2024 05:10:38 GMT"}]]]></ResponseHeaders>
     </StaticWebAssetEndpoint>
     <StaticWebAssetEndpoint Include="_content/DiscoverUO.Web/favicon.ifv42okdf2.png">
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\favicon.png'))</AssetFile>

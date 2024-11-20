@@ -13,10 +13,10 @@
 
 <MudLayout>
     <MudAppBar Elevation="1">
-        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
-        <MudText Typo="Typo.h5" Class="ml-3">DiscoverUO</MudText>"
+        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@DrawerToggle" />
+        <MudText Typo="Typo.h5" Class="ml-3">DiscoverUO</MudText>
         <MudSpacer />
-        <MudIconButton Icon="@Icons.Material.Filled.Dashboard" Color="Color.Inherit" Edge="Edge.End" OnClick="@((e) => AppBarNavToSignIn())" />
+        <MudIconButton Icon="@Icons.Material.Filled.Dashboard" Color="Color.Inherit" Edge="Edge.End" OnClick="@AppBarNavToSignIn" />
     </MudAppBar>
     <MudDrawer @bind-Open="@_drawerOpen">
         <NavMenu DashboardData="DashboardData"/>
@@ -52,19 +52,25 @@
 
     MudTheme UOTheme = new MudTheme()
         {
-            PaletteLight = new PaletteLight()
+            Typography = new Typography()
             {
-                
-                Primary = Colors.Gray.Default,
-                PrimaryLighten = Colors.Gray.Lighten2,
-                PrimaryDarken = Colors.Gray.Darken2,
-                PrimaryContrastText = Colors.Brown.Default,
-                Secondary = Colors.Brown.Default,
-                SecondaryLighten = Colors.Brown.Lighten2,
-                SecondaryDarken = Colors.Brown.Darken2,
-                SecondaryContrastText = Colors.Gray.Default,
-                AppbarBackground = Colors.Gray.Darken4,
+                Default = new Default()
+                {
+                    FontFamily = new[] { "Courier New" },
+                }
             },
+
+            PaletteLight = new PaletteLight
+            {
+                Primary = "#606060", // Darker gray
+                TextPrimary = Colors.Red.Darken3, // Dark gold
+                Secondary = "#bdad84", // Goldish border contrast
+                TextSecondary = "#808080",
+                Background = "#202020", // Darker background
+                BackgroundGray = "#404040", // Darker gray background
+                AppbarBackground = "#606060" // Darker gray
+            },
+
 
             LayoutProperties = new LayoutProperties()
             {

@@ -32,11 +32,11 @@ namespace DiscoverUO.Api.Models
             CreateMap<UserProfile, GetProfileRequest>();
             CreateMap<GetProfileRequest, UserProfile>();
 
-            CreateMap<UserFavoritesList, GetFavoritesRequest>();
-            CreateMap<GetFavoritesRequest, UserFavoritesList>();
+            CreateMap<UserFavoritesList, FavoritesData>();
+            CreateMap<FavoritesData, UserFavoritesList>();
 
-            CreateMap<UserFavoritesListItem, GetFavoriteItemRequest>();
-            CreateMap<GetFavoriteItemRequest, UserFavoritesListItem>();
+            CreateMap<UserFavoritesListItem, FavoriteItemData>();
+            CreateMap<FavoriteItemData, UserFavoritesListItem>();
         }
     }
 }

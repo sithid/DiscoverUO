@@ -396,3 +396,4 @@ C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\obj\Debug\net
 C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\obj\Debug\net8.0\DiscoverUO.Web.pdb
 C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\obj\Debug\net8.0\DiscoverUO.Web.genruntimeconfig.cache
 C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\obj\Debug\net8.0\ref\DiscoverUO.Web.dll
+C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Web\obj\Debug\net8.0\DiscoverUO.Web.MvcApplicationPartsAssemblyInfo.cs

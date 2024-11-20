@@ -203,15 +203,15 @@ namespace DiscoverUO.Api.Controllers
 
             if ( user.Favorites != null )
             {
-                dashboardData.Favorites = new GetFavoritesRequest();
+                dashboardData.Favorites = new FavoritesData();
 
                 if( user.Favorites.FavoritedItems != null )
                 {
-                    dashboardData.Favorites.FavoritedItems = new List<GetFavoriteItemRequest>();
+                    dashboardData.Favorites.FavoritedItems = new List<FavoriteItemData>();
 
                     foreach( var fav in user.Favorites.FavoritedItems )
                     {
-                        dashboardData.Favorites.FavoritedItems.Add(new GetFavoriteItemRequest
+                        dashboardData.Favorites.FavoritedItems.Add(new FavoriteItemData
                         {
                             ServerName = fav.ServerName,
                             ServerAddress = fav.ServerAddress,

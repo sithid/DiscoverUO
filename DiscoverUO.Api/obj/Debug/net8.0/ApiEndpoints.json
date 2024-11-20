@@ -9,13 +9,13 @@
     "Parameters": [
       {
         "Name": "userFavoritesListItemDto",
-        "Type": "DiscoverUO.Lib.Shared.Favorites.GetFavoriteItemRequest",
+        "Type": "DiscoverUO.Lib.Shared.Favorites.FavoriteItemData",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "DiscoverUO.Lib.Shared.Favorites.GetFavoriteItemRequest",
+        "Type": "DiscoverUO.Lib.Shared.Favorites.FavoriteItemData",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -41,7 +41,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "DiscoverUO.Lib.Shared.Favorites.GetFavoriteItemRequest",
+        "Type": "DiscoverUO.Lib.Shared.Favorites.FavoriteItemData",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -66,13 +66,13 @@
       },
       {
         "Name": "userFavoritesListItemDto",
-        "Type": "DiscoverUO.Lib.Shared.Favorites.GetFavoriteItemRequest",
+        "Type": "DiscoverUO.Lib.Shared.Favorites.FavoriteItemData",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "DiscoverUO.Lib.Shared.Favorites.GetFavoriteItemRequest",
+        "Type": "DiscoverUO.Lib.Shared.Favorites.FavoriteItemData",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -98,7 +98,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "DiscoverUO.Lib.Shared.Favorites.GetFavoriteItemRequest",
+        "Type": "DiscoverUO.Lib.Shared.Favorites.FavoriteItemData",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -118,7 +118,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "DiscoverUO.Lib.Shared.Favorites.GetFavoritesRequest",
+        "Type": "DiscoverUO.Lib.Shared.Favorites.FavoritesData",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -144,7 +144,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "DiscoverUO.Lib.Shared.Favorites.GetFavoritesRequest",
+        "Type": "DiscoverUO.Lib.Shared.Favorites.FavoritesData",
         "MediaTypes": [
           "text/plain",
           "application/json",

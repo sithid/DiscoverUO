@@ -1,3 +1,32 @@
-﻿@page "/"
+﻿@inject ILocalStorageService _localStorage
+@page "/"
 
 <PageTitle>Home</PageTitle>
+
+<MudContainer>
+    <MudLabel style="font-size: 32px">This is where the home page content will be.</MudLabel>
+</MudContainer>
+
+@code
+{
+    private bool _prevSessionsCleared = false;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if( !firstRender )
+        {
+
+        }
+        else
+        {
+            if (!_prevSessionsCleared)
+            {
+                Console.WriteLine("First visit to the homepage!");
+
+                await _localStorage.ClearAsync();
+            }
+
+        }
+        base.OnAfterRenderAsync(firstRender);
+    }
+}

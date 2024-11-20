@@ -3,17 +3,14 @@
 @inject ILocalStorageService _localStorage
 @inject HttpClient _client
 
-<MudNavMenu>
+<MudNavMenu Color="Color.Secondary">
     <MudNavGroup Title="DiscoverUO" Expanded="true">
-        @if (DashboardData == null)
-        {
-            <MudNavLink Href="/signin" Match="NavLinkMatch.All">Sign-In</MudNavLink>
-        }
-        else
+        @if (DashboardData != null)
         {
             <MudNavLink Href="/dashboard" Match="NavLinkMatch.All">Dashboard</MudNavLink>
             <MudNavLink Href="/favorites" Match="NavLinkMatch.Prefix">Favorites</MudNavLink>
         }
+
         <MudNavLink Href="/servers" Match="NavLinkMatch.All">Server List</MudNavLink>
     </MudNavGroup>
 </MudNavMenu>

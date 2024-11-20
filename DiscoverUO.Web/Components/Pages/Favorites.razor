@@ -1,0 +1,26 @@
+﻿@using DiscoverUO.Lib.Shared.Favorites
+@using Blazored.LocalStorage
+@using System.Net
+@inject ILocalStorageService _localStorage
+@inject HttpClient _client
+@page "/favorites"
+
+<PageTitle>Favorites</PageTitle>
+
+<MudContainer>
+    <MudLabel style="font-size: 36px">@DashboardData?.Username's Favorites!</MudLabel>
+    <MudSpacer/>
+    <MudLabel style="font-size: 24px">This is where the user favorites content will be.</MudLabel>
+    <MudSpacer />
+    <MudLabel style="font-size: 12px">This is where the favorite servers content will be.</MudLabel>
+</MudContainer>
+@code {
+
+    public DashboardData DashboardData { get; set; }
+
+    protected async override Task OnInitializedAsync()
+    {
+        DashboardData = await DataManager.GetDashboard(_client, _localStorage);
+        StateHasChanged();
+    }
+}
