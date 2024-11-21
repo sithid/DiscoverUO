@@ -1,0 +1,13 @@
+﻿.button {
+    background-color: #808080; /* Gray button background */
+    color: #FFFFFF; /* White button text */
+    border: 1px solid #404040; /* Dark gray border */
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+.gump-background {
+    background-color: #404040; /* Dark gray gump background */
+    border: 1px solid #202020; /* Darker gray border */
+    padding: 10px;
+}

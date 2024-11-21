@@ -37,6 +37,9 @@ namespace DiscoverUO.Api.Migrations
                     b.Property<string>("ServerAddress")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("ServerBanner")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("ServerEra")
                         .HasColumnType("TEXT");
 
@@ -45,6 +48,9 @@ namespace DiscoverUO.Api.Migrations
 
                     b.Property<int>("ServerPort")
                         .HasColumnType("INTEGER");
+
+                    b.Property<string>("ServerWebsite")
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("Votes")
                         .HasColumnType("INTEGER");

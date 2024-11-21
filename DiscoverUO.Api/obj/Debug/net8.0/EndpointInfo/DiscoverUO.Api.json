@@ -646,7 +646,7 @@
         }
       }
     },
-    "/api/users/Authenticate": {
+    "/api/users/authenticate": {
       "post": {
         "tags": [
           "DiscoverUOUsers"
@@ -655,17 +655,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/AuthenticationRequest"
+                "$ref": "#/components/schemas/AuthenticationData"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/AuthenticationRequest"
+                "$ref": "#/components/schemas/AuthenticationData"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/AuthenticationRequest"
+                "$ref": "#/components/schemas/AuthenticationData"
               }
             }
           }
@@ -676,17 +676,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/AuthenticationResponse"
+                  "$ref": "#/components/schemas/IResponse"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/AuthenticationResponse"
+                  "$ref": "#/components/schemas/IResponse"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/AuthenticationResponse"
+                  "$ref": "#/components/schemas/IResponse"
                 }
               }
             }
@@ -694,7 +694,7 @@
         }
       }
     },
-    "/api/users/RegisterUser": {
+    "/api/users/register": {
       "post": {
         "tags": [
           "DiscoverUOUsers"
@@ -703,17 +703,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/RegisterUserRequest"
+                "$ref": "#/components/schemas/RegisterUserData"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/RegisterUserRequest"
+                "$ref": "#/components/schemas/RegisterUserData"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/RegisterUserRequest"
+                "$ref": "#/components/schemas/RegisterUserData"
               }
             }
           }
@@ -724,17 +724,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/RegisterUserResponse"
+                  "$ref": "#/components/schemas/IResponse"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/RegisterUserResponse"
+                  "$ref": "#/components/schemas/IResponse"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/RegisterUserResponse"
+                  "$ref": "#/components/schemas/IResponse"
                 }
               }
             }
@@ -764,17 +764,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetProfileResponse"
+                  "$ref": "#/components/schemas/IResponse"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetProfileResponse"
+                  "$ref": "#/components/schemas/IResponse"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetProfileResponse"
+                  "$ref": "#/components/schemas/IResponse"
                 }
               }
             }
@@ -793,17 +793,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/DashboardDataResponse"
+                  "$ref": "#/components/schemas/IResponse"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/DashboardDataResponse"
+                  "$ref": "#/components/schemas/IResponse"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/DashboardDataResponse"
+                  "$ref": "#/components/schemas/IResponse"
                 }
               }
             }
@@ -833,17 +833,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetUserEntityResponse"
+                  "$ref": "#/components/schemas/IResponse"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetUserEntityResponse"
+                  "$ref": "#/components/schemas/IResponse"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetUserEntityResponse"
+                  "$ref": "#/components/schemas/IResponse"
                 }
               }
             }
@@ -872,17 +872,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetUserEntityResponse"
+                  "$ref": "#/components/schemas/IResponse"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetUserEntityResponse"
+                  "$ref": "#/components/schemas/IResponse"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetUserEntityResponse"
+                  "$ref": "#/components/schemas/IResponse"
                 }
               }
             }
@@ -901,17 +901,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetProfileResponse"
+                  "$ref": "#/components/schemas/IResponse"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetProfileResponse"
+                  "$ref": "#/components/schemas/IResponse"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetProfileResponse"
+                  "$ref": "#/components/schemas/IResponse"
                 }
               }
             }
@@ -946,17 +946,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/UpdateUserRequest"
+                "$ref": "#/components/schemas/UpdateUserData"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/UpdateUserRequest"
+                "$ref": "#/components/schemas/UpdateUserData"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/UpdateUserRequest"
+                "$ref": "#/components/schemas/UpdateUserData"
               }
             }
           }
@@ -967,17 +967,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetUserEntityResponse"
+                  "$ref": "#/components/schemas/IResponse"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetUserEntityResponse"
+                  "$ref": "#/components/schemas/IResponse"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetUserEntityResponse"
+                  "$ref": "#/components/schemas/IResponse"
                 }
               }
             }
@@ -1012,17 +1012,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/UpdateUserPasswordRequest"
+                "$ref": "#/components/schemas/UpdateUserPasswordData"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/UpdateUserPasswordRequest"
+                "$ref": "#/components/schemas/UpdateUserPasswordData"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/UpdateUserPasswordRequest"
+                "$ref": "#/components/schemas/UpdateUserPasswordData"
               }
             }
           }
@@ -1033,17 +1033,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetUserEntityResponse"
+                  "$ref": "#/components/schemas/IResponse"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetUserEntityResponse"
+                  "$ref": "#/components/schemas/IResponse"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetUserEntityResponse"
+                  "$ref": "#/components/schemas/IResponse"
                 }
               }
             }
@@ -1078,17 +1078,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/GetProfileRequest"
+                "$ref": "#/components/schemas/ProfileData"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/GetProfileRequest"
+                "$ref": "#/components/schemas/ProfileData"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/GetProfileRequest"
+                "$ref": "#/components/schemas/ProfileData"
               }
             }
           }
@@ -1099,17 +1099,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetProfileResponse"
+                  "$ref": "#/components/schemas/IResponse"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetProfileResponse"
+                  "$ref": "#/components/schemas/IResponse"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetProfileResponse"
+                  "$ref": "#/components/schemas/IResponse"
                 }
               }
             }
@@ -1117,7 +1117,7 @@
         }
       }
     },
-    "/api/users/admin/update/ChangeRemainingVotes/{id}": {
+    "/api/users/admin/update/votes/{id}": {
       "put": {
         "tags": [
           "DiscoverUOUsers"
@@ -1154,17 +1154,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetUserEntityResponse"
+                  "$ref": "#/components/schemas/IResponse"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetUserEntityResponse"
+                  "$ref": "#/components/schemas/IResponse"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetUserEntityResponse"
+                  "$ref": "#/components/schemas/IResponse"
                 }
               }
             }
@@ -1197,12 +1197,29 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/IResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IResponse"
+                }
+              }
+            }
           }
         }
       }
     },
-    "/api/users/view/admin/All": {
+    "/api/users/view/admin/all": {
       "get": {
         "tags": [
           "DiscoverUOUsers"
@@ -1213,17 +1230,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetUserListResponse"
+                  "$ref": "#/components/schemas/IResponse"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetUserListResponse"
+                  "$ref": "#/components/schemas/IResponse"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetUserListResponse"
+                  "$ref": "#/components/schemas/IResponse"
                 }
               }
             }
@@ -1231,7 +1248,7 @@
         }
       }
     },
-    "/api/users/view/admin/UpdateUserRole/{id}": {
+    "/api/users/admin/update/role/{id}": {
       "put": {
         "tags": [
           "DiscoverUOUsers"
@@ -1256,12 +1273,29 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/IResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IResponse"
+                }
+              }
+            }
           }
         }
       }
     },
-    "/api/users/view/admin/CreateUserWithRole": {
+    "/api/users/admin/register": {
       "post": {
         "tags": [
           "DiscoverUOUsers"
@@ -1270,17 +1304,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/RegisterUserWithRoleRequest"
+                "$ref": "#/components/schemas/RegisterUserWithRoleData"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/RegisterUserWithRoleRequest"
+                "$ref": "#/components/schemas/RegisterUserWithRoleData"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/RegisterUserWithRoleRequest"
+                "$ref": "#/components/schemas/RegisterUserWithRoleData"
               }
             }
           }
@@ -1291,17 +1325,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/RegisterUserResponse"
+                  "$ref": "#/components/schemas/IResponse"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/RegisterUserResponse"
+                  "$ref": "#/components/schemas/IResponse"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/RegisterUserResponse"
+                  "$ref": "#/components/schemas/IResponse"
                 }
               }
             }
@@ -1312,7 +1346,7 @@
   },
   "components": {
     "schemas": {
-      "AuthenticationRequest": {
+      "AuthenticationData": {
         "type": "object",
         "properties": {
           "username": {
@@ -1322,82 +1356,6 @@
           "password": {
             "type": "string",
             "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "AuthenticationResponse": {
-        "type": "object",
-        "properties": {
-          "success": {
-            "type": "boolean"
-          },
-          "message": {
-            "type": "string",
-            "nullable": true
-          },
-          "statusCode": {
-            "$ref": "#/components/schemas/HttpStatusCode"
-          },
-          "value": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "DashboardData": {
-        "type": "object",
-        "properties": {
-          "username": {
-            "type": "string",
-            "nullable": true
-          },
-          "dailyVotesRemaining": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "email": {
-            "type": "string",
-            "nullable": true
-          },
-          "role": {
-            "type": "string",
-            "nullable": true
-          },
-          "userBiography": {
-            "type": "string",
-            "nullable": true
-          },
-          "userDisplayName": {
-            "type": "string",
-            "nullable": true
-          },
-          "userAvatar": {
-            "type": "string",
-            "nullable": true
-          },
-          "favorites": {
-            "$ref": "#/components/schemas/FavoritesData"
-          }
-        },
-        "additionalProperties": false
-      },
-      "DashboardDataResponse": {
-        "type": "object",
-        "properties": {
-          "success": {
-            "type": "boolean"
-          },
-          "message": {
-            "type": "string",
-            "nullable": true
-          },
-          "statusCode": {
-            "$ref": "#/components/schemas/HttpStatusCode"
-          },
-          "entity": {
-            "$ref": "#/components/schemas/DashboardData"
           }
         },
         "additionalProperties": false
@@ -1434,117 +1392,6 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/FavoriteItemData"
-            },
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "GetProfileRequest": {
-        "type": "object",
-        "properties": {
-          "userBiography": {
-            "type": "string",
-            "nullable": true
-          },
-          "userDisplayName": {
-            "type": "string",
-            "nullable": true
-          },
-          "userAvatar": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "GetProfileResponse": {
-        "type": "object",
-        "properties": {
-          "success": {
-            "type": "boolean"
-          },
-          "message": {
-            "type": "string",
-            "nullable": true
-          },
-          "statusCode": {
-            "$ref": "#/components/schemas/HttpStatusCode"
-          },
-          "entity": {
-            "$ref": "#/components/schemas/GetProfileRequest"
-          }
-        },
-        "additionalProperties": false
-      },
-      "GetUserEntityRequest": {
-        "type": "object",
-        "properties": {
-          "userName": {
-            "type": "string",
-            "nullable": true
-          },
-          "dailyVotesRemaining": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "email": {
-            "type": "string",
-            "nullable": true
-          },
-          "role": {
-            "type": "string",
-            "nullable": true
-          },
-          "profileId": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "favoritesId": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "GetUserEntityResponse": {
-        "type": "object",
-        "properties": {
-          "success": {
-            "type": "boolean"
-          },
-          "message": {
-            "type": "string",
-            "nullable": true
-          },
-          "statusCode": {
-            "$ref": "#/components/schemas/HttpStatusCode"
-          },
-          "entity": {
-            "$ref": "#/components/schemas/GetUserEntityRequest"
-          }
-        },
-        "additionalProperties": false
-      },
-      "GetUserListResponse": {
-        "type": "object",
-        "properties": {
-          "success": {
-            "type": "boolean"
-          },
-          "message": {
-            "type": "string",
-            "nullable": true
-          },
-          "statusCode": {
-            "$ref": "#/components/schemas/HttpStatusCode"
-          },
-          "list": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/GetUserEntityRequest"
             },
             "nullable": true
           }
@@ -1618,7 +1465,41 @@
         "type": "integer",
         "format": "int32"
       },
-      "RegisterUserRequest": {
+      "IResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          },
+          "statusCode": {
+            "$ref": "#/components/schemas/HttpStatusCode"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ProfileData": {
+        "type": "object",
+        "properties": {
+          "userBiography": {
+            "type": "string",
+            "nullable": true
+          },
+          "userDisplayName": {
+            "type": "string",
+            "nullable": true
+          },
+          "userAvatar": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "RegisterUserData": {
         "type": "object",
         "properties": {
           "userName": {
@@ -1636,26 +1517,7 @@
         },
         "additionalProperties": false
       },
-      "RegisterUserResponse": {
-        "type": "object",
-        "properties": {
-          "success": {
-            "type": "boolean"
-          },
-          "message": {
-            "type": "string",
-            "nullable": true
-          },
-          "statusCode": {
-            "$ref": "#/components/schemas/HttpStatusCode"
-          },
-          "entity": {
-            "$ref": "#/components/schemas/GetUserEntityRequest"
-          }
-        },
-        "additionalProperties": false
-      },
-      "RegisterUserWithRoleRequest": {
+      "RegisterUserWithRoleData": {
         "type": "object",
         "properties": {
           "userName": {
@@ -1695,6 +1557,14 @@
             "type": "string",
             "nullable": true
           },
+          "serverWebsite": {
+            "type": "string",
+            "nullable": true
+          },
+          "serverBanner": {
+            "type": "string",
+            "nullable": true
+          },
           "pvPEnabled": {
             "type": "boolean"
           },
@@ -1731,6 +1601,14 @@
             "type": "string",
             "nullable": true
           },
+          "serverWebsite": {
+            "type": "string",
+            "nullable": true
+          },
+          "serverBanner": {
+            "type": "string",
+            "nullable": true
+          },
           "pvPEnabled": {
             "type": "boolean"
           },
@@ -1759,6 +1637,14 @@
             "type": "string",
             "nullable": true
           },
+          "serverWebsite": {
+            "type": "string",
+            "nullable": true
+          },
+          "serverBanner": {
+            "type": "string",
+            "nullable": true
+          },
           "pvPEnabled": {
             "type": "boolean"
           },
@@ -1768,21 +1654,7 @@
         },
         "additionalProperties": false
       },
-      "UpdateUserPasswordRequest": {
-        "type": "object",
-        "properties": {
-          "currentPassword": {
-            "type": "string",
-            "nullable": true
-          },
-          "newPassword": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "UpdateUserRequest": {
+      "UpdateUserData": {
         "type": "object",
         "properties": {
           "userName": {
@@ -1790,6 +1662,20 @@
             "nullable": true
           },
           "email": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdateUserPasswordData": {
+        "type": "object",
+        "properties": {
+          "currentPassword": {
+            "type": "string",
+            "nullable": true
+          },
+          "newPassword": {
             "type": "string",
             "nullable": true
           }

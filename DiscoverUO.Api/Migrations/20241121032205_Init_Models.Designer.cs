@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DiscoverUO.Api.Migrations
 {
     [DbContext(typeof(DiscoverUODatabaseContext))]
-    [Migration("20241114210101_SqLite")]
-    partial class SqLite
+    [Migration("20241121032205_Init_Models")]
+    partial class Init_Models
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -40,6 +40,9 @@ namespace DiscoverUO.Api.Migrations
                     b.Property<string>("ServerAddress")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("ServerBanner")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("ServerEra")
                         .HasColumnType("TEXT");
 
@@ -48,6 +51,9 @@ namespace DiscoverUO.Api.Migrations
 
                     b.Property<int>("ServerPort")
                         .HasColumnType("INTEGER");
+
+                    b.Property<string>("ServerWebsite")
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("Votes")
                         .HasColumnType("INTEGER");

@@ -22,6 +22,9 @@
 
     protected async override Task OnInitializedAsync()
     {
+        if (DashboardData == null)
+            return;
+
         DashboardData = await DataManager.GetDashboard(_client, _localStorage);
         StateHasChanged();
     }

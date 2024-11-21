@@ -1,4 +1,5 @@
 ﻿@using DiscoverUO.Lib.Shared.Servers
+@using DiscoverUO.Web.Components.Controls
 @using Blazored.LocalStorage
 @using System.Net
 @inject ILocalStorageService _localStorage
@@ -9,7 +10,7 @@
 <PageTitle>Servers</PageTitle>
 
 <MudContainer>
-    <MudLabel style="font-size: 32px">This is where the public server list content will be.</MudLabel>
+    <ServerListComponent></ServerListComponent>
 </MudContainer>
 
 @code{

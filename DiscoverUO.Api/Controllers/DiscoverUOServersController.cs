@@ -163,7 +163,7 @@ namespace DiscoverUO.Api.Controllers
 
         [Authorize]
         [HttpPut("update/UpdateServer/{serverId}")]
-        public async Task<ActionResult<ServerData>> UpdateServer(int serverId, ServerUpdateData serverUpdateDto)
+        public async Task<ActionResult<ServerData>> UpdateServer(int serverId, ServerUpdateData serverUpdateData)
         {
             if (!ModelState.IsValid)
             {
@@ -189,12 +189,14 @@ namespace DiscoverUO.Api.Controllers
                 return Unauthorized("Only the owner of a server or a privileged user can update a servers information.");
             }
 
-            serverToUpdate.ServerName = serverUpdateDto.ServerName;
-            serverToUpdate.ServerAddress = serverUpdateDto.ServerAddress;
-            serverToUpdate.ServerPort = serverUpdateDto.ServerPort;
-            serverToUpdate.ServerEra = serverUpdateDto.ServerEra;
-            serverToUpdate.PvPEnabled = serverUpdateDto.PvPEnabled;
-            serverToUpdate.IsPublic = serverUpdateDto.IsPublic;
+            serverToUpdate.ServerName = serverUpdateData.ServerName;
+            serverToUpdate.ServerAddress = serverUpdateData.ServerAddress;
+            serverToUpdate.ServerPort = serverUpdateData.ServerPort;
+            serverToUpdate.ServerEra = serverUpdateData.ServerEra;
+            serverToUpdate.ServerWebsite = serverUpdateData.ServerWebsite;
+            serverToUpdate.ServerBanner = serverUpdateData.ServerBanner;
+            serverToUpdate.PvPEnabled = serverUpdateData.PvPEnabled;
+            serverToUpdate.IsPublic = serverUpdateData.IsPublic;
 
             _context.Entry(serverToUpdate).State = EntityState.Modified;
 

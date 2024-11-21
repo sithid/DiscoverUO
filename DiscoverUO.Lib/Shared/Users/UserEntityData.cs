@@ -1,6 +1,6 @@
 namespace DiscoverUO.Lib.Shared.Users
 {
-    public class GetUserEntityRequest
+    public class UserEntityData
     {
         public string? UserName { get; set; }
         public int DailyVotesRemaining { get; set; }

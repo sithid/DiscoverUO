@@ -1,4 +1,5 @@
 wwwroot\app.css
+wwwroot\discoveruo.css
 wwwroot\favicon.png
 wwwroot\images\server_icon.png
 wwwroot\images\vivi_icon.png

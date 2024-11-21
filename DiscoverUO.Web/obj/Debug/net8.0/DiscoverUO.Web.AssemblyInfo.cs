@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("DiscoverUO.Web")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+39930b59265ff55c8e6b881a244c0cc6c266362d")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+de4e0179a071d59ed2a9357e47bac01ae62792a9")]
 [assembly: System.Reflection.AssemblyProductAttribute("DiscoverUO.Web")]
 [assembly: System.Reflection.AssemblyTitleAttribute("DiscoverUO.Web")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -3,24 +3,24 @@
 @using DiscoverUO.Lib.Shared;
 @using DiscoverUO.Lib.Shared.Users
 @using DiscoverUO.Web.Components.Pages
+@using MudBlazor.Components
 @inject ILocalStorageService _localStorage
 @inject HttpClient _client
 @inject NavigationManager _navigationManager
 
-<MudContainer MaxWidth="MaxWidth.False">
+<MudPaper Class="pa-16 ma-2" Height="60%" Width="25%">
     <MudGrid>
-        <MudItem>
-            <MudPaper Elevation="1">
-                <MudForm Model="@Details">
-                    <MudTextField T="string" Label="Username" Typo="Typo.input" @bind-Value="@Details.Username" />
-                    <MudTextField T="string" Label="Password" Typo="Typo.input" @bind-Value="@Details.Password" />
-                    <MudButton Size="Size.Small" Variant="Variant.Filled" OnClick="@HandleSignIn">Submit</MudButton>
-                </MudForm>
-            </MudPaper>
-        </MudItem>
+        <MudForm Class="gump-background" Spacing="2" Model="@Details">
+            <MudTextField Variant="Variant.Outlined" T="string" Label="Username" Typo="Typo.input" @bind-Value="@Details.Username" />
+            <MudTextField Variant="Variant.Outlined" T="string" Label="Password" Typo="Typo.input" @bind-Value="@Details.Password" />
+        </MudForm>
+        <MudButton Variant="Variant.Outlined" OnClick="@HandleSignIn">Submit</MudButton>
+        @if (ShowUIResponseMessage)
+        {
+        <MudAlert Severity="Severity.Error"> @UIResponseMessage </MudAlert>
+        }
     </MudGrid>
-</MudContainer>
-
+</MudPaper>
 @code
 {
     public string UIResponseMessage { get; set; }
@@ -29,7 +29,12 @@
 
     public async Task HandleSignIn()
     {
-        ShowUIResponseMessage = false;
+        if (string.IsNullOrEmpty(Details.Username) || string.IsNullOrEmpty(Details.Password))
+        {
+            ShowUIResponseMessage = true;
+            UIResponseMessage = "You MUST enter both a username and a password.";
+            return;
+        }
 
         var userName = Details.Username;
 
@@ -41,7 +46,7 @@
 
         try
         {
-            var httpResponse = await _client.PostAsJsonAsync("https://localhost:7015/api/users/Authenticate", new AuthenticationRequest(userName, passwordHash));
+            var httpResponse = await _client.PostAsJsonAsync("https://localhost:7015/api/users/authenticate", new AuthenticationData(userName, passwordHash));
 
             if (httpResponse.IsSuccessStatusCode)
             {
@@ -76,7 +81,9 @@
 
     public class LoginDetails
     {
+        [EditorRequired]
         public string Username{ get; set; }
+        [EditorRequired]
         public string Password{ get; set; }
     }
 }

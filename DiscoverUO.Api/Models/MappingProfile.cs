@@ -10,15 +10,15 @@ namespace DiscoverUO.Api.Models
     {
         public MappingProfile()
         {
-            CreateMap<GetUserEntityRequest, User>();
-            CreateMap<RegisterUserRequest, User>();
-            CreateMap<RegisterUserWithRoleRequest, User>();
-            CreateMap<UpdateUserRequest, User>();
+            CreateMap<UserEntityData, User>();
+            CreateMap<RegisterUserData, User>();
+            CreateMap<RegisterUserWithRoleData, User>();
+            CreateMap<UpdateUserData, User>();
 
-            CreateMap<User, GetUserEntityRequest>();
-            CreateMap<User, RegisterUserRequest>();
-            CreateMap<User, RegisterUserWithRoleRequest>();
-            CreateMap<User, UpdateUserRequest>();
+            CreateMap<User, UserEntityData>();
+            CreateMap<User, RegisterUserData>();
+            CreateMap<User, RegisterUserWithRoleData>();
+            CreateMap<User, UpdateUserData>();
 
 
             CreateMap<ServerData, Server>();
@@ -29,8 +29,8 @@ namespace DiscoverUO.Api.Models
             CreateMap<Server, ServerRegistrationData>();
             CreateMap<Server, ServerUpdateData>();
 
-            CreateMap<UserProfile, GetProfileRequest>();
-            CreateMap<GetProfileRequest, UserProfile>();
+            CreateMap<UserProfile, ProfileData>();
+            CreateMap<ProfileData, UserProfile>();
 
             CreateMap<UserFavoritesList, FavoritesData>();
             CreateMap<FavoritesData, UserFavoritesList>();

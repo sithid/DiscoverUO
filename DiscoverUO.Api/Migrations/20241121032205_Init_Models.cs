@@ -5,7 +5,7 @@
 namespace DiscoverUO.Api.Migrations
 {
     /// <inheritdoc />
-    public partial class SqLite : Migration
+    public partial class Init_Models : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -38,6 +38,8 @@ namespace DiscoverUO.Api.Migrations
                     ServerAddress = table.Column<string>(type: "TEXT", nullable: true),
                     ServerPort = table.Column<int>(type: "INTEGER", nullable: false),
                     ServerEra = table.Column<string>(type: "TEXT", nullable: true),
+                    ServerWebsite = table.Column<string>(type: "TEXT", nullable: true),
+                    ServerBanner = table.Column<string>(type: "TEXT", nullable: true),
                     PvPEnabled = table.Column<bool>(type: "INTEGER", nullable: false),
                     IsPublic = table.Column<bool>(type: "INTEGER", nullable: false),
                     Votes = table.Column<int>(type: "INTEGER", nullable: false),

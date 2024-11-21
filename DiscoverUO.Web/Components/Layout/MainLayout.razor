@@ -34,6 +34,9 @@
     {
         if (!firstRender)
         {
+            if (DashboardData != null)
+                return;
+
             DashboardData = await DataManager.GetDashboard(_client, _localStorage);
             StateHasChanged();
         }
@@ -63,10 +66,10 @@
             PaletteLight = new PaletteLight
             {
                 Primary = "#606060", // Darker gray
-                TextPrimary = Colors.Red.Darken3, // Dark gold
+                TextPrimary = "#202020", //
                 Secondary = "#bdad84", // Goldish border contrast
-                TextSecondary = "#808080",
-                Background = "#202020", // Darker background
+                TextSecondary = "#808080", //
+                Background = "#bebdbc", // Darker background
                 BackgroundGray = "#404040", // Darker gray background
                 AppbarBackground = "#606060" // Darker gray
             },

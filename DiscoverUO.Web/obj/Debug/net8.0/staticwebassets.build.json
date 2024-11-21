@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "556h2Zp6F4A8mNPZaIBevOQ1H20q1Tu5y2QGQIvK34g=",
+  "Hash": "hkQfcqzgtEw4esxoUI0RTY0/eRBqAzUuDWepnx7F2Go=",
   "Source": "DiscoverUO.Web",
   "BasePath": "_content/DiscoverUO.Web",
   "Mode": "Default",
@@ -141,6 +141,27 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\app.css"
+    },
+    {
+      "Identity": "C:\\Users\\demon\\OneDrive\\Documents\\GitHub\\DiscoverUO\\DiscoverUO.Web\\wwwroot\\discoveruo.css",
+      "SourceId": "DiscoverUO.Web",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\demon\\OneDrive\\Documents\\GitHub\\DiscoverUO\\DiscoverUO.Web\\wwwroot\\",
+      "BasePath": "_content/DiscoverUO.Web",
+      "RelativePath": "discoveruo#[.{fingerprint}]?.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "Fingerprint": "rhtax24o6r",
+      "Integrity": "z/we3+mlB0pU2b9Y4XQYSgq/59J6jrcNZkUn5RYXgZc=",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\discoveruo.css"
     },
     {
       "Identity": "C:\\Users\\demon\\OneDrive\\Documents\\GitHub\\DiscoverUO\\DiscoverUO.Web\\wwwroot\\favicon.png",
@@ -401,6 +422,88 @@
       ]
     },
     {
+      "Route": "discoveruo.css",
+      "AssetFile": "C:\\Users\\demon\\OneDrive\\Documents\\GitHub\\DiscoverUO\\DiscoverUO.Web\\wwwroot\\discoveruo.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "378"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"z/we3+mlB0pU2b9Y4XQYSgq/59J6jrcNZkUn5RYXgZc=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 21 Nov 2024 04:37:06 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "no-cache"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "integrity",
+          "Value": "sha256-z/we3+mlB0pU2b9Y4XQYSgq/59J6jrcNZkUn5RYXgZc="
+        }
+      ]
+    },
+    {
+      "Route": "discoveruo.rhtax24o6r.css",
+      "AssetFile": "C:\\Users\\demon\\OneDrive\\Documents\\GitHub\\DiscoverUO\\DiscoverUO.Web\\wwwroot\\discoveruo.css",
+      "Selectors": [],
+      "ResponseHeaders": [
+        {
+          "Name": "Accept-Ranges",
+          "Value": "bytes"
+        },
+        {
+          "Name": "Content-Length",
+          "Value": "378"
+        },
+        {
+          "Name": "Content-Type",
+          "Value": "text/css"
+        },
+        {
+          "Name": "ETag",
+          "Value": "\"z/we3+mlB0pU2b9Y4XQYSgq/59J6jrcNZkUn5RYXgZc=\""
+        },
+        {
+          "Name": "Last-Modified",
+          "Value": "Thu, 21 Nov 2024 04:37:06 GMT"
+        },
+        {
+          "Name": "Cache-Control",
+          "Value": "max-age=31536000, immutable"
+        }
+      ],
+      "EndpointProperties": [
+        {
+          "Name": "fingerprint",
+          "Value": "rhtax24o6r"
+        },
+        {
+          "Name": "label",
+          "Value": "discoveruo.css"
+        },
+        {
+          "Name": "integrity",
+          "Value": "sha256-z/we3+mlB0pU2b9Y4XQYSgq/59J6jrcNZkUn5RYXgZc="
+        }
+      ]
+    },
+    {
       "Route": "DiscoverUO.Web.bundle.scp.css",
       "AssetFile": "C:\\Users\\demon\\OneDrive\\Documents\\GitHub\\DiscoverUO\\DiscoverUO.Web\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\DiscoverUO.Web.bundle.scp.css",
       "Selectors": [],
@@ -423,7 +526,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 20 Nov 2024 05:10:38 GMT"
+          "Value": "Thu, 21 Nov 2024 05:18:52 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -460,7 +563,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 20 Nov 2024 05:10:38 GMT"
+          "Value": "Thu, 21 Nov 2024 05:18:52 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -497,7 +600,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 20 Nov 2024 05:10:38 GMT"
+          "Value": "Thu, 21 Nov 2024 05:18:52 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -542,7 +645,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Wed, 20 Nov 2024 05:10:38 GMT"
+          "Value": "Thu, 21 Nov 2024 05:18:52 GMT"
         },
         {
           "Name": "Cache-Control",
