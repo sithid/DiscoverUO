@@ -44,7 +44,7 @@ namespace DiscoverUO.Api.Controllers
         [HttpPost("authenticate")]
         public async Task<ActionResult<IResponse>> Authenticate(AuthenticationData loginDto)
         {
-            var user = await _context.Users.SingleOrDefaultAsync(u => u.UserName == loginDto.Username);
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.UserName == loginDto.Username);
 
             if (user == null)
             {
@@ -58,7 +58,7 @@ namespace DiscoverUO.Api.Controllers
                 return Unauthorized(failedAuthorizationResponse);
             }
 
-            if (loginDto.Password == user.PasswordHash)
+            if(!string.Equals( loginDto.Password, user.PasswordHash ) )
             {
                 var failedAuthorizationResponse = new AuthenticationResponse
                 {
@@ -115,14 +115,17 @@ namespace DiscoverUO.Api.Controllers
                 {
                     Success = false,
                     StatusCode = HttpStatusCode.BadRequest,
-                    Message = "That username already exists."
+                    Message = "That username already exists.  Please try something unique."
                 };
             }
 
             var user = _mapper.Map<User>(registerUserData);
 
-            user.PasswordHash = registerUserData.Password;
+
+            user.PasswordHash = registerUserData.PasswordPreHashed ? registerUserData.Password : BCrypt.Net.BCrypt.HashPassword(registerUserData.Password);
+            
             user.Role = UserRole.BasicUser;
+            user.CreationDate = DateTime.Now.ToString();
 
             var userProfile = new UserProfile { OwnerId = user.Id, UserDisplayName = user.UserName };
             user.Profile = userProfile;
@@ -511,8 +514,6 @@ namespace DiscoverUO.Api.Controllers
                 };
 
                 return NotFound(userNotFound);
-
-                return NotFound();
             }
 
             if (currentUser.Id != user.Id)
@@ -530,7 +531,14 @@ namespace DiscoverUO.Api.Controllers
                 }
             }
 
-            if (!BCrypt.Net.BCrypt.Verify(updatePasswordRequest.CurrentPassword, user.PasswordHash))
+            var userCurrentPassword = string.Empty;
+
+            if (updatePasswordRequest.PasswordPreHashed)
+                userCurrentPassword = updatePasswordRequest.CurrentPassword; // Password comes pre-hashed from the client.
+            else
+                userCurrentPassword = BCrypt.Net.BCrypt.HashPassword(updatePasswordRequest.CurrentPassword);
+
+            if (!string.Equals( userCurrentPassword, user.PasswordHash))
             {
                 var invalidPass = new RequestFailedResponse
                 {
@@ -542,7 +550,8 @@ namespace DiscoverUO.Api.Controllers
                 return Unauthorized(invalidPass);
             }
 
-            user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(updatePasswordRequest.NewPassword);
+            user.PasswordHash = updatePasswordRequest.PasswordPreHashed ?
+                updatePasswordRequest.NewPassword : BCrypt.Net.BCrypt.HashPassword(updatePasswordRequest.NewPassword);
 
             _context.Entry(user).State = EntityState.Modified;
 
@@ -936,7 +945,14 @@ namespace DiscoverUO.Api.Controllers
             }
 
             var user = _mapper.Map<User>(registerUserData);
-            user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(registerUserData.Password);
+
+            if (registerUserData.PasswordPreHashed)
+                user.PasswordHash = registerUserData.Password;
+            else
+                user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(registerUserData.Password);
+
+            user.Role = registerUserData.Role;
+            user.CreationDate = DateTime.Now.ToString();
 
             var userProfile = new UserProfile { OwnerId = user.Id, UserDisplayName = user.UserName };
             user.Profile = userProfile;

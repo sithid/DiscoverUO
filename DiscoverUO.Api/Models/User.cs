@@ -11,5 +11,6 @@ namespace DiscoverUO.Api.Models
         public int DailyVotesRemaining { get; set; }
         public UserProfile? Profile { get; set; }
         public UserFavoritesList? Favorites { get; set; }
+        public string? CreationDate {  get; set; }
     }
 }

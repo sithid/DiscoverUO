@@ -1578,6 +1578,10 @@
           "rating": {
             "type": "integer",
             "format": "int32"
+          },
+          "creationDate": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false

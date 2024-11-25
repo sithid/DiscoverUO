@@ -2,6 +2,7 @@
 using DiscoverUO.Api.Controllers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -9,9 +10,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DiscoverUO.Api.Migrations
 {
     [DbContext(typeof(DiscoverUODatabaseContext))]
-    partial class DiscoverUODatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20241125013341_Init_Data")]
+    partial class Init_Data
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.0");

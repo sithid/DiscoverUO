@@ -17,7 +17,7 @@
         <MudButton Variant="Variant.Outlined" OnClick="@HandleSignIn">Submit</MudButton>
         @if (ShowUIResponseMessage)
         {
-        <MudAlert Severity="Severity.Error"> @UIResponseMessage </MudAlert>
+            <MudAlert Severity="Severity.Error"> @UIResponseMessage </MudAlert>
         }
     </MudGrid>
 </MudPaper>
@@ -38,15 +38,13 @@
 
         var userName = Details.Username;
 
-        Console.WriteLine($"Details.Username: {userName}");
+        var hashedPassword = BCrypt.HashPassword(Details.Password);
 
-        var passwordHash = BCrypt.HashPassword(Details.Password);
-
-        Console.WriteLine($"Details.Username: {userName}, Details.PasswordHash: {passwordHash}");
+        Console.WriteLine($"Details.Username: {userName}, Details.Password: {Details.Password}, BCrypt.HashPassword: {hashedPassword}");
 
         try
         {
-            var httpResponse = await _client.PostAsJsonAsync("https://localhost:7015/api/users/authenticate", new AuthenticationData(userName, passwordHash));
+            var httpResponse = await _client.PostAsJsonAsync("https://localhost:7015/api/users/authenticate", new AuthenticationData(userName, hashedPassword ));
 
             if (httpResponse.IsSuccessStatusCode)
             {
@@ -54,6 +52,7 @@
                 var tokenString = authResponse.Value;
 
                 await _localStorage.SetItemAsync("jwtToken", tokenString);
+                StateHasChanged();
                 _navigationManager.NavigateTo("/dashboard");
             }
             else
@@ -75,7 +74,7 @@
         }
         finally
         {
-            StateHasChanged();
+            Details = new LoginDetails();
         }
     }
 

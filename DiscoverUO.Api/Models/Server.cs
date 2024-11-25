@@ -16,6 +16,7 @@ namespace DiscoverUO.Api.Models
         public bool IsPublic { get; set; }
         public int Votes { get; set; }
         public int Rating { get; set; }
+        public string? CreationDate { get; set; }
 
         [JsonIgnore]
         public User Owner { get; set; }

@@ -5,9 +5,8 @@
         public string? Username { get; set; }
         public string? Password { get; set; }
 
-
         public AuthenticationData() : this(string.Empty, string.Empty) { }
 
-        public AuthenticationData(string userName, string password) { Username = userName; Password = password; }
+        public AuthenticationData(string userName, string password ) { Username = userName; Password = password; }
     }
 }
