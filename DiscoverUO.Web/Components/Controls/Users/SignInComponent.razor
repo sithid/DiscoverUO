@@ -8,18 +8,16 @@
 @inject HttpClient _client
 @inject NavigationManager _navigationManager
 
-<MudPaper Class="pa-16 ma-2" Height="60%" Width="25%">
-    <MudGrid>
-        <MudForm Class="gump-background" Spacing="2" Model="@Details">
-            <MudTextField Variant="Variant.Outlined" T="string" Label="Username" Typo="Typo.input" @bind-Value="@Details.Username" />
-            <MudTextField Variant="Variant.Outlined" T="string" Label="Password" Typo="Typo.input" @bind-Value="@Details.Password" />
-        </MudForm>
-        <MudButton Variant="Variant.Outlined" OnClick="@HandleSignIn">Submit</MudButton>
-        @if (ShowUIResponseMessage)
-        {
-            <MudAlert Severity="Severity.Error"> @UIResponseMessage </MudAlert>
-        }
-    </MudGrid>
+<MudPaper Elevation="1" Class="mt-2 pa-2">
+    <MudForm Class="mt-1 pa-2" Spacing="3" Model="@Details">
+        <MudTextField Variant="Variant.Outlined" T="string" Label="Username" Typo="Typo.input" @bind-Value="@Details.Username" />
+        <MudTextField Variant="Variant.Outlined" T="string" Label="Password" Typo="Typo.input" @bind-Value="@Details.Password" />
+        <MudButton FullWidth="true" Variant="Variant.Outlined" OnClick="@HandleSignIn">Submit</MudButton>
+    </MudForm>
+    @if (ShowUIResponseMessage)
+    {
+        <MudAlert Severity="Severity.Error"> @UIResponseMessage </MudAlert>
+    }
 </MudPaper>
 @code
 {
@@ -37,14 +35,15 @@
         }
 
         var userName = Details.Username;
+        var password = Details.Password;
 
-        var hashedPassword = BCrypt.HashPassword(Details.Password);
+        AuthenticationData data = new AuthenticationData(userName, password, false);
 
-        Console.WriteLine($"Details.Username: {userName}, Details.Password: {Details.Password}, BCrypt.HashPassword: {hashedPassword}");
+        Console.WriteLine($"data.Username: {data.Username}, data.Password: {data.Password}");
 
         try
         {
-            var httpResponse = await _client.PostAsJsonAsync("https://localhost:7015/api/users/authenticate", new AuthenticationData(userName, hashedPassword ));
+            var httpResponse = await _client.PostAsJsonAsync("https://localhost:7015/api/users/authenticate", data );
 
             if (httpResponse.IsSuccessStatusCode)
             {
@@ -52,7 +51,9 @@
                 var tokenString = authResponse.Value;
 
                 await _localStorage.SetItemAsync("jwtToken", tokenString);
+
                 StateHasChanged();
+
                 _navigationManager.NavigateTo("/dashboard");
             }
             else

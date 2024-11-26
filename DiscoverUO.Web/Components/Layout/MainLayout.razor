@@ -13,14 +13,10 @@
 
 <MudLayout>
     <MudAppBar Elevation="1">
-        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@DrawerToggle" />
-        <MudText Typo="Typo.h5" Class="ml-3">DiscoverUO</MudText>
-        <MudSpacer />
+        <MudText Typo="Typo.h3" Align="Align.Center" GutterBottom="true">DiscoverUO</MudText>
+            <MudSpacer />
         <MudIconButton Icon="@Icons.Material.Filled.Dashboard" Color="Color.Inherit" Edge="Edge.End" OnClick="@AppBarNavToSignIn" />
     </MudAppBar>
-    <MudDrawer @bind-Open="@_drawerOpen">
-        <NavMenu DashboardData="DashboardData"/>
-    </MudDrawer>
     <MudMainContent>
         @Body
     </MudMainContent>
@@ -41,12 +37,6 @@
             StateHasChanged();
         }
     }
-    public bool _drawerOpen = true;
-
-    void DrawerToggle()
-    {
-        _drawerOpen = !_drawerOpen;
-    }
 
     void AppBarNavToSignIn()
     {
@@ -65,13 +55,13 @@
 
             PaletteLight = new PaletteLight
             {
-                Primary = "#606060", // Darker gray
-                TextPrimary = "#202020", //
-                Secondary = "#bdad84", // Goldish border contrast
-                TextSecondary = "#808080", //
-                Background = "#bebdbc", // Darker background
-                BackgroundGray = "#404040", // Darker gray background
-                AppbarBackground = "#606060" // Darker gray
+                Primary = "#606060",
+                TextPrimary = "#202020",
+                Secondary = "#bdad84",
+                TextSecondary = "#808080",
+                Background = "#bebdbc",
+                BackgroundGray = "#404040",
+                AppbarBackground = "#606060"
             },
 
 

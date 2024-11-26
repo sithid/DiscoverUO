@@ -1,5 +1,7 @@
 ﻿@page "/dashboard"
 @using DiscoverUO.Lib.Shared
+@using DiscoverUO.Lib.Shared.Favorites
+@using DiscoverUO.Lib.Shared.Servers
 @using DiscoverUO.Lib.Shared.Users
 @using DiscoverUO.Web.Components.Data
 @using System.Net.Http.Headers
@@ -12,16 +14,45 @@
 <MudContainer>
     @if( DashboardData != null )
     {
-        <MudLabel style="font-size: 36px">Welcome back, @DashboardData?.Username!.</MudLabel>
+        <MudLabel style="font-size: 36px">
+
+            Welcome back, @DashboardData?.Username!.<br />
+        
+        </MudLabel>
+        <MudLabel style="font-size: 24px">
+
+            User Display Name: @DashboardData.UserDisplayName<br />
+            User Biography: @DashboardData.UserBiography<br />
+            User Avatar: @DashboardData.UserAvatar<br />
+            User Email: @DashboardData.Email<br />
+            User Creation Date: @DashboardData.CreationDate<br />
+            User Remaining Vote : @DashboardData.DailyVotesRemaining<br />
+
+        </MudLabel>
+
+            @if (DashboardData.Favorites != null && DashboardData.Favorites.FavoritedItems.Count > 0 )
+            {
+                <MudLabel style="font-size: 24px">
+
+                    @DashboardData.Username's Favorites:<br />
+
+                </MudLabel>
+
+                @foreach (FavoriteItemData itemData in DashboardData.Favorites.FavoritedItems)
+                {
+                    <MudLabel style="font-size: 12px">
+
+                                 Server Name: @itemData.ServerName<br />
+                        Server ServerAddress: @itemData.ServerAddress<br />
+                                 Server Port: @itemData.ServerPort<br />
+                                  Server Era: @itemData.ServerEra<br />
+                                 PvP Enabled: @itemData.PvPEnabled<br />
+
+                    </MudLabel>
+                }
+            }
     }
-    else
-    {
-        _navManager.NavigateTo("/signin");
-    }
-    <MudSpacer/>
-    <MudLabel style="font-size: 24px">This is where the user dashboard content will be.</MudLabel>
-    <MudSpacer />
-    <MudLabel style="font-size: 12px">This is more dashboard content for this page.</MudLabel>
+
 </MudContainer>
 
 @code
@@ -30,7 +61,7 @@
 
     protected async override Task OnInitializedAsync()
     {
-        if (DashboardData == null)
+        if (DashboardData != null)
             return;
 
         DashboardData = await DataManager.GetDashboard(_client, _localStorage);

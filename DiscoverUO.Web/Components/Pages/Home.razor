@@ -3,8 +3,8 @@
 
 <PageTitle>Home</PageTitle>
 
-<MudContainer>
-    <MudLabel style="font-size: 32px">This is where the home page content will be.</MudLabel>
+<MudContainer Class="mt-12 px-8" MaxWidth="MaxWidth.False">
+    <MudText style="font-size: 64px" Align="Align.Center" Color="Color.Primary" GutterBottom="true">Welcome to DiscoverUO!</MudText>
 </MudContainer>
 
 @code
@@ -24,6 +24,8 @@
                 Console.WriteLine("First visit to the homepage!");
 
                 await _localStorage.ClearAsync();
+                _prevSessionsCleared = true;
+                StateHasChanged();
             }
 
         }

@@ -14,6 +14,7 @@ using System.Security.Claims;
 using System.Text;
 using DiscoverUO.Lib.Shared.Contracts;
 using DiscoverUO.Lib.Shared;
+using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
 
 namespace DiscoverUO.Api.Controllers
 {
@@ -51,19 +52,27 @@ namespace DiscoverUO.Api.Controllers
                 var failedAuthorizationResponse = new RequestFailedResponse
                 {
                     Success = false,
-                    Message = "Invalid username or password.",
+                    Message = "Invalid username.",
                     StatusCode = HttpStatusCode.Unauthorized,
                 };
 
                 return Unauthorized(failedAuthorizationResponse);
             }
 
-            if(!string.Equals( loginDto.Password, user.PasswordHash ) )
+            Console.WriteLine("Before BCrypt.Verify");
+            Console.WriteLine($"loginDto.Password: {loginDto.Password}");
+            Console.WriteLine($"user.PasswordHash: {user.PasswordHash}");
+
+            if(!BCrypt.Net.BCrypt.Verify(loginDto.Password, user.PasswordHash ) )
             {
+                Console.WriteLine("BCrypt.Verify failed!");
+                Console.WriteLine($"loginDto.Password: {loginDto.Password}");
+                Console.WriteLine($"user.PasswordHash: {user.PasswordHash}");
+
                 var failedAuthorizationResponse = new AuthenticationResponse
                 {
                     Success = false,
-                    Message = "Invalid username or password.",
+                    Message = "Invalid password.",
                     StatusCode = HttpStatusCode.Unauthorized,
                 };
 
@@ -109,6 +118,8 @@ namespace DiscoverUO.Api.Controllers
 
             var usernameToLower = registerUserData.UserName.ToLower();
 
+            var passwordHash = BCrypt.Net.BCrypt.HashPassword(registerUserData.Password );
+            
             if( userNameExists( usernameToLower ) )
             {
                 var registerUserResponse = new RequestFailedResponse
@@ -122,8 +133,8 @@ namespace DiscoverUO.Api.Controllers
             var user = _mapper.Map<User>(registerUserData);
 
 
-            user.PasswordHash = registerUserData.PasswordPreHashed ? registerUserData.Password : BCrypt.Net.BCrypt.HashPassword(registerUserData.Password);
-            
+            user.PasswordHash = passwordHash;
+                
             user.Role = UserRole.BasicUser;
             user.CreationDate = DateTime.Now.ToString();
 
@@ -215,6 +226,7 @@ namespace DiscoverUO.Api.Controllers
                 DailyVotesRemaining = user.DailyVotesRemaining,
                 Email = user.Email,
                 Role = user.Role.ToString(),
+                CreationDate = user.CreationDate
             };
 
             try
@@ -531,14 +543,10 @@ namespace DiscoverUO.Api.Controllers
                 }
             }
 
-            var userCurrentPassword = string.Empty;
 
-            if (updatePasswordRequest.PasswordPreHashed)
-                userCurrentPassword = updatePasswordRequest.CurrentPassword; // Password comes pre-hashed from the client.
-            else
-                userCurrentPassword = BCrypt.Net.BCrypt.HashPassword(updatePasswordRequest.CurrentPassword);
+            var userCurrentPassword = BCrypt.Net.BCrypt.HashPassword(updatePasswordRequest.CurrentPassword);
 
-            if (!string.Equals( userCurrentPassword, user.PasswordHash))
+            if (!BCrypt.Net.BCrypt.Verify(updatePasswordRequest.CurrentPassword, user.PasswordHash))
             {
                 var invalidPass = new RequestFailedResponse
                 {
@@ -550,8 +558,7 @@ namespace DiscoverUO.Api.Controllers
                 return Unauthorized(invalidPass);
             }
 
-            user.PasswordHash = updatePasswordRequest.PasswordPreHashed ?
-                updatePasswordRequest.NewPassword : BCrypt.Net.BCrypt.HashPassword(updatePasswordRequest.NewPassword);
+            user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(updatePasswordRequest.NewPassword);
 
             _context.Entry(user).State = EntityState.Modified;
 
@@ -946,10 +953,7 @@ namespace DiscoverUO.Api.Controllers
 
             var user = _mapper.Map<User>(registerUserData);
 
-            if (registerUserData.PasswordPreHashed)
-                user.PasswordHash = registerUserData.Password;
-            else
-                user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(registerUserData.Password);
+            user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(registerUserData.Password);
 
             user.Role = registerUserData.Role;
             user.CreationDate = DateTime.Now.ToString();

@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "nnQNw5liDTRDiipOZrHZPNNJClYBS9K8flRhliPqJlE=",
+  "Source": "DiscoverUO.Api",
+  "BasePath": "_content/DiscoverUO.Api",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}
