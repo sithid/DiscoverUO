@@ -8,11 +8,11 @@
 @inject HttpClient _client
 @inject NavigationManager _navigationManager
 
-<MudPaper Elevation="1" Class="mt-2 pa-2">
-    <MudForm Class="mt-1 pa-2" Spacing="3" Model="@Details">
-        <MudTextField Variant="Variant.Outlined" T="string" Label="Username" Typo="Typo.input" @bind-Value="@Details.Username" />
-        <MudTextField Variant="Variant.Outlined" T="string" Label="Password" Typo="Typo.input" @bind-Value="@Details.Password" />
-        <MudButton FullWidth="true" Variant="Variant.Outlined" OnClick="@HandleSignIn">Submit</MudButton>
+<MudPaper Elevation="1" Class="mt-2 pa-8">
+    <MudForm Class="pa-8" Spacing="8" Model="@Details">
+        <MudTextField Variant="Variant.Text" T="string" Label="Username" Typo="Typo.input" @bind-Value="@Details.Username" />
+        <MudTextField Variant="Variant.Text" T="string" Label="Password" Typo="Typo.input" @bind-Value="@Details.Password" InputType="InputType.Password" />
+        <MudButton Size="Size.Small" Variant="Variant.Text" OnClick="@HandleSignIn">Sign In</MudButton>
     </MudForm>
     @if (ShowUIResponseMessage)
     {

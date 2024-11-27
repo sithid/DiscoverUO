@@ -3,28 +3,12 @@
   "WorkspaceRootPath": "C:\\Users\\demon\\OneDrive\\Documents\\GitHub\\DiscoverUO\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{BF22AD62-58D1-4348-951A-3A3D6B7F9010}|DiscoverUO.Web\\DiscoverUO.Web.csproj|c:\\users\\demon\\onedrive\\documents\\github\\discoveruo\\discoveruo.web\\components\\pages\\signin.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{BF22AD62-58D1-4348-951A-3A3D6B7F9010}|DiscoverUO.Web\\DiscoverUO.Web.csproj|solutionrelative:discoveruo.web\\components\\pages\\signin.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{BF22AD62-58D1-4348-951A-3A3D6B7F9010}|DiscoverUO.Web\\DiscoverUO.Web.csproj|c:\\users\\demon\\onedrive\\documents\\github\\discoveruo\\discoveruo.web\\components\\controls\\users\\signincomponent.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{BF22AD62-58D1-4348-951A-3A3D6B7F9010}|DiscoverUO.Web\\DiscoverUO.Web.csproj|solutionrelative:discoveruo.web\\components\\controls\\users\\signincomponent.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{BF22AD62-58D1-4348-951A-3A3D6B7F9010}|DiscoverUO.Web\\DiscoverUO.Web.csproj|c:\\users\\demon\\onedrive\\documents\\github\\discoveruo\\discoveruo.web\\components\\pages\\register.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{BF22AD62-58D1-4348-951A-3A3D6B7F9010}|DiscoverUO.Web\\DiscoverUO.Web.csproj|solutionrelative:discoveruo.web\\components\\pages\\register.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{BF22AD62-58D1-4348-951A-3A3D6B7F9010}|DiscoverUO.Web\\DiscoverUO.Web.csproj|c:\\users\\demon\\onedrive\\documents\\github\\discoveruo\\discoveruo.web\\components\\pages\\home.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{BF22AD62-58D1-4348-951A-3A3D6B7F9010}|DiscoverUO.Web\\DiscoverUO.Web.csproj|solutionrelative:discoveruo.web\\components\\pages\\home.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{BF22AD62-58D1-4348-951A-3A3D6B7F9010}|DiscoverUO.Web\\DiscoverUO.Web.csproj|c:\\users\\demon\\onedrive\\documents\\github\\discoveruo\\discoveruo.web\\components\\layout\\mainlayout.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{BF22AD62-58D1-4348-951A-3A3D6B7F9010}|DiscoverUO.Web\\DiscoverUO.Web.csproj|solutionrelative:discoveruo.web\\components\\layout\\mainlayout.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{BF22AD62-58D1-4348-951A-3A3D6B7F9010}|DiscoverUO.Web\\DiscoverUO.Web.csproj|c:\\users\\demon\\onedrive\\documents\\github\\discoveruo\\discoveruo.web\\components\\pages\\dashboard.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{BF22AD62-58D1-4348-951A-3A3D6B7F9010}|DiscoverUO.Web\\DiscoverUO.Web.csproj|solutionrelative:discoveruo.web\\components\\pages\\dashboard.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{BF22AD62-58D1-4348-951A-3A3D6B7F9010}|DiscoverUO.Web\\DiscoverUO.Web.csproj|c:\\users\\demon\\onedrive\\documents\\github\\discoveruo\\discoveruo.web\\components\\pages\\signin.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{BF22AD62-58D1-4348-951A-3A3D6B7F9010}|DiscoverUO.Web\\DiscoverUO.Web.csproj|solutionrelative:discoveruo.web\\components\\pages\\signin.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     }
   ],
   "DocumentGroupContainers": [
@@ -34,84 +18,32 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Register.razor",
-              "DocumentMoniker": "C:\\Users\\demon\\OneDrive\\Documents\\GitHub\\DiscoverUO\\DiscoverUO.Web\\Components\\Pages\\Register.razor",
-              "RelativeDocumentMoniker": "DiscoverUO.Web\\Components\\Pages\\Register.razor",
-              "ToolTip": "C:\\Users\\demon\\OneDrive\\Documents\\GitHub\\DiscoverUO\\DiscoverUO.Web\\Components\\Pages\\Register.razor",
-              "RelativeToolTip": "DiscoverUO.Web\\Components\\Pages\\Register.razor",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 1,
+              "Title": "SignIn.razor",
+              "DocumentMoniker": "C:\\Users\\demon\\OneDrive\\Documents\\GitHub\\DiscoverUO\\DiscoverUO.Web\\Components\\Pages\\SignIn.razor",
+              "RelativeDocumentMoniker": "DiscoverUO.Web\\Components\\Pages\\SignIn.razor",
+              "ToolTip": "C:\\Users\\demon\\OneDrive\\Documents\\GitHub\\DiscoverUO\\DiscoverUO.Web\\Components\\Pages\\SignIn.razor",
+              "RelativeToolTip": "DiscoverUO.Web\\Components\\Pages\\SignIn.razor",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-11-26T05:51:32.806Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "MainLayout.razor",
-              "DocumentMoniker": "C:\\Users\\demon\\OneDrive\\Documents\\GitHub\\DiscoverUO\\DiscoverUO.Web\\Components\\Layout\\MainLayout.razor",
-              "RelativeDocumentMoniker": "DiscoverUO.Web\\Components\\Layout\\MainLayout.razor",
-              "ToolTip": "C:\\Users\\demon\\OneDrive\\Documents\\GitHub\\DiscoverUO\\DiscoverUO.Web\\Components\\Layout\\MainLayout.razor",
-              "RelativeToolTip": "DiscoverUO.Web\\Components\\Layout\\MainLayout.razor",
-              "ViewState": "AgIAAC0AAAAAAAAAAAAAAD0AAAAmAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-11-26T05:46:22.129Z",
+              "WhenOpened": "2024-11-27T07:55:00.598Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "SignIn.razor",
-              "DocumentMoniker": "C:\\Users\\demon\\OneDrive\\Documents\\GitHub\\DiscoverUO\\DiscoverUO.Web\\Components\\Pages\\SignIn.razor",
-              "RelativeDocumentMoniker": "DiscoverUO.Web\\Components\\Pages\\SignIn.razor",
-              "ToolTip": "C:\\Users\\demon\\OneDrive\\Documents\\GitHub\\DiscoverUO\\DiscoverUO.Web\\Components\\Pages\\SignIn.razor*",
-              "RelativeToolTip": "DiscoverUO.Web\\Components\\Pages\\SignIn.razor*",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAWAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-11-25T06:54:30.743Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "Home.razor",
-              "DocumentMoniker": "C:\\Users\\demon\\OneDrive\\Documents\\GitHub\\DiscoverUO\\DiscoverUO.Web\\Components\\Pages\\Home.razor",
-              "RelativeDocumentMoniker": "DiscoverUO.Web\\Components\\Pages\\Home.razor",
-              "ToolTip": "C:\\Users\\demon\\OneDrive\\Documents\\GitHub\\DiscoverUO\\DiscoverUO.Web\\Components\\Pages\\Home.razor",
-              "RelativeToolTip": "DiscoverUO.Web\\Components\\Pages\\Home.razor",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAfAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-11-25T05:53:45.907Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
               "Title": "SignInComponent.razor",
               "DocumentMoniker": "C:\\Users\\demon\\OneDrive\\Documents\\GitHub\\DiscoverUO\\DiscoverUO.Web\\Components\\Controls\\Users\\SignInComponent.razor",
               "RelativeDocumentMoniker": "DiscoverUO.Web\\Components\\Controls\\Users\\SignInComponent.razor",
               "ToolTip": "C:\\Users\\demon\\OneDrive\\Documents\\GitHub\\DiscoverUO\\DiscoverUO.Web\\Components\\Controls\\Users\\SignInComponent.razor",
               "RelativeToolTip": "DiscoverUO.Web\\Components\\Controls\\Users\\SignInComponent.razor",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAdAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2024-11-25T04:40:43.817Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "Dashboard.razor",
-              "DocumentMoniker": "C:\\Users\\demon\\OneDrive\\Documents\\GitHub\\DiscoverUO\\DiscoverUO.Web\\Components\\Pages\\Dashboard.razor",
-              "RelativeDocumentMoniker": "DiscoverUO.Web\\Components\\Pages\\Dashboard.razor",
-              "ToolTip": "C:\\Users\\demon\\OneDrive\\Documents\\GitHub\\DiscoverUO\\DiscoverUO.Web\\Components\\Pages\\Dashboard.razor",
-              "RelativeToolTip": "DiscoverUO.Web\\Components\\Pages\\Dashboard.razor",
-              "ViewState": "AgIAABYAAAAAAAAAAAAAwBIAAAA6AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-11-25T04:40:35.754Z",
               "EditorCaption": ""
             }
           ]
