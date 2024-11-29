@@ -14,12 +14,12 @@
 <MudContainer>
     @if( DashboardData != null )
     {
-        <MudLabel style="font-size: 36px">
+        <p style="font-size: 36px">
 
             Welcome back, @DashboardData?.Username!.<br />
         
-        </MudLabel>
-        <MudLabel style="font-size: 24px">
+        </p>
+        <p style="font-size: 24px">
 
             User Display Name: @DashboardData.UserDisplayName<br />
             User Biography: @DashboardData.UserBiography<br />
@@ -28,19 +28,19 @@
             User Creation Date: @DashboardData.CreationDate<br />
             User Remaining Vote : @DashboardData.DailyVotesRemaining<br />
 
-        </MudLabel>
+        </p>
 
             @if (DashboardData.Favorites != null && DashboardData.Favorites.FavoritedItems.Count > 0 )
             {
-                <MudLabel style="font-size: 24px">
+                <p style="font-size: 24px">
 
                     @DashboardData.Username's Favorites:<br />
 
-                </MudLabel>
+                </p>
 
                 @foreach (FavoriteItemData itemData in DashboardData.Favorites.FavoritedItems)
                 {
-                    <MudLabel style="font-size: 12px">
+                    <p style="font-size: 12px">
 
                                  Server Name: @itemData.ServerName<br />
                         Server ServerAddress: @itemData.ServerAddress<br />
@@ -48,7 +48,7 @@
                                   Server Era: @itemData.ServerEra<br />
                                  PvP Enabled: @itemData.PvPEnabled<br />
 
-                    </MudLabel>
+                    </p>
                 }
             }
     }

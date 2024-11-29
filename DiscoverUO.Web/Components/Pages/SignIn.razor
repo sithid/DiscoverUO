@@ -2,9 +2,18 @@
 @inject NavigationManager _navManager
 
 <MudContainer MaxWidth="MaxWidth.Large">
-    <SignInComponent />
-        Don't have an account?
-    <MudButton Variant="Variant.Text" onclick="@RegisterOnClick">Create One!</MudButton>
+    <MudGrid>
+        <MudItem xs="12" sm="6" md="4">
+            <SignInComponent />
+            <MudText>
+                Don't have an account?
+                    <MudButton Variant="Variant.Text" onclick="@RegisterOnClick">
+                        Create One!
+                    </MudButton>
+            </MudText>
+        </MudItem>
+    </MudGrid>
+
 </MudContainer>
 
 @code

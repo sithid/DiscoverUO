@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DiscoverUO.Api.Migrations
 {
     [DbContext(typeof(DiscoverUODatabaseContext))]
-    [Migration("20241125041454_Init_Data")]
+    [Migration("20241129013122_Init_Data")]
     partial class Init_Data
     {
         /// <inheritdoc />

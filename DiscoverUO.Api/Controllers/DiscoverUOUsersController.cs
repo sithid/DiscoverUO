@@ -114,13 +114,15 @@ namespace DiscoverUO.Api.Controllers
                     StatusCode = HttpStatusCode.BadRequest,
                     Message = "A valid username and password are required."
                 };
+
+                return BadRequest(registerUserResponse);
             }
 
             var usernameToLower = registerUserData.UserName.ToLower();
 
             var passwordHash = BCrypt.Net.BCrypt.HashPassword(registerUserData.Password );
             
-            if( userNameExists( usernameToLower ) )
+            if( userNameExists( usernameToLower ).Result )
             {
                 var registerUserResponse = new RequestFailedResponse
                 {
@@ -128,6 +130,8 @@ namespace DiscoverUO.Api.Controllers
                     StatusCode = HttpStatusCode.BadRequest,
                     Message = "That username already exists.  Please try something unique."
                 };
+
+                return BadRequest(registerUserResponse);
             }
 
             var user = _mapper.Map<User>(registerUserData);
@@ -1009,11 +1013,12 @@ namespace DiscoverUO.Api.Controllers
             return tokenHandler.WriteToken(tokenString);
         }
 
-        private bool userNameExists(string userName)
+        private async Task<bool> userNameExists(string userName)
         {
-            var user = _context.Users.FirstOrDefaultAsync(u => u.UserName == userName);
 
-            if (user != null)
+            var user = await _context.Users.FirstOrDefaultAsync(u => string.Equals( u.UserName.ToLower(), userName));
+
+            if (user != null )
                 return true;
 
             return false;

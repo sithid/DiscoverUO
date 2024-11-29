@@ -1,6 +1,7 @@
 using Blazored.LocalStorage;
 using DiscoverUO.Web.Components;
 using MudBlazor.Services;
+using DiscoverUO;
 
 namespace DiscoverUO.Web
 {
