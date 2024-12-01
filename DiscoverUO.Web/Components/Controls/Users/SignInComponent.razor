@@ -8,17 +8,21 @@
 @inject HttpClient _client
 @inject NavigationManager _navigationManager
 
-<MudPaper Elevation="1" Class="mt-2 pa-8">
-    <MudForm Class="pa-8" Spacing="8" Model="@Details">
-        <MudTextField Variant="Variant.Text" T="string" Label="Username" Typo="Typo.input" @bind-Value="@Details.Username" />
-        <MudTextField Variant="Variant.Text" T="string" Label="Password" Typo="Typo.input" @bind-Value="@Details.Password" InputType="InputType.Password" />
-        <MudButton Size="Size.Small" Variant="Variant.Text" OnClick="@HandleSignIn">Sign In</MudButton>
-    </MudForm>
-    @if (ShowUIResponseMessage)
-    {
-        <MudAlert Severity="Severity.Error"> @UIResponseMessage </MudAlert>
-    }
+<MudPaper Class="mud-width-full ma-2 mt-2 pa-16">
+    <MudItem>
+        <MudForm title="Current User" Spacing="4">
+            <MudText Typo="Typo.h3" Align="Align.Center" GutterBottom="true">Current User Login</MudText>
+            <MudTextField Variant="Variant.Text" T="string" Label="Username" Typo="Typo.input" @bind-Value="@Details.Username" />
+            <MudTextField Variant="Variant.Text" T="string" Label="Password" Typo="Typo.input" @bind-Value="@Details.Password" InputType="InputType.Password" />
+            <MudButton Size="Size.Medium" Variant="Variant.Text" OnClick="@HandleSignIn">Sign In</MudButton>
+            @if (ShowUIResponseMessage)
+            {
+                <MudAlert Severity="Severity.Error"> @UIResponseMessage </MudAlert>
+            }
+        </MudForm>
+    </MudItem>
 </MudPaper>
+
 @code
 {
     public string UIResponseMessage { get; set; }
@@ -39,8 +43,6 @@
 
         AuthenticationData data = new AuthenticationData(userName, password, false);
 
-        Console.WriteLine($"data.Username: {data.Username}, data.Password: {data.Password}");
-
         try
         {
             var httpResponse = await _client.PostAsJsonAsync("https://localhost:7015/api/users/authenticate", data );
@@ -58,8 +60,8 @@
             }
             else
             {
-                var authResponse = httpResponse.Content.ReadFromJsonAsync<AuthenticationResponse>().Result;
-                UIResponseMessage = authResponse.Message;
+                var failedAuthResponse = httpResponse.Content.ReadFromJsonAsync<RequestFailedResponse>().Result;
+                UIResponseMessage = failedAuthResponse.Message;
                 ShowUIResponseMessage = true;
             }
         }
@@ -77,6 +79,11 @@
         {
             Details = new LoginDetails();
         }
+    }
+
+    private void RegisterOnClick()
+    {
+        _navigationManager.NavigateTo("/register");
     }
 
     public class LoginDetails

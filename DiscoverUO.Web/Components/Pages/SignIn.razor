@@ -1,25 +1,14 @@
 ﻿@page "/signin"
 @inject NavigationManager _navManager
 
-<MudContainer MaxWidth="MaxWidth.Large">
-    <MudGrid>
-        <MudItem xs="12" sm="6" md="4">
-            <SignInComponent />
-            <MudText>
-                Don't have an account?
-                    <MudButton Variant="Variant.Text" onclick="@RegisterOnClick">
-                        Create One!
-                    </MudButton>
-            </MudText>
-        </MudItem>
-    </MudGrid>
-
-</MudContainer>
-
+<MudGrid Justify="Justify.SpaceAround">
+    <MudItem Class="mt-2 pa-4" xs="3">
+        <SignInComponent />
+    </MudItem>
+    <MudItem Class="mt-2 pa-4" xs="3">
+        <RegisterComponent />
+    </MudItem>
+</MudGrid>
 @code
 {
-    private void RegisterOnClick()
-    {
-        _navManager.NavigateTo("/register");
-    }
 }

@@ -14,7 +14,13 @@
 <MudLayout>
     <MudAppBar Elevation="1">
         <MudText Typo="Typo.h3" Align="Align.Center" GutterBottom="true">DiscoverUO</MudText>
-            <MudSpacer />
+        <MudSpacer />
+        <MudSpacer />
+        <MudLink Color="Color.Inherit" Href="/servers" Match="NavLinkMatch.All" Style="font-size: 16px;">Servers</MudLink>
+        <MudSpacer />
+        <MudLink Color="Color.Inherit" Href="/" Match="NavLinkMatch.All" Style="font-size: 16px">Home</MudLink>
+        <MudSpacer />
+        <MudSpacer />
         <MudIconButton Icon="@Icons.Material.Filled.Dashboard" Color="Color.Inherit" Edge="Edge.End" OnClick="@AppBarNavToSignIn" />
     </MudAppBar>
     <MudMainContent>
@@ -67,8 +73,6 @@
 
             LayoutProperties = new LayoutProperties()
             {
-                DrawerWidthLeft = "150px",
-                DrawerWidthRight = "150px",
                 AppbarHeight = "80px"
             }
         };

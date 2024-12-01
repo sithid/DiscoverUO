@@ -158,12 +158,11 @@ namespace DiscoverUO.Api.Controllers
             var createdUser = await _context.Users
                 .FirstOrDefaultAsync(u => u.Id == user.Id);
 
-            var createUserResponse = new RegisterUserResponse
+            var createUserResponse = new BasicSuccessResponse
             {
                 Success = true,
                 StatusCode = HttpStatusCode.Created,
                 Message = "User created successfully!",
-                Entity = _mapper.Map<UserEntityData>(createdUser)
             };
 
             return CreatedAtAction(nameof(GetUserById), new { id = createdUser.Id }, createUserResponse );
