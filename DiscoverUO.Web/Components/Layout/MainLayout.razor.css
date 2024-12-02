@@ -8,8 +8,13 @@ main {
     flex-direction: column;
 }
 
-.sidebar {
-    background-image: linear-gradient( 180deg, rgb(5, 75, 200) 0%, rgb(234, 234, 234) 75%);
+.ab-navlink {
+    font-size: 16px;
+    justify-content: center;
+    height: 3.5rem;
+    display: flex;
+    align-items: center;
+    max-width: 100px;
 }
 
 .top-row {
@@ -19,7 +24,6 @@ main {
     height: 3.5rem;
     display: flex;
     align-items: center;
-}
 
     .top-row ::deep a, .top-row ::deep .btn-link {
         white-space: nowrap;
@@ -49,13 +53,6 @@ main {
 @media (min-width: 641px) {
     .page {
         flex-direction: row;
-    }
-
-    .sidebar {
-        width: 250px;
-        height: 100vh;
-        position: sticky;
-        top: 0;
     }
 
     .top-row {

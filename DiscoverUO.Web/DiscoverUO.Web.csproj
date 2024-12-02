@@ -34,4 +34,10 @@
     <ProjectReference Include="..\DiscoverUO.Lib\DiscoverUO.Lib.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="Components\Pages\Register.razor">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </Content>
+  </ItemGroup>
+
 </Project>

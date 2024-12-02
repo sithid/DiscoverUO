@@ -1,8 +1,3 @@
-html, body {
-    font-family: 'Courier New';
-    font-size: 12px;
-}
-
 a, .btn-link {
     color: #006bb7;
 }
@@ -19,6 +14,8 @@ a, .btn-link {
 
 .content {
     padding-top: 1.1rem;
+    max-width: 500px;
+    margin: auto;
 }
 
 h1:focus {

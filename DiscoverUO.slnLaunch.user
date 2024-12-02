@@ -4,11 +4,13 @@
     "Projects": [
       {
         "Path": "DiscoverUO.Api\\DiscoverUO.Api.csproj",
-        "Action": "Start"
+        "Action": "Start",
+        "DebugTarget": "https"
       },
       {
         "Path": "DiscoverUO.Web\\DiscoverUO.Web.csproj",
-        "Action": "Start"
+        "Action": "Start",
+        "DebugTarget": "https"
       }
     ]
   }

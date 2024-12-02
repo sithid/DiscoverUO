@@ -14,13 +14,12 @@
 <MudLayout>
     <MudAppBar Elevation="1">
         <MudText Typo="Typo.h3" Align="Align.Center" GutterBottom="true">DiscoverUO</MudText>
+        <MudNavLink Href="/" Match="NavLinkMatch.All">Home</MudNavLink>
         <MudSpacer />
+        <MudNavLink Href="/servers" Match="NavLinkMatch.All">My Servers</MudNavLink>
+        <MudNavLink Href="/favorites" Match="NavLinkMatch.All">My Favorites</MudNavLink>
         <MudSpacer />
-        <MudLink Color="Color.Inherit" Href="/servers" Match="NavLinkMatch.All" Style="font-size: 16px;">Servers</MudLink>
-        <MudSpacer />
-        <MudLink Color="Color.Inherit" Href="/" Match="NavLinkMatch.All" Style="font-size: 16px">Home</MudLink>
-        <MudSpacer />
-        <MudSpacer />
+        <MudNavLink Href="/register" Match="NavLinkMatch.All">Register</MudNavLink>
         <MudIconButton Icon="@Icons.Material.Filled.Dashboard" Color="Color.Inherit" Edge="Edge.End" OnClick="@AppBarNavToSignIn" />
     </MudAppBar>
     <MudMainContent>
@@ -55,7 +54,7 @@
             {
                 Default = new Default()
                 {
-                    FontFamily = new[] { "Courier New" },
+                    FontFamily = new[] { "Courier New", "Courier", "monospace" }
                 }
             },
 
@@ -68,6 +67,8 @@
                 Background = "#bebdbc",
                 BackgroundGray = "#404040",
                 AppbarBackground = "#606060"
+
+                // 797971
             },
 
 
