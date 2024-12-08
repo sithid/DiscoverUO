@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("DiscoverUO.Api")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ba74fdf585ae8e091a8fde28acf798f11f98d3d0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c2a67878191e85af15afb5f02f349850149b4817")]
 [assembly: System.Reflection.AssemblyProductAttribute("DiscoverUO.Api")]
 [assembly: System.Reflection.AssemblyTitleAttribute("DiscoverUO.Api")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

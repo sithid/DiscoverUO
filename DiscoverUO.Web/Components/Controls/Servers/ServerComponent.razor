@@ -10,23 +10,17 @@
             <MudCard>
                 <MudCardContent>
                     <MudText Typo="Typo.h3" Align="Align.Center">@ServerData.ServerName</MudText>
-                    @if (!string.IsNullOrEmpty(ServerData.ServerBanner))
+
+                    @if (showBanner)
                     {
                         <MudCardMedia Height="150" Image="@ServerData.ServerBanner" />
                     }
 
-                    <MudText Typo="Typo.h5" Align="Align.Center">UO Era: @ServerData.ServerEra</MudText>
-
-                    @if( ServerData.PvPEnabled )
-                    {
-                        pvpEnabled = ServerData.PvPEnabled ? "PvP Enabled" : "PvP Disabled";
-                    }
-
-                    <MudText Typo="Typo.h5" Align="Align.Center">@pvpEnabled</MudText>
-                    <MudText Typo="Typo.h5" Align="Align.Center">Server Address: @ServerData.ServerAddress</MudText>
-                    <MudText Typo="Typo.h5" Align="Align.Center">Server Port: @ServerData.ServerPort</MudText>
-                    <MudText Typo="Typo.h5" Align="Align.Center">Rating: @ServerData.Rating</MudText>
-                    <MudText Typo="Typo.h5" Align="Align.Center">@ServerData.ServerWebsite</MudText>
+                    <MudText Typo="Typo.h5" Align="Align.Justify">Server Details: @serverDetails</MudText>
+                    <MudText Typo="Typo.h5" Align="Align.Justify">  Logon Server: @connectionDetails</MudText>
+                    <MudText Typo="Typo.h5" Align="Align.Justify">
+                        Shard Website: <a target="_blank" href="@ServerData.ServerWebsite">@ServerData.ServerWebsite</a>
+                    </MudText>
                 </MudCardContent>
             </MudCard>
         </MudItem>
@@ -36,10 +30,32 @@
 @code {
     [Parameter]
     public ServerData ServerData{ get; set; }
-    private string pvpEnabled;
+    public bool showBanner { get; set; }
+    private string serverDetails = string.Empty;
+    private string connectionDetails = string.Empty;
 
     protected override void OnInitialized()
     {
         base.OnInitialized();
+
+        var pvpEnabled = ServerData.PvPEnabled ? "PvP Enabled" : "PvP Disabled";
+
+        serverDetails = $"{ServerData.ServerEra} Era, {pvpEnabled}, {ServerData.Votes} Votes";
+        connectionDetails = $"{ServerData.ServerAddress} Port {ServerData.ServerPort}";
+
+        showBanner = IsValidUrl(ServerData.ServerBanner);
+    }
+
+    public static bool IsValidUrl(string url)
+    {
+        try
+        {
+            Uri.TryCreate(url, UriKind.Absolute, out Uri result);
+            return (result != null) && (result.Scheme == Uri.UriSchemeHttp || result.Scheme == Uri.UriSchemeHttps);
+        }
+        catch (Exception)
+        {
+            return false;
+        }
     }
 }
