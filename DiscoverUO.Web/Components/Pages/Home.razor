@@ -1,34 +1,25 @@
 ﻿@inject ILocalStorageService _localStorage
+@inject HttpClient _client
 @page "/"
 
 <PageTitle>Home</PageTitle>
 
-<MudContainer Class="mt-12 px-8" MaxWidth="MaxWidth.False">
-    <MudText style="font-size: 64px" Align="Align.Center" Color="Color.Primary" GutterBottom="true">Welcome to DiscoverUO!</MudText>
+<MudText Style="font-size: 64px" Align="Align.Center" Color="Color.Primary" GutterBottom="true">Welcome to DiscoverUO!</MudText>
+<MudContainer MaxWidth="MaxWidth.Medium">
+    @if( servers != null )
+    {
+        <PublicServersComponent PublicServers="@servers"/>
+    }
+    else
+    {
+        servers = DataManager.GetPublicServers(_client, _localStorage).Result;
+        Console.WriteLine($"Server data pulled, Public serverlist contains {servers.Count} servers.");
+        StateHasChanged();
+    }
 </MudContainer>
-
 @code
 {
     private bool _prevSessionsCleared = false;
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if( !firstRender )
-        {
-
-        }
-        else
-        {
-            if (!_prevSessionsCleared)
-            {
-                Console.WriteLine("First visit to the homepage!");
-
-                await _localStorage.ClearAsync();
-                _prevSessionsCleared = true;
-                StateHasChanged();
-            }
-
-        }
-        base.OnAfterRenderAsync(firstRender);
-    }
+    private bool _newSession = true;
+    private List<ServerData> servers;
 }

@@ -548,17 +548,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/FavoriteItemData"
+                  "$ref": "#/components/schemas/IResponse"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/FavoriteItemData"
+                  "$ref": "#/components/schemas/IResponse"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/FavoriteItemData"
+                  "$ref": "#/components/schemas/IResponse"
                 }
               }
             }
@@ -588,17 +588,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/FavoriteItemData"
+                  "$ref": "#/components/schemas/IResponse"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/FavoriteItemData"
+                  "$ref": "#/components/schemas/IResponse"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/FavoriteItemData"
+                  "$ref": "#/components/schemas/IResponse"
                 }
               }
             }
@@ -628,17 +628,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/FavoritesData"
+                  "$ref": "#/components/schemas/IResponse"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/FavoritesData"
+                  "$ref": "#/components/schemas/IResponse"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/FavoritesData"
+                  "$ref": "#/components/schemas/IResponse"
                 }
               }
             }
@@ -1381,6 +1381,14 @@
           },
           "pvPEnabled": {
             "type": "boolean"
+          },
+          "serverWebsite": {
+            "type": "string",
+            "nullable": true
+          },
+          "serverBanner": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false

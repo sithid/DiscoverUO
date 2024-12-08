@@ -1,11 +1,9 @@
 ﻿using System.Net;
-using DiscoverUO.Lib.Shared.Users;
 using DiscoverUO.Lib.Shared.Contracts;
-using DiscoverUO.Lib.Shared.Servers;
 
-namespace DiscoverUO.Lib.Shared.Users
+namespace DiscoverUO.Lib.Shared.Servers
 {
-    public class ServerDataResponse : IListResponse<ServerData>
+    public class PublicServerListDataResponse : IListResponse<ServerData>
     {
         public bool Success { get; set; }
         public string Message { get; set; }

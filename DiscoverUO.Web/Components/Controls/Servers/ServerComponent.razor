@@ -1,0 +1,45 @@
+﻿@using System.Net
+@using Blazored.LocalStorage
+@inject ILocalStorageService _localStorage
+@inject HttpClient _client
+
+@if( ServerData != null )
+{
+    <MudPaper>
+        <MudItem Class="mt-4 pa-4 mud-theme-secondary">
+            <MudCard>
+                <MudCardContent>
+                    <MudText Typo="Typo.h3" Align="Align.Center">@ServerData.ServerName</MudText>
+                    @if (!string.IsNullOrEmpty(ServerData.ServerBanner))
+                    {
+                        <MudCardMedia Height="150" Image="@ServerData.ServerBanner" />
+                    }
+
+                    <MudText Typo="Typo.h5" Align="Align.Center">UO Era: @ServerData.ServerEra</MudText>
+
+                    @if( ServerData.PvPEnabled )
+                    {
+                        pvpEnabled = ServerData.PvPEnabled ? "PvP Enabled" : "PvP Disabled";
+                    }
+
+                    <MudText Typo="Typo.h5" Align="Align.Center">@pvpEnabled</MudText>
+                    <MudText Typo="Typo.h5" Align="Align.Center">Server Address: @ServerData.ServerAddress</MudText>
+                    <MudText Typo="Typo.h5" Align="Align.Center">Server Port: @ServerData.ServerPort</MudText>
+                    <MudText Typo="Typo.h5" Align="Align.Center">Rating: @ServerData.Rating</MudText>
+                    <MudText Typo="Typo.h5" Align="Align.Center">@ServerData.ServerWebsite</MudText>
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+    </MudPaper>
+}
+
+@code {
+    [Parameter]
+    public ServerData ServerData{ get; set; }
+    private string pvpEnabled;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+    }
+}

@@ -12,5 +12,6 @@ namespace DiscoverUO.Api.Models
         public UserProfile? Profile { get; set; }
         public UserFavoritesList? Favorites { get; set; }
         public string? CreationDate {  get; set; }
+        public bool Banned { get; set; }
     }
 }

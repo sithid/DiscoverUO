@@ -47,14 +47,11 @@ namespace DiscoverUO.Web.Components.Data
         {
             var publicServers = new List<ServerData>();
 
-            var token = await local.GetItemAsync<string>("jwtToken");
-            _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-
             var response = _client.GetAsync("https://localhost:7015/api/servers/public").Result;
 
             try
             {
-                var serverListReponse = response.Content.ReadFromJsonAsync<ServerDataResponse>().Result;
+                var serverListReponse = response.Content.ReadFromJsonAsync<PublicServerListDataResponse>().Result;
 
                 if (response.IsSuccessStatusCode)
                 {

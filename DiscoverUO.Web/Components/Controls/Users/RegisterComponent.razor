@@ -1,9 +1,4 @@
-﻿@* 
-    MudBlazor MudForm
-    Example of a user registration form.
-    https://mudblazor.com/components/form#editform-support
-*@
-@using System.Text.RegularExpressions
+﻿@using System.Text.RegularExpressions
 @using System.ComponentModel.DataAnnotations
 @using DiscoverUO.Lib.Shared
 @inject IDialogService DialogService
@@ -12,33 +7,35 @@
 @inject NavigationManager _navigationManager
 
 <MudPaper Class="ma-2 mt-2 pa-16">
-    <MudForm title="Register New User" Spacing="4">
-        <MudText Typo="Typo.h1" Align="Align.Center" GutterBottom="true">Register New User</MudText>
-        <MudTextField @bind-Value="@username" T="string" Label="Username" />
-        <MudTextField @bind-Value="@email" T="string" Label="Email" />
-        <MudTextField @bind-Value="@password" T="string" Label="Password" HelperText="Choose a strong password" InputType="InputType.Password" />
-        <MudTextField @bind-Value="@confirmedPassword" T="string" Label="Password" HelperText="Repeat the password" InputType="InputType.Password" />
-        <MudCheckBox @bind-Value="@acceptsTerms" T="bool" Label="I am 13 years of age or older and agree to the terms of use." />
-        <div style="text-align: center">
-            <MudLink Href="/terms" Target="_blank">
-                Terms Of Use
-            </MudLink>
-        </div>
-        <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="@RegisterOnClick">Register</MudButton>
-    </MudForm>
-</MudPaper>
-<MudPaper>
-    @if (!validData && validationErrors.Count > 0 )
-    {
-        @foreach( string err in validationErrors )
+    <MudItem>
+        <MudForm Spacing="4">
+            <MudText Typo="Typo.h1" Align="Align.Center" GutterBottom="true">Register New User</MudText>
+            <MudTextField @bind-Value="@username" T="string" Label="Username" />
+            <MudTextField @bind-Value="@email" T="string" Label="Email" />
+            <MudTextField @bind-Value="@password" T="string" Label="Password" HelperText="Choose a strong password" InputType="InputType.Password" />
+            <MudTextField @bind-Value="@confirmedPassword" T="string" Label="Password" HelperText="Repeat the password" InputType="InputType.Password" />
+            <MudCheckBox @bind-Value="@acceptsTerms" T="bool" Label="I am 13 years of age or older and agree to the terms of use." />
+            <div style="text-align: center">
+                <MudLink Href="/terms" Target="_blank">
+                    Terms Of Use
+                </MudLink>
+            </div>
+            <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="@RegisterOnClick">Register</MudButton>
+        </MudForm>
+    </MudItem>
+    <MudItem>
+        @if (!validData && validationErrors.Count > 0 )
         {
-            <MudText Align="Align.Center">@err</MudText>
+            @foreach( string err in validationErrors )
+            {
+                <MudText Align="Align.Center">@err</MudText>
+            }
         }
-    }
-    @if( !successfulRegistration && (!string.IsNullOrEmpty(registrationError)))
-    {
-        <MudText Align="Align.Center">@registrationError</MudText>
-    }
+        @if( !successfulRegistration && (!string.IsNullOrEmpty(registrationError)))
+        {
+            <MudText Align="Align.Center">@registrationError</MudText>
+        }
+    </MudItem>
 </MudPaper>
 
 @code {

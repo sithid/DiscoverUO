@@ -4,6 +4,7 @@ using DiscoverUO.Lib.Shared.Servers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Cryptography.X509Certificates;
 
 namespace DiscoverUO.Api.Controllers
 {
@@ -31,7 +32,16 @@ namespace DiscoverUO.Api.Controllers
         public async Task<ActionResult<IEnumerable<ServerData>>> GetServers()
         {
             var servers = await _context.Servers.ToListAsync();
-            return _mapper.Map<List<ServerData>>(servers);
+
+            var respon = new PublicServerListDataResponse
+            {
+                Success = true,
+                Message = "Serverlist found.",
+                StatusCode = System.Net.HttpStatusCode.OK,
+                List = _mapper.Map<List<ServerData>>(servers)
+            };
+
+            return Ok(respon);
         }
 
         [AllowAnonymous]

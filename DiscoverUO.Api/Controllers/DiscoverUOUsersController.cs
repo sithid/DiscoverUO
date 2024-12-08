@@ -165,7 +165,7 @@ namespace DiscoverUO.Api.Controllers
                 Message = "User created successfully!",
             };
 
-            return CreatedAtAction(nameof(GetUserById), new { id = createdUser.Id }, createUserResponse );
+            return Ok(createUserResponse);
 
         }
 

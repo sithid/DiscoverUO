@@ -5,14 +5,13 @@
 @inject ILocalStorageService _localStorage
 @inject HttpClient _client
 
-@page "/servers"
+@page "/myservers"
 
-<PageTitle>Servers</PageTitle>
+<PageTitle>My Servers</PageTitle>
 
 <MudContainer>
-    <ServerListComponent></ServerListComponent>
+    <MyServersComponent></MyServersComponent>
 </MudContainer>
-
 @code{
 
     public List<ServerData> _serverlist{ get; set; }

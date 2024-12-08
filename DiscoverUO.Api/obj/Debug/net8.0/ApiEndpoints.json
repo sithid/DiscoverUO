@@ -15,7 +15,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "DiscoverUO.Lib.Shared.Favorites.FavoriteItemData",
+        "Type": "DiscoverUO.Lib.Shared.Contracts.IResponse",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -41,7 +41,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "DiscoverUO.Lib.Shared.Favorites.FavoriteItemData",
+        "Type": "DiscoverUO.Lib.Shared.Contracts.IResponse",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -144,7 +144,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "DiscoverUO.Lib.Shared.Favorites.FavoritesData",
+        "Type": "DiscoverUO.Lib.Shared.Contracts.IResponse",
         "MediaTypes": [
           "text/plain",
           "application/json",
