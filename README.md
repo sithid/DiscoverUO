@@ -63,11 +63,11 @@ Have 2 or more tables (entities) in your application that are related and have a
 ```
 - My API implements endpoints for all essential CRUD (Create, Read, Update, Delete) operations for 1 database (`DiscoverUO.db`) across 3 controllers on 5 tables.
 - My data models include:
-  - Users
-  - UserProfiles
-  - UserFavoritesLists
-  - UserFavoritesListItems
-  - Servers
+  - User
+  - UserProfile
+  - UserFavoritesList
+  - UserFavoritesListItem
+  - Server
 - Among my entity models, there are various relationships. All users have a profile and a favorites list. All favorites lists have 1 owner and it can have man favorite items. All servers have one owner ( typicall the person who added it ) but can be on many favorites lists.  My dashboard endpoint ('https://localhost:7015/api/users/view/dashboard', 'GetDashboardData') is a good example of returning data from related entities.
 
 ```
