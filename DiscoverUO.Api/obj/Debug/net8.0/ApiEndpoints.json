@@ -8,7 +8,7 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "userFavoritesListItemDto",
+        "Name": "userFavoritesListItemData",
         "Type": "DiscoverUO.Lib.Shared.Favorites.FavoriteItemData",
         "IsRequired": true
       }
@@ -65,14 +65,14 @@
         "IsRequired": true
       },
       {
-        "Name": "userFavoritesListItemDto",
+        "Name": "userFavoritesListItemData",
         "Type": "DiscoverUO.Lib.Shared.Favorites.FavoriteItemData",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "DiscoverUO.Lib.Shared.Favorites.FavoriteItemData",
+        "Type": "DiscoverUO.Lib.Shared.Contracts.IResponse",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -84,7 +84,7 @@
   },
   {
     "ContainingType": "DiscoverUO.Api.Controllers.DiscoverUOUserFavoritesListsController",
-    "Method": "GetUserFavoritesListItem",
+    "Method": "GetUserFavoritesListItemById",
     "RelativePath": "api/favorites/list/item/view/{id}",
     "HttpMethod": "GET",
     "IsController": true,
@@ -98,7 +98,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "DiscoverUO.Lib.Shared.Favorites.FavoriteItemData",
+        "Type": "DiscoverUO.Lib.Shared.Contracts.IResponse",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -118,7 +118,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "DiscoverUO.Lib.Shared.Favorites.FavoritesData",
+        "Type": "DiscoverUO.Lib.Shared.Contracts.IResponse",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -170,7 +170,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "DiscoverUO.Lib.Shared.Servers.ServerData",
+        "Type": "DiscoverUO.Lib.Shared.Contracts.IResponse",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -194,7 +194,17 @@
         "IsRequired": true
       }
     ],
-    "ReturnTypes": []
+    "ReturnTypes": [
+      {
+        "Type": "DiscoverUO.Lib.Shared.Contracts.IResponse",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "DiscoverUO.Api.Controllers.DiscoverUOServersController",
@@ -217,7 +227,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "DiscoverUO.Lib.Shared.Servers.ServerData",
+        "Type": "DiscoverUO.Lib.Shared.Contracts.IResponse",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -237,7 +247,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[DiscoverUO.Lib.Shared.Servers.ServerData, DiscoverUO.Lib, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "DiscoverUO.Lib.Shared.Contracts.IResponse",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -268,7 +278,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "DiscoverUO.Lib.Shared.Servers.ServerData",
+        "Type": "DiscoverUO.Lib.Shared.Contracts.IResponse",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -294,7 +304,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "DiscoverUO.Lib.Shared.Servers.ServerData",
+        "Type": "DiscoverUO.Lib.Shared.Contracts.IResponse",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -320,7 +330,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "System.Int32",
+        "Type": "DiscoverUO.Lib.Shared.Contracts.IResponse",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -340,7 +350,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.List\u00601[[DiscoverUO.Lib.Shared.Servers.ServerData, DiscoverUO.Lib, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "DiscoverUO.Lib.Shared.Contracts.IResponse",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -366,7 +376,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.List\u00601[[DiscoverUO.Lib.Shared.Servers.ServerData, DiscoverUO.Lib, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "DiscoverUO.Lib.Shared.Contracts.IResponse",
         "MediaTypes": [
           "text/plain",
           "application/json",

@@ -41,7 +41,7 @@ namespace DiscoverUO.Api.Controllers
 
         #region AllowAnonymous Endpoints
 
-        [AllowAnonymous]
+        [AllowAnonymous]  // IResponse
         [HttpPost("authenticate")]
         public async Task<ActionResult<IResponse>> Authenticate(AuthenticationData loginDto)
         {
@@ -59,16 +59,8 @@ namespace DiscoverUO.Api.Controllers
                 return Unauthorized(failedAuthorizationResponse);
             }
 
-            Console.WriteLine("Before BCrypt.Verify");
-            Console.WriteLine($"loginDto.Password: {loginDto.Password}");
-            Console.WriteLine($"user.PasswordHash: {user.PasswordHash}");
-
             if(!BCrypt.Net.BCrypt.Verify(loginDto.Password, user.PasswordHash ) )
             {
-                Console.WriteLine("BCrypt.Verify failed!");
-                Console.WriteLine($"loginDto.Password: {loginDto.Password}");
-                Console.WriteLine($"user.PasswordHash: {user.PasswordHash}");
-
                 var failedAuthorizationResponse = new AuthenticationResponse
                 {
                     Success = false,
@@ -90,20 +82,20 @@ namespace DiscoverUO.Api.Controllers
             return Ok(authResponse);
         }
 
-        [AllowAnonymous]
+        [AllowAnonymous]   // IResponse
         [HttpPost("register")]
         public async Task<ActionResult<IResponse>> RegisterUser(RegisterUserData registerUserData)
         {
             if (!ModelState.IsValid)
             {
-                var registerUserResponse = new RequestFailedResponse
+                var failedResponse = new RequestFailedResponse
                 {
                     Success = false,
-                    StatusCode = HttpStatusCode.BadRequest,
-                    Message = "Invalid data!",
+                    Message = "Invalid ModelState!",
+                    StatusCode = HttpStatusCode.BadRequest
                 };
 
-                return BadRequest(registerUserResponse);
+                return BadRequest(failedResponse);
             }
 
             if ( string.IsNullOrEmpty( registerUserData.UserName ) || string.IsNullOrEmpty( registerUserData.Password ) )
@@ -153,23 +145,40 @@ namespace DiscoverUO.Api.Controllers
 
             _context.Users.Add(user);
 
-            await _context.SaveChangesAsync();
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException ex)
+            {
+                var failedResponse = new RequestFailedResponse
+                {
+                    Success = false,
+                    Message = $"An error occurred that nobody was prepared for: {ex.Message}",
+                    StatusCode = HttpStatusCode.BadRequest
+                };
+
+                return BadRequest(failedResponse);
+            }
 
             var createdUser = await _context.Users
                 .FirstOrDefaultAsync(u => u.Id == user.Id);
 
-            var createUserResponse = new BasicSuccessResponse
+            var createdUserData = _mapper.Map<UserEntityData>(createdUser);
+
+            var createUserResponse = new RegisterUserResponse
             {
                 Success = true,
                 StatusCode = HttpStatusCode.Created,
-                Message = "User created successfully!",
+                Message = "User created successfully.",
+                Entity = createdUserData
             };
 
             return Ok(createUserResponse);
 
         }
 
-        [AllowAnonymous]
+        [AllowAnonymous] // IResponse
         [HttpGet("profiles/view/{id}")]
         public async Task<ActionResult<IResponse>> ViewProfileByID(int id)
         {
@@ -203,7 +212,7 @@ namespace DiscoverUO.Api.Controllers
 
         #region BasicUser Endpoints
 
-        [Authorize]
+        [Authorize]  // IResponse
         [HttpGet("view/dashboard")]
         public async Task<ActionResult<IResponse>> GetDashboardData()
         {
@@ -236,7 +245,7 @@ namespace DiscoverUO.Api.Controllers
             {
                 var prof = await _context.UserProfiles.FirstOrDefaultAsync(p => p.OwnerId == user.Id);
 
-                if (prof != null && prof != default)
+                if (prof != null )
                 {
                     dashboardData.UserBiography = prof.UserBiography;
                     dashboardData.UserAvatar = prof.UserAvatar;
@@ -264,7 +273,9 @@ namespace DiscoverUO.Api.Controllers
                             ServerAddress = fav.ServerAddress,
                             ServerPort = fav.ServerPort,
                             ServerEra = fav.ServerEra,
-                            PvPEnabled = fav.PvPEnabled
+                            PvPEnabled = fav.PvPEnabled,
+                            ServerBanner = fav.ServerBanner,
+                            ServerWebsite = fav.ServerWebsite                            
                         });
                     }
                 }
@@ -294,7 +305,7 @@ namespace DiscoverUO.Api.Controllers
             }
         }
 
-        [Authorize] 
+        [Authorize] // IResponse
         [HttpGet("view/id/{id}")] 
         public async Task<ActionResult<IResponse>> GetUserById(int id)
         {
@@ -328,7 +339,7 @@ namespace DiscoverUO.Api.Controllers
             return Ok(userResponse);
         }
 
-        [Authorize]
+        [Authorize] // IResponse
         [HttpGet("view/name/{userName}")] 
         public async Task<ActionResult<IResponse>> GetUserByName(string userName)
         {
@@ -362,7 +373,7 @@ namespace DiscoverUO.Api.Controllers
             return Ok(userResponse);
         }
 
-        [Authorize]
+        [Authorize] // IResponse
         [HttpGet("profiles/view")]
         public async Task<ActionResult<IResponse>> GetProfile()
         {
@@ -393,20 +404,20 @@ namespace DiscoverUO.Api.Controllers
             return Ok(profileResponse);
         }
 
-        [Authorize]
+        [Authorize] // IResponse
         [HttpPut("update/UpdateUser/{id}")] 
         public async Task<ActionResult<IResponse>> UpdateUserById(int userId, UpdateUserData updateUserRequest)
         {
             if (!ModelState.IsValid)
             {
-                var badReqest = new RequestFailedResponse
+                var failedResponse = new RequestFailedResponse
                 {
                     Success = false,
-                    StatusCode = HttpStatusCode.BadRequest,
-                    Message = $"And then there was .... invalid data!",
+                    Message = "Invalid ModelState!",
+                    StatusCode = HttpStatusCode.BadRequest
                 };
 
-                return BadRequest(badReqest);
+                return BadRequest(failedResponse);
             }
 
             var currentUser = await Permissions.GetCurrentUser(this.User, _context);
@@ -487,20 +498,20 @@ namespace DiscoverUO.Api.Controllers
             return Ok(updateUserResponse);
         }
 
-        [Authorize]
+        [Authorize] // IResponse
         [HttpPut("update/UpdatePassword/{id}")] 
         public async Task<ActionResult<IResponse>> UpdatePassword(int userId, UpdateUserPasswordData updatePasswordRequest)
         {
             if (!ModelState.IsValid)
             {
-                var badReqest = new RequestFailedResponse
+                var failedResponse = new RequestFailedResponse
                 {
                     Success = false,
-                    StatusCode = HttpStatusCode.BadRequest,
-                    Message = $"And then there was .... invalid data!",
+                    Message = "Invalid ModelState!",
+                    StatusCode = HttpStatusCode.BadRequest
                 };
 
-                return BadRequest(badReqest);
+                return BadRequest(failedResponse);
             }
 
             var currentUser = await Permissions.GetCurrentUser(this.User, _context);
@@ -574,8 +585,8 @@ namespace DiscoverUO.Api.Controllers
                 var internalError = new RequestFailedResponse
                 {
                     Success = false,
-                    StatusCode = HttpStatusCode.InternalServerError,
                     Message = $"Something happened that no one was prepared for: {ex.Message}",
+                    StatusCode = HttpStatusCode.BadRequest,
                 };
 
                 return BadRequest(internalError);
@@ -595,7 +606,7 @@ namespace DiscoverUO.Api.Controllers
             return Ok(updatedUserResponse);
         }
 
-        [Authorize]
+        [Authorize] // IResponse
         [HttpPut("profiles/update/UpdateProfile/{id}")] 
         public async Task<ActionResult<IResponse>> UpdateProfileById(int ownerId, ProfileData profileRequest)
         {
@@ -663,7 +674,7 @@ namespace DiscoverUO.Api.Controllers
 
         #region Privileged Endpoints
 
-        [Authorize(Policy = "Privileged")] // Complete W/ GetUserEntityResponse
+        [Authorize(Policy = "Privileged")] // IResponse
         [HttpPut("admin/update/votes/{id}")]
         public async Task<ActionResult<IResponse>> ChangeRemainingVotes(int userId, int votesRemaining)
         {
@@ -694,8 +705,8 @@ namespace DiscoverUO.Api.Controllers
                 var badReqest = new RequestFailedResponse
                 {
                     Success = false,
-                    StatusCode = HttpStatusCode.BadRequest,
                     Message = $"Something happened that noone was prepared for: {ex.Message}",
+                    StatusCode = HttpStatusCode.BadRequest
                 };
 
                 return BadRequest(badReqest);
@@ -717,7 +728,7 @@ namespace DiscoverUO.Api.Controllers
             return Ok(userResponse);
         }
 
-        [Authorize(Policy = "Privileged")]
+        [Authorize(Policy = "Privileged")] // IResponse
         [HttpDelete("admin/DeleteUser/{id}")]
         public async Task<ActionResult<IResponse>> DeleteUser(int userId)
         {
@@ -788,7 +799,7 @@ namespace DiscoverUO.Api.Controllers
                     {
                         Success = false,
                         Message = "No Suitable owner found to transfer ownership to.",
-                        StatusCode = HttpStatusCode.InternalServerError,
+                        StatusCode = HttpStatusCode.BadRequest,
                     };
 
                     return BadRequest(noOwnerFound);
@@ -816,7 +827,7 @@ namespace DiscoverUO.Api.Controllers
 
         #region Admin Endpoints
 
-        [Authorize(Policy = "OwnerOrAdmin")]
+        [Authorize(Policy = "OwnerOrAdmin")] // IResponse
         [HttpGet("view/admin/all")]
         public async Task<ActionResult<IResponse>> GetUsers()
         {
@@ -851,7 +862,7 @@ namespace DiscoverUO.Api.Controllers
             return Ok(listResponse);
         }
 
-        [Authorize(Policy = "OwnerOrAdmin")]
+        [Authorize(Policy = "OwnerOrAdmin")] // IResponse
         [HttpPut("admin/update/role/{id}")]
         public async Task<ActionResult<IResponse>> UpdateUserRole(int id, UserRole role)
         {
@@ -904,14 +915,14 @@ namespace DiscoverUO.Api.Controllers
             }
             catch (Exception ex)
             {
-                var status500 = new RequestFailedResponse
+                var internalServerError = new RequestFailedResponse
                 {
                     Success = false,
-                    StatusCode = HttpStatusCode.InternalServerError,
                     Message = $"An error occurred while updating the server: {ex.Message}",
+                    StatusCode = HttpStatusCode.BadRequest,
                 };
 
-                return BadRequest(status500);
+                return BadRequest(internalServerError);
             }
 
             var updatedUser = await _context.Users
@@ -928,7 +939,7 @@ namespace DiscoverUO.Api.Controllers
             return Ok(userEntityData);
         }
 
-        [Authorize(Policy = "OwnerOrAdmin")]
+        [Authorize(Policy = "OwnerOrAdmin")] // IResponse
         [HttpPost("admin/register")]
         public async Task<ActionResult<IResponse>> RegisterUserWithRole(RegisterUserWithRoleData registerUserData)
         {
@@ -973,15 +984,17 @@ namespace DiscoverUO.Api.Controllers
             var createdUser = await _context.Users
                 .FirstOrDefaultAsync(u => u.Id == user.Id);
 
+            var createdUserData = _mapper.Map<UserEntityData>(createdUser);
+
             var createUserResponse = new RegisterUserResponse
             {
                 Success = true,
-                StatusCode = HttpStatusCode.Created,
                 Message = "User created successfully!",
-                Entity = _mapper.Map<UserEntityData>(createdUser)
+                StatusCode = HttpStatusCode.Created,
+                Entity = createdUserData
             };
 
-            return CreatedAtAction(nameof(GetUserById), new { id = createdUser.Id }, createUserResponse);
+            return Ok(createUserResponse);
         }
 
         #endregion

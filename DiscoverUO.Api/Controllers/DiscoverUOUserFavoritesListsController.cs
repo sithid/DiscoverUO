@@ -29,29 +29,69 @@ namespace DiscoverUO.Api.Controllers
 
         #region BasicUser Endpoints
 
-        [Authorize]
+        [Authorize] // IResponse
         [HttpGet("list/view")]
-        public async Task<ActionResult<FavoritesData>> GetUserFavoritesLists()
-        {
-            var currentUser = await Permissions.GetCurrentUser(this.User, _context);
-            var currentUserFavorites = await _context.UserFavoritesLists
-                .Include(flist => flist.FavoritedItems)
-                .FirstOrDefaultAsync(flist => flist.OwnerId == currentUser.Id);
-
-            var favoritesListDto = _mapper.Map<FavoritesData>(currentUser.Favorites);
-
-            return Ok(favoritesListDto);
-        }
-
-        [Authorize]
-        [HttpGet("list/item/view/{id}")]
-        public async Task<ActionResult<FavoriteItemData>> GetUserFavoritesListItem(int id)
+        public async Task<ActionResult<IResponse>> GetUserFavoritesLists()
         {
             var currentUser = await Permissions.GetCurrentUser(this.User, _context);
 
             if (currentUser == null)
             {
-                return Unauthorized($"You must be logged in to do this.");
+                var failedUnauthorized = new RequestFailedResponse
+                {
+                    Success = false,
+                    Message = "You must be logged in to do this.",
+                    StatusCode = HttpStatusCode.Unauthorized
+                };
+
+                return Unauthorized(failedUnauthorized);
+            }
+
+            var currentUserFavorites = await _context.UserFavoritesLists
+                .Include(flist => flist.FavoritedItems)
+                .FirstOrDefaultAsync(flist => flist.OwnerId == currentUser.Id);
+
+            if( currentUserFavorites.FavoritedItems == null || currentUserFavorites.FavoritedItems.Count <= 0 )
+            {
+                var failedNotFound = new RequestFailedResponse
+                {
+                    Success = false,
+                    Message = "Favorited items not found.",
+                    StatusCode = HttpStatusCode.NotFound
+                };
+
+                return NotFound(failedNotFound);
+            }
+
+            var favoritesData = _mapper.Map<FavoritesData>(currentUserFavorites);
+
+            var favoritesDataResponse = new FavoritesDataReponse
+            {
+                Success = true,
+                Message = "Favorites data found.",
+                StatusCode = HttpStatusCode.OK,
+                Entity = favoritesData
+            };
+
+            return Ok(favoritesDataResponse);
+        }
+
+        [Authorize] // IResponse
+        [HttpGet("list/item/view/{id}")]
+        public async Task<ActionResult<IResponse>> GetUserFavoritesListItemById(int id)
+        {
+            var currentUser = await Permissions.GetCurrentUser(this.User, _context);
+
+            if (currentUser == null)
+            {
+                var failedUnauthorized = new RequestFailedResponse
+                {
+                    Success = false,
+                    Message = "You must be logged in to do this.",
+                    StatusCode = HttpStatusCode.Unauthorized
+                };
+
+                return Unauthorized(failedUnauthorized);
             }
 
             var favoritesListItem = await _context.UserFavoritesListItems
@@ -59,14 +99,28 @@ namespace DiscoverUO.Api.Controllers
 
             if (favoritesListItem == null)
             {
-                return NotFound("The favorites list item was not found.");
+                var failedNotFound = new RequestFailedResponse
+                {
+                    Success = false,
+                    Message = "That favorites list item was not found.",
+                    StatusCode = HttpStatusCode.NotFound
+                };
+
+                return NotFound(failedNotFound);
             }
 
             if (currentUser.Id != favoritesListItem.OwnerId)
             {
                 if (!Permissions.HasElevatedRole(currentUser.Role))
                 {
-                    return Unauthorized("You do not have permission to edit that user.");
+                    var failedUnauthorized = new RequestFailedResponse
+                    {
+                        Success = false,
+                        Message = "You do not have permission to do that.",
+                        StatusCode = HttpStatusCode.Unauthorized
+                    };
+
+                    return Unauthorized(failedUnauthorized);
                 }
             }
 
@@ -75,9 +129,9 @@ namespace DiscoverUO.Api.Controllers
             return Ok(favoritesListItemDto);
         }
 
-        [Authorize]
+        [Authorize] // IResponse
         [HttpPut("list/item/update/{id}")]
-        public async Task<ActionResult<FavoriteItemData>> UpdateFavoritesListItem(int id, FavoriteItemData userFavoritesListItemDto)
+        public async Task<ActionResult<IResponse>> UpdateFavoritesListItem(int id, FavoriteItemData userFavoritesListItemData)
         {
             if (!ModelState.IsValid)
             {
@@ -135,13 +189,13 @@ namespace DiscoverUO.Api.Controllers
                 }
             }
 
-            userFavoritesListItem.ServerName = userFavoritesListItemDto.ServerName;
-            userFavoritesListItem.ServerAddress = userFavoritesListItemDto.ServerAddress;
-            userFavoritesListItem.ServerPort = userFavoritesListItemDto.ServerPort;
-            userFavoritesListItem.ServerEra = userFavoritesListItemDto.ServerEra;
-            userFavoritesListItem.PvPEnabled = userFavoritesListItemDto.PvPEnabled;
-            userFavoritesListItem.ServerWebsite = userFavoritesListItemDto.ServerWebsite;
-            userFavoritesListItem.ServerBanner = userFavoritesListItemDto.ServerBanner;
+            userFavoritesListItem.ServerName = userFavoritesListItemData.ServerName;
+            userFavoritesListItem.ServerAddress = userFavoritesListItemData.ServerAddress;
+            userFavoritesListItem.ServerPort = userFavoritesListItemData.ServerPort;
+            userFavoritesListItem.ServerEra = userFavoritesListItemData.ServerEra;
+            userFavoritesListItem.PvPEnabled = userFavoritesListItemData.PvPEnabled;
+            userFavoritesListItem.ServerWebsite = userFavoritesListItemData.ServerWebsite;
+            userFavoritesListItem.ServerBanner = userFavoritesListItemData.ServerBanner;
 
             _context.Entry(userFavoritesListItem).State = EntityState.Modified;
 
@@ -151,20 +205,35 @@ namespace DiscoverUO.Api.Controllers
             }
             catch (DbUpdateConcurrencyException ex)
             {
-                return BadRequest($"Something happened that no one was prepared for. {ex}");
+                var failedBadRequest = new RequestFailedResponse
+                {
+                    Success = false,
+                    Message = $"Something happened while updating the list item. {ex}",
+                    StatusCode = HttpStatusCode.Unauthorized
+                };
+
+                return BadRequest(failedBadRequest);
             }
 
             var updatedUserFavoritesListItem = await _context.UserFavoritesListItems
                 .FirstOrDefaultAsync(fListItem => fListItem.Id == id);
 
-            userFavoritesListItemDto = _mapper.Map<FavoriteItemData>(updatedUserFavoritesListItem);
+            userFavoritesListItemData = _mapper.Map<FavoriteItemData>(updatedUserFavoritesListItem);
 
-            return Ok(userFavoritesListItemDto);
+            var updatedItemData = new FavoriteItemDataReponse
+            {
+                Success = true,
+                Message = "The favorite item was updated.",
+                StatusCode = HttpStatusCode.OK,
+                Entity = userFavoritesListItemData
+            };
+            
+            return Ok(updatedItemData);
         }
 
-        [Authorize]
+        [Authorize] // IResponse
         [HttpPost("list/item/add")]
-        public async Task<ActionResult<IResponse>> AddFavoritesItem(FavoriteItemData userFavoritesListItemDto)
+        public async Task<ActionResult<IResponse>> AddFavoritesItem(FavoriteItemData userFavoritesListItemData)
         {
             if (!ModelState.IsValid)
             {
@@ -192,7 +261,7 @@ namespace DiscoverUO.Api.Controllers
                 return Unauthorized(failedResponse);
             }
 
-            var favoritesItemToAdd = _mapper.Map<UserFavoritesListItem>(userFavoritesListItemDto);
+            var favoritesItemToAdd = _mapper.Map<UserFavoritesListItem>(userFavoritesListItemData);
 
             _context.UserFavoritesListItems.Add(favoritesItemToAdd);
 
@@ -206,7 +275,7 @@ namespace DiscoverUO.Api.Controllers
                 {
                     Success = false,
                     Message = $"An error occurred while adding the favorite item: {ex.Message}",
-                    StatusCode = HttpStatusCode.Unauthorized
+                    StatusCode = HttpStatusCode.BadRequest
                 };
 
                 return BadRequest(failedResponse);
@@ -215,20 +284,20 @@ namespace DiscoverUO.Api.Controllers
             var createdFavoritesListItem = await _context.UserFavoritesListItems
                 .FirstOrDefaultAsync(f => f.Id == favoritesItemToAdd.Id);
 
-            var createdFavoritesListItemDto = _mapper.Map<FavoriteItemData>(createdFavoritesListItem);
+            var createdFavoritesListItemData = _mapper.Map<FavoriteItemData>(createdFavoritesListItem);
 
             var itemCreated = new FavoriteItemDataReponse
             {
                 Success = true,
                 Message = "Favorites item created successfully.",
                 StatusCode = HttpStatusCode.OK,
-                Entity = createdFavoritesListItemDto
+                Entity = createdFavoritesListItemData
             };
 
             return Ok(itemCreated);
         }
 
-        [Authorize]
+        [Authorize] // IResponse
         [HttpDelete("list/item/delete/{itemId}")]
         public async Task<ActionResult<IResponse>> DeleteFavoritesItem(int itemId)
         {
@@ -277,7 +346,7 @@ namespace DiscoverUO.Api.Controllers
                 {
                     Success = false,
                     Message = $"Something happened that no one was prepared for: {ex.Message}",
-                    StatusCode = HttpStatusCode.Unauthorized
+                    StatusCode = HttpStatusCode.BadRequest
                 };
 
                 return BadRequest(failedResponse);
@@ -297,7 +366,7 @@ namespace DiscoverUO.Api.Controllers
 
         #region Privileged Endpoints
 
-        [Authorize(Policy = "Privileged")]
+        [Authorize(Policy = "Privileged")] // IResponse
         [HttpGet("list/view/{id}")]
         public async Task<ActionResult<IResponse>> GetUserFavoritesList(int id)
         {
@@ -317,7 +386,7 @@ namespace DiscoverUO.Api.Controllers
                 return NotFound( failedResponse );
             }
 
-            var userFavoritesResponse = new FavoritesDataListReponse
+            var userFavoritesResponse = new FavoritesDataReponse
             {
                 Success = true,
                 Message = "Favorites list found.",

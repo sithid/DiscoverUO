@@ -16,26 +16,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ServerData"
-                  }
+                  "$ref": "#/components/schemas/IResponse"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ServerData"
-                  }
+                  "$ref": "#/components/schemas/IResponse"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ServerData"
-                  }
+                  "$ref": "#/components/schemas/IResponse"
                 }
               }
             }
@@ -65,17 +56,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/ServerData"
+                  "$ref": "#/components/schemas/IResponse"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ServerData"
+                  "$ref": "#/components/schemas/IResponse"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ServerData"
+                  "$ref": "#/components/schemas/IResponse"
                 }
               }
             }
@@ -104,20 +95,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "integer",
-                  "format": "int32"
+                  "$ref": "#/components/schemas/IResponse"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "integer",
-                  "format": "int32"
+                  "$ref": "#/components/schemas/IResponse"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "integer",
-                  "format": "int32"
+                  "$ref": "#/components/schemas/IResponse"
                 }
               }
             }
@@ -146,26 +134,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ServerData"
-                  }
+                  "$ref": "#/components/schemas/IResponse"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ServerData"
-                  }
+                  "$ref": "#/components/schemas/IResponse"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ServerData"
-                  }
+                  "$ref": "#/components/schemas/IResponse"
                 }
               }
             }
@@ -184,26 +163,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ServerData"
-                  }
+                  "$ref": "#/components/schemas/IResponse"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ServerData"
-                  }
+                  "$ref": "#/components/schemas/IResponse"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ServerData"
-                  }
+                  "$ref": "#/components/schemas/IResponse"
                 }
               }
             }
@@ -241,17 +211,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/ServerData"
+                  "$ref": "#/components/schemas/IResponse"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ServerData"
+                  "$ref": "#/components/schemas/IResponse"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ServerData"
+                  "$ref": "#/components/schemas/IResponse"
                 }
               }
             }
@@ -300,17 +270,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/ServerData"
+                  "$ref": "#/components/schemas/IResponse"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ServerData"
+                  "$ref": "#/components/schemas/IResponse"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ServerData"
+                  "$ref": "#/components/schemas/IResponse"
                 }
               }
             }
@@ -349,17 +319,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/ServerData"
+                  "$ref": "#/components/schemas/IResponse"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ServerData"
+                  "$ref": "#/components/schemas/IResponse"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ServerData"
+                  "$ref": "#/components/schemas/IResponse"
                 }
               }
             }
@@ -385,7 +355,24 @@
         ],
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/IResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IResponse"
+                }
+              }
+            }
           }
         }
       }
@@ -401,17 +388,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/FavoritesData"
+                  "$ref": "#/components/schemas/IResponse"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/FavoritesData"
+                  "$ref": "#/components/schemas/IResponse"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/FavoritesData"
+                  "$ref": "#/components/schemas/IResponse"
                 }
               }
             }
@@ -441,17 +428,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/FavoriteItemData"
+                  "$ref": "#/components/schemas/IResponse"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/FavoriteItemData"
+                  "$ref": "#/components/schemas/IResponse"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/FavoriteItemData"
+                  "$ref": "#/components/schemas/IResponse"
                 }
               }
             }
@@ -500,17 +487,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/FavoriteItemData"
+                  "$ref": "#/components/schemas/IResponse"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/FavoriteItemData"
+                  "$ref": "#/components/schemas/IResponse"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/FavoriteItemData"
+                  "$ref": "#/components/schemas/IResponse"
                 }
               }
             }
@@ -1393,19 +1380,6 @@
         },
         "additionalProperties": false
       },
-      "FavoritesData": {
-        "type": "object",
-        "properties": {
-          "favoritedItems": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/FavoriteItemData"
-            },
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
       "HttpStatusCode": {
         "enum": [
           100,
@@ -1542,54 +1516,6 @@
           },
           "role": {
             "$ref": "#/components/schemas/UserRole"
-          }
-        },
-        "additionalProperties": false
-      },
-      "ServerData": {
-        "type": "object",
-        "properties": {
-          "serverName": {
-            "type": "string",
-            "nullable": true
-          },
-          "serverAddress": {
-            "type": "string",
-            "nullable": true
-          },
-          "serverPort": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "serverEra": {
-            "type": "string",
-            "nullable": true
-          },
-          "serverWebsite": {
-            "type": "string",
-            "nullable": true
-          },
-          "serverBanner": {
-            "type": "string",
-            "nullable": true
-          },
-          "pvPEnabled": {
-            "type": "boolean"
-          },
-          "isPublic": {
-            "type": "boolean"
-          },
-          "votes": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "rating": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "creationDate": {
-            "type": "string",
-            "nullable": true
           }
         },
         "additionalProperties": false

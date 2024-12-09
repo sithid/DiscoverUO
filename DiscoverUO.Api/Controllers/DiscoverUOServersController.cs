@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
 using DiscoverUO.Api.Models;
+using DiscoverUO.Lib.Shared;
+using DiscoverUO.Lib.Shared.Contracts;
 using DiscoverUO.Lib.Shared.Servers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Security.Cryptography.X509Certificates;
+using System.Net;
 
 namespace DiscoverUO.Api.Controllers
 {
@@ -28,65 +30,104 @@ namespace DiscoverUO.Api.Controllers
         #region Anonymous+ Endpoints
 
         [AllowAnonymous]
-        [HttpGet("public")]
-        public async Task<ActionResult<IEnumerable<ServerData>>> GetServers()
+        [HttpGet("public")]  // IResponse
+        public async Task<ActionResult<IResponse>> GetServers()
         {
             var servers = await _context.Servers.ToListAsync();
 
-            var respon = new PublicServerListDataResponse
+            var serverListData = _mapper.Map<List<ServerData>>(servers);
+
+            var serverDataResponse = new ServerListDataResponse
             {
                 Success = true,
                 Message = "Serverlist found.",
                 StatusCode = System.Net.HttpStatusCode.OK,
-                List = _mapper.Map<List<ServerData>>(servers)
+                List = serverListData
             };
 
-            return Ok(respon);
+            return Ok(serverDataResponse);
         }
 
-        [AllowAnonymous]
+        [AllowAnonymous]  // IResponse
         [HttpGet("view/id/{id}")]
-        public async Task<ActionResult<ServerData>> GetServerById(int id)
+        public async Task<ActionResult<IResponse>> GetServerById(int id)
         {
             var server = await _context.Servers
                 .FirstOrDefaultAsync(server => server.Id == id);
 
             if (server == null)
             {
-                return NotFound();
+                var response = new RequestFailedResponse
+                {
+                    Success = false,
+                    Message = "Server not found.",
+                    StatusCode = HttpStatusCode.NotFound
+                };
+
+                return NotFound(response);
             }
 
-            var serverDto = _mapper.Map<ServerData>(server);
+            var serverData = _mapper.Map<ServerData>(server);
 
-            return Ok(serverDto);
+            var serverDataResponse = new ServerDataResponse
+            {
+                Success = true,
+                Message = "Serverlist found.",
+                StatusCode = System.Net.HttpStatusCode.OK,
+                Entity = serverData
+            };
+
+            return Ok(serverDataResponse);
         }
 
-        [AllowAnonymous]
+        [AllowAnonymous] // IResponse
         [HttpGet("view/name/{serverName}")]
-        public async Task<ActionResult<int>> GetServerByName(string serverName)
+        public async Task<ActionResult<IResponse>> GetServerByName(string serverName)
         {
             var server = await _context.Servers
                 .FirstOrDefaultAsync(s => string.Equals(s.ServerName, serverName));
 
             if (server == null)
             {
-                return NotFound();
+                var failedNotFound = new RequestFailedResponse
+                {
+                    Success = false,
+                    Message = "Server not found.",
+                    StatusCode = HttpStatusCode.NotFound
+                };
+
+                return NotFound(failedNotFound);
             }
 
-            var serverDto = _mapper.Map<ServerData>(server);
+            var serverData = _mapper.Map<ServerData>(server);
 
-            return Ok(serverDto);
+            var serverDataResponse = new ServerDataResponse
+            {
+                Success = true,
+                Message = $"Server {serverName} found.",
+                StatusCode = HttpStatusCode.OK,
+                Entity = serverData
+            };
+
+            return Ok(serverDataResponse);
         }
 
-        [AllowAnonymous]
+        [AllowAnonymous]  // IResponse
         [HttpGet("view/owner/{userName}")]
-        public async Task<ActionResult<List<ServerData>>> FindServersByOwner(string userName)
+        public async Task<ActionResult<IResponse>> FindServersByOwner(string userName)
         {
             var currentUser = await Permissions.GetCurrentUser(this.User, _context);
 
             if (currentUser == null)
             {
-                return Unauthorized($"You must be logged in to do this.");
+                var failedUnauthorized = new RequestFailedResponse
+                {
+                    Success = false,
+                    Message = "You must be logged in to do this.",
+                    StatusCode = HttpStatusCode.Unauthorized
+                };
+
+                return Unauthorized(failedUnauthorized);
             }
 
             var existingUser = await _context.Users
@@ -94,7 +135,14 @@ namespace DiscoverUO.Api.Controllers
 
             if (existingUser == null)
             {
-                return NotFound("The user does not exist.");
+                var failedNotFound = new RequestFailedResponse
+                {
+                    Success = false,
+                    Message = "The user does not exist.",
+                    StatusCode = HttpStatusCode.Unauthorized
+                };
+
+                return NotFound(failedNotFound);
             }
 
             var ownedServers = await _context.Servers
@@ -103,27 +151,49 @@ namespace DiscoverUO.Api.Controllers
 
             if (ownedServers == null)
             {
-                return NotFound("That user doesnt own any servers.");
+                var failedNotFound = new RequestFailedResponse
+                {
+                    Success = false,
+                    Message = "That user doesnt own any servers.",
+                    StatusCode = HttpStatusCode.Unauthorized
+                };
+
+                return NotFound(failedNotFound);
             }
 
-            var serverDtos = _mapper.Map<List<ServerData>>(ownedServers);
+            var ownedServersData = _mapper.Map<List<ServerData>>(ownedServers);
 
-            return Ok(serverDtos);
+            var ownedServersResponse = new ServerListDataResponse
+            {
+                Success = true,
+                Message = $"{ownedServers.Count} servers found.",
+                StatusCode = HttpStatusCode.OK,
+                List = ownedServersData
+            };
+
+            return Ok(ownedServersResponse);
         }
 
         #endregion
 
         #region BasicUser+ Endpoints
 
-        [Authorize]
+        [Authorize] // IResponse
         [HttpGet("view/owned")]
-        public async Task<ActionResult<List<ServerData>>> GetOwnedServers()
+        public async Task<ActionResult<IResponse>> GetOwnedServers()
         {
             var currentUser = await Permissions.GetCurrentUser(this.User, _context);
 
             if (currentUser == null)
             {
-                return Unauthorized($"You must be logged in to do this.");
+                var failedUnauthorized = new RequestFailedResponse
+                {
+                    Success = false,
+                    Message = "You must be logged in to do this.",
+                    StatusCode = HttpStatusCode.Unauthorized
+                };
+
+                return Unauthorized(failedUnauthorized);
             }
 
             var ownedServers = await _context.Servers
@@ -132,28 +202,57 @@ namespace DiscoverUO.Api.Controllers
 
             if (ownedServers == null)
             {
-                return NotFound("You do not own any servers.");
+                var failedNotFound = new RequestFailedResponse
+                {
+                    Success = false,
+                    Message = "You do not own any servers.",
+                    StatusCode = HttpStatusCode.Unauthorized
+                };
+
+                return NotFound(failedNotFound);
             }
 
-            var serverDtos = _mapper.Map<List<ServerData>>(ownedServers);
+            var ownedServersData = _mapper.Map<List<ServerData>>(ownedServers);
 
-            return Ok(serverDtos);
+            var ownedServersResponse = new ServerListDataResponse
+            {
+                Success = true,
+                Message = $"{ownedServers.Count} servers found.",
+                StatusCode = HttpStatusCode.OK,
+                List = ownedServersData
+            };
+
+            return Ok(ownedServersResponse);
         }
 
-        [Authorize]
+        [Authorize] // IResponse
         [HttpPost("CreateServer")]
-        public async Task<ActionResult<ServerData>> AddServer(ServerRegistrationData createServerDto)
+        public async Task<ActionResult<IResponse>> AddServer(ServerRegistrationData createServerDto)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                var failedResponse = new RequestFailedResponse
+                {
+                    Success = false,
+                    Message = "Invalid ModelState!",
+                    StatusCode = HttpStatusCode.BadRequest
+                };
+
+                return BadRequest(failedResponse);
             }
 
             var currentUser = await Permissions.GetCurrentUser(this.User, _context);
 
             if (currentUser == null)
             {
-                return Unauthorized("You must be logged in to do this.");
+                var failedUnauthorized = new RequestFailedResponse
+                {
+                    Success = false,
+                    Message = "You must be logged in to do this.",
+                    StatusCode = HttpStatusCode.Unauthorized
+                };
+
+                return Unauthorized(failedUnauthorized);
             }
 
             var serverToAdd = _mapper.Map<Server>(createServerDto);
@@ -161,42 +260,92 @@ namespace DiscoverUO.Api.Controllers
 
             _context.Servers.Add(serverToAdd);
 
-            await _context.SaveChangesAsync();
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException ex)
+            {
+                var failedResponse = new RequestFailedResponse
+                {
+                    Success = false,
+                    Message = $"An error occurred while adding the server: {ex.Message}",
+                    StatusCode = HttpStatusCode.Unauthorized
+                };
+
+                return BadRequest(failedResponse);
+            }
 
             var createdServer = await _context.Servers
                 .FirstOrDefaultAsync(s => s.Id == serverToAdd.Id);
 
-            var createdServerDto = _mapper.Map<ServerData>(createdServer);
+            var createdServerData = _mapper.Map<ServerData>(createdServer);
 
-            return CreatedAtAction("GetServerById", new { id = createdServer.Id }, createdServerDto);
+            var createdServerResponse = new ServerDataResponse
+            {
+                Success = true,
+                Message = "Server created successfully.",
+                StatusCode = HttpStatusCode.Created,
+                Entity = createdServerData
+            };
+
+            return Ok(createdServerResponse);
         }
 
-        [Authorize]
+        [Authorize] // IResponse
         [HttpPut("update/UpdateServer/{serverId}")]
-        public async Task<ActionResult<ServerData>> UpdateServer(int serverId, ServerUpdateData serverUpdateData)
+        public async Task<ActionResult<IResponse>> UpdateServer(int serverId, ServerUpdateData serverUpdateData)
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                var failedResponse = new RequestFailedResponse
+                {
+                    Success = false,
+                    Message = "Invalid ModelState!",
+                    StatusCode = HttpStatusCode.BadRequest
+                };
+
+                return BadRequest(failedResponse);
             }
 
             var currentUser = await Permissions.GetCurrentUser(this.User, _context);
 
             if (currentUser == null)
             {
-                return Unauthorized($"You must be logged in to do this.");
+                var failedUnauthorized = new RequestFailedResponse
+                {
+                    Success = false,
+                    Message = "You must be logged in to do this.",
+                    StatusCode = HttpStatusCode.Unauthorized
+                };
+
+                return Unauthorized(failedUnauthorized);
             }
 
             var serverToUpdate = await _context.Servers.FirstOrDefaultAsync(server => server.Id == serverId);
 
             if (serverToUpdate == null)
             {
-                return NotFound("Server not found.");
+                var failedNotFound = new RequestFailedResponse
+                {
+                    Success = false,
+                    Message = "Server not found.",
+                    StatusCode = HttpStatusCode.NotFound
+                };
+
+                return NotFound(failedNotFound);
             }
 
             if (!Permissions.HasServerPermissions(currentUser, serverToUpdate))
             {
-                return Unauthorized("Only the owner of a server or a privileged user can update a servers information.");
+                var failedUnauthorized = new RequestFailedResponse
+                {
+                    Success = false,
+                    Message = "Only the owner of a server or a privileged user can update a servers information.",
+                    StatusCode = HttpStatusCode.Unauthorized
+                };
+
+                return Unauthorized(failedUnauthorized);
             }
 
             serverToUpdate.ServerName = serverUpdateData.ServerName;
@@ -216,45 +365,88 @@ namespace DiscoverUO.Api.Controllers
             }
             catch (DbUpdateConcurrencyException ex)
             {
-                return BadRequest($"Something happened that no one was prepared for: {ex}");
+                var badRequest = new RequestFailedResponse
+                {
+                    Success = false,
+                    StatusCode = HttpStatusCode.InternalServerError,
+                    Message = $"Something happened that no one was prepared for: {ex.Message}",
+                };
+
+                return BadRequest(badRequest);
             }
 
             var updatedServer = await _context.Servers
                 .FirstOrDefaultAsync(s => s.Id == serverToUpdate.Id);
 
-            var updatedServerDto = _mapper.Map<ServerData>(updatedServer);
+            var updatedServerData = _mapper.Map<ServerData>(updatedServer);
 
-            return Ok(updatedServerDto);
+            var updatedServerResponse = new ServerDataResponse
+            {
+                Success = true,
+                Message = "Server created successfully.",
+                StatusCode = HttpStatusCode.OK,
+                Entity = updatedServerData
+            };
+
+            return Ok(updatedServerResponse);
         }
 
-        [Authorize]
+        [Authorize] // IResponse
         [HttpPut("ownership/transfer/{serverId}_{newOwnerId}")]
-        public async Task<ActionResult<ServerData>> TransferOwnership(int serverId, int newOwnerId)
+        public async Task<ActionResult<IResponse>> TransferOwnership(int serverId, int newOwnerId)
         {
             var currentUser = await Permissions.GetCurrentUser(this.User, _context);
 
             if (currentUser == null)
             {
-                return Unauthorized($"You must be logged in to do this.");
+                var failedUnauthorized = new RequestFailedResponse
+                {
+                    Success = false,
+                    Message = "You must be logged in to do this.",
+                    StatusCode = HttpStatusCode.Unauthorized
+                };
+
+                return Unauthorized(failedUnauthorized);
             }
 
             var server = await _context.Servers.FirstOrDefaultAsync(s => s.Id == serverId);
 
             if (server == null)
             {
-                return NotFound("Server not found.");
+                var failedNotFound = new RequestFailedResponse
+                {
+                    Success = false,
+                    Message = "Server not found.",
+                    StatusCode = HttpStatusCode.NotFound
+                };
+
+                return NotFound(failedNotFound);
             }
 
             if (!Permissions.HasServerPermissions(currentUser, server))
             {
-                return Unauthorized("Only the owner of a server or a privileged user can transfer server ownership.");
+                var failedUnauthorized = new RequestFailedResponse
+                {
+                    Success = false,
+                    Message = "Only the owner of a server or a privileged user can transfer server ownership.",
+                    StatusCode = HttpStatusCode.Unauthorized
+                };
+
+                return Unauthorized(failedUnauthorized);
             }
 
             var newOwner = await _context.Users.FirstOrDefaultAsync(user => user.Id == newOwnerId);
 
             if (newOwner == null)
             {
-                return NotFound("New owner not found.");
+                var ownerNotFound = new RequestFailedResponse
+                {
+                    Success = false,
+                    Message = "New owner not found.",
+                    StatusCode = HttpStatusCode.NotFound
+                };
+
+                return NotFound(ownerNotFound);
             }
 
             server.OwnerId = newOwner.Id;
@@ -267,39 +459,74 @@ namespace DiscoverUO.Api.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, $"An error occurred while updating the server owner: {ex.Message}");
+                var badRequest = new RequestFailedResponse
+                {
+                    Success = false,
+                    StatusCode = HttpStatusCode.InternalServerError,
+                    Message = $"Something happened that no one was prepared for: {ex.Message}",
+                };
+
+                return BadRequest(badRequest);
             }
 
             var updatedServer = await _context.Servers
                 .FirstOrDefaultAsync(server => server.Id == serverId);
 
-            var serverDto = _mapper.Map<ServerData>(updatedServer);
+            var serverData = _mapper.Map<ServerData>(updatedServer);
 
-            return Ok(serverDto);
+            var serverDataResponse = new ServerDataResponse
+            {
+                Success = true,
+                Message = "Ownership transfered.",
+                StatusCode = HttpStatusCode.OK,
+                Entity = serverData
+            };
 
+            return Ok(serverDataResponse);
         }
 
-        [Authorize]
+        [Authorize]  // IResponse
         [HttpDelete("delete/{serverId}")]
-        public async Task<ActionResult> DeleteServer(int serverId)
+        public async Task<ActionResult<IResponse>> DeleteServer(int serverId)
         {
             var currentUser = await Permissions.GetCurrentUser(this.User, _context);
 
             if (currentUser == null)
             {
-                return Unauthorized($"You must be logged in to do this.");
+                var failedUnauthorized = new RequestFailedResponse
+                {
+                    Success = false,
+                    Message = "You must be logged in to do this.",
+                    StatusCode = HttpStatusCode.Unauthorized
+                };
+
+                return Unauthorized(failedUnauthorized);
             }
 
             var server = await _context.Servers.FirstOrDefaultAsync(server => server.Id == serverId);
 
             if (server == null)
             {
-                return NotFound();
+                var failedNotFound = new RequestFailedResponse
+                {
+                    Success = false,
+                    Message = "Server not found.",
+                    StatusCode = HttpStatusCode.NotFound
+                };
+
+                return NotFound(failedNotFound);
             }
 
             if (!Permissions.HasServerPermissions(currentUser, server))
             {
-                return Unauthorized("Only the server owner or a privileged user can delete a server.");
+                var failedUnauthorized = new RequestFailedResponse
+                {
+                    Success = false,
+                    Message = "Only the owner of a server or a privileged user can delete a server.",
+                    StatusCode = HttpStatusCode.Unauthorized
+                };
+
+                return Unauthorized(failedUnauthorized);
             }
 
             await _context.UserFavoritesListItems
@@ -310,9 +537,31 @@ namespace DiscoverUO.Api.Controllers
                 .ExecuteDeleteAsync();
 
             _context.Servers.Remove(server);
-            await _context.SaveChangesAsync();
 
-            return NoContent();
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                var badRequest = new RequestFailedResponse
+                {
+                    Success = false,
+                    StatusCode = HttpStatusCode.InternalServerError,
+                    Message = $"Something happened that no one was prepared for: {ex.Message}",
+                };
+
+                return BadRequest(badRequest);
+            }
+
+            var serverDeletedResponse = new BasicSuccessResponse
+            {
+                Success = true,
+                Message = "Server deleted.",
+                StatusCode = HttpStatusCode.NoContent
+            };
+
+            return Ok(serverDeletedResponse);
         }
 
         #endregion

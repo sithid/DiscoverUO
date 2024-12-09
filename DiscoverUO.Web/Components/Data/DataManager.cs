@@ -51,7 +51,7 @@ namespace DiscoverUO.Web.Components.Data
 
             try
             {
-                var serverListReponse = response.Content.ReadFromJsonAsync<PublicServerListDataResponse>().Result;
+                var serverListReponse = response.Content.ReadFromJsonAsync<ServerListDataResponse>().Result;
 
                 if (response.IsSuccessStatusCode)
                 {

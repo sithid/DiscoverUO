@@ -2253,6 +2253,7 @@
       },
       "DiscoverUO.Lib/1.0.0": {
         "dependencies": {
+          "BCrypt.Net-Next": "4.0.3",
           "Newtonsoft.Json": "13.0.3"
         },
         "runtime": {

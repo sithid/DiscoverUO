@@ -298,3 +298,7 @@ C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Api\bin\Release\n
 C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Api\bin\Release\net8.0\runtimes\win-x64\native\e_sqlite3.dll
 C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Api\bin\Release\net8.0\runtimes\win-x86\native\e_sqlite3.dll
 C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Api\bin\Release\net8.0\runtimes\browser\lib\net8.0\System.Text.Encodings.Web.dll
+C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Api\bin\Release\net8.0\DiscoverUO.Api.staticwebassets.endpoints.json
+C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Api\obj\Release\net8.0\staticwebassets.build.endpoints.json
+C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Api\obj\Release\net8.0\staticwebassets\msbuild.DiscoverUO.Api.Microsoft.AspNetCore.StaticWebAssetEndpoints.props
+C:\Users\demon\OneDrive\Documents\GitHub\DiscoverUO\DiscoverUO.Api\obj\Release\net8.0\staticwebassets.upToDateCheck.txt

@@ -1,9 +1,11 @@
 ﻿@using Blazored.LocalStorage
 @using System.Net
-@inherits LayoutComponentBase
+
 @inject ILocalStorageService _localStorage
 @inject HttpClient _client
 @inject NavigationManager _navManager
+
+@inherits LayoutComponentBase
 
 <MudThemeProvider Theme="UOTheme" />
 <MudPopoverProvider />
@@ -19,8 +21,15 @@
         <MudNavLink Href="/myservers" Match="NavLinkMatch.All">My Servers</MudNavLink>
         <MudNavLink Href="/myfavorites" Match="NavLinkMatch.All">My Favorites</MudNavLink>
         <MudSpacer />
-        <MudNavLink Href="/register" Match="NavLinkMatch.All">Register</MudNavLink>
-        <MudIconButton Icon="@Icons.Material.Filled.Dashboard" Color="Color.Inherit" Edge="Edge.End" OnClick="@AppBarNavToSignIn" />
+        @if (DashboardData == null)
+        {
+            <MudNavLink Href="/register" Match="NavLinkMatch.All">Register</MudNavLink>
+            <MudIconButton Icon="@Icons.Material.Filled.Dashboard" Color="Color.Inherit" Edge="Edge.End" OnClick="@AppBarNavToSignIn" />
+        }
+        else
+        {
+            <MudIconButton Icon="@Icons.Material.Filled.Dashboard" Color="Color.Inherit" Edge="Edge.End" OnClick="@AppbarNavToDashboard" />
+        }
     </MudAppBar>
     <MudMainContent>
         @Body
@@ -46,6 +55,11 @@
     void AppBarNavToSignIn()
     {
         _navManager.NavigateTo("/signin");
+    }
+
+    void AppbarNavToDashboard()
+    {
+        _navManager.NavigateTo("/dashboard");
     }
 
     MudTheme UOTheme = new MudTheme()
