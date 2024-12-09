@@ -24,7 +24,7 @@ This is a list of planned features.  It is my intention to put my best effort in
 - Blazor WebApp: Frontend WebApp
 - WebApi: Perform all CRUD operations.
 - Class Library: Shared entity models / DTOs.
-- Database: SQLServer database with tables for users, servers,  reviews, server blacklist, user blacklist, and favorites.
+- Database: SqLite database with tables for users, servers,  reviews, server blacklist, user blacklist, and favorites.
 
 ## User Access Privileges
 Anonymous / Unregistered: Anon can access the WebApp and view the current public server listing. Anon may not add to, remove from, or otherwise modify the server listing in any way.
@@ -73,7 +73,9 @@ Solid Principles
 ```
 
 
-I believe the way I have implemented endpoint responses implements SOLID principles though honestly, my understanding of the principles and what actually is or is not SOLID is something I am still working on.
+I believe the way I have implemented endpoint responses implements SOLID principles. My understanding of the principles of SOLID and recognizing them when they are implemented gives me trouble.
+This is something I would welcome feedback on (such as where in my project I have implemented SOLID properly, the specific principle and how it applies, so i can better recognize it in my design patterns).
+ 
 
 ```
 Visual Appeal
