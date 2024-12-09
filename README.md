@@ -48,17 +48,27 @@ created even when using object-relational mappers like Entity Framework.
 
 Make a generic class and use it.
 ```
+- `DataManager.cs` from `DiscoverUO.Web.Components.Data` and `Utilities.cs` from `DiscoverUO.Api` for specific functions that would be considered integral to the application.
+- Review controllers for additional methods/functions including endpoints and a couple helper methods.
+- Review the entire `DiscoverUO.Lib.Shared` namespace for DTO models (classes whos name ends in `Data`).
+- Review `DiscoverUO.Api.Models` for entity models.
+- `MappingProfile.cs` contains Maps for model to dto conversion.
+- Generic classes were used for how I handle my endpoint return data / responses.  Review `DiscoverUO.Lib.Shared.Contracts` as well as various classes which inherit from `IEntityResponse`, `IListResponse`, and `IValueResponse`.
 
-DataManager.cs from DiscoverUO.Web.Components.Data and Utilities.cs from DiscoverUO.Api for specific functions that would be considered integral to the application.  Review controllers for additional methods/functions including endpoints and a couple helper methods. Review the entire Shared namespace of DiscoverUO.Lib for DTO models (classes whos name ends in "Data"). Review DiscoverUO.Api.Models for entity models.  MappingProfile contains Maps for model to dto conversion. Generic classes were used for how I handle my endpoint return data / responses.  Review DiscoverUO.Lib.Shared.Contracts as well as various classes which inherit from IEntityResponse, IListResponse, and IValueResponse. I did this in an attempt to standardize all endpoint responses.
 
 ```
 Make your application an API. 
 Make your application a CRUD API
 Have 2 or more tables (entities) in your application that are related and have a function return data from both entities.  In entity framework, this is equivalent to a join
 ```
-
-  
-My API implements endpoints for all essential CRUD (Create, Read, Update, Delete) operations for 1 database (DiscoverUO) across 3 controllers on 5 tables. My data models include users, user profiles, user favorites, user favorites items, and servers. Among my entity models, there are various relationships.  All users have a profile and a favorites list. All favorites lists have 1 owner and it can have man favorite items. All servers have one owner ( the person who added the server ) but can be on many favorites lists.  My dashboard endpoint (GetDashboardData) is a good example of returning data from related entities.
+- My API implements endpoints for all essential CRUD (Create, Read, Update, Delete) operations for 1 database (`DiscoverUO.db`) across 3 controllers on 5 tables.
+- My data models include:
+  - User
+  - UserProfile
+  - UserFavoritesList
+  - UserFavoritesListItem
+  - Server
+- Among my entity models, there are various relationships. All users have a profile and a favorites list. All favorites lists have 1 owner and it can have man favorite items. All servers have one owner ( typicall the person who added it ) but can be on many favorites lists.  My dashboard endpoint ('https://localhost:7015/api/users/view/dashboard', 'GetDashboardData') is a good example of returning data from related entities.
 
 ```
 Implement a regular expression (regex) to validate or ensure a field is always stored and displayed in the correct format .
