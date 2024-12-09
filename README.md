@@ -35,6 +35,46 @@ Elevated User: A registered user with elevated privileges, ie a moderator and ad
 
 Banning not yet implemented, planed for a future update.
 
+## Requirements (grouped together where convient)
+```
+Create and utilize a minimum of 3 functions or methods, with at least one
+returning a value integral to your application.
+
+Develop at least one class (excluding the default class in a new project),
+create an object of that class, populate it with data from a database, and incorporate the data in
+your application. A minimum of 1 table (entity) should be utilized. Note that classes should be
+created even when using object-relational mappers like Entity Framework.
+
+Make a generic class and use it.
+```
+
+  DataManager.cs from DiscoverUO.Web.Components.Data and Utilities.cs from DiscoverUO.Api for specific functions that would be considered integral to the application.  Review controllers for additional methods/functions including endpoints and a couple helper methods. Review the entire Shared namespace of DiscoverUO.Lib for DTO models (classes whos name ends in "Data"). Review DiscoverUO.Api.Models for entity models.  MappingProfile contains Maps for model to dto conversion. Generic classes were used for how I handle my endpoint return data / responses.  Review DiscoverUO.Lib.Shared.Contracts as well as various classes which inherit from IEntityResponse, IListResponse, and IValueResponse. I did this in an attempt to standardize all endpoint responses.
+
+
+```
+Make your application an API. 
+Make your application a CRUD API
+Have 2 or more tables (entities) in your application that are related and have a function return data from both entities.  In entity framework, this is equivalent to a join
+```
+  
+  My API implements endpoints for all essential CRUD (Create, Read, Update, Delete) operations for 1 database (DiscoverUO) across 3 controllers on 5 tables. My data models include users, user profiles, user favorites, user favorites items, and servers. Among my entity models, there are various relationships.  All users have a profile and a favorites list. All favorites lists have 1 owner and it can have man favorite items. All servers have one owner ( the person who added the server ) but can be on many favorites lists.  My dashboard endpoint (GetDashboardData) is a good example of returning data from related entities.
+
+
+```
+Implement a regular expression (regex) to validate or ensure a field is always stored and displayed in the correct format .
+Create a list, populate it with several values, retrieve at least one value, and use it in your program.
+```
+
+Examples of both of these can be seen in how I validate user registration data.  I use regex to verify password length and complexity aswell as ensuring there is an @ in email strings.  Domains can very so I am not entirely sure how I would validate an email beyond that. I created and populate a list with error messages and then display them to the user when they are attempting to register.
+
+
+
+```
+Visual Appeal
+```
+
+Sadly, I am terrible with visual design.  I have always considered myself to be a "backend" kind of guy and value function over fashion. I intend to see this project further than just where the Code:You capstone takes it, so the visual appeal will be worked on heavily in a future update.
+
 ## Setup and Running Project
 
 Clone the repo and launch the visual studio solution. Everything should build out of the box. Make sure when you build and launch, your startup project is set to multiple projects including DiscoverUO.Api and DiscoverUO.Web.Database should include sample data.  For some of you, you may have to navigate certain SSL issues, depending on your browser settings. 
