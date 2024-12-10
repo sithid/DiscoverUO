@@ -1,6 +1,10 @@
 ﻿@using System.Net
+@using System.Net.Http.Headers
+@using DiscoverUO.Lib.Shared
+@using DiscoverUO.Lib.Shared.Contracts
 @using Blazored.LocalStorage
 @inject ILocalStorageService _localStorage
+@inject NavigationManager _navManager
 @inject HttpClient _client
 
 @if( ServerData != null )
@@ -9,19 +13,22 @@
         <MudItem Class="mt-4 pa-4 mud-theme-secondary">
             <MudCard>
                 <MudCardContent>
-                    <MudText Typo="Typo.h3" Align="Align.Center">@ServerData.ServerName</MudText>
-
-                    @if (showBanner)
-                    {
-                        <MudCardMedia Height="150" Image="@ServerData.ServerBanner" />
-                    }
-
-                    <MudText Typo="Typo.h5" Align="Align.Justify">Server Details: @serverDetails</MudText>
-                    <MudText Typo="Typo.h5" Align="Align.Justify">  Logon Server: @connectionDetails</MudText>
-                    <MudText Typo="Typo.h5" Align="Align.Justify">
+                    <MudText Typo="Typo.h2" Align="Align.Center">@ServerData.ServerName</MudText>
+                    @if (showBanner) {
+                        <MudCardMedia Height="150" Image="@ServerData.ServerBanner" /> }
+                    <MudText Typo="Typo.h5" Align="Align.Center">Server Details: @serverDetails</MudText>
+                    <MudText Typo="Typo.h5" Align="Align.Center">  Logon Server: @connectionDetails</MudText>
+                    <MudText Typo="Typo.h5" Align="Align.Center">
                         Shard Website: <a target="_blank" href="@ServerData.ServerWebsite">@ServerData.ServerWebsite</a>
                     </MudText>
                 </MudCardContent>
+                <MudCardActions>
+                    <MudSpacer />
+                    <MudButton Variant="Variant.Outlined" OnClick="@AddToFavorites" Color="Color.Primary">Add To Favorites</MudButton>
+                    <MudSpacer />
+                    <MudButton Variant="Variant.Outlined" Color=" Color.Primary">Vote</MudButton>
+                    <MudSpacer />
+                </MudCardActions>
             </MudCard>
         </MudItem>
     </MudPaper>
@@ -30,6 +37,7 @@
 @code {
     [Parameter]
     public ServerData ServerData{ get; set; }
+
     public bool showBanner { get; set; }
     private string serverDetails = string.Empty;
     private string connectionDetails = string.Empty;
@@ -44,6 +52,57 @@
         connectionDetails = $"{ServerData.ServerAddress} Port {ServerData.ServerPort}";
 
         showBanner = IsValidUrl(ServerData.ServerBanner);
+    }
+
+    private int clicked = 0;
+
+    private async Task AddToFavorites()
+    {
+        var token = await _localStorage.GetItemAsync<string>("jwtToken");
+
+        if (string.IsNullOrEmpty(token))
+        {
+            _navManager.NavigateTo("/signin");
+            return;
+        }
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+        var favItemData = new FavoriteItemData
+        {
+            ServerName = ServerData.ServerName,
+            ServerAddress = ServerData.ServerAddress,
+            ServerPort = ServerData.ServerPort,
+            ServerEra = ServerData.ServerEra,
+            PvPEnabled = ServerData.PvPEnabled,
+            ServerWebsite = ServerData.ServerWebsite,
+            ServerBanner = ServerData.ServerBanner
+        };
+
+        var response = await _client.PostAsJsonAsync("https://localhost:7015/api/favorites/list/item/add", favItemData);
+
+        try
+        {
+            if (response.IsSuccessStatusCode)
+            {
+                var favDataResponse = await response.Content.ReadFromJsonAsync<FavoritesDataReponse>();
+
+                StateHasChanged();
+            }
+            else
+            {
+                var favRequestFailed = await response.Content.ReadFromJsonAsync<RequestFailedResponse>();
+
+                Console.WriteLine("Failed AddFavorite Request");
+                Console.WriteLine($"Status Code: {favRequestFailed.StatusCode}");
+                Console.WriteLine($"Message: {favRequestFailed.Message}");
+
+                _navManager.NavigateTo("/signin");
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Exception: {ex.Message}");
+        }
     }
 
     public static bool IsValidUrl(string url)

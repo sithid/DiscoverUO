@@ -21,15 +21,9 @@
         <MudNavLink Href="/myservers" Match="NavLinkMatch.All">My Servers</MudNavLink>
         <MudNavLink Href="/myfavorites" Match="NavLinkMatch.All">My Favorites</MudNavLink>
         <MudSpacer />
-        @if (DashboardData == null)
-        {
-            <MudNavLink Href="/register" Match="NavLinkMatch.All">Register</MudNavLink>
-            <MudIconButton Icon="@Icons.Material.Filled.Dashboard" Color="Color.Inherit" Edge="Edge.End" OnClick="@AppBarNavToSignIn" />
-        }
-        else
-        {
-            <MudIconButton Icon="@Icons.Material.Filled.Dashboard" Color="Color.Inherit" Edge="Edge.End" OnClick="@AppbarNavToDashboard" />
-        }
+        <MudNavLink Href="/register" Match="NavLinkMatch.All">Register</MudNavLink>
+        <MudIconButton Icon="@Icons.Material.Filled.Dashboard" Color="Color.Inherit" Edge="Edge.End" OnClick="@AppbarNavToDashboard" />
+        <MudIconButton Icon="@Icons.Material.Filled.Login" Color="Color.Inherit" Edge="Edge.End" OnClick="@AppBarNavToSignIn" />
     </MudAppBar>
     <MudMainContent>
         @Body
@@ -39,16 +33,28 @@
 @code
 {
     public DashboardData DashboardData { get; set; }
+    private bool _prevSessionsCleared = false;
+    private bool _newSession = true;
 
     protected async override Task OnAfterRenderAsync(bool firstRender)
     {
         if (!firstRender)
         {
-            if (DashboardData != null)
-                return;
 
-            DashboardData = await DataManager.GetDashboard(_client, _localStorage);
-            StateHasChanged();
+        }
+        else
+        {
+            if (_newSession)
+            {
+                var token = await _localStorage.GetItemAsync<string>("jwtToken");
+
+                if (!string.IsNullOrEmpty(token))
+                {
+                    await _localStorage.RemoveItemAsync("jwtToken");
+                    _prevSessionsCleared = true;
+                    _newSession = false;
+                }
+            }
         }
     }
 

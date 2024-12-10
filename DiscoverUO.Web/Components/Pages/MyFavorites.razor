@@ -13,7 +13,10 @@
 <PageTitle>Favorites</PageTitle>
 
 <MudContainer>
-    <FavoritesListComponent Favorites="@Favorites" />
+    @if (Favorites != null)
+    {
+        <FavoritesListComponent Favorites="@Favorites" />
+    }
 </MudContainer>
 @code {
 

@@ -15,12 +15,19 @@
                         <MudCardMedia Height="150" Image="@ItemData.ServerBanner" />
                     }
 
-                    <MudText Typo="Typo.h5" Align="Align.Justify">Server Details: @serverDetails</MudText>
-                    <MudText Typo="Typo.h5" Align="Align.Justify">  Logon Server: @connectionDetails</MudText>
-                    <MudText Typo="Typo.h5" Align="Align.Justify"> Shard Website: 
-                        <a target="_blank" href="@ItemData.ServerWebsite">@ItemData.ServerWebsite</a>
+                    <MudText Typo="Typo.h5" Align="Align.Center">Server Details: @serverDetails</MudText>
+                    <MudText Typo="Typo.h5" Align="Align.Center">  Logon Server: @connectionDetails</MudText>
+                    <MudText Typo="Typo.h5" Align="Align.Center">
+                        Shard Website: <a target="_blank" href="@ItemData.ServerWebsite">@ItemData.ServerWebsite</a>
                     </MudText>
                 </MudCardContent>
+                <MudCardActions>
+                    <MudSpacer />
+                    <MudButton Variant="Variant.Outlined" Color="Color.Primary">Update</MudButton>
+                    <MudSpacer />
+                    <MudButton Variant="Variant.Outlined" Color="Color.Primary">Remove</MudButton>
+                    <MudSpacer />
+                </MudCardActions>
             </MudCard>
         </MudItem>
     </MudPaper>

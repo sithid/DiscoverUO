@@ -14,26 +14,29 @@
 <MudContainer>
     @if (DashboardData != null)
     {
+        if( string.IsNullOrEmpty(DashboardData.Username))
+        {
+            _navManager.NavigateTo("/signin");
+        }
+
         <MudPaper>
             <MudItem xs="12" Class="mt-4 pa-4 mud-theme-secondary">
                 <MudCard>
                     <MudCardHeader>
                         <MudText Typo="Typo.h1">Welcome Back, @DashboardData.UserDisplayName</MudText>
+                        @if (DashboardData.UserAvatar != null)
+                        {
+                            <MudCardMedia Image="@DashboardData.UserAvatar" />
+                        }
                     </MudCardHeader>
-                
-                    @if (DashboardData.UserAvatar != null)
-                    {
-                        <MudCardMedia Image="@DashboardData.UserAvatar" />
-                    }
-
                     <MudCardContent>
-                        <MudText Typo="Typo.h5">User Email: @DashboardData.Email</MudText>
-                        <MudText Typo="Typo.h5">User Creation Date: @DashboardData.CreationDate</MudText>
-                        <MudText Typo="Typo.h5">User Remaining Votes : @DashboardData.DailyVotesRemaining</MudText>
+                        <MudText Align="Align.Center" Typo="Typo.h5">User Email: @DashboardData.Email</MudText>
+                        <MudText Align="Align.Center" Typo="Typo.h5">User Creation Date: @DashboardData.CreationDate</MudText>
+                        <MudText Align="Align.Center" Typo="Typo.h5">User Remaining Votes : @DashboardData.DailyVotesRemaining</MudText>
                     </MudCardContent>
                     <MudCardContent>
-                        <MudText Typo="Typo.h5">User Biography:</MudText>
-                        <MudText Typo="Typo.h5">@DashboardData.UserBiography</MudText>
+                        <MudText Align="Align.Center" Typo="Typo.h5">User Biography:</MudText>
+                        <MudText Align="Align.Center" Typo="Typo.h5">@DashboardData.UserBiography</MudText>
                     </MudCardContent>
                     <MudCardActions>
                         <MudSpacer />
