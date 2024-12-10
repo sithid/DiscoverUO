@@ -1,26 +1,62 @@
-﻿@using DiscoverUO.Lib.Shared.Favorites
+﻿@using System.Net.Http.Headers;
+@using DiscoverUO.Lib.Shared
+@using DiscoverUO.Lib.Shared.Contracts
+@using DiscoverUO.Lib.Shared.Favorites
+@using DiscoverUO.Web.Components.Controls.Favorites
 @using Blazored.LocalStorage
 @using System.Net
-@inject ILocalStorageService _localStorage
-@inject HttpClient _client
+@inject ILocalStorageService localStorage
+@inject HttpClient client
+@inject NavigationManager navManager
 @page "/myfavorites"
 
 <PageTitle>Favorites</PageTitle>
 
 <MudContainer>
-    <MudLabel style="font-size: 36px">@DashboardData?.Username's Favorites!</MudLabel>
-    <MudSpacer/>
-    <MudLabel style="font-size: 24px">This is where the user favorites content will be.</MudLabel>
-    <MudSpacer />
-    <MudLabel style="font-size: 12px">This is where the favorite servers content will be.</MudLabel>
+    @if (Favorites == null)
+    {
+        UpdateFavoritesData();
+    }
+    <FavoritesListComponent Favorites="@Favorites" />
 </MudContainer>
 @code {
 
-    public DashboardData DashboardData { get; set; }
+    public FavoritesData Favorites{ get; set; }
+    private List<string> errors = new List<string>();
 
-    protected async override Task OnInitializedAsync()
+    public async Task UpdateFavoritesData()
     {
-        DashboardData = await DataManager.GetDashboard(_client, _localStorage);
-        StateHasChanged();
+        var token = await localStorage.GetItemAsync<string>("jwtToken");
+
+        if (string.IsNullOrEmpty(token))
+            navManager.NavigateTo("/singin");
+
+        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+        var response = await client.GetAsync("https://localhost:7015/api/favorites/list/view");
+
+        try
+        {
+            if (response.IsSuccessStatusCode)
+            {
+                var favDataResponse = await response.Content.ReadFromJsonAsync<FavoritesDataReponse>();
+
+                Favorites = favDataResponse.Entity;
+                StateHasChanged();
+            }
+            else
+            {
+                var favRequestFailed = await response.Content.ReadFromJsonAsync<RequestFailedResponse>();
+
+                if (favRequestFailed.StatusCode == HttpStatusCode.Unauthorized)
+                    navManager.NavigateTo("/signin");
+                else
+                    errors.Add(favRequestFailed.Message);
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Exception: {ex.Message}");
+        }
     }
 }

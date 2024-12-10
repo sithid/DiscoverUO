@@ -263,7 +263,14 @@ namespace DiscoverUO.Api.Controllers
 
             var favoritesItemToAdd = _mapper.Map<UserFavoritesListItem>(userFavoritesListItemData);
 
-            _context.UserFavoritesListItems.Add(favoritesItemToAdd);
+            var favoritesList = _context.UserFavoritesLists.FirstOrDefault(flist => flist.OwnerId == currentUser.Id);
+
+            if (favoritesList.FavoritedItems == null)
+                favoritesList.FavoritedItems = new List<UserFavoritesListItem>();
+
+            favoritesList.FavoritedItems.Add(favoritesItemToAdd);
+
+            _context.Entry(favoritesList).State = EntityState.Modified;
 
             try
             {

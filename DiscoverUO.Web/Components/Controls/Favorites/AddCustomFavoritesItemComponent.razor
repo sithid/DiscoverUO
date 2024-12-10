@@ -1,0 +1,39 @@
+﻿@using System.Text.RegularExpressions
+@using System.ComponentModel.DataAnnotations
+@using DiscoverUO.Lib.Shared
+@inject IDialogService DialogService
+@inject ILocalStorageService _localStorage
+@inject HttpClient _client;
+
+<MudPaper Class="ma-2 mt-2 pa-16">
+    <MudItem>
+        <MudForm Spacing="4">
+            <MudText Typo="Typo.h1" Align="Align.Center" GutterBottom="true">Add Custom Favorite Server</MudText>
+            <MudTextField @bind-Value="@serverName" T="string" Label="Server Name" />
+            <MudTextField @bind-Value="@serverAddress" T="string" Label="Server Address" />
+            <MudTextField @bind-Value="@serverPort" T="int" Label="Port" />
+            <MudTextField @bind-Value="@serverWebsiteUrl" T="string" Label="Server Address" />
+            <MudTextField @bind-Value="@serverBannerUrl" T="string" />
+            <MudCheckBox @bind-Value="@useBanner" T="bool" Label="Use Server Banner" />
+            <MudCheckBox @bind-Value="@pvpEnabled" T="bool" Label="PvP Enabled" />
+            <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="@AddFavoriteItem">Add Favorite</MudButton>
+        </MudForm>
+    </MudItem>
+</MudPaper>
+
+@code {
+
+    private FavoriteItemData ItemData { get; set; }
+    private string serverName = "My Customer Favorite Server";
+    private string serverAddress = "playuo.example.net";
+    private int serverPort = 2593; // Default runuo port so well use this as our default.
+    private bool pvpEnabled = true; // Default runuo pvp enabled.
+    private bool useBanner = false; // Default to no banner.
+    private string serverBannerUrl = string.Empty;
+    private string serverWebsiteUrl = string.Empty;
+
+
+    private void AddFavoriteItem()
+    {
+    }
+}

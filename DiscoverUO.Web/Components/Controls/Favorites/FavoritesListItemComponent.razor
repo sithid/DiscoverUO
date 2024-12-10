@@ -1,0 +1,62 @@
+﻿@using System.Text.RegularExpressions
+@using System.ComponentModel.DataAnnotations
+@using DiscoverUO.Lib.Shared
+
+@if (ItemData != null)
+{
+    <MudPaper>
+        <MudItem Class="mt-4 pa-4 mud-theme-secondary">
+            <MudCard>
+                <MudCardContent>
+                    <MudText Typo="Typo.h3" Align="Align.Center">@ItemData.ServerName</MudText>
+
+                    @if (showBanner)
+                    {
+                        <MudCardMedia Height="150" Image="@ItemData.ServerBanner" />
+                    }
+
+                    <MudText Typo="Typo.h5" Align="Align.Justify">Server Details: @serverDetails</MudText>
+                    <MudText Typo="Typo.h5" Align="Align.Justify">  Logon Server: @connectionDetails</MudText>
+                    <MudText Typo="Typo.h5" Align="Align.Justify">
+                        Shard Website: <a target="_blank" href="@ItemData.ServerWebsite">@ItemData.ServerWebsite</a>
+                    </MudText>
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+    </MudPaper>
+}
+
+@code {
+
+    [Parameter]
+    public FavoriteItemData ItemData { get; set; }
+
+    public bool showBanner { get; set; }
+    private string serverDetails = string.Empty;
+    private string connectionDetails = string.Empty;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        var pvpEnabled = ItemData.PvPEnabled ? "PvP Enabled" : "PvP Disabled";
+
+        serverDetails = $"{ItemData.ServerEra} Era, {pvpEnabled}";
+        connectionDetails = $"{ItemData.ServerAddress} Port {ItemData.ServerPort}";
+
+        showBanner = IsValidUrl(ItemData.ServerBanner);
+    }
+
+    public static bool IsValidUrl(string url)
+    {
+        try
+        {
+            Uri.TryCreate(url, UriKind.Absolute, out Uri result);
+            return (result != null) && (result.Scheme == Uri.UriSchemeHttp || result.Scheme == Uri.UriSchemeHttps);
+        }
+        catch (Exception)
+        {
+            return false;
+        }
+    }
+}
