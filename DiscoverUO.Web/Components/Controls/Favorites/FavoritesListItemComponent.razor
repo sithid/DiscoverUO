@@ -4,7 +4,7 @@
 
 @if (ItemData != null)
 {
-    <MudPaper>
+    <MudPaper >
         <MudItem Class="mt-4 pa-4 mud-theme-secondary">
             <MudCard>
                 <MudCardContent>
@@ -17,8 +17,8 @@
 
                     <MudText Typo="Typo.h5" Align="Align.Justify">Server Details: @serverDetails</MudText>
                     <MudText Typo="Typo.h5" Align="Align.Justify">  Logon Server: @connectionDetails</MudText>
-                    <MudText Typo="Typo.h5" Align="Align.Justify">
-                        Shard Website: <a target="_blank" href="@ItemData.ServerWebsite">@ItemData.ServerWebsite</a>
+                    <MudText Typo="Typo.h5" Align="Align.Justify"> Shard Website: 
+                        <a target="_blank" href="@ItemData.ServerWebsite">@ItemData.ServerWebsite</a>
                     </MudText>
                 </MudCardContent>
             </MudCard>

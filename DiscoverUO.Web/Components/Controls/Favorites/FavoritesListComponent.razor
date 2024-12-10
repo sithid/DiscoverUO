@@ -11,6 +11,10 @@
             <FavoritesListItemComponent ItemData="@data" />
         }
     }
+    else
+    {
+        <MudAlert Severity="Severity.Warning">Your favorites list is empty.</MudAlert>
+    }
 }
 
 @code {

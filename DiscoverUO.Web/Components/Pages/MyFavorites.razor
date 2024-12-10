@@ -13,16 +13,18 @@
 <PageTitle>Favorites</PageTitle>
 
 <MudContainer>
-    @if (Favorites == null)
-    {
-        UpdateFavoritesData();
-    }
     <FavoritesListComponent Favorites="@Favorites" />
 </MudContainer>
 @code {
 
     public FavoritesData Favorites{ get; set; }
     private List<string> errors = new List<string>();
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        UpdateFavoritesData();
+    }
 
     public async Task UpdateFavoritesData()
     {

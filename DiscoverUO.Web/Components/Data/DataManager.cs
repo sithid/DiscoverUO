@@ -14,6 +14,8 @@ namespace DiscoverUO.Web.Components.Data
     {      
         public static async Task<DashboardData> GetDashboard(HttpClient _client, ILocalStorageService local)
         {
+            var dashboard = new DashboardData();
+
             var token = await local.GetItemAsync<string>("jwtToken");
             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
@@ -21,10 +23,8 @@ namespace DiscoverUO.Web.Components.Data
 
             if (!response.IsSuccessStatusCode)
             {
-                return null;
+                return dashboard;
             }
-
-            var dashboard = new DashboardData();
 
             try
             {
