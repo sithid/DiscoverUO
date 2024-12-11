@@ -24,8 +24,9 @@
                 </MudCardContent>
                 <MudCardActions>
                     <MudSpacer />
-                    <MudButton Variant="Variant.Outlined" OnClick="@AddToFavorites" Color="Color.Primary">Add To Favorites</MudButton>
+                    <MudText Typo="Typo.h5" Align="Align.Center">Server ID: @ServerData.Id</MudText>
                     <MudSpacer />
+                    <MudButton Variant="Variant.Outlined" OnClick="@AddToFavorites" Color="Color.Primary">Add To Favorites</MudButton>
                     <MudButton Variant="Variant.Outlined" Color=" Color.Primary">Vote</MudButton>
                     <MudSpacer />
                 </MudCardActions>
@@ -38,6 +39,9 @@
     [Parameter]
     public ServerData ServerData{ get; set; }
 
+    [CascadingParameter]
+    public SessionManager UserSession{ get; set; }
+
     public bool showBanner { get; set; }
     private string serverDetails = string.Empty;
     private string connectionDetails = string.Empty;
@@ -48,7 +52,7 @@
 
         var pvpEnabled = ServerData.PvPEnabled ? "PvP Enabled" : "PvP Disabled";
 
-        serverDetails = $"{ServerData.ServerEra} Era, {pvpEnabled}, {ServerData.Votes} Votes";
+        serverDetails = $"Era: {ServerData.ServerEra}, {pvpEnabled}, {ServerData.Votes} Votes";
         connectionDetails = $"{ServerData.ServerAddress} Port {ServerData.ServerPort}";
 
         showBanner = IsValidUrl(ServerData.ServerBanner);
@@ -58,17 +62,14 @@
 
     private async Task AddToFavorites()
     {
-        var token = await _localStorage.GetItemAsync<string>("jwtToken");
-
-        if (string.IsNullOrEmpty(token))
-        {
+        if (string.IsNullOrEmpty(UserSession.SecurityToken))
             _navManager.NavigateTo("/signin");
-            return;
-        }
-        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+        _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", UserSession.SecurityToken);
 
         var favItemData = new FavoriteItemData
         {
+            ServerId = ServerData.Id,
             ServerName = ServerData.ServerName,
             ServerAddress = ServerData.ServerAddress,
             ServerPort = ServerData.ServerPort,

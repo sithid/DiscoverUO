@@ -2,6 +2,7 @@
 {
     public class ServerData
     {
+        public int Id { get; set; } 
         public string? ServerName { get; set; }
         public string? ServerAddress { get; set; }
         public int ServerPort { get; set; }

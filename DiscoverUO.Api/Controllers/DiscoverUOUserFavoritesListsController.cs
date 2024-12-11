@@ -233,7 +233,7 @@ namespace DiscoverUO.Api.Controllers
 
         [Authorize] // IResponse
         [HttpPost("list/item/add")]
-        public async Task<ActionResult<IResponse>> AddFavoritesItem(FavoriteItemData userFavoritesListItemData)
+        public async Task<ActionResult> AddFavoritesItem(FavoriteItemData userFavoritesListItemData)
         {
             if (!ModelState.IsValid)
             {
@@ -262,8 +262,19 @@ namespace DiscoverUO.Api.Controllers
             }
 
             var favoritesItemToAdd = _mapper.Map<UserFavoritesListItem>(userFavoritesListItemData);
+            
+            // I realize I am mapping the values over, but I want to be sure the mappings missed anything or left anything null/empty.
+            favoritesItemToAdd.OwnerId = currentUser.Id;
+            favoritesItemToAdd.ServerName = userFavoritesListItemData.ServerName;
+            favoritesItemToAdd.ServerAddress = userFavoritesListItemData.ServerAddress;
+            favoritesItemToAdd.ServerPort = userFavoritesListItemData.ServerPort;
+            favoritesItemToAdd.ServerEra = userFavoritesListItemData.ServerEra;
+            favoritesItemToAdd.PvPEnabled = userFavoritesListItemData.PvPEnabled;
+            favoritesItemToAdd.ServerWebsite = userFavoritesListItemData.ServerWebsite;
+            favoritesItemToAdd.ServerBanner = userFavoritesListItemData.ServerBanner;
+            favoritesItemToAdd.ServerId = userFavoritesListItemData.ServerId;
 
-            var favoritesList = _context.UserFavoritesLists.FirstOrDefault(flist => flist.OwnerId == currentUser.Id);
+            var favoritesList = await _context.UserFavoritesLists.FirstOrDefaultAsync(flist => flist.OwnerId == currentUser.Id);
 
             if (favoritesList.FavoritedItems == null)
                 favoritesList.FavoritedItems = new List<UserFavoritesListItem>();
@@ -293,15 +304,7 @@ namespace DiscoverUO.Api.Controllers
 
             var createdFavoritesListItemData = _mapper.Map<FavoriteItemData>(createdFavoritesListItem);
 
-            var itemCreated = new FavoriteItemDataReponse
-            {
-                Success = true,
-                Message = "Favorites item created successfully.",
-                StatusCode = HttpStatusCode.OK,
-                Entity = createdFavoritesListItemData
-            };
-
-            return Ok(itemCreated);
+            return CreatedAtAction(nameof(GetUserFavoritesListItemById), new { id = createdFavoritesListItem.Id }, createdFavoritesListItemData);
         }
 
         [Authorize] // IResponse

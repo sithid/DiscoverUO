@@ -13,55 +13,19 @@
 <PageTitle>Favorites</PageTitle>
 
 <MudContainer>
-    @if (Favorites != null)
+    @if (UserSession.UserFavorites != null)
     {
-        <FavoritesListComponent Favorites="@Favorites" />
+        <FavoritesListComponent Favorites="@UserSession.UserFavorites" />
     }
 </MudContainer>
 @code {
-
-    public FavoritesData Favorites{ get; set; }
-    private List<string> errors = new List<string>();
-
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        UpdateFavoritesData();
+
+        UserSession.UpdateFavoritesData(client);
     }
+    [CascadingParameter]
+    public SessionManager UserSession { get; set; }
 
-    public async Task UpdateFavoritesData()
-    {
-        var token = await localStorage.GetItemAsync<string>("jwtToken");
-
-        if (string.IsNullOrEmpty(token))
-            navManager.NavigateTo("/singin");
-
-        client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-
-        var response = await client.GetAsync("https://localhost:7015/api/favorites/list/view");
-
-        try
-        {
-            if (response.IsSuccessStatusCode)
-            {
-                var favDataResponse = await response.Content.ReadFromJsonAsync<FavoritesDataReponse>();
-
-                Favorites = favDataResponse.Entity;
-                StateHasChanged();
-            }
-            else
-            {
-                var favRequestFailed = await response.Content.ReadFromJsonAsync<RequestFailedResponse>();
-
-                if (favRequestFailed.StatusCode == HttpStatusCode.Unauthorized)
-                    navManager.NavigateTo("/signin");
-                else
-                    errors.Add(favRequestFailed.Message);
-            }
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Exception: {ex.Message}");
-        }
-    }
 }

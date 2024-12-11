@@ -18,7 +18,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        _serverlist = await DataManager.GetPublicServers(_client, _localStorage);
+        _serverlist = await ServerListManager.GetPublicServers(_client, _localStorage);
         base.OnInitializedAsync();
     }
 }

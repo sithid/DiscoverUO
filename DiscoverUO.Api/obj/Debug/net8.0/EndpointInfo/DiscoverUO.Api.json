@@ -207,24 +207,7 @@
         },
         "responses": {
           "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/IResponse"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/IResponse"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/IResponse"
-                }
-              }
-            }
+            "description": "OK"
           }
         }
       }
@@ -288,7 +271,7 @@
         }
       }
     },
-    "/api/servers/ownership/transfer/{serverId}_{newOwnerId}": {
+    "/api/servers/ownership/transfer/{serverId}_{newOwnerName}": {
       "put": {
         "tags": [
           "DiscoverUOServers"
@@ -304,12 +287,11 @@
             }
           },
           {
-            "name": "newOwnerId",
+            "name": "newOwnerName",
             "in": "path",
             "required": true,
             "schema": {
-              "type": "integer",
-              "format": "int32"
+              "type": "string"
             }
           }
         ],
@@ -531,24 +513,7 @@
         },
         "responses": {
           "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/IResponse"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/IResponse"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/IResponse"
-                }
-              }
-            }
+            "description": "OK"
           }
         }
       }
@@ -707,29 +672,12 @@
         },
         "responses": {
           "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/IResponse"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/IResponse"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/IResponse"
-                }
-              }
-            }
+            "description": "OK"
           }
         }
       }
     },
-    "/api/users/profiles/view/{id}": {
+    "/api/users/profiles/view/id/{id}": {
       "get": {
         "tags": [
           "DiscoverUOUsers"
@@ -769,7 +717,46 @@
         }
       }
     },
-    "/api/users/view/dashboard": {
+    "/api/users/profiles/view/{owner}": {
+      "get": {
+        "tags": [
+          "DiscoverUOUsers"
+        ],
+        "parameters": [
+          {
+            "name": "owner",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/IResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/users/view": {
       "get": {
         "tags": [
           "DiscoverUOUsers"
@@ -1308,24 +1295,7 @@
         },
         "responses": {
           "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/IResponse"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/IResponse"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/IResponse"
-                }
-              }
-            }
+            "description": "OK"
           }
         }
       }
@@ -1350,6 +1320,10 @@
       "FavoriteItemData": {
         "type": "object",
         "properties": {
+          "serverId": {
+            "type": "integer",
+            "format": "int32"
+          },
           "serverName": {
             "type": "string",
             "nullable": true

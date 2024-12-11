@@ -71,12 +71,19 @@ namespace DiscoverUO.Api.Controllers
                 return Unauthorized(failedAuthorizationResponse);
             }
 
+            var identityInfo = new IdentityData
+            {
+                Username = user.UserName,
+                Role = user.Role,
+                SecurityToken = GenerateToken(user)
+            };
+
             var authResponse = new AuthenticationResponse
             {
                 Success = true,
                 Message = "You have been authenticated.",
                 StatusCode = HttpStatusCode.OK,
-                Value = GenerateToken(user)
+                Entity = identityInfo
             };
 
             return Ok(authResponse);
@@ -84,7 +91,7 @@ namespace DiscoverUO.Api.Controllers
 
         [AllowAnonymous]   // IResponse
         [HttpPost("register")]
-        public async Task<ActionResult<IResponse>> RegisterUser(RegisterUserData registerUserData)
+        public async Task<ActionResult> RegisterUser(RegisterUserData registerUserData)
         {
             if (!ModelState.IsValid)
             {
@@ -164,22 +171,11 @@ namespace DiscoverUO.Api.Controllers
             var createdUser = await _context.Users
                 .FirstOrDefaultAsync(u => u.Id == user.Id);
 
-            var createdUserData = _mapper.Map<UserEntityData>(createdUser);
-
-            var createUserResponse = new RegisterUserResponse
-            {
-                Success = true,
-                StatusCode = HttpStatusCode.Created,
-                Message = "User created successfully.",
-                Entity = createdUserData
-            };
-
-            return Ok(createUserResponse);
-
+            return CreatedAtAction(nameof(GetUserById), new { id = createdUser.Id }, createdUser); 
         }
 
         [AllowAnonymous] // IResponse
-        [HttpGet("profiles/view/{id}")]
+        [HttpGet("profiles/view/id/{id}")]
         public async Task<ActionResult<IResponse>> ViewProfileByID(int id)
         {
             var userProfile = await _context.UserProfiles
@@ -200,8 +196,52 @@ namespace DiscoverUO.Api.Controllers
             var profileResponse = new ProfileResponse
             {
                 Success = true,
-                StatusCode = HttpStatusCode.Created,
-                Message = "User created successfully!",
+                StatusCode = HttpStatusCode.OK,
+                Message = "User profile found.",
+                Entity = _mapper.Map<ProfileData>(userProfile)
+            };
+
+            return Ok(profileResponse);
+        }
+
+        [AllowAnonymous] // IResponse
+        [HttpGet("profiles/view/{owner}")]
+        public async Task<ActionResult<IResponse>> ViewProfileByDisplayName(string owner)
+        {
+            var profileOwner = await _context.Users.FirstOrDefaultAsync(user => user.UserName == owner);
+
+            if( profileOwner == null)
+            {
+                var notFoundResponse = new RequestFailedResponse
+                {
+                    Success = false,
+                    StatusCode = HttpStatusCode.NotFound,
+                    Message = "That user was not found."
+                };
+
+                return NotFound(notFoundResponse);
+            }
+
+            var userProfile = await _context.UserProfiles
+                .FirstOrDefaultAsync(prof => prof.OwnerId == profileOwner.Id);
+
+            if (userProfile == null)
+            {
+                var notFoundResponse = new RequestFailedResponse
+                {
+                    Success = false,
+                    StatusCode = HttpStatusCode.NotFound,
+                    Message = "That user profile was not found!",
+                };
+
+                return NotFound(notFoundResponse);
+            }
+
+            var profileResponse = new ProfileResponse
+            {
+                Success = true,
+                StatusCode = HttpStatusCode.OK,
+                Message = "User profile found.",
                 Entity = _mapper.Map<ProfileData>(userProfile)
             };
 
@@ -213,8 +253,8 @@ namespace DiscoverUO.Api.Controllers
         #region BasicUser Endpoints
 
         [Authorize]  // IResponse
-        [HttpGet("view/dashboard")]
-        public async Task<ActionResult<IResponse>> GetDashboardData()
+        [HttpGet("view")]
+        public async Task<ActionResult<IResponse>> GetUserData()
         {
             var user = await Permissions.GetCurrentUser(this.User, _context);
 
@@ -232,78 +272,18 @@ namespace DiscoverUO.Api.Controllers
 
             Console.WriteLine($"Current User found: {user.UserName}, {user.Id}");
 
-            var dashboardData = new DashboardData
+            var userData = _mapper.Map<UserEntityData>(user);
+            var userDataRsp = new UserEntityResponse
             {
-                Username = user.UserName,
-                DailyVotesRemaining = user.DailyVotesRemaining,
-                Email = user.Email,
-                Role = user.Role.ToString(),
-                CreationDate = user.CreationDate
+                Success = true,
+                Message = "User data found.",
+                StatusCode = HttpStatusCode.OK,
+                Entity = userData
             };
 
-            try
-            {
-                var prof = await _context.UserProfiles.FirstOrDefaultAsync(p => p.OwnerId == user.Id);
-
-                if (prof != null )
-                {
-                    dashboardData.UserBiography = prof.UserBiography;
-                    dashboardData.UserAvatar = prof.UserAvatar;
-                    dashboardData.UserDisplayName = prof.UserDisplayName;
-                }
-            }
-            catch( Exception ex )
-            {
-                Console.WriteLine($"Something broke: {ex.Message}");
-            }
-
-            if ( user.Favorites != null )
-            {
-                dashboardData.Favorites = new FavoritesData();
-
-                if( user.Favorites.FavoritedItems != null )
-                {
-                    dashboardData.Favorites.FavoritedItems = new List<FavoriteItemData>();
-
-                    foreach( var fav in user.Favorites.FavoritedItems )
-                    {
-                        dashboardData.Favorites.FavoritedItems.Add(new FavoriteItemData
-                        {
-                            ServerName = fav.ServerName,
-                            ServerAddress = fav.ServerAddress,
-                            ServerPort = fav.ServerPort,
-                            ServerEra = fav.ServerEra,
-                            PvPEnabled = fav.PvPEnabled,
-                            ServerBanner = fav.ServerBanner,
-                            ServerWebsite = fav.ServerWebsite                            
-                        });
-                    }
-                }
-            }
-            if (dashboardData != null)
-            {
-                var dashboardResponse = new DashboardDataResponse
-                {
-                    Success = true,
-                    StatusCode = HttpStatusCode.OK,
-                    Message = "Dashboard data located.",
-                    Entity = dashboardData
-                };
-
-                return Ok(dashboardResponse);
-            }
-            else
-            {
-                var badRequest = new DashboardDataResponse
-                {
-                    Success = false,
-                    StatusCode = HttpStatusCode.BadRequest,
-                    Message = "The dashboard data associated with your user is missing!",
-                };
-
-                return BadRequest(badRequest);
-            }
+            return Ok(userDataRsp);
         }
+        
 
         [Authorize] // IResponse
         [HttpGet("view/id/{id}")] 
@@ -391,14 +371,28 @@ namespace DiscoverUO.Api.Controllers
                 return Unauthorized(userNoPerms);
             }
 
-            var currentUserProfileRequest = _mapper.Map<ProfileData>(currentUser.Profile);
+            var userProfile = await _context.UserProfiles.FirstOrDefaultAsync(prof => prof.OwnerId == currentUser.Id);
+
+            if (userProfile == null)
+            {
+                var failedNotFound = new RequestFailedResponse
+                {
+                    Success = false,
+                    Message = "No profile found.",
+                    StatusCode = HttpStatusCode.NotFound
+                };
+
+                return NotFound(failedNotFound);
+            }
+
+            var userProfileData = _mapper.Map<ProfileData>(userProfile);
 
             var profileResponse = new ProfileResponse
             {
                 Success = true,
-                Message = $"User profile for {currentUserProfileRequest.UserDisplayName} found.",
+                Message = $"User profile for {currentUser.UserName} found.",
                 StatusCode = HttpStatusCode.OK,
-                Entity = currentUserProfileRequest
+                Entity = userProfileData
             };
 
             return Ok(profileResponse);
@@ -941,7 +935,7 @@ namespace DiscoverUO.Api.Controllers
 
         [Authorize(Policy = "OwnerOrAdmin")] // IResponse
         [HttpPost("admin/register")]
-        public async Task<ActionResult<IResponse>> RegisterUserWithRole(RegisterUserWithRoleData registerUserData)
+        public async Task<ActionResult> RegisterUserWithRole(RegisterUserWithRoleData registerUserData)
         {
             if (!ModelState.IsValid)
             {
@@ -986,15 +980,7 @@ namespace DiscoverUO.Api.Controllers
 
             var createdUserData = _mapper.Map<UserEntityData>(createdUser);
 
-            var createUserResponse = new RegisterUserResponse
-            {
-                Success = true,
-                Message = "User created successfully!",
-                StatusCode = HttpStatusCode.Created,
-                Entity = createdUserData
-            };
-
-            return Ok(createUserResponse);
+            return CreatedAtAction(nameof(GetUserById), new { id = createdUser.Id }, createdUserData);
         }
 
         #endregion

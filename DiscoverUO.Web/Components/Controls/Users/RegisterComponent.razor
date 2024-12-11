@@ -94,7 +94,7 @@
             if (httpResponse.IsSuccessStatusCode)
             {
                 var authResponse = httpResponse.Content.ReadFromJsonAsync<AuthenticationResponse>().Result;
-                var tokenString = authResponse.Value;
+                var tokenString = authResponse.Entity.SecurityToken;
 
                 _localStorage.SetItemAsync("jwtToken", tokenString);
 

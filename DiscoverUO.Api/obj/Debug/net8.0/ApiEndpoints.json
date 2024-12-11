@@ -13,17 +13,7 @@
         "IsRequired": true
       }
     ],
-    "ReturnTypes": [
-      {
-        "Type": "DiscoverUO.Lib.Shared.Contracts.IResponse",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
+    "ReturnTypes": []
   },
   {
     "ContainingType": "DiscoverUO.Api.Controllers.DiscoverUOUserFavoritesListsController",
@@ -168,17 +158,7 @@
         "IsRequired": true
       }
     ],
-    "ReturnTypes": [
-      {
-        "Type": "DiscoverUO.Lib.Shared.Contracts.IResponse",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
+    "ReturnTypes": []
   },
   {
     "ContainingType": "DiscoverUO.Api.Controllers.DiscoverUOServersController",
@@ -209,7 +189,7 @@
   {
     "ContainingType": "DiscoverUO.Api.Controllers.DiscoverUOServersController",
     "Method": "TransferOwnership",
-    "RelativePath": "api/servers/ownership/transfer/{serverId}_{newOwnerId}",
+    "RelativePath": "api/servers/ownership/transfer/{serverId}_{newOwnerName}",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
@@ -220,8 +200,8 @@
         "IsRequired": true
       },
       {
-        "Name": "newOwnerId",
-        "Type": "System.Int32",
+        "Name": "newOwnerName",
+        "Type": "System.String",
         "IsRequired": true
       }
     ],
@@ -431,17 +411,7 @@
         "IsRequired": true
       }
     ],
-    "ReturnTypes": [
-      {
-        "Type": "DiscoverUO.Lib.Shared.Contracts.IResponse",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
+    "ReturnTypes": []
   },
   {
     "ContainingType": "DiscoverUO.Api.Controllers.DiscoverUOUsersController",
@@ -594,8 +564,34 @@
   },
   {
     "ContainingType": "DiscoverUO.Api.Controllers.DiscoverUOUsersController",
+    "Method": "ViewProfileByDisplayName",
+    "RelativePath": "api/users/profiles/view/{owner}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "owner",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "DiscoverUO.Lib.Shared.Contracts.IResponse",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "DiscoverUO.Api.Controllers.DiscoverUOUsersController",
     "Method": "ViewProfileByID",
-    "RelativePath": "api/users/profiles/view/{id}",
+    "RelativePath": "api/users/profiles/view/id/{id}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -632,17 +628,7 @@
         "IsRequired": true
       }
     ],
-    "ReturnTypes": [
-      {
-        "Type": "DiscoverUO.Lib.Shared.Contracts.IResponse",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
+    "ReturnTypes": []
   },
   {
     "ContainingType": "DiscoverUO.Api.Controllers.DiscoverUOUsersController",
@@ -718,8 +704,8 @@
   },
   {
     "ContainingType": "DiscoverUO.Api.Controllers.DiscoverUOUsersController",
-    "Method": "GetUsers",
-    "RelativePath": "api/users/view/admin/all",
+    "Method": "GetUserData",
+    "RelativePath": "api/users/view",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -738,8 +724,8 @@
   },
   {
     "ContainingType": "DiscoverUO.Api.Controllers.DiscoverUOUsersController",
-    "Method": "GetDashboardData",
-    "RelativePath": "api/users/view/dashboard",
+    "Method": "GetUsers",
+    "RelativePath": "api/users/view/admin/all",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,

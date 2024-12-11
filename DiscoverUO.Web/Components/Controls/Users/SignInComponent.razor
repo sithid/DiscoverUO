@@ -4,7 +4,6 @@
 @using DiscoverUO.Lib.Shared.Users
 @using DiscoverUO.Web.Components.Pages
 @using MudBlazor.Components
-@inject ILocalStorageService _localStorage
 @inject HttpClient _client
 @inject NavigationManager _navigationManager
 
@@ -25,6 +24,9 @@
 
 @code
 {
+    [CascadingParameter]
+    public SessionManager UserSession{ get; set; }
+
     public string UIResponseMessage { get; set; }
     public bool ShowUIResponseMessage { get; set; }
     public LoginDetails Details = new LoginDetails();
@@ -43,54 +45,24 @@
 
         AuthenticationData data = new AuthenticationData(userName, password, false);
 
-        try
+        var loginResult = UserSession.SessionSignIn(data, _client);
+
+        if( loginResult.Success )
         {
-            var httpResponse = await _client.PostAsJsonAsync("https://localhost:7015/api/users/authenticate", data );
-
-            if (httpResponse.IsSuccessStatusCode)
-            {
-                var authResponse = httpResponse.Content.ReadFromJsonAsync<AuthenticationResponse>().Result;
-                var tokenString = authResponse.Value;
-
-                await _localStorage.SetItemAsync("jwtToken", tokenString);
-
-                StateHasChanged();
-
-                _navigationManager.NavigateTo("/dashboard");
-            }
-            else
-            {
-                var failedAuthResponse = httpResponse.Content.ReadFromJsonAsync<RequestFailedResponse>().Result;
-                UIResponseMessage = failedAuthResponse.Message;
-                ShowUIResponseMessage = true;
-            }
+            StateHasChanged();
+            _navigationManager.NavigateTo("/dashboard");
         }
-        catch (HttpRequestException ex)
+        else
         {
-            UIResponseMessage = $"An HttpRequest Exception was thrown: {ex.Message}";
+            UIResponseMessage = loginResult.Message;
             ShowUIResponseMessage = true;
         }
-        catch (Exception ex)
-        {
-            UIResponseMessage = $"An unknown error occurred: {ex.Message}";
-            ShowUIResponseMessage = true;
-        }
-        finally
-        {
-            Details = new LoginDetails();
-        }
-    }
-
-    private void RegisterOnClick()
-    {
-        _navigationManager.NavigateTo("/register");
     }
 
     public class LoginDetails
     {
-        [EditorRequired]
         public string Username{ get; set; }
-        [EditorRequired]
+
         public string Password{ get; set; }
     }
 }

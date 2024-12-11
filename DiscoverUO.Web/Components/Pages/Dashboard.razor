@@ -12,60 +12,53 @@
 <PageTitle>Dashboard</PageTitle>
 
 <MudContainer>
-    @if (DashboardData != null)
-    {
-        if( string.IsNullOrEmpty(DashboardData.Username))
-        {
-            _navManager.NavigateTo("/signin");
-        }
-
-        <MudPaper>
-            <MudItem xs="12" Class="mt-4 pa-4 mud-theme-secondary">
-                <MudCard>
-                    <MudCardHeader>
-                        <MudText Typo="Typo.h1">Welcome Back, @DashboardData.UserDisplayName</MudText>
-                        @if (DashboardData.UserAvatar != null)
-                        {
-                            <MudCardMedia Image="@DashboardData.UserAvatar" />
-                        }
-                    </MudCardHeader>
-                    <MudCardContent>
-                        <MudText Align="Align.Center" Typo="Typo.h5">User Email: @DashboardData.Email</MudText>
-                        <MudText Align="Align.Center" Typo="Typo.h5">User Creation Date: @DashboardData.CreationDate</MudText>
-                        <MudText Align="Align.Center" Typo="Typo.h5">User Remaining Votes : @DashboardData.DailyVotesRemaining</MudText>
-                    </MudCardContent>
-                    <MudCardContent>
-                        <MudText Align="Align.Center" Typo="Typo.h5">User Biography:</MudText>
-                        <MudText Align="Align.Center" Typo="Typo.h5">@DashboardData.UserBiography</MudText>
-                    </MudCardContent>
-                    <MudCardActions>
-                        <MudSpacer />
-                        <MudButton Variant="Variant.Text" Color="Color.Primary">Favorites</MudButton>
-                        <MudSpacer/>
-                        <MudButton Variant="Variant.Text" Color="Color.Primary">My Servers</MudButton>
-                        <MudSpacer />
-                    </MudCardActions>
-                </MudCard>
-            </MudItem>
-        </MudPaper>
-    }
+    <MudPaper>
+        <MudItem xs="12" Class="mt-4 pa-4 mud-theme-secondary">
+            <MudCard>
+                <MudCardHeader>
+                    <MudText Typo="Typo.h1">Welcome Back, @UserSession.UserProfile.UserDisplayName</MudText>
+                    @if (showAvatar)
+                    {
+                        <MudCardMedia Image="@UserSession.UserProfile.UserAvatar" />
+                    }
+                </MudCardHeader>
+                <MudCardContent>
+                    <MudText Align="Align.Center" Typo="Typo.h5">User Email: @UserSession.Email</MudText>
+                    <MudText Align="Align.Center" Typo="Typo.h5">User Creation Date: @UserSession.CreationDate</MudText>
+                    <MudText Align="Align.Center" Typo="Typo.h5">User Remaining Votes : @UserSession.DailyVotesRemaining</MudText>
+                </MudCardContent>
+                <MudCardContent>
+                    <MudText Align="Align.Center" Typo="Typo.h5">User Biography:</MudText>
+                    <MudText Align="Align.Center" Typo="Typo.h5">@UserSession.UserProfile.UserBiography</MudText>
+                </MudCardContent>
+                <MudCardActions>
+                    <MudSpacer />
+                    <MudButton Variant="Variant.Text" Color="Color.Primary">Favorites</MudButton>
+                    <MudSpacer/>
+                    <MudButton Variant="Variant.Text" Color="Color.Primary">My Servers</MudButton>
+                    <MudSpacer />
+                </MudCardActions>
+            </MudCard>
+        </MudItem>
+    </MudPaper>
 </MudContainer>
 
 @code
 {
-    public DashboardData DashboardData { get; set; }
+    [CascadingParameter]
+    public SessionManager UserSession { get; set; }
+
     private bool showAvatar;
 
     protected async override Task OnInitializedAsync()
     {
-        if (DashboardData != null)
-            return;
+        if (UserSession == null)
+            _navManager.NavigateTo("/singin");
 
-        DashboardData = await DataManager.GetDashboard(_client, _localStorage);
-
-        if (string.IsNullOrEmpty(DashboardData.UserAvatar))
+        if (UserSession.UserProfile == null || string.IsNullOrEmpty(UserSession.UserProfile.UserAvatar))
+        {
             showAvatar = false;
-
-        StateHasChanged();
+            StateHasChanged();
+        }
     }
 }

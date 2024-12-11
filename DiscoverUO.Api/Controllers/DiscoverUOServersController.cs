@@ -35,6 +35,18 @@ namespace DiscoverUO.Api.Controllers
         {
             var servers = await _context.Servers.ToListAsync();
 
+            if( servers == null || servers.Count <= 0 )
+            {
+                var failedNotFound = new RequestFailedResponse()
+                {
+                    Success = false,
+                    Message = "No public servers found.",
+                    StatusCode = HttpStatusCode.NotFound
+                };
+
+                return NotFound(failedNotFound);
+            }
+            
             var serverListData = _mapper.Map<List<ServerData>>(servers);
 
             var serverDataResponse = new ServerListDataResponse
@@ -227,7 +239,7 @@ namespace DiscoverUO.Api.Controllers
 
         [Authorize] // IResponse
         [HttpPost("CreateServer")]
-        public async Task<ActionResult<IResponse>> AddServer(ServerRegistrationData createServerDto)
+        public async Task<ActionResult> AddServer(ServerRegistrationData createServerDto)
         {
             if (!ModelState.IsValid)
             {
@@ -281,15 +293,7 @@ namespace DiscoverUO.Api.Controllers
 
             var createdServerData = _mapper.Map<ServerData>(createdServer);
 
-            var createdServerResponse = new ServerDataResponse
-            {
-                Success = true,
-                Message = "Server created successfully.",
-                StatusCode = HttpStatusCode.Created,
-                Entity = createdServerData
-            };
-
-            return Ok(createdServerResponse);
+            return CreatedAtAction(nameof(GetServerById), new { id = createdServer.Id }, createdServerData);
         }
 
         [Authorize] // IResponse
@@ -392,8 +396,8 @@ namespace DiscoverUO.Api.Controllers
         }
 
         [Authorize] // IResponse
-        [HttpPut("ownership/transfer/{serverId}_{newOwnerId}")]
-        public async Task<ActionResult<IResponse>> TransferOwnership(int serverId, int newOwnerId)
+        [HttpPut("ownership/transfer/{serverId}_{newOwnerName}")]
+        public async Task<ActionResult<IResponse>> TransferOwnership(int serverId, string newOwnerName )
         {
             var currentUser = await Permissions.GetCurrentUser(this.User, _context);
 
@@ -435,7 +439,7 @@ namespace DiscoverUO.Api.Controllers
                 return Unauthorized(failedUnauthorized);
             }
 
-            var newOwner = await _context.Users.FirstOrDefaultAsync(user => user.Id == newOwnerId);
+            var newOwner = await _context.Users.FirstOrDefaultAsync(user => string.Equals(user.UserName, newOwnerName));
 
             if (newOwner == null)
             {

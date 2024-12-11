@@ -12,7 +12,7 @@
     }
     else
     {
-        servers = DataManager.GetPublicServers(_client, _localStorage).Result;
+        servers = ServerListManager.GetPublicServers(_client, _localStorage).Result;
         Console.WriteLine($"Server data pulled, Public serverlist contains {servers.Count} servers.");
         StateHasChanged();
     }

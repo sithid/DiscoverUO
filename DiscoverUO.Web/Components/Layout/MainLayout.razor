@@ -12,7 +12,6 @@
 <MudDialogProvider />
 <MudSnackbarProvider />
 
-
 <MudLayout>
     <MudAppBar Elevation="1">
         <MudText Typo="Typo.h3" Align="Align.Center" GutterBottom="true">DiscoverUO</MudText>
@@ -26,37 +25,15 @@
         <MudIconButton Icon="@Icons.Material.Filled.Login" Color="Color.Inherit" Edge="Edge.End" OnClick="@AppBarNavToSignIn" />
     </MudAppBar>
     <MudMainContent>
-        @Body
+        <CascadingValue Value="@UserSession">
+            @Body
+        </CascadingValue>
     </MudMainContent>
 </MudLayout>
 
 @code
 {
-    public DashboardData DashboardData { get; set; }
-    private bool _prevSessionsCleared = false;
-    private bool _newSession = true;
-
-    protected async override Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (!firstRender)
-        {
-
-        }
-        else
-        {
-            if (_newSession)
-            {
-                var token = await _localStorage.GetItemAsync<string>("jwtToken");
-
-                if (!string.IsNullOrEmpty(token))
-                {
-                    await _localStorage.RemoveItemAsync("jwtToken");
-                    _prevSessionsCleared = true;
-                    _newSession = false;
-                }
-            }
-        }
-    }
+    private SessionManager UserSession = new SessionManager();
 
     void AppBarNavToSignIn()
     {
@@ -69,32 +46,32 @@
     }
 
     MudTheme UOTheme = new MudTheme()
+    {
+        Typography = new Typography()
         {
-            Typography = new Typography()
+            Default = new Default()
             {
-                Default = new Default()
-                {
-                    FontFamily = new[] { "Courier New", "Courier", "monospace" }
-                }
-            },
-
-            PaletteLight = new PaletteLight
-            {
-                Primary = "#606060",
-                TextPrimary = "#202020",
-                Secondary = "#bdad84",
-                TextSecondary = "#808080",
-                Background = "#bebdbc",
-                BackgroundGray = "#404040",
-                AppbarBackground = "#606060"
-
-                // 797971
-            },
-
-
-            LayoutProperties = new LayoutProperties()
-            {
-                AppbarHeight = "80px"
+                FontFamily = new[] { "Courier New", "Courier", "monospace" }
             }
-        };
+        },
+
+        PaletteLight = new PaletteLight
+        {
+            Primary = "#606060",
+            TextPrimary = "#202020",
+            Secondary = "#bdad84",
+            TextSecondary = "#808080",
+            Background = "#bebdbc",
+            BackgroundGray = "#404040",
+            AppbarBackground = "#606060"
+
+            // 797971
+        },
+
+
+        LayoutProperties = new LayoutProperties()
+        {
+            AppbarHeight = "80px"
+        }
+    };
 }
