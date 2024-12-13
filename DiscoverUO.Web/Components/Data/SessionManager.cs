@@ -483,7 +483,7 @@ namespace DiscoverUO.Web.Components.Data
                     var updateUserRsp = response.Content.ReadFromJsonAsync<BasicSuccessResponse>().Result;
                     ResponseCache.Add(ResponseCache.Count, updateUserRsp);
 
-                    var updateUser = GetUserData(client);
+                    var updateUser = GetUserProfileData(client);
 
                     return updateUserRsp;
                 }
