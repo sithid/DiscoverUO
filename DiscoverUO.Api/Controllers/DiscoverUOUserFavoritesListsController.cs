@@ -160,7 +160,7 @@ namespace DiscoverUO.Api.Controllers
             }
 
             var userFavoritesListItem = await _context.UserFavoritesListItems
-                .FirstOrDefaultAsync(fListItem => fListItem.Id == id);
+                .FirstOrDefaultAsync(item => item.Id == id);
 
             if (userFavoritesListItem == null)
             {
@@ -196,6 +196,7 @@ namespace DiscoverUO.Api.Controllers
             userFavoritesListItem.PvPEnabled = userFavoritesListItemData.PvPEnabled;
             userFavoritesListItem.ServerWebsite = userFavoritesListItemData.ServerWebsite;
             userFavoritesListItem.ServerBanner = userFavoritesListItemData.ServerBanner;
+            userFavoritesListItem.ServerId = userFavoritesListItemData.ServerId;
 
             _context.Entry(userFavoritesListItem).State = EntityState.Modified;
 
@@ -216,7 +217,7 @@ namespace DiscoverUO.Api.Controllers
             }
 
             var updatedUserFavoritesListItem = await _context.UserFavoritesListItems
-                .FirstOrDefaultAsync(fListItem => fListItem.Id == id);
+                .FirstOrDefaultAsync(item => item.Id == id);
 
             userFavoritesListItemData = _mapper.Map<FavoriteItemData>(updatedUserFavoritesListItem);
 
@@ -261,6 +262,26 @@ namespace DiscoverUO.Api.Controllers
                 return Unauthorized(failedResponse);
             }
 
+
+            var favoritesList = await _context.UserFavoritesLists
+                .Include(flist=> flist.FavoritedItems)
+                .FirstOrDefaultAsync(flist => flist.OwnerId == currentUser.Id);
+
+            if (favoritesList.FavoritedItems == null)
+                favoritesList.FavoritedItems = new List<UserFavoritesListItem>();
+
+            if (favoritesList.FavoritedItems.Count >= 10)
+            {
+                var failedResponse = new RequestFailedResponse
+                {
+                    Success = false,
+                    Message = "As a basic user, you can only have up to 10 favorite servers on your favorites list.",
+                    StatusCode = HttpStatusCode.BadRequest
+                };
+
+                return BadRequest(failedResponse);
+            }
+
             var favoritesItemToAdd = _mapper.Map<UserFavoritesListItem>(userFavoritesListItemData);
             
             // I realize I am mapping the values over, but I want to be sure the mappings missed anything or left anything null/empty.
@@ -273,11 +294,6 @@ namespace DiscoverUO.Api.Controllers
             favoritesItemToAdd.ServerWebsite = userFavoritesListItemData.ServerWebsite;
             favoritesItemToAdd.ServerBanner = userFavoritesListItemData.ServerBanner;
             favoritesItemToAdd.ServerId = userFavoritesListItemData.ServerId;
-
-            var favoritesList = await _context.UserFavoritesLists.FirstOrDefaultAsync(flist => flist.OwnerId == currentUser.Id);
-
-            if (favoritesList.FavoritedItems == null)
-                favoritesList.FavoritedItems = new List<UserFavoritesListItem>();
 
             favoritesList.FavoritedItems.Add(favoritesItemToAdd);
 
@@ -326,8 +342,19 @@ namespace DiscoverUO.Api.Controllers
             }
 
             var userFavoritesItem = await _context.UserFavoritesListItems
-                .Include(fli => fli.Id == itemId)
                 .FirstOrDefaultAsync(fli => fli.Id == itemId);
+
+            if( userFavoritesItem == null )
+            {
+                var failedNotFound = new RequestFailedResponse
+                {
+                    Success = false,
+                    Message = $"Favorites item {itemId} not found.",
+                    StatusCode = HttpStatusCode.NotFound
+                };
+
+                return NotFound(failedNotFound);
+            }
 
             if (userFavoritesItem.OwnerId != currentUser.Id)
             {
@@ -365,7 +392,7 @@ namespace DiscoverUO.Api.Controllers
             var successResponse = new BasicSuccessResponse
             {
                 Success = true,
-                Message = "Favorites List Item deleted.",
+                Message = $"Favorites item {itemId} deleted.",
                 StatusCode = HttpStatusCode.NoContent
             };
 

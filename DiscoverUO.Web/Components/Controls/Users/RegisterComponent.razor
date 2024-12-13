@@ -1,10 +1,11 @@
-﻿@using System.Text.RegularExpressions
+﻿@using Microsoft.AspNetCore.Components.Forms;
+@using System.Text.RegularExpressions
 @using System.ComponentModel.DataAnnotations
 @using DiscoverUO.Lib.Shared
-@inject IDialogService DialogService
-@inject ILocalStorageService _localStorage
-@inject HttpClient _client;
-@inject NavigationManager _navigationManager
+@inject ISnackbar snackbar
+@inject IWebHostEnvironment env
+@inject HttpClient client;
+@inject NavigationManager navManager
 
 <MudPaper Class="ma-2 mt-2 pa-16">
     <MudItem>
@@ -39,6 +40,10 @@
 </MudPaper>
 
 @code {
+
+    [CascadingParameter]
+    public SessionManager UserSession{ get; set; }
+
     // Validation
     private bool validData = false;
     private List<string> validationErrors = new List<string>();
@@ -68,65 +73,18 @@
         RegisterData.Password = password;
         RegisterData.Email = email;
 
-        var rsp = _client.PostAsJsonAsync("https://localhost:7015/api/users/register", RegisterData).Result;
+        var registerRsp = UserSession.RegisterUser(RegisterData, client);
 
-        if (!rsp.IsSuccessStatusCode)
+        if (registerRsp.Success)
         {
-            var failedRsp = rsp.Content.ReadFromJsonAsync<RequestFailedResponse>().Result;
+            successfulRegistration = true;
+            snackbar.Add("Registration successful! Please sign in.", Severity.Success);
+            navManager.NavigateTo("/signin");
+        }
+        else
             successfulRegistration = false;
-            registrationError = $"Failed Registration: {failedRsp.Message}";
-
-            StateHasChanged();
-
-            return;
-        }
-
-        RegisterUserResponse successRsp = rsp.Content.ReadFromJsonAsync<RegisterUserResponse>().Result;
-
-        Console.WriteLine($"A new user has been registered: Username: {successRsp.Entity.UserName}, Role: {successRsp.Entity.Role}");
-
-        AuthenticationData data = new AuthenticationData(username, password, false);
-
-        try
-        {
-            var httpResponse = _client.PostAsJsonAsync("https://localhost:7015/api/users/authenticate", data).Result;
-
-            if (httpResponse.IsSuccessStatusCode)
-            {
-                var authResponse = httpResponse.Content.ReadFromJsonAsync<AuthenticationResponse>().Result;
-                var tokenString = authResponse.Entity.SecurityToken;
-
-                _localStorage.SetItemAsync("jwtToken", tokenString);
-
-                StateHasChanged();
-
-                _navigationManager.NavigateTo("/dashboard");
-            }
-            else
-            {
-                var failedAuthResponse = httpResponse.Content.ReadFromJsonAsync<RequestFailedResponse>().Result;
-
-                Console.WriteLine($"User registration successful but login afterwards failed.");
-                Console.WriteLine($"Username: {username}");
-                Console.WriteLine($"StatusCode: {failedAuthResponse.StatusCode}");
-                Console.WriteLine($"Message: {failedAuthResponse.Message}");
-
-                // Auto signin failed, redirect to sign in page.
-                _navigationManager.NavigateTo("/signin");
-            }
-        }
-        catch( Exception ex )
-        {
-            Console.WriteLine($"User registration successful but login afterwards threw an exception:");
-            Console.WriteLine($"Username:  {username}");
-            Console.WriteLine($"Exception: {ex.Message}");
-        }
     }
 
-    ///  <summary>
-    /// Registration validation which ensures a username, email, and password are supplied and the password meets the requirments.
-    /// </summary>
-    /// <returns>Returns true if there are no validation errors.</returns>
     private bool ValidateRegistrationData()
     {
         // Created our list of error messages.
@@ -167,11 +125,6 @@
         return validData;
     }
 
-    /// <summary>
-    /// Verifies password requirements.
-    /// </summary>
-    /// <param name="pw"></param>
-    /// <returns>Returns a list of validation errors for the specified password.</returns>
     private List<string> VerifyPasswordRequirements(string pw)
     {
         // Created our list of password errors.
@@ -213,12 +166,6 @@
         return errors;
     }
 
-    /// <summary>
-    /// Checks to see if the two passwords match.
-    /// </summary>
-    /// <param name="arg"></param>
-    /// <param name="arg2"></param>
-    /// <returns>Returns true if the passwords match</returns>
     private bool PasswordsMatch(string arg, string arg2 )
     {
         if (!string.Equals(arg, arg2))

@@ -2,17 +2,21 @@
 using DiscoverUO.Lib.Shared.Favorites;
 using DiscoverUO.Lib.Shared.Profiles;
 using DiscoverUO.Lib.Shared.Users;
-using System.Net.Http.Headers;
 using System.Net;
+using System.Text.Json;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using DiscoverUO.Lib.Shared.Contracts;
-
+using DiscoverUO.Lib.Shared.Servers;
+using System.Text;
 namespace DiscoverUO.Web.Components.Data
 {
     public class SessionManager
     {
-        public string Username {  get; set; }
-        public string Email {  get; set; }
-        public UserRole Role {  get; set; }
+        // Global State Data for the active user.
+        public string Username { get; set; }
+        public string Email { get; set; }
+        public UserRole Role { get; set; }
         public ProfileData UserProfile { get; set; }
         public FavoritesData UserFavorites { get; set; }
         public bool UserAuthenticated { get; set; }
@@ -23,15 +27,20 @@ namespace DiscoverUO.Web.Components.Data
         public string? CreationDate { get; set; }
         public bool Banned { get; set; }
 
+        public List<ServerData> PublicServers { get; set; }
+        public List<ServerData> UserOwnedServer { get; set; }
+
+        public FavoriteItemData UpdateFavoriteTemp { get; set; }
+
         // Multiple uses for this in the future.  One use would be for data analysis.
         private Dictionary<int, IResponse> ResponseCache { get; set; } = new Dictionary<int, IResponse>();
 
         public SessionManager()
         {
-            SetupAnonymousSession();
+            ConfigureAnonymousSession();
         }
 
-        public void SetupAnonymousSession()
+        public void ConfigureAnonymousSession()
         {
             Username = "Anonymous";
             Email = "anon@anon.net";
@@ -47,7 +56,51 @@ namespace DiscoverUO.Web.Components.Data
             FavoritesId = 0;
         }
 
-        public IResponse SessionSignIn( AuthenticationData data, HttpClient client )
+        public IResponse GetPublicServersList(HttpClient client)
+        {
+            var response = client.GetAsync("https://localhost:7015/api/servers/public").Result;
+
+            try
+            {
+                if (response.IsSuccessStatusCode)
+                {
+                    var serverListReponse = response.Content.ReadFromJsonAsync<ServerListDataResponse>().Result;
+                    ResponseCache.Add(ResponseCache.Count, serverListReponse);
+
+                    PublicServers = serverListReponse.List;
+
+                    return new BasicSuccessResponse
+                    {
+                        Success = true,
+                        Message = serverListReponse.Message,
+                        StatusCode = serverListReponse.StatusCode
+                    };
+                }
+                else
+                {
+                    var failedResponse = response.Content.ReadFromJsonAsync<RequestFailedResponse>().Result;
+                    ResponseCache.Add(ResponseCache.Count, failedResponse);
+
+                    return failedResponse;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Exception: {ex.Message}");
+
+                var exeRsp = new ExceptionThrownResponse
+                {
+                    Exception = ex,
+                    Message = ex.Message,
+                };
+
+                ResponseCache.Add(ResponseCache.Count, exeRsp);
+
+                return exeRsp;
+            }
+        }
+
+        public IResponse UserSignIn(AuthenticationData data, HttpClient client)
         {
             try
             {
@@ -62,16 +115,16 @@ namespace DiscoverUO.Web.Components.Data
                     SecurityToken = authResponse.Entity.SecurityToken;
                     UserAuthenticated = true;
 
-                    var dataUpdateRsp = UpdateMiscData(client);
+                    var dataUpdateRsp = GetUserData(client);
 
-                    if( !dataUpdateRsp.Success )
+                    if (!dataUpdateRsp.Success)
                     {
                         Console.WriteLine($"Failed to update misc user data: {Username}");
                         Console.WriteLine($"Response StatusCode: {dataUpdateRsp.StatusCode}");
                         Console.WriteLine($"Response Message: {dataUpdateRsp.Message}");
-                    }    
+                    }
 
-                    var favsRequestResponse = UpdateFavoritesData(client);
+                    var favsRequestResponse = GetUserFavoritesData(client);
 
                     if (!favsRequestResponse.Success)
                     {
@@ -80,7 +133,7 @@ namespace DiscoverUO.Web.Components.Data
                         Console.WriteLine($"Response Message: {favsRequestResponse.Message}");
                     }
 
-                    var profRequestResponse = UpdateProfileData(client);
+                    var profRequestResponse = GetUserProfileData(client);
 
                     if (!profRequestResponse.Success)
                     {
@@ -119,7 +172,29 @@ namespace DiscoverUO.Web.Components.Data
             }
         }
 
-        public IResponse UpdateMiscData( HttpClient client )
+        public IResponse RegisterUser(RegisterUserData newUserData, HttpClient client)
+        {
+            var registerResponse = client.PostAsJsonAsync("https://localhost:7015/api/users/register", newUserData).Result;
+
+            if (!registerResponse.IsSuccessStatusCode)
+            {
+                var failedResponse = registerResponse.Content.ReadFromJsonAsync<RequestFailedResponse>().Result;
+                ResponseCache.Add(ResponseCache.Count, failedResponse);
+
+                return failedResponse;
+            }
+
+            Console.WriteLine($"A new user has been registered: Username: {newUserData.UserName}");
+
+            return new BasicSuccessResponse
+            {
+                Success = true,
+                Message = "User registration successfull.",
+                StatusCode = registerResponse.StatusCode
+            };
+        }
+
+        public IResponse GetUserData(HttpClient client)
         {
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", SecurityToken);
 
@@ -157,7 +232,8 @@ namespace DiscoverUO.Web.Components.Data
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Exception: {ex.Message}");
+                Console.WriteLine($"An exception was thrown while getting user data.");
+                Console.WriteLine($"{ex.Message}");
 
                 var exeRsp = new ExceptionThrownResponse
                 {
@@ -171,7 +247,7 @@ namespace DiscoverUO.Web.Components.Data
             }
         }
 
-        public IResponse UpdateProfileData(HttpClient client)
+        public IResponse GetUserProfileData(HttpClient client)
         {
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", SecurityToken);
 
@@ -203,7 +279,8 @@ namespace DiscoverUO.Web.Components.Data
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Exception: {ex.Message}");
+                Console.WriteLine($"An exception was thrown while getting user profile data.");
+                Console.WriteLine($"{ex.Message}");
 
                 var exeRsp = new ExceptionThrownResponse
                 {
@@ -217,7 +294,7 @@ namespace DiscoverUO.Web.Components.Data
             }
         }
 
-        public IResponse UpdateFavoritesData( HttpClient client )
+        public IResponse GetUserFavoritesData(HttpClient client)
         {
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", SecurityToken);
 
@@ -230,9 +307,18 @@ namespace DiscoverUO.Web.Components.Data
                     var favoritesResponse = response.Content.ReadFromJsonAsync<FavoritesDataReponse>().Result;
                     ResponseCache.Add(ResponseCache.Count, favoritesResponse);
 
-                    foreach ( FavoriteItemData item in favoritesResponse.Entity.FavoritedItems )
+                    UserFavorites = new FavoritesData();
+                    UserFavorites.FavoritedItems = new List<FavoriteItemData>();
+
+                    if (favoritesResponse.Entity.FavoritedItems != null)
                     {
-                        UserFavorites.FavoritedItems.Add( item );
+                        if (favoritesResponse.Entity.FavoritedItems.Count > 0)
+                        {
+                            foreach (FavoriteItemData data in favoritesResponse.Entity.FavoritedItems)
+                            {
+                                UserFavorites.FavoritedItems.Add(data);
+                            }
+                        }
                     }
 
                     return new BasicSuccessResponse
@@ -252,7 +338,8 @@ namespace DiscoverUO.Web.Components.Data
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Exception: {ex.Message}");
+                Console.WriteLine($"An exception was thrown while getting user favorites data.");
+                Console.WriteLine($"{ex.Message}");
 
                 var exeRsp = new ExceptionThrownResponse
                 {
@@ -266,9 +353,139 @@ namespace DiscoverUO.Web.Components.Data
             }
         }
 
-        public IResponse AddFavoritesItem( HttpClient client )
+        public IResponse AddUserFavoritesItem(FavoriteItemData itemData, HttpClient client)
         {
-            return null;
+            var addFavRsp = client.PostAsJsonAsync("https://localhost:7015/api/favorites/list/item/add", itemData).Result;
+
+            try
+            {
+                if (addFavRsp.IsSuccessStatusCode)
+                {
+                    var updateFavs = GetUserFavoritesData(client);
+
+                    return new BasicSuccessResponse
+                    {
+                        Success = true,
+                        Message = "Server data successfully added to favorites.",
+                        StatusCode = addFavRsp.StatusCode
+                    };
+                }
+                else
+                {
+                    var failedResponse = addFavRsp.Content.ReadFromJsonAsync<RequestFailedResponse>().Result;
+                    ResponseCache.Add(ResponseCache.Count, failedResponse);
+
+                    return failedResponse;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An exception was throw while adding a favorite server from the public serverlist.");
+                Console.WriteLine($"{ex.Message}");
+
+                var exeRsp = new ExceptionThrownResponse
+                {
+                    Exception = ex,
+                    Message = ex.Message,
+                };
+
+                ResponseCache.Add(ResponseCache.Count, exeRsp);
+
+                return exeRsp;
+            }
+        }
+
+        public IResponse UpdateUserFavoritesItem( FavoriteItemData itemData, HttpClient client )
+        {
+            var jsonContent = JsonSerializer.Serialize(itemData);
+            var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+
+            var url = $"https://localhost:7015/api/favorites/list/item/update/{itemData.Id}";
+            var request = new HttpRequestMessage(HttpMethod.Put, url);
+            request.Content = content;
+
+            var response = client.SendAsync(request).Result;
+
+            try
+            {
+                if (response.IsSuccessStatusCode)
+                {
+                    var favDataRsp = response.Content.ReadFromJsonAsync<BasicSuccessResponse>().Result;
+                    ResponseCache.Add(ResponseCache.Count, favDataRsp);
+
+                    var updateFavs = GetUserFavoritesData(client);
+                    UpdateFavoriteTemp = null;
+                    return favDataRsp;
+                }
+                else
+                {
+                    var failedResponse = response.Content.ReadFromJsonAsync<RequestFailedResponse>().Result;
+                    ResponseCache.Add(ResponseCache.Count, failedResponse);
+
+                    return failedResponse;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An exception was throw while adding a favorite server from the public serverlist.");
+                Console.WriteLine($"{ex.Message}");
+
+                var exeRsp = new ExceptionThrownResponse
+                {
+                    Exception = ex,
+                    Message = ex.Message,
+                };
+
+                ResponseCache.Add(ResponseCache.Count, exeRsp);
+
+                return exeRsp;
+            }
+        }
+
+        public IResponse RemoveItemFromFavorites(int favId, HttpClient client)
+        {
+            string url = $"https://localhost:7015/api/favorites/list/item/delete/{favId}";
+
+            var request = new HttpRequestMessage(HttpMethod.Delete, url);
+
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", SecurityToken);
+
+            var response = client.SendAsync( request ).Result;
+
+            try
+            {
+                if (response.IsSuccessStatusCode)
+                {
+                    var favDataRsp = response.Content.ReadFromJsonAsync<BasicSuccessResponse>().Result;
+                    ResponseCache.Add(ResponseCache.Count, favDataRsp);
+
+                    var updateFavs = GetUserFavoritesData( client );
+
+                    return favDataRsp;
+                }
+                else
+                {
+                    var failedResponse = response.Content.ReadFromJsonAsync<RequestFailedResponse>().Result;
+                    ResponseCache.Add(ResponseCache.Count, failedResponse);
+
+                    return failedResponse;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An exception was thrown while deleting favorite item {favId}.");
+                Console.WriteLine($"{ex.Message}");
+
+                var exeRsp = new ExceptionThrownResponse
+                {
+                    Exception = ex,
+                    Message = ex.Message,
+                };
+
+                ResponseCache.Add(ResponseCache.Count, exeRsp);
+
+                return exeRsp;
+            }
         }
     }
 }

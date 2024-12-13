@@ -14,11 +14,6 @@
 </MudContainer>
 @code{
 
-    public List<ServerData> _serverlist{ get; set; }
-
-    protected override async Task OnInitializedAsync()
-    {
-        _serverlist = await ServerListManager.GetPublicServers(_client, _localStorage);
-        base.OnInitializedAsync();
-    }
+    [CascadingParameter]
+    public SessionManager UserSession{ get; set; }
 }

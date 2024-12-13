@@ -1,39 +1,153 @@
 ﻿@using System.Text.RegularExpressions
 @using System.ComponentModel.DataAnnotations
 @using DiscoverUO.Lib.Shared
-@inject IDialogService DialogService
-@inject ILocalStorageService _localStorage
-@inject HttpClient _client;
+@inject HttpClient client
+@inject NavigationManager navManager
+@inject ISnackbar snackbar
 
 <MudPaper Class="ma-2 mt-2 pa-16">
     <MudItem>
         <MudForm Spacing="4">
             <MudText Typo="Typo.h1" Align="Align.Center" GutterBottom="true">Add Custom Favorite Server</MudText>
             <MudTextField @bind-Value="@serverName" T="string" Label="Server Name" />
-            <MudTextField @bind-Value="@serverAddress" T="string" Label="Server Address" />
+            <MudTextField @bind-Value="@serverAddress" T="string" Label="Server Connection Address" />
             <MudTextField @bind-Value="@serverPort" T="int" Label="Port" />
-            <MudTextField @bind-Value="@serverWebsiteUrl" T="string" Label="Server Address" />
-            <MudTextField @bind-Value="@serverBannerUrl" T="string" />
-            <MudCheckBox @bind-Value="@useBanner" T="bool" Label="Use Server Banner" />
+            <MudTextField @bind-Value="@serverWebsiteUri" T="string" Label="Server Website" />
+            <MudTextField @bind-Value="@serverBannerUri" T="string" Label="Server Banner"/>
+            <MudTextField @bind-Value="@serverEra" T="string" Label="Server Era"/>
             <MudCheckBox @bind-Value="@pvpEnabled" T="bool" Label="PvP Enabled" />
             <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="@AddFavoriteItem">Add Favorite</MudButton>
         </MudForm>
     </MudItem>
+    <MudItem>
+        @if (errors.Count > 0)
+        {
+            @foreach (string err in errors)
+            {
+                <MudText Align="Align.Center">@err</MudText>
+            }
+        }
+    </MudItem>
 </MudPaper>
 
-@code {
+@code
+{
+
+    [CascadingParameter]
+    public SessionManager UserSession{ get; set; }
 
     private FavoriteItemData ItemData { get; set; }
     private string serverName = "My Customer Favorite Server";
     private string serverAddress = "playuo.example.net";
     private int serverPort = 2593; // Default runuo port so well use this as our default.
     private bool pvpEnabled = true; // Default runuo pvp enabled.
-    private bool useBanner = false; // Default to no banner.
-    private string serverBannerUrl = string.Empty;
-    private string serverWebsiteUrl = string.Empty;
+    private string serverEra = "UO: Custom";
+    private string serverBannerUri = string.Empty;
+    private string serverWebsiteUri = string.Empty;
 
+    private List<string> errors = new List<string>();
+
+    private bool ValidItemData( FavoriteItemData data )
+    {
+        errors = new List<string>();
+
+        if (string.IsNullOrEmpty(serverName) || serverName.Length < 8)
+            errors.Add("Server name must be atleast 5 characters long.");
+
+        if (!string.IsNullOrEmpty(serverWebsiteUri))
+        {
+            if (!IsValidUrl(serverWebsiteUri))
+                errors.Add("Server website must be a valid url.");
+        }
+
+        if (!string.IsNullOrEmpty(serverBannerUri))
+        {
+            if (IsValidUrl(serverBannerUri))
+            {
+                if (!IsValidImageUrl(serverBannerUri))
+                {
+                    errors.Add("Server banner must be a valid image url.");
+                }
+            }
+            else
+                errors.Add("Server banner must be a valid url.");
+        }
+
+        if (!IsValidUrl(serverAddress))
+            errors.Add("Server address must be a valid url or hostname.");
+
+        if (serverPort <= 0)
+            errors.Add("Server port must be an integer greater than 0.");
+
+        if (string.IsNullOrEmpty(serverEra) || serverEra.Length < 2)
+            errors.Add("Server era must be atleast 2 characters long.");
+
+        return errors.Count == 0;
+    }
 
     private void AddFavoriteItem()
     {
+        ItemData = new FavoriteItemData
+        {
+            ServerId = -1,
+            ServerName = serverName,
+            ServerAddress = serverAddress,
+            ServerPort = serverPort,
+            ServerEra = serverEra,
+            PvPEnabled = pvpEnabled,
+            ServerWebsite = serverWebsiteUri,
+            ServerBanner = serverBannerUri
+        };
+
+        if (!ValidItemData(ItemData))
+        {
+            return;
+        }
+
+        var addFavRsp = UserSession.AddUserFavoritesItem(ItemData, client);
+
+        if (addFavRsp.Success )
+        {
+            snackbar.Add("Server added to favorites list.", Severity.Success);
+            navManager.NavigateTo("/myfavorites");
+        }
+        else
+        {
+            snackbar.Add($"Failed to add the server: {addFavRsp.Message}", Severity.Error);
+            return;
+        }
+    }
+
+    public static bool IsValidUrl(string url)
+    {
+        if (Uri.TryCreate(url, UriKind.Absolute, out Uri parsedUri))
+        {
+            return parsedUri.Scheme == "uo" || parsedUri.Scheme == "http" || parsedUri.Scheme == "https";
+        }
+
+        if (Uri.TryCreate($"uo://{url}", UriKind.Absolute, out parsedUri))
+        {
+            return parsedUri.Scheme == "uo";
+        }
+
+        return false;
+    }
+
+    public bool IsValidImageUrl(string imageUrl)
+    {
+        using (var httpClient = new HttpClient())
+        {
+            httpClient.DefaultRequestHeaders.Accept.TryParseAdd("image/*");
+
+            try
+            {
+                var response = httpClient.SendAsync(new HttpRequestMessage(HttpMethod.Head, imageUrl)).Result;
+                return response.IsSuccessStatusCode && response.Content.Headers.ContentType.MediaType.StartsWith("image/");
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
     }
 }

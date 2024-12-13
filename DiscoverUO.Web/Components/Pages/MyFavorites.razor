@@ -5,27 +5,166 @@
 @using DiscoverUO.Web.Components.Controls.Favorites
 @using Blazored.LocalStorage
 @using System.Net
-@inject ILocalStorageService localStorage
+@inject ISnackbar snackbar
 @inject HttpClient client
 @inject NavigationManager navManager
 @page "/myfavorites"
 
-<PageTitle>Favorites</PageTitle>
+<PageTitle>My Favorites</PageTitle>
+
+<MudText Typo="Typo.h1" Align="Align.Center" Color="Color.Primary" GutterBottom="true">DiscoverUO User Favorites List</MudText>
 
 <MudContainer>
-    @if (UserSession.UserFavorites != null)
+    <MudPaper>
+        <MudItem xs="12" Class="mt-4 pa-4 mud-theme-secondary">
+            <MudCard>
+                <MudCardContent>
+                    <MudText Typo="Typo.h3" Align="Align.Left" Color="Color.Primary" GutterBottom="true">Favorites</MudText>
+                    <MudText Typo="Typo.body1" Align="Align.Justify" Color="Color.Primary" GutterBottom="true">This is where you can add, remove, and edit your favorites list.</MudText>
+                </MudCardContent>
+                <MudCardActions>
+                    <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="@AddCustomFavoriteOnClick">Add Custom Favorite</MudButton>
+                </MudCardActions>
+            </MudCard>
+        </MudItem>
+    </MudPaper>
+
+    @foreach (FavoriteItemData tmpItem in UserSession.UserFavorites.FavoritedItems)
     {
-        <FavoritesListComponent Favorites="@UserSession.UserFavorites" />
+        <MudPaper>
+            <MudItem Class="mt-4 pa-4 mud-theme-secondary">
+                <MudCard>
+                    <MudCardContent>
+                        <MudText Typo="Typo.h2" Align="Align.Center">@tmpItem.ServerName</MudText>
+                        @if (ShowBanner(tmpItem.ServerBanner))
+                        {
+                            <MudCardMedia Height="150" Image="@tmpItem.ServerBanner" />
+                        }
+                        <MudText Typo="Typo.h5" Align="Align.Left">Server Era: @tmpItem.ServerEra, PvP Enabled: @tmpItem.PvPEnabled, FavoriteID: @tmpItem.Id</MudText>
+                        <MudText Typo="Typo.h5" Align="Align.Left">Server Address: @tmpItem.ServerAddress</MudText>
+                        <MudText Typo="Typo.h5" Align="Align.Left">Server Port: @tmpItem.ServerPort</MudText>
+                        <MudText Typo="Typo.h5" Align="Align.Left">Server Website: <a target="_blank" href="@tmpItem.ServerWebsite">@tmpItem.ServerWebsite</a>
+                        </MudText>
+                    </MudCardContent>
+                    <MudCardActions>
+                        @if( tmpItem.ServerId >= 0 )
+                        {
+                            <MudSpacer />
+                            <MudText Typo="Typo.h5" Align="Align.Center">Server ID: @tmpItem.ServerId</MudText>
+                            <MudSpacer />
+                        }
+                        else
+                        {
+                            <MudSpacer />
+                            <MudSpacer />
+                        }
+
+                        @if (UserSession.UserAuthenticated)
+                        {
+                            <MudButton Variant="Variant.Outlined" OnClick="@(() => RemoveItemOnClick(tmpItem.Id))" Color="Color.Primary">Remove</MudButton>
+                            <MudButton Variant="Variant.Outlined" OnClick="@(() => UpdateOnClick(tmpItem))" Color="Color.Primary">Update</MudButton>
+                        }
+                        <MudSpacer />
+                    </MudCardActions>
+                </MudCard>
+            </MudItem>
+        </MudPaper>
     }
 </MudContainer>
-@code {
+
+@code
+{
+    [CascadingParameter]
+    public SessionManager UserSession { get; set; }
+
+    public bool showBanner { get; set; }
+    private string serverDetails = string.Empty;
+    private string connectionDetails = string.Empty;
+
     protected override void OnInitialized()
     {
         base.OnInitialized();
 
-        UserSession.UpdateFavoritesData(client);
-    }
-    [CascadingParameter]
-    public SessionManager UserSession { get; set; }
+        var favsRsp = UserSession.GetUserFavoritesData(client);
 
+        if (favsRsp.Success)
+            StateHasChanged();
+    }
+
+    private bool ShowBanner( string banner)
+    {
+        if (!string.IsNullOrEmpty(banner))
+        {
+            if (IsValidUrl(banner))
+            {
+                if (IsValidImageUrl(banner) )
+                    return true;
+            }
+        }
+
+        return false;
+    }
+
+    private void UpdateOnClick(FavoriteItemData data )
+    {
+        UserSession.UpdateFavoriteTemp = data;
+        navManager.NavigateTo("/favorites/update");
+    }
+
+    private void RemoveItemOnClick( int favId )
+    {
+        var removeFavRsp = UserSession.RemoveItemFromFavorites(favId, client);
+
+        if (removeFavRsp.Success)
+        {
+            var favUpdate = UserSession.GetUserFavoritesData(client);
+            UserSession.UserFavorites.FavoritedItems.RemoveAll(x => x.Id == favId);
+            snackbar.Add(removeFavRsp.Message, Severity.Success);
+        }
+        else
+        {
+            snackbar.Add(removeFavRsp.Message, Severity.Error);
+        }
+
+        StateHasChanged();
+    }
+
+    public static bool IsValidUrl(string url)
+    {
+        try
+        {
+            Uri.TryCreate(url, UriKind.Absolute, out Uri result);
+            return (result != null) && (result.Scheme == Uri.UriSchemeHttp || result.Scheme == Uri.UriSchemeHttps);
+        }
+        catch (Exception)
+        {
+            return false;
+        }
+    }
+
+    public bool IsValidImageUrl(string imageUrl)
+    {
+        using (var httpClient = new HttpClient())
+        {
+            httpClient.DefaultRequestHeaders.Accept.TryParseAdd("image/*");
+
+            try
+            {
+                var response = httpClient.SendAsync(new HttpRequestMessage(HttpMethod.Head, imageUrl)).Result;
+                return response.IsSuccessStatusCode && response.Content.Headers.ContentType.MediaType.StartsWith("image/");
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+    }
+
+    private void AddCustomFavoriteOnClick()
+    {
+        if(UserSession.UserAuthenticated )
+            navManager.NavigateTo("/favorites/add");
+        else
+            navManager.NavigateTo("/signin");
+    }
 }

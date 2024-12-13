@@ -5,9 +5,8 @@
 @using DiscoverUO.Lib.Shared.Users
 @using DiscoverUO.Web.Components.Data
 @using System.Net.Http.Headers
-@inject ILocalStorageService _localStorage
-@inject NavigationManager _navManager
-@inject HttpClient _client
+@inject NavigationManager navManager
+@inject HttpClient client
 
 <PageTitle>Dashboard</PageTitle>
 
@@ -33,14 +32,15 @@
                 </MudCardContent>
                 <MudCardActions>
                     <MudSpacer />
-                    <MudButton Variant="Variant.Text" Color="Color.Primary">Favorites</MudButton>
+                    <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="@FavoritesOnClick">Favorites</MudButton>
                     <MudSpacer/>
-                    <MudButton Variant="Variant.Text" Color="Color.Primary">My Servers</MudButton>
+                    <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="@MyServersOnClick">My Servers</MudButton>
                     <MudSpacer />
                 </MudCardActions>
             </MudCard>
         </MudItem>
     </MudPaper>
+    <MudImage Src="@UserSession.UserProfile.UserAvatar" /> 
 </MudContainer>
 
 @code
@@ -53,12 +53,22 @@
     protected async override Task OnInitializedAsync()
     {
         if (UserSession == null)
-            _navManager.NavigateTo("/singin");
+            navManager.NavigateTo("/singin");
 
         if (UserSession.UserProfile == null || string.IsNullOrEmpty(UserSession.UserProfile.UserAvatar))
         {
             showAvatar = false;
             StateHasChanged();
         }
+    }
+
+    private void FavoritesOnClick()
+    {
+        navManager.NavigateTo("/myfavorites");
+    }
+
+    private void MyServersOnClick()
+    {
+        navManager.NavigateTo("/myservers");
     }
 }

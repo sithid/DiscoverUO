@@ -2,6 +2,7 @@
 {
     public class FavoriteItemData
     {
+        public int Id { get; set; }
         public int ServerId { get; set; }
         public string? ServerName { get; set; }
         public string? ServerAddress { get; set; }

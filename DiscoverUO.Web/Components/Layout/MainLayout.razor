@@ -1,9 +1,8 @@
 ﻿@using Blazored.LocalStorage
 @using System.Net
-
-@inject ILocalStorageService _localStorage
-@inject HttpClient _client
-@inject NavigationManager _navManager
+@inject ISnackbar snackbar
+@inject HttpClient client
+@inject NavigationManager navManager
 
 @inherits LayoutComponentBase
 
@@ -16,13 +15,23 @@
     <MudAppBar Elevation="1">
         <MudText Typo="Typo.h3" Align="Align.Center" GutterBottom="true">DiscoverUO</MudText>
         <MudNavLink Href="/" Match="NavLinkMatch.All">Home</MudNavLink>
-        <MudSpacer />
-        <MudNavLink Href="/myservers" Match="NavLinkMatch.All">My Servers</MudNavLink>
-        <MudNavLink Href="/myfavorites" Match="NavLinkMatch.All">My Favorites</MudNavLink>
-        <MudSpacer />
-        <MudNavLink Href="/register" Match="NavLinkMatch.All">Register</MudNavLink>
-        <MudIconButton Icon="@Icons.Material.Filled.Dashboard" Color="Color.Inherit" Edge="Edge.End" OnClick="@AppbarNavToDashboard" />
-        <MudIconButton Icon="@Icons.Material.Filled.Login" Color="Color.Inherit" Edge="Edge.End" OnClick="@AppBarNavToSignIn" />
+
+        @if (!UserSession.UserAuthenticated)
+        {
+            <MudSpacer />
+            <MudNavLink Href="/register" Match="NavLinkMatch.All">Register</MudNavLink>
+            <MudIconButton Icon="@Icons.Material.Filled.Login" Color="Color.Inherit" Edge="Edge.End" OnClick="@AppBarNavToSignIn" />
+        }
+        else
+        {
+            <MudNavLink Href="/myservers" Match="NavLinkMatch.All">My Servers</MudNavLink>
+            <MudNavLink Href="/myfavorites" Match="NavLinkMatch.All">My Favorites</MudNavLink>
+            <MudSpacer />
+            <MudSpacer />
+            <MudSpacer />
+            <MudIconButton Icon="@Icons.Material.Filled.Dashboard" Color="Color.Inherit" Edge="Edge.End" OnClick="@AppbarNavToDashboard" />
+            <MudIconButton Icon="@Icons.Material.Filled.Logout" Color="Color.Inherit" Edge="Edge.End" OnClick="@AppBarSignOut" />
+        }
     </MudAppBar>
     <MudMainContent>
         <CascadingValue Value="@UserSession">
@@ -35,14 +44,21 @@
 {
     private SessionManager UserSession = new SessionManager();
 
+    void AppBarSignOut()
+    {
+        UserSession.ConfigureAnonymousSession();
+        snackbar.Add("Logout successful! Redirecting to home.", Severity.Success);
+        navManager.NavigateTo("/");
+    }
+
     void AppBarNavToSignIn()
     {
-        _navManager.NavigateTo("/signin");
+        navManager.NavigateTo("/signin");
     }
 
     void AppbarNavToDashboard()
     {
-        _navManager.NavigateTo("/dashboard");
+        navManager.NavigateTo("/dashboard");
     }
 
     MudTheme UOTheme = new MudTheme()

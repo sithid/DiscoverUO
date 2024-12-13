@@ -1,9 +1,22 @@
-﻿@using Blazored.LocalStorage
-@using System.Net;
-@inject ILocalStorageService local
+﻿@using System.Net
+@using System.Net.Http;
+@using System.Net.Http.Headers;
+@using DiscoverUO.Lib.Shared
+@using DiscoverUO.Lib.Shared.Contracts
+@inject ISnackbar snackbar
+@inject NavigationManager navManager
+@inject HttpClient client
 
-<MudLabel style="font-size: 32px">This is where the user will see the servers they have added to the public server list.</MudLabel>
+@if (UserSession.PublicServers != null)
+{
+    @foreach (ServerData server in UserSession.PublicServers)
+    {
+        <ServerComponent ServerData="@server" />
+    }
+}
+@code
+{
 
-@code {
-
+    [CascadingParameter]
+    public SessionManager UserSession { get; set; }
 }

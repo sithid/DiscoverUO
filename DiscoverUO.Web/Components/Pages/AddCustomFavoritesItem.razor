@@ -1,0 +1,33 @@
+﻿@using System.Net.Http.Headers;
+@using DiscoverUO.Lib.Shared
+@using DiscoverUO.Lib.Shared.Contracts
+@using DiscoverUO.Lib.Shared.Favorites
+@using DiscoverUO.Web.Components.Controls.Favorites
+@using Blazored.LocalStorage
+@using System.Net
+@inject HttpClient client
+@inject NavigationManager navManager
+@inject ISnackbar snackbar
+@page "/favorites/add"
+
+<PageTitle>Favorites</PageTitle>
+
+@if (UserSession.UserAuthenticated)
+{
+    <MudContainer>
+        <AddCustomFavoritesItemComponent/>
+    </MudContainer>
+}
+else
+{
+    snackbar.Add("You must be logged in to add to your favorites list.", Severity.Error);
+    navManager.NavigateTo("/signin");
+}
+
+@code
+{
+
+    [CascadingParameter]
+    public SessionManager UserSession { get; set; }
+
+}

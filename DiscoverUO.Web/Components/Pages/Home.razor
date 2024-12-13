@@ -1,23 +1,34 @@
-﻿@inject ILocalStorageService _localStorage
-@inject HttpClient _client
+﻿@inject HttpClient client
 @page "/"
 
 <PageTitle>Home</PageTitle>
 
 <MudText Style="font-size: 64px" Align="Align.Center" Color="Color.Primary" GutterBottom="true">Welcome to DiscoverUO!</MudText>
 <MudContainer MaxWidth="MaxWidth.Medium">
-    @if( servers != null )
+    @if( UserSession.PublicServers.Count > 0 )
     {
-        <PublicServersComponent PublicServers="@servers"/>
+        <PublicServersComponent/>
     }
     else
     {
-        servers = ServerListManager.GetPublicServers(_client, _localStorage).Result;
-        Console.WriteLine($"Server data pulled, Public serverlist contains {servers.Count} servers.");
-        StateHasChanged();
+        <MudText Typo="Typo.h3" Align="Align.Center" Color="Color.Primary" GutterBottom="true">The public serverlist is empty.</MudText>
     }
 </MudContainer>
 @code
 {
-    private List<ServerData> servers;
+    [CascadingParameter]
+    public SessionManager UserSession{ get; set; }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        var rsp = UserSession.GetPublicServersList(client);
+
+        if( rsp.Success )
+        {
+            Console.WriteLine($"Server data pulled, Public serverlist contains {UserSession.PublicServers.Count} servers.");
+        }
+
+    }
 }

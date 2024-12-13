@@ -1,17 +1,17 @@
-﻿@using System.Net
+﻿c
 @using Blazored.LocalStorage
-@inject ILocalStorageService _localStorage
 @inject HttpClient _client
 
-@if( PublicServers != null )
+@if (UserSession.PublicServers != null)
+{
+    @foreach (ServerData server in UserSession.PublicServers )
     {
-        @foreach( ServerData server in PublicServers )
-        {
-            <ServerComponent ServerData="@server" />
-        }
+        <ServerComponent ServerData="@server" />
     }
-@code {
+}
+@code
+{
 
-    [Parameter]
-    public List<ServerData> PublicServers{ get; set; }
+    [CascadingParameter]
+    public SessionManager UserSession{ get; set; }
 }
