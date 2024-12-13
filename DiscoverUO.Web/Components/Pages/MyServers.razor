@@ -2,7 +2,7 @@
 @using DiscoverUO.Web.Components.Controls
 @using Blazored.LocalStorage
 @using System.Net
-@inject ILocalStorageService _localStorage
+@inject NavigationManager navManager
 @inject HttpClient _client
 
 @page "/myservers"
@@ -10,6 +10,20 @@
 <PageTitle>My Servers</PageTitle>
 
 <MudContainer>
+    <MudPaper>
+        <MudItem xs="12" Class="mt-4 pa-4 mud-theme-secondary">
+            <MudCard>
+                <MudCardContent>
+                    <MudText Typo="Typo.h2" Align="Align.Center" Color="Color.Primary" GutterBottom="true">User Added Servers</MudText>
+                    <MudText Typo="Typo.h5" Align="Align.Center" Color="Color.Primary" GutterBottom="true">This is where you will see all of the servers you have added.</MudText>
+                </MudCardContent>
+                <MudCardActions>
+                    <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="@AddServerOnClick">Add Public Server</MudButton>
+                </MudCardActions>
+            </MudCard>
+        </MudItem>
+    </MudPaper>
+
     <MudText Typo="Typo.h1" Align="Align.Center" Color="Color.Primary" GutterBottom="true">User Owned Servers</MudText>
     <MyServersComponent/>
 </MudContainer>
@@ -17,4 +31,9 @@
 
     [CascadingParameter]
     public SessionManager UserSession{ get; set; }
+
+    private void AddServerOnClick()
+    {
+        navManager.NavigateTo("servers/public/create");
+    }
 }

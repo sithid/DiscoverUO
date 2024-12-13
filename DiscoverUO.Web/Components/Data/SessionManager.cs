@@ -9,6 +9,7 @@ using System.Net.Http.Headers;
 using DiscoverUO.Lib.Shared.Contracts;
 using DiscoverUO.Lib.Shared.Servers;
 using System.Text;
+using System.Net.Sockets;
 namespace DiscoverUO.Web.Components.Data
 {
     public class SessionManager
@@ -95,7 +96,7 @@ namespace DiscoverUO.Web.Components.Data
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Exception: {ex.Message}");
+                Console.WriteLine($"An exception was thrown while loading the public server list: {ex.Message}");
 
                 var exeRsp = new ExceptionThrownResponse
                 {
@@ -280,6 +281,7 @@ namespace DiscoverUO.Web.Components.Data
                     ResponseCache.Add(ResponseCache.Count, profileResponse);
 
                     UserProfile = profileResponse.Entity;
+                    ProfileId = profileResponse.Entity.Id;
 
                     return new BasicSuccessResponse
                     {
@@ -402,7 +404,191 @@ namespace DiscoverUO.Web.Components.Data
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Exception: {ex.Message}");
+                Console.WriteLine($"An exception was thrown while loading user owned servers: {ex.Message}");
+
+                var exeRsp = new ExceptionThrownResponse
+                {
+                    Exception = ex,
+                    Message = ex.Message,
+                };
+
+                ResponseCache.Add(ResponseCache.Count, exeRsp);
+
+                return exeRsp;
+            }
+        }
+
+        public IResponse UpdateUserData( UpdateUserData data, HttpClient client)
+        {
+            var jsonContent = JsonSerializer.Serialize(data);
+            var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+
+            var url = $"https://localhost:7015/api/users/updateuser/{data.UserName}";
+            var request = new HttpRequestMessage(HttpMethod.Put, url);
+            request.Content = content;
+
+            var response = client.SendAsync(request).Result;
+
+            try
+            {
+                if (response.IsSuccessStatusCode)
+                {
+                    var updateUserRsp = response.Content.ReadFromJsonAsync<BasicSuccessResponse>().Result;
+                    ResponseCache.Add(ResponseCache.Count, updateUserRsp);
+
+                    var updateUser = GetUserData(client);
+
+                    return updateUserRsp;
+                }
+                else
+                {
+                    var failedResponse = response.Content.ReadFromJsonAsync<RequestFailedResponse>().Result;
+                    ResponseCache.Add(ResponseCache.Count, failedResponse);
+
+                    return failedResponse;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An exception was throw while updating user data.");
+                Console.WriteLine($"{ex.Message}");
+
+                var exeRsp = new ExceptionThrownResponse
+                {
+                    Exception = ex,
+                    Message = ex.Message,
+                };
+
+                ResponseCache.Add(ResponseCache.Count, exeRsp);
+
+                return exeRsp;
+            }
+        }
+
+        public IResponse UpdateUserProfile( ProfileData data, HttpClient client)
+        {
+            var jsonContent = JsonSerializer.Serialize(data);
+            var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+
+            var url = $"https://localhost:7015/api/users/profiles/update/{data.Id}";
+            var request = new HttpRequestMessage(HttpMethod.Put, url);
+            request.Content = content;
+
+            var response = client.SendAsync(request).Result;
+
+            try
+            {
+                if (response.IsSuccessStatusCode)
+                {
+                    var updateUserRsp = response.Content.ReadFromJsonAsync<BasicSuccessResponse>().Result;
+                    ResponseCache.Add(ResponseCache.Count, updateUserRsp);
+
+                    var updateUser = GetUserData(client);
+
+                    return updateUserRsp;
+                }
+                else
+                {
+                    var failedResponse = response.Content.ReadFromJsonAsync<RequestFailedResponse>().Result;
+                    ResponseCache.Add(ResponseCache.Count, failedResponse);
+
+                    return failedResponse;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An exception was throw while updating profile data.");
+                Console.WriteLine($"{ex.Message}");
+
+                var exeRsp = new ExceptionThrownResponse
+                {
+                    Exception = ex,
+                    Message = ex.Message,
+                };
+
+                ResponseCache.Add(ResponseCache.Count, exeRsp);
+
+                return exeRsp;
+            }
+        }
+
+        public IResponse UpdateUserPassword( string username, UpdateUserPasswordData data, HttpClient client)
+        {
+            var jsonContent = JsonSerializer.Serialize(data);
+            var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+
+            var url = $"https://localhost:7015/api/users/password/update/{username}";
+            var request = new HttpRequestMessage(HttpMethod.Put, url);
+            request.Content = content;
+
+            var response = client.SendAsync(request).Result;
+
+            try
+            {
+                if (response.IsSuccessStatusCode)
+                {
+                    var updateUserRsp = response.Content.ReadFromJsonAsync<BasicSuccessResponse>().Result;
+                    ResponseCache.Add(ResponseCache.Count, updateUserRsp);
+
+                    var updateUser = GetUserData(client);
+
+                    return updateUserRsp;
+                }
+                else
+                {
+                    var failedResponse = response.Content.ReadFromJsonAsync<RequestFailedResponse>().Result;
+                    ResponseCache.Add(ResponseCache.Count, failedResponse);
+
+                    return failedResponse;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An exception was throw while updating profile data.");
+                Console.WriteLine($"{ex.Message}");
+
+                var exeRsp = new ExceptionThrownResponse
+                {
+                    Exception = ex,
+                    Message = ex.Message,
+                };
+
+                ResponseCache.Add(ResponseCache.Count, exeRsp);
+
+                return exeRsp;
+            }
+        }
+
+        public IResponse AddServer(ServerRegistrationData data, HttpClient client )
+        {
+            var createServerRsp = client.PostAsJsonAsync("https://localhost:7015/api/servers/create_server", data).Result;
+
+            try
+            {
+                if (createServerRsp.IsSuccessStatusCode)
+                {
+                    var updatePublicServers = GetPublicServersList(client);
+                    var updateUserOwnedServers = GetUserOwnedServers(client);
+
+                    return new BasicSuccessResponse
+                    {
+                        Success = true,
+                        Message = "Server data successfully added.",
+                        StatusCode = createServerRsp.StatusCode
+                    };
+                }
+                else
+                {
+                    var failedResponse = createServerRsp.Content.ReadFromJsonAsync<RequestFailedResponse>().Result;
+                    ResponseCache.Add(ResponseCache.Count, failedResponse);
+
+                    return failedResponse;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An exception was throw while creating a server for the public server list.");
+                Console.WriteLine($"{ex.Message}");
 
                 var exeRsp = new ExceptionThrownResponse
                 {
@@ -452,7 +638,54 @@ namespace DiscoverUO.Web.Components.Data
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"An exception was throw while adding a favorite server from the public serverlist.");
+                Console.WriteLine($"An exception was throw while adding a favorite server from the public server list.");
+                Console.WriteLine($"{ex.Message}");
+
+                var exeRsp = new ExceptionThrownResponse
+                {
+                    Exception = ex,
+                    Message = ex.Message,
+                };
+
+                ResponseCache.Add(ResponseCache.Count, exeRsp);
+
+                return exeRsp;
+            }
+        }
+
+        public IResponse RemoveServer( int serverId, ServerData data, HttpClient client )
+        {
+            string url = $"https://localhost:7015/api/servers/delete/{serverId}";
+
+            var request = new HttpRequestMessage(HttpMethod.Delete, url);
+
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", SecurityToken);
+
+            var response = client.SendAsync(request).Result;
+
+            try
+            {
+                if (response.IsSuccessStatusCode)
+                {
+                    var favDataRsp = response.Content.ReadFromJsonAsync<BasicSuccessResponse>().Result;
+                    ResponseCache.Add(ResponseCache.Count, favDataRsp);
+
+                    var updatePublicServers = GetPublicServersList(client);
+                    var updateUserOwnedServers = GetUserOwnedServers(client);
+
+                    return favDataRsp;
+                }
+                else
+                {
+                    var failedResponse = response.Content.ReadFromJsonAsync<RequestFailedResponse>().Result;
+                    ResponseCache.Add(ResponseCache.Count, failedResponse);
+
+                    return failedResponse;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An exception was thrown while deleting server item #{serverId}.");
                 Console.WriteLine($"{ex.Message}");
 
                 var exeRsp = new ExceptionThrownResponse
@@ -494,7 +727,7 @@ namespace DiscoverUO.Web.Components.Data
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"An exception was throw while adding a favorite server from the public serverlist.");
+                Console.WriteLine($"An exception was throw while adding a favorite server from the public server list.");
                 Console.WriteLine($"{ex.Message}");
 
                 var exeRsp = new ExceptionThrownResponse
@@ -541,7 +774,7 @@ namespace DiscoverUO.Web.Components.Data
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"An exception was throw while adding a favorite server from the public serverlist.");
+                Console.WriteLine($"An exception was throw while adding a favorite server from the public server list.");
                 Console.WriteLine($"{ex.Message}");
 
                 var exeRsp = new ExceptionThrownResponse
@@ -587,7 +820,7 @@ namespace DiscoverUO.Web.Components.Data
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"An exception was thrown while deleting favorite item {favId}.");
+                Console.WriteLine($"An exception was thrown while deleting favorite item #{favId}.");
                 Console.WriteLine($"{ex.Message}");
 
                 var exeRsp = new ExceptionThrownResponse

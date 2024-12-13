@@ -15,10 +15,11 @@ using System.Text;
 using DiscoverUO.Lib.Shared.Contracts;
 using DiscoverUO.Lib.Shared;
 using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
+using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
 
 namespace DiscoverUO.Api.Controllers
 {
-    [Route("api/users")]
+    [Route("api/users/")]
     [ApiController]
     public class DiscoverUOUsersController : ControllerBase
     {
@@ -457,6 +458,18 @@ namespace DiscoverUO.Api.Controllers
                 }
             }
 
+            if( userNameExists(updateUserRequest.UserName).Result )
+            {
+                var userBadRequest = new RequestFailedResponse
+                {
+                    Success = false,
+                    Message = "That username is in use.",
+                    StatusCode = HttpStatusCode.BadRequest,
+                };
+
+                return Unauthorized(userBadRequest);
+            }
+
             targetUser.UserName = updateUserRequest.UserName;
             targetUser.Email = updateUserRequest.Email;
 
@@ -493,7 +506,114 @@ namespace DiscoverUO.Api.Controllers
         }
 
         [Authorize] // IResponse
-        [HttpPut("update/UpdatePassword/{id}")] 
+        [HttpPut("updateuser/{username}")]
+        public async Task<ActionResult<IResponse>> UpdateUserByName(string username, UpdateUserData updateUserRequest)
+        {
+            if (!ModelState.IsValid)
+            {
+                var failedResponse = new RequestFailedResponse
+                {
+                    Success = false,
+                    Message = "Invalid ModelState!",
+                    StatusCode = HttpStatusCode.BadRequest
+                };
+
+                return BadRequest(failedResponse);
+            }
+
+            var currentUser = await Permissions.GetCurrentUser(this.User, _context);
+
+            if (currentUser == null)
+            {
+                var userNoPerms = new RequestFailedResponse
+                {
+                    Success = false,
+                    Message = "You must be logged in to do this.",
+                    StatusCode = HttpStatusCode.Unauthorized,
+                };
+
+                return Unauthorized(userNoPerms);
+            }
+
+            var targetUser = await _context.Users.FirstOrDefaultAsync(u => string.Equals(u.UserName, username));
+
+            if (targetUser == null)
+            {
+                var notFound = new RequestFailedResponse
+                {
+                    Success = false,
+                    StatusCode = HttpStatusCode.NotFound,
+                    Message = "That user does not exist.",
+                };
+
+                return NotFound(notFound);
+            }
+
+            if (currentUser.UserName != username )
+            {
+                if (!Permissions.HasElevatedRole(currentUser.Role) && !Permissions.HasHigherPermission(currentUser.Role, targetUser.Role))
+                {
+                    var userNoPerms = new RequestFailedResponse
+                    {
+                        Success = false,
+                        Message = "You do not have permission to edit that user.",
+                        StatusCode = HttpStatusCode.Unauthorized,
+                    };
+
+                    return Unauthorized(userNoPerms);
+                }
+            }
+
+            if (userNameExists(updateUserRequest.UserName).Result)
+            {
+                var userBadRequest = new RequestFailedResponse
+                {
+                    Success = false,
+                    Message = "That username is in use.",
+                    StatusCode = HttpStatusCode.BadRequest,
+                };
+
+                return Unauthorized(userBadRequest);
+            }
+
+            targetUser.UserName = updateUserRequest.UserName;
+            targetUser.Email = updateUserRequest.Email;
+
+            _context.Entry(targetUser).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                var badReqest = new RequestFailedResponse
+                {
+                    Success = false,
+                    StatusCode = HttpStatusCode.BadRequest,
+                    Message = $"Something happened that noone was prepared for: {ex.Message}"
+                };
+
+                return BadRequest(badReqest);
+            }
+
+            var updatedUser = await _context.Users
+                .FirstOrDefaultAsync(u => string.Equals( u.UserName, updateUserRequest.UserName));
+
+            var updateUserResponse = new UserEntityResponse
+            {
+                Success = true,
+                Message = "User data successfully updated.",
+                StatusCode = HttpStatusCode.OK,
+                Entity = _mapper.Map<UserEntityData>(updatedUser)
+            };
+
+            return Ok(updateUserResponse);
+        }
+
+
+        [Authorize] // IResponse
+        [HttpPut("password/update/id/{id}")] 
         public async Task<ActionResult<IResponse>> UpdatePassword(int userId, UpdateUserPasswordData updatePasswordRequest)
         {
             if (!ModelState.IsValid)
@@ -601,10 +721,119 @@ namespace DiscoverUO.Api.Controllers
         }
 
         [Authorize] // IResponse
-        [HttpPut("profiles/update/UpdateProfile/{id}")] 
-        public async Task<ActionResult<IResponse>> UpdateProfileById(int ownerId, ProfileData profileRequest)
+        [HttpPut("password/update/{username}")]
+        public async Task<ActionResult<IResponse>> UpdatePasswordByName(string username, UpdateUserPasswordData updatePasswordRequest)
         {
-            var userProfile = await _context.UserProfiles.FirstOrDefaultAsync(prof => prof.OwnerId == ownerId);
+            if (!ModelState.IsValid)
+            {
+                var failedResponse = new RequestFailedResponse
+                {
+                    Success = false,
+                    Message = "Invalid ModelState!",
+                    StatusCode = HttpStatusCode.BadRequest
+                };
+
+                return BadRequest(failedResponse);
+            }
+
+            var currentUser = await Permissions.GetCurrentUser(this.User, _context);
+
+            if (currentUser == null)
+            {
+                var userNoPerms = new RequestFailedResponse
+                {
+                    Success = false,
+                    Message = "You do not have permission to edit that user.",
+                    StatusCode = HttpStatusCode.Unauthorized,
+                };
+
+                return Unauthorized(userNoPerms);
+            }
+
+            var user = await _context.Users.FirstOrDefaultAsync(u => string.Equals( u.UserName, username));
+
+            if (user == null)
+            {
+                var userNotFound = new RequestFailedResponse
+                {
+                    Success = false,
+                    StatusCode = HttpStatusCode.NotFound,
+                    Message = "See not, the user you seek.",
+                };
+
+                return NotFound(userNotFound);
+            }
+
+            if (currentUser.Id != user.Id)
+            {
+                if (!Permissions.HasElevatedRole(currentUser.Role) && !Permissions.HasHigherPermission(currentUser.Role, user.Role))
+                {
+                    var userNoPerms = new RequestFailedResponse
+                    {
+                        Success = false,
+                        Message = "You do not have permission to edit that user.",
+                        StatusCode = HttpStatusCode.Unauthorized,
+                    };
+
+                    return Unauthorized(userNoPerms);
+                }
+            }
+
+
+            var userCurrentPassword = BCrypt.Net.BCrypt.HashPassword(updatePasswordRequest.CurrentPassword);
+
+            if (!BCrypt.Net.BCrypt.Verify(updatePasswordRequest.CurrentPassword, user.PasswordHash))
+            {
+                var invalidPass = new RequestFailedResponse
+                {
+                    Success = false,
+                    Message = "Invalid password.",
+                    StatusCode = HttpStatusCode.Unauthorized,
+                };
+
+                return Unauthorized(invalidPass);
+            }
+
+            user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(updatePasswordRequest.NewPassword);
+
+            _context.Entry(user).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                var internalError = new RequestFailedResponse
+                {
+                    Success = false,
+                    Message = $"Something happened that no one was prepared for: {ex.Message}",
+                    StatusCode = HttpStatusCode.BadRequest,
+                };
+
+                return BadRequest(internalError);
+            }
+
+            var updatedUser = await _context.Users
+                .FirstOrDefaultAsync(u => string.Equals(u.UserName, username));
+
+            var updatedUserResponse = new UserEntityResponse
+            {
+                Success = true,
+                Message = $"Password updated successfully.",
+                StatusCode = HttpStatusCode.OK,
+                Entity = _mapper.Map<UserEntityData>(updatedUser)
+            };
+
+            return Ok(updatedUserResponse);
+        }
+
+
+        [Authorize] // IResponse
+        [HttpPut("profiles/update/{profId}")] 
+        public async Task<ActionResult<IResponse>> UpdateProfileById(int profId, ProfileData profileRequest)
+        {
+            var userProfile = await _context.UserProfiles.FirstOrDefaultAsync(prof => prof.Id == profId);
 
             if (userProfile == null)
             {
@@ -651,7 +880,7 @@ namespace DiscoverUO.Api.Controllers
             }
 
             var updatedProfile = await _context.UserProfiles
-                .FirstOrDefaultAsync( prof => prof.OwnerId == ownerId);
+                .FirstOrDefaultAsync( prof => prof.Id == profId);
 
             var profileResponse = new ProfileResponse
             {

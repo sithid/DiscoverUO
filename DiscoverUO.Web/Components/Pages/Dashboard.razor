@@ -33,14 +33,13 @@
                 <MudCardActions>
                     <MudSpacer />
                     <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="@FavoritesOnClick">Favorites</MudButton>
-                    <MudSpacer/>
                     <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="@MyServersOnClick">My Servers</MudButton>
+                    <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="@EditProfileOnClick">Edit Profile</MudButton>
                     <MudSpacer />
                 </MudCardActions>
             </MudCard>
         </MudItem>
     </MudPaper>
-    <MudImage Src="@UserSession.UserProfile.UserAvatar" /> 
 </MudContainer>
 
 @code
@@ -55,11 +54,12 @@
         if (UserSession == null)
             navManager.NavigateTo("/singin");
 
-        if (UserSession.UserProfile == null || string.IsNullOrEmpty(UserSession.UserProfile.UserAvatar))
-        {
-            showAvatar = false;
-            StateHasChanged();
-        }
+        UserSession.GetUserProfileData(client);
+    }
+
+    private void EditProfileOnClick()
+    {
+        navManager.NavigateTo("/user/update");
     }
 
     private void FavoritesOnClick()

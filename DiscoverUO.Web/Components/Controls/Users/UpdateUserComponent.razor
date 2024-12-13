@@ -1,0 +1,253 @@
+﻿@using Microsoft.AspNetCore.Components.Forms;
+@using System.Text.RegularExpressions
+@using System.ComponentModel.DataAnnotations
+@using DiscoverUO.Lib.Shared
+@using System.Web
+@inject ISnackbar snackbar
+@inject IWebHostEnvironment env
+@inject HttpClient client;
+@inject NavigationManager navManager
+
+<MudPaper Class="ma-2 mt-2 pa-16">
+    <MudItem>
+        <MudForm Spacing="4">
+            <MudText Typo="Typo.h1" Align="Align.Center" GutterBottom="true">Update User Information </MudText>
+            <MudTextField @bind-Value="@UserData.UserName" T="string" Label="Username" />
+            <MudTextField @bind-Value="@UserProfileData.UserDisplayName" T="string" Label="Display Name" />
+            <MudTextField @bind-Value="@UserPasswordData.CurrentPassword" T="string" Label="Current Password" HelperText="Confirm old password" InputType="InputType.Password" />
+            <MudTextField @bind-Value="@UserPasswordData.NewPassword" T="string" Label="New Password" HelperText="Choose a strong password" InputType="InputType.Password" />
+            <MudTextField @bind-Value="@UserData.Email" T="string" Label="Email" />
+            <MudTextField @bind-Value="@UserProfileData.UserBiography" T="string" Label="Biography" />
+            <MudTextField @bind-Value="@UserProfileData.UserAvatar" T="string" Label="Avatar Url" />
+            <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="@UpdateDataOnClick">Update Information</MudButton>
+        </MudForm>
+    </MudItem>
+    <MudItem>
+        @if (!validData && validationErrors.Count > 0 )
+        {
+            @foreach( string err in validationErrors )
+            {
+                <MudText Align="Align.Center">@err</MudText>
+            }
+        }
+        @if( !miscSuccessful && (!string.IsNullOrEmpty(updateErrors)))
+        {
+            <MudText Align="Align.Center">@updateErrors</MudText>
+        }
+    </MudItem>
+</MudPaper>
+
+@code {
+
+    [CascadingParameter]
+    public SessionManager UserSession{ get; set; }
+
+    // Validation
+    private bool validData = false;
+    private List<string> validationErrors = new List<string>();
+
+    // Response
+    private bool miscSuccessful = false;
+    private bool profSuccessful = false;
+    private bool passSuccessful = false;
+    private string updateErrors = string.Empty;
+
+    // Registration
+    private UpdateUserData UserData;
+    private UpdateUserPasswordData UserPasswordData;
+    private ProfileData UserProfileData;
+
+
+    private void BindData()
+    {
+        UserData = new UpdateUserData();
+        UserData.UserName = UserSession.Username;
+        UserData.Email = UserSession.Email;
+
+        UserPasswordData = new UpdateUserPasswordData();
+        UserPasswordData.CurrentPassword = string.Empty;
+        UserPasswordData.NewPassword = string.Empty;
+
+        UserProfileData = new ProfileData();
+        UserProfileData.Id = UserSession.UserProfile.Id;
+        UserProfileData.UserDisplayName = UserSession.UserProfile.UserDisplayName;
+        UserProfileData.UserBiography = UserSession.UserProfile.UserBiography;
+        UserProfileData.UserAvatar = UserSession.UserProfile.UserAvatar;
+    }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        UserSession.GetUserData(client);
+        UserSession.GetUserProfileData(client);
+        BindData();
+
+    }
+    private void UpdateDataOnClick()
+    {
+        if (!ValidateUpdateData())
+        {
+            StateHasChanged();
+            return;
+        }
+
+        var dataRsp = UserSession.UpdateUserData(UserData, client);
+
+        if (dataRsp.Success)
+        {
+            miscSuccessful = true;
+            snackbar.Add("Misc user data updated.", Severity.Success);
+        }
+
+        var profRsp = UserSession.UpdateUserProfile(UserProfileData, client);
+
+        if( profRsp.Success )
+        {
+            profSuccessful = true;
+            snackbar.Add("Misc user data updated.", Severity.Success);
+        }
+
+        var passwordRsp = UserSession.UpdateUserPassword(UserData.UserName, UserPasswordData, client);
+
+        if (passwordRsp.Success )
+        {
+            passSuccessful = true;
+            snackbar.Add("Misc user data updated.", Severity.Success);
+        }
+
+        UserSession.GetUserData(client);
+
+        StateHasChanged();
+        navManager.NavigateTo("/dashboard");
+    }
+
+    private bool ValidateUpdateData()
+    {
+        // Created our list of error messages.
+        validationErrors = new List<string>();
+
+        // Verify username.
+        if (string.IsNullOrWhiteSpace(UserData.UserName))
+            validationErrors.Add("A valid username is required.");
+
+        // Verify username is atleast 5 characters long.
+        if (UserData.UserName.Length < 5)
+            validationErrors.Add("A valid username is atleast 5 characters long.");
+
+        // Verify username is less than 30 characters long.
+        if (UserData.UserName.Length > 30)
+            validationErrors.Add("A valid username is less than 30 characters long.");
+
+        // Verify an email was supplied and that it contains an @ sign.
+        if (string.IsNullOrEmpty(UserData.Email) || !Regex.IsMatch(UserData.Email, @"\@")) // I realize this isn't really validation but im really not doing anything with emails.
+            validationErrors.Add("A valid email is required.");    
+
+        // Use regex to verify password complexity requirments are met.
+        var pwErrors = VerifyPasswordRequirements(UserPasswordData.NewPassword);
+
+        // If there were errors found with the password, add them to the validation error list.
+        if (pwErrors.Count > 0)
+            validationErrors.AddRange(pwErrors);
+
+        if (!string.IsNullOrEmpty(UserProfileData.UserAvatar) && !IsValidImageUrl(UserProfileData.UserAvatar))
+        {
+            validationErrors.Add("Your avatar must be a valid url or empty.");
+        }
+
+        UserProfileData.UserBiography = ValidateAndSanitizeBio(UserProfileData.UserBiography);
+
+        // Finally, verify the validation error count.  If the count is 0, there were no errors and the data is valid.
+        // validData defaults to false so we do not need to set anything for the previous conditions.
+        if (validationErrors.Count <= 0)
+            validData = true;
+
+        return validData;
+    }
+
+    private List<string> VerifyPasswordRequirements(string pw)
+    {
+        // Created our list of password errors.
+        List<string> errors = new List<string>();
+
+        // We dont allow empty passwords.
+        if (string.IsNullOrWhiteSpace(pw))
+        {
+            errors.Add("Password is null or empty!");
+
+            // If the password is empty, there is no point in attempting to evaluate any of the remaining conditions, they will all fail.
+            return errors;
+        }
+
+        // Enforce password length 8  to 16 chracters.
+        if (pw.Length < 8 )
+            errors.Add("Password must be at least 8 chracters in length.");
+
+        // Enforce password length 8  to 16 chracters.
+        if (pw.Length > 16)
+            errors.Add("Password must be less than 16 characters in length.");
+
+        // Enforce at least one upppercase letter in the password.
+        if (!Regex.IsMatch(pw, @"[A-Z]"))
+            errors.Add("Password must contain at least one uppercase letter.");
+
+        // Enforce at least one lowercase letter in the password.
+        if (!Regex.IsMatch(pw, @"[a-z]"))
+            errors.Add("Password must contain at least one lowercase letter.");
+
+        // Enforce atleast one number in the password.
+        if (!Regex.IsMatch(pw, @"[0-9]"))
+            errors.Add("Password must contain at least one digit.");
+
+        return errors;
+    }
+
+    public static bool IsValidUrl(string url)
+    {
+        if (Uri.TryCreate(url, UriKind.Absolute, out Uri parsedUri))
+        {
+            return parsedUri.Scheme == "uo" || parsedUri.Scheme == "http" || parsedUri.Scheme == "https";
+        }
+
+        if (Uri.TryCreate($"uo://{url}", UriKind.Absolute, out parsedUri))
+        {
+            return parsedUri.Scheme == "uo";
+        }
+
+        return false;
+    }
+
+    public bool IsValidImageUrl(string imageUrl)
+    {
+        using (var httpClient = new HttpClient())
+        {
+            httpClient.DefaultRequestHeaders.Accept.TryParseAdd("image/*");
+
+            try
+            {
+                var response = httpClient.SendAsync(new HttpRequestMessage(HttpMethod.Head, imageUrl)).Result;
+                return response.IsSuccessStatusCode && response.Content.Headers.ContentType.MediaType.StartsWith("image/");
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+    }
+
+    public string ValidateAndSanitizeBio( string bio )
+    {
+        // Basic validation (adjust limits as needed)
+        if (bio.Length > 500)
+        {
+            validationErrors.Add("Biography must be less than 500 characters.");
+        }
+
+        // Remove potentially harmful scripts using regular expressions
+        bio = Regex.Replace(bio, @"<script[^>]*>.*?</script>", string.Empty, RegexOptions.IgnoreCase);
+
+        // Encode special characters to prevent XSS attacks
+        bio = HttpUtility.HtmlEncode(bio);
+
+        return bio;
+    }
+}

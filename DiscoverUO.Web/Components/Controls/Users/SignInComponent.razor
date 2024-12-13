@@ -41,7 +41,7 @@
             return;
         }
 
-        var userName = Details.Username;
+        var userName = Details.Username.ToLower();
         var password = Details.Password;
 
         AuthenticationData data = new AuthenticationData(userName, password, false);

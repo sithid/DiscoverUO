@@ -181,7 +181,7 @@
         }
       }
     },
-    "/api/servers/CreateServer": {
+    "/api/servers/create_server": {
       "post": {
         "tags": [
           "DiscoverUOServers"
@@ -959,7 +959,65 @@
         }
       }
     },
-    "/api/users/update/UpdatePassword/{id}": {
+    "/api/users/updateuser/{username}": {
+      "put": {
+        "tags": [
+          "DiscoverUOUsers"
+        ],
+        "parameters": [
+          {
+            "name": "username",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateUserData"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateUserData"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateUserData"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/IResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/users/password/update/id/{id}": {
       "put": {
         "tags": [
           "DiscoverUOUsers"
@@ -1025,26 +1083,77 @@
         }
       }
     },
-    "/api/users/profiles/update/UpdateProfile/{id}": {
+    "/api/users/password/update/{username}": {
       "put": {
         "tags": [
           "DiscoverUOUsers"
         ],
         "parameters": [
           {
-            "name": "ownerId",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "id",
+            "name": "username",
             "in": "path",
             "required": true,
             "schema": {
               "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateUserPasswordData"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateUserPasswordData"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateUserPasswordData"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/IResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/users/profiles/update/{profId}": {
+      "put": {
+        "tags": [
+          "DiscoverUOUsers"
+        ],
+        "parameters": [
+          {
+            "name": "profId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
             }
           }
         ],
@@ -1444,6 +1553,10 @@
       "ProfileData": {
         "type": "object",
         "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
           "userBiography": {
             "type": "string",
             "nullable": true

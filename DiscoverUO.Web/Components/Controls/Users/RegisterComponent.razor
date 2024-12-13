@@ -69,7 +69,7 @@
         }
 
         RegisterData = new RegisterUserData();
-        RegisterData.UserName = username;
+        RegisterData.UserName = username.ToLower();
         RegisterData.Password = password;
         RegisterData.Email = email;
 

@@ -29,6 +29,7 @@
             <MudSpacer />
             <MudSpacer />
             <MudSpacer />
+            <MudIconButton Icon="@Icons.Material.Filled.Add" Color="Color.Inherit" Edge="Edge.End" OnClick="@AddServerOnClick" />
             <MudIconButton Icon="@Icons.Material.Filled.Dashboard" Color="Color.Inherit" Edge="Edge.End" OnClick="@AppbarNavToDashboard" />
             <MudIconButton Icon="@Icons.Material.Filled.Logout" Color="Color.Inherit" Edge="Edge.End" OnClick="@AppBarSignOut" />
         }
@@ -44,19 +45,24 @@
 {
     private SessionManager UserSession = new SessionManager();
 
-    void AppBarSignOut()
+    private void AppBarSignOut()
     {
         UserSession.ConfigureAnonymousSession();
         snackbar.Add("Logout successful! Redirecting to home.", Severity.Success);
         navManager.NavigateTo("/");
     }
 
-    void AppBarNavToSignIn()
+    private void AppBarNavToSignIn()
     {
         navManager.NavigateTo("/signin");
     }
 
-    void AppbarNavToDashboard()
+    private void AddServerOnClick()
+    {
+        navManager.NavigateTo("servers/public/create");
+    }
+
+    private void AppbarNavToDashboard()
     {
         navManager.NavigateTo("/dashboard");
     }

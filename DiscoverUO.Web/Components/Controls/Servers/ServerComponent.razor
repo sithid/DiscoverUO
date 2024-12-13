@@ -38,6 +38,7 @@
                         if (UserSession.UserOwnedServers.Contains(ServerData) || UserSession.Role >= UserRole.Moderator)
                         {
                             <MudButton Variant="Variant.Outlined" OnClick="@(() => EditServerOnClick(ServerData))" Color="Color.Primary">Edit</MudButton>
+                            <MudButton Variant="Variant.Outlined" OnClick="@(() => RemoveServerOnClick(ServerData))" Color="Color.Primary">Remove</MudButton>
                         }
                     }
                     <MudSpacer />
@@ -70,6 +71,27 @@
         UserSession.UpdateServerId = data.Id;
 
         navManager.NavigateTo("/servers/update");
+    }
+
+    private void RemoveServerOnClick(ServerData data)
+    {
+        var removeServerRsp = UserSession.RemoveServer(data.Id, data, client);
+
+        if (removeServerRsp.Success)
+        {
+            var updatePublicServers = UserSession.GetPublicServersList(client);
+            var updateUserOwnedServers = UserSession.GetUserOwnedServers(client);
+            UserSession.UserOwnedServers.RemoveAll(x => x.Id == data.Id);
+
+            snackbar.Add(removeServerRsp.Message, Severity.Success);
+        }
+        else
+        {
+            snackbar.Add(removeServerRsp.Message, Severity.Error);
+        }
+
+        StateHasChanged();
+        navManager.Refresh();
     }
 
     /// <summary>

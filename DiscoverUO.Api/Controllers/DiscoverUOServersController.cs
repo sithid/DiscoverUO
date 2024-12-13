@@ -238,8 +238,8 @@ namespace DiscoverUO.Api.Controllers
         }
 
         [Authorize] // IResponse
-        [HttpPost("CreateServer")]
-        public async Task<ActionResult> AddServer(ServerRegistrationData createServerDto)
+        [HttpPost("create_server")]
+        public async Task<ActionResult> AddServer(ServerRegistrationData createServerData)
         {
             if (!ModelState.IsValid)
             {
@@ -267,7 +267,19 @@ namespace DiscoverUO.Api.Controllers
                 return Unauthorized(failedUnauthorized);
             }
 
-            var serverToAdd = _mapper.Map<Server>(createServerDto);
+            if( AddressInUse( createServerData.ServerAddress ).Result )
+            {
+                var createServerRsp = new RequestFailedResponse
+                {
+                    Success = false,
+                    StatusCode = HttpStatusCode.BadRequest,
+                    Message = "That server address is already in use.  Please try something unique."
+                };
+
+                return BadRequest(createServerRsp);
+            }
+
+            var serverToAdd = _mapper.Map<Server>(createServerData);
             serverToAdd.OwnerId = currentUser.Id;
 
             _context.Servers.Add(serverToAdd);
@@ -569,5 +581,15 @@ namespace DiscoverUO.Api.Controllers
         }
 
         #endregion
+
+        private async Task<bool> AddressInUse( string addr )
+        {
+            var exists = await _context.Servers.FirstOrDefaultAsync(u => string.Equals(u.ServerAddress.ToLower(), addr));
+
+            if (exists != null)
+                return true;
+
+            return false;
+        }
     }
 }

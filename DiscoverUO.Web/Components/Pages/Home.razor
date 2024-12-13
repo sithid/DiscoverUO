@@ -1,7 +1,7 @@
 ﻿@inject HttpClient client
 @page "/"
 
-<PageTitle>Home</PageTitle>
+<PageTitle>DiscoverUO Home</PageTitle>
 
 <MudText Style="font-size: 64px" Align="Align.Center" Color="Color.Primary" GutterBottom="true">Welcome to DiscoverUO!</MudText>
 <MudContainer MaxWidth="MaxWidth.Medium">
@@ -25,15 +25,6 @@
 
         var updatePublicServers = UserSession.GetPublicServersList(client);
         var updateOwnedServers = UserSession.GetUserOwnedServers(client);
-
-        if (updatePublicServers.Success)
-        {
-            Console.WriteLine($"Public serverlist loaded: {UserSession.PublicServers.Count}");
-        }
-        if (updateOwnedServers.Success)
-        {
-            Console.WriteLine($"User owned servers loaded: {UserSession.UserOwnedServers.Count}");
-        }
     }
 
     protected override void OnAfterRender(bool firstRender)

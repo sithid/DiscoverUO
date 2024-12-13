@@ -1,0 +1,24 @@
+﻿@inject NavigationManager navManager
+@inject ISnackbar snackbar
+@page "/user/update"
+
+<PageTitle>Update User</PageTitle>
+
+@if (UserSession.UserAuthenticated)
+{
+    <MudContainer>
+        <UpdateUserComponent />
+    </MudContainer>
+}
+else
+{
+    snackbar.Add("You must be logged in update your information.", Severity.Error);
+    navManager.NavigateTo("/signin");
+}
+
+@code
+{
+    [CascadingParameter]
+    public SessionManager UserSession { get; set; }
+
+}

@@ -8,16 +8,16 @@
 <MudPaper Class="ma-2 mt-2 pa-16">
     <MudItem>
         <MudForm Spacing="4">
-            <MudText Typo="Typo.h1" Align="Align.Center" GutterBottom="true">Update Public Server</MudText>
-            <MudTextField @bind-Value="@updateData.ServerName" T="string" Label="Server Name" />
-            <MudTextField @bind-Value="@updateData.ServerAddress" T="string" Label="Server Connection Address" />
-            <MudTextField @bind-Value="@updateData.ServerPort" T="int" Label="Port" />
-            <MudTextField @bind-Value="@updateData.ServerWebsite" T="string" Label="Server Website" />
-            <MudTextField @bind-Value="@updateData.ServerBanner" T="string" Label="Server Banner" />
-            <MudTextField @bind-Value="@updateData.ServerEra" T="string" Label="Server Era" />
-            <MudCheckBox @bind-Value="@updateData.PvPEnabled" T="bool" Label="PvP Enabled" />
-            <MudCheckBox @bind-Value="@updateData.IsPublic" T="bool" Label="Is Public" />
-            <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="@SubmitUpdate">Update Favorite</MudButton>
+            <MudText Typo="Typo.h1" Align="Align.Center" GutterBottom="true">Add Public Server</MudText>
+            <MudTextField @bind-Value="@serverData.ServerName" T="string" Label="Server Name" />
+            <MudTextField @bind-Value="@serverData.ServerAddress" T="string" Label="Server Connection Address" />
+            <MudTextField @bind-Value="@serverData.ServerPort" T="int" Label="Port" />
+            <MudTextField @bind-Value="@serverData.ServerWebsite" T="string" Label="Server Website" />
+            <MudTextField @bind-Value="@serverData.ServerBanner" T="string" Label="Server Banner" />
+            <MudTextField @bind-Value="@serverData.ServerEra" T="string" Label="Server Era" />
+            <MudCheckBox @bind-Value="@serverData.PvPEnabled" T="bool" Label="PvP Enabled" />
+            <MudCheckBox @bind-Value="@serverData.IsPublic" T="bool" Label="Is Public" />
+            <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="@SubmitUpdate">Add Server</MudButton>
         </MudForm>
     </MudItem>
     <MudItem>
@@ -37,7 +37,7 @@
     [CascadingParameter]
     public SessionManager UserSession{ get; set; }
 
-    private ServerUpdateData updateData = new ServerUpdateData();
+    private ServerRegistrationData serverData = new ServerRegistrationData();
 
     private List<string> errors = new List<string>();
 
@@ -50,17 +50,17 @@
 
     private void SetBindData()
     {
-        updateData.ServerName = UserSession.UpdateServerTmp.ServerName;
-        updateData.ServerAddress = UserSession.UpdateServerTmp.ServerAddress;
-        updateData.ServerPort = UserSession.UpdateServerTmp.ServerPort;
-        updateData.PvPEnabled = UserSession.UpdateServerTmp.PvPEnabled;
-        updateData.IsPublic = UserSession.UpdateServerTmp.IsPublic;
-        updateData.ServerEra = UserSession.UpdateServerTmp.ServerEra;
-        updateData.ServerBanner = UserSession.UpdateServerTmp.ServerBanner;
-        updateData.ServerWebsite = UserSession.UpdateServerTmp.ServerWebsite;
+        serverData.ServerName = "My Public Server";
+        serverData.ServerAddress = "playuo.example.net";
+        serverData.ServerPort = 2593;
+        serverData.PvPEnabled = true;
+        serverData.IsPublic = true;
+        serverData.ServerEra = "UO:ML";
+        serverData.ServerBanner = string.Empty;
+        serverData.ServerWebsite = string.Empty;
     }
 
-    private bool ValidItemData(ServerUpdateData data)
+    private bool ValidItemData(ServerRegistrationData data)
     {
         errors = new List<string>();
 
@@ -98,25 +98,25 @@
 
     private void SubmitUpdate()
     {
-        UserSession.UpdateServerTmp = updateData;
-
-        if (!ValidItemData(UserSession.UpdateServerTmp))
+        if (!ValidItemData(serverData))
         {
             return;
         }
 
-        var updateServerRsp = UserSession.UpdateServer(UserSession.UpdateServerId, UserSession.UpdateServerTmp, client);
+        var createServerRsp = UserSession.AddServer(serverData, client);
 
-        if (updateServerRsp.Success)
+        if (createServerRsp.Success)
         {
-            snackbar.Add(updateServerRsp.Message, Severity.Success);
+            snackbar.Add(createServerRsp.Message, Severity.Success);
             navManager.NavigateTo("/");
         }
         else
         {
-            snackbar.Add($"Failed to add the server: {updateServerRsp.Message}", Severity.Error);
+            snackbar.Add($"Failed to add the server: {createServerRsp.Message}", Severity.Error);
             return;
         }
+
+        StateHasChanged();
     }
 
     public static bool IsValidUrl(string url)
