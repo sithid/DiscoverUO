@@ -28,9 +28,11 @@ namespace DiscoverUO.Web.Components.Data
         public bool Banned { get; set; }
 
         public List<ServerData> PublicServers { get; set; }
-        public List<ServerData> UserOwnedServer { get; set; }
+        public List<ServerData> UserOwnedServers { get; set; }
 
         public FavoriteItemData UpdateFavoriteTemp { get; set; }
+        public ServerUpdateData UpdateServerTmp { get; set; }
+        public int UpdateServerId { get; set; }
 
         // Multiple uses for this in the future.  One use would be for data analysis.
         private Dictionary<int, IResponse> ResponseCache { get; set; } = new Dictionary<int, IResponse>();
@@ -47,13 +49,20 @@ namespace DiscoverUO.Web.Components.Data
             Role = UserRole.BasicUser;
             UserAuthenticated = false;
             SecurityToken = string.Empty;
+
             UserProfile = new ProfileData();
             UserFavorites = new FavoritesData();
             UserFavorites.FavoritedItems = new List<FavoriteItemData>();
+            UpdateFavoriteTemp = null;
+
+            PublicServers = new List<ServerData>();
+            UserOwnedServers = new List<ServerData>();
+            UpdateServerTmp = null;
 
             DailyVotesRemaining = 0;
             ProfileId = 0;
             FavoritesId = 0;
+            UpdateServerId = 0;
         }
 
         public IResponse GetPublicServersList(HttpClient client)
@@ -142,9 +151,19 @@ namespace DiscoverUO.Web.Components.Data
                         Console.WriteLine($"Response Message: {profRequestResponse.Message}");
                     }
 
+                    var ownedServersRequestResponse = GetUserOwnedServers(client);
+
+                    if (!ownedServersRequestResponse.Success)
+                    {
+                        Console.WriteLine($"Failed to update user favorites data: {Username}");
+                        Console.WriteLine($"Response StatusCode: {ownedServersRequestResponse.StatusCode}");
+                        Console.WriteLine($"Response Message: {ownedServersRequestResponse.Message}");
+                    }
+
                     var miscMes = dataUpdateRsp.Success ? "found" : "not found";
                     var favMes = favsRequestResponse.Success ? "found" : "not found";
                     var profMes = profRequestResponse.Success ? "found" : "not found";
+                    var ownedMes = ownedServersRequestResponse.Success ? "found" : "not found";
 
                     return new BasicSuccessResponse
                     {
@@ -339,6 +358,101 @@ namespace DiscoverUO.Web.Components.Data
             catch (Exception ex)
             {
                 Console.WriteLine($"An exception was thrown while getting user favorites data.");
+                Console.WriteLine($"{ex.Message}");
+
+                var exeRsp = new ExceptionThrownResponse
+                {
+                    Exception = ex,
+                    Message = ex.Message,
+                };
+
+                ResponseCache.Add(ResponseCache.Count, exeRsp);
+
+                return exeRsp;
+            }
+        }
+
+        public IResponse GetUserOwnedServers( HttpClient client )
+        {
+            var response = client.GetAsync($"https://localhost:7015/api/servers/view/owner/{Username}").Result;
+
+            try
+            {
+                if (response.IsSuccessStatusCode)
+                {
+                    var serverListReponse = response.Content.ReadFromJsonAsync<ServerListDataResponse>().Result;
+                    ResponseCache.Add(ResponseCache.Count, serverListReponse);
+
+                    UserOwnedServers = serverListReponse.List;
+
+                    return new BasicSuccessResponse
+                    {
+                        Success = true,
+                        Message = serverListReponse.Message,
+                        StatusCode = serverListReponse.StatusCode
+                    };
+                }
+                else
+                {
+                    var failedResponse = response.Content.ReadFromJsonAsync<RequestFailedResponse>().Result;
+                    ResponseCache.Add(ResponseCache.Count, failedResponse);
+
+                    return failedResponse;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Exception: {ex.Message}");
+
+                var exeRsp = new ExceptionThrownResponse
+                {
+                    Exception = ex,
+                    Message = ex.Message,
+                };
+
+                ResponseCache.Add(ResponseCache.Count, exeRsp);
+
+                return exeRsp;
+            }
+        }
+
+        public IResponse UpdateServer( int serverId, ServerUpdateData data, HttpClient client )
+        {
+            var jsonContent = JsonSerializer.Serialize(data);
+            var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+
+            var url = $"https://localhost:7015/api/servers/updateserver/{serverId}";
+            var request = new HttpRequestMessage(HttpMethod.Put, url);
+            request.Content = content;
+
+            var response = client.SendAsync(request).Result;
+
+            try
+            {
+                if (response.IsSuccessStatusCode)
+                {
+                    var favDataRsp = response.Content.ReadFromJsonAsync<BasicSuccessResponse>().Result;
+                    ResponseCache.Add(ResponseCache.Count, favDataRsp);
+
+                    var updatePublicServers = GetPublicServersList(client);
+                    var updateOwnedServers = GetUserOwnedServers(client);
+
+                    UpdateServerTmp = null;
+                    UpdateServerId = 0;
+
+                    return favDataRsp;
+                }
+                else
+                {
+                    var failedResponse = response.Content.ReadFromJsonAsync<RequestFailedResponse>().Result;
+                    ResponseCache.Add(ResponseCache.Count, failedResponse);
+
+                    return failedResponse;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An exception was throw while adding a favorite server from the public serverlist.");
                 Console.WriteLine($"{ex.Message}");
 
                 var exeRsp = new ExceptionThrownResponse

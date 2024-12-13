@@ -8,14 +8,14 @@
 @inject HttpClient client
 @inject NavigationManager navManager
 @inject ISnackbar snackbar
-@page "/favorites/update"
+@page "/servers/update"
 
-<PageTitle>Update Favorite</PageTitle>
+<PageTitle>Update Server</PageTitle>
 
 @if (UserSession.UserAuthenticated)
 {
     <MudContainer>
-        <UpdateFavoritesItemComponent />
+        <UpdateServerComponent />
     </MudContainer>
 }
 else

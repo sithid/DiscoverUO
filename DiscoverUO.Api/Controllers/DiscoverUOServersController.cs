@@ -297,7 +297,7 @@ namespace DiscoverUO.Api.Controllers
         }
 
         [Authorize] // IResponse
-        [HttpPut("update/UpdateServer/{serverId}")]
+        [HttpPut("updateserver/{serverId}")]
         public async Task<ActionResult<IResponse>> UpdateServer(int serverId, ServerUpdateData serverUpdateData)
         {
             if (!ModelState.IsValid)

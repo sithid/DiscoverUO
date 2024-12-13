@@ -23,12 +23,36 @@
     {
         base.OnInitialized();
 
-        var rsp = UserSession.GetPublicServersList(client);
+        var updatePublicServers = UserSession.GetPublicServersList(client);
+        var updateOwnedServers = UserSession.GetUserOwnedServers(client);
 
-        if( rsp.Success )
+        if (updatePublicServers.Success)
         {
-            Console.WriteLine($"Server data pulled, Public serverlist contains {UserSession.PublicServers.Count} servers.");
+            Console.WriteLine($"Public serverlist loaded: {UserSession.PublicServers.Count}");
         }
+        if (updateOwnedServers.Success)
+        {
+            Console.WriteLine($"User owned servers loaded: {UserSession.UserOwnedServers.Count}");
+        }
+    }
 
+    protected override void OnAfterRender(bool firstRender)
+    {
+        base.OnAfterRender(firstRender);
+
+        if( !firstRender )
+        {
+            var updatePublicServers = UserSession.GetPublicServersList(client);
+            var updateOwnedServers = UserSession.GetUserOwnedServers(client);
+
+            if (updatePublicServers.Success)
+            {
+                Console.WriteLine($"Public serverlist loaded: {UserSession.PublicServers.Count}");
+            }
+            if (updateOwnedServers.Success)
+            {
+                Console.WriteLine($"User owned servers loaded: {UserSession.UserOwnedServers.Count}");
+            }
+        }
     }
 }

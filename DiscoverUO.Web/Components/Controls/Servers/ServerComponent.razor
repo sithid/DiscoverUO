@@ -18,22 +18,27 @@
                     {
                         <MudCardMedia Height="150" Image="@ServerData.ServerBanner" /> 
                     }
-                    <MudText Typo="Typo.h5" Align="Align.Center">Server Era: @ServerData.ServerEra, PvP Enabled: @ServerData.PvPEnabled, @ServerData.Votes Votes</MudText>
-                    <MudText Typo="Typo.h5" Align="Align.Center">Server Address: @ServerData.ServerAddress</MudText>
-                    <MudText Typo="Typo.h5" Align="Align.Center">Server Port: @ServerData.ServerPort</MudText>
-                    <MudText Typo="Typo.h5" Align="Align.Center">
+                    <MudText Typo="Typo.h5" Align="Align.Left">Server Era: @ServerData.ServerEra, PvP Enabled: @ServerData.PvPEnabled, @ServerData.Votes Votes</MudText>
+                    <MudText Typo="Typo.h5" Align="Align.Left">Server Address: @ServerData.ServerAddress</MudText>
+                    <MudText Typo="Typo.h5" Align="Align.Left">Server Port: @ServerData.ServerPort</MudText>
+                    <MudText Typo="Typo.h5" Align="Align.Left">
                         Shard Website: <a target="_blank" href="@ServerData.ServerWebsite">@ServerData.ServerWebsite</a>
                     </MudText>
                 </MudCardContent>
                 <MudCardActions>
                     <MudSpacer />
-                    <MudText Typo="Typo.h5" Align="Align.Center">Server ID: @ServerData.Id</MudText>
+                    <MudText Typo="Typo.h5" Align="Align.Left">Server ID: @ServerData.Id</MudText>
                     <MudSpacer />
 
                     @if(UserSession.UserAuthenticated )
                     {
-                        <MudButton Variant="Variant.Outlined" OnClick="@(() => AddToFavorites(ServerData))" Color="Color.Primary">Favorite</MudButton>
-                        <MudButton Variant="Variant.Outlined" Color="Color.Primary">Vote</MudButton>
+                        <MudButton Variant="Variant.Outlined" OnClick="@(() => AddFavoriteOnClick(ServerData))" Color="Color.Primary">Favorite</MudButton>
+                        <MudButton Variant="Variant.Outlined" OnClick="@VoteOnClick" Color="Color.Primary">Vote</MudButton>
+
+                        if (UserSession.UserOwnedServers.Contains(ServerData) || UserSession.Role >= UserRole.Moderator)
+                        {
+                            <MudButton Variant="Variant.Outlined" OnClick="@(() => EditServerOnClick(ServerData))" Color="Color.Primary">Edit</MudButton>
+                        }
                     }
                     <MudSpacer />
                 </MudCardActions>
@@ -49,13 +54,39 @@
     [CascadingParameter]
     public SessionManager UserSession{ get; set; }
 
-    private bool ShowBanner( string banner)
+    private void EditServerOnClick( ServerData data )
+    {
+        ServerUpdateData updateData = new ServerUpdateData();
+
+        updateData.ServerName = data.ServerName;
+        updateData.ServerAddress = data.ServerAddress;
+        updateData.ServerPort = data.ServerPort;
+        updateData.PvPEnabled = data.PvPEnabled;
+        updateData.ServerEra = data.ServerEra;
+        updateData.ServerBanner = data.ServerBanner;
+        updateData.ServerWebsite = data.ServerWebsite;
+
+        UserSession.UpdateServerTmp = updateData;
+        UserSession.UpdateServerId = data.Id;
+
+        navManager.NavigateTo("/servers/update");
+    }
+
+    /// <summary>
+    /// NOT IMPLEMENTED
+    /// </summary>
+    private void VoteOnClick()
+    {
+        // NOT IMPLEMENTED
+    }
+
+    private bool ShowBanner(string banner)
     {
         if (!string.IsNullOrEmpty(banner))
         {
             if (IsValidUrl(banner))
             {
-                if (IsValidImageUrl(banner) )
+                if (IsValidImageUrl(banner))
                     return true;
             }
         }
@@ -63,22 +94,7 @@
         return false;
     }
 
-    private bool ServerIsFavorited( int id )
-    {
-        var getFavsRsp = UserSession.GetUserFavoritesData(client);
-
-        if( !getFavsRsp.Success )
-            return false;
-
-        var favData = UserSession.UserFavorites.FavoritedItems.Where(s => s.Id == id).ToList();
-
-        if( favData != null && favData.Count > 0 )
-            return true;
-
-        return false;
-    }
-
-    private async Task AddToFavorites(ServerData data)
+    private async Task AddFavoriteOnClick(ServerData data)
     {
         if (!UserSession.UserAuthenticated)
         {
@@ -126,6 +142,21 @@
         }
 
         StateHasChanged();
+    }
+
+    private bool ServerIsFavorited(int id)
+    {
+        var getFavsRsp = UserSession.GetUserFavoritesData(client);
+
+        if (!getFavsRsp.Success)
+            return false;
+
+        var favData = UserSession.UserFavorites.FavoritedItems.Where(s => s.Id == id).ToList();
+
+        if (favData != null && favData.Count > 0)
+            return true;
+
+        return false;
     }
 
     public static bool IsValidUrl(string url)

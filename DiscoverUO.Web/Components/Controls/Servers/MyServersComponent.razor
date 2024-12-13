@@ -9,14 +9,13 @@
 
 @if (UserSession.PublicServers != null)
 {
-    @foreach (ServerData server in UserSession.PublicServers)
+    @foreach (ServerData server in UserSession.UserOwnedServers)
     {
         <ServerComponent ServerData="@server" />
     }
 }
 @code
 {
-
     [CascadingParameter]
     public SessionManager UserSession { get; set; }
 }

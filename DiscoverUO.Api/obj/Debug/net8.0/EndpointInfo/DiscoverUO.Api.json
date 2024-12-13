@@ -212,7 +212,7 @@
         }
       }
     },
-    "/api/servers/update/UpdateServer/{serverId}": {
+    "/api/servers/updateserver/{serverId}": {
       "put": {
         "tags": [
           "DiscoverUOServers"
@@ -1549,6 +1549,9 @@
             "type": "integer",
             "format": "int32"
           },
+          "pvPEnabled": {
+            "type": "boolean"
+          },
           "serverEra": {
             "type": "string",
             "nullable": true
@@ -1560,9 +1563,6 @@
           "serverBanner": {
             "type": "string",
             "nullable": true
-          },
-          "pvPEnabled": {
-            "type": "boolean"
           },
           "isPublic": {
             "type": "boolean"

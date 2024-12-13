@@ -78,7 +78,7 @@
         if (!string.IsNullOrEmpty(serverWebsiteUri))
         {
             if (!IsValidUrl(serverWebsiteUri))
-                errors.Add("Server website must be a valid url.");
+                errors.Add("Server website must be a valid url  or empty.");
         }
 
         if (!string.IsNullOrEmpty(serverBannerUri))
@@ -87,7 +87,7 @@
             {
                 if (!IsValidImageUrl(serverBannerUri))
                 {
-                    errors.Add("Server banner must be a valid image url.");
+                    errors.Add("Server banner must be a valid image url or empty.");
                 }
             }
         }

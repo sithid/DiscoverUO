@@ -240,7 +240,7 @@
   {
     "ContainingType": "DiscoverUO.Api.Controllers.DiscoverUOServersController",
     "Method": "UpdateServer",
-    "RelativePath": "api/servers/update/UpdateServer/{serverId}",
+    "RelativePath": "api/servers/updateserver/{serverId}",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
