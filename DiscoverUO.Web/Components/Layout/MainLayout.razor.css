@@ -8,15 +8,6 @@ main {
     flex-direction: column;
 }
 
-.footer {
-    background-color: #f1f1f1;
-    padding: 10px;
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    text-align: center;
-}
-
 .ab-navlink {
     font-size: 16px;
     justify-content: center;

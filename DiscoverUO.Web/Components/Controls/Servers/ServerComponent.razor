@@ -10,7 +10,7 @@
 @if( ServerData != null )
 {
     <MudPaper>
-        <MudItem Class="mt-4 pa-4 mud-theme-secondary">
+        <MudItem Class="mt-4 pa-4 mud-theme-primary">
             <MudCard>
                 <MudCardContent>
                     <MudText Typo="Typo.h2" Align="Align.Center">@ServerData.ServerName</MudText>
@@ -24,10 +24,11 @@
                     <MudText Typo="Typo.h5" Align="Align.Left">
                         Shard Website: <a target="_blank" href="@ServerData.ServerWebsite">@ServerData.ServerWebsite</a>
                     </MudText>
+                    <MudText Typo="Typo.h5" Align="Align.Left">Server ID: @ServerData.Id</MudText>
                 </MudCardContent>
                 <MudCardActions>
                     <MudSpacer />
-                    <MudText Typo="Typo.h5" Align="Align.Left">Server ID: @ServerData.Id</MudText>
+                    <MudSpacer />
                     <MudSpacer />
 
                     @if(UserSession.UserAuthenticated )
@@ -66,6 +67,7 @@
         updateData.ServerEra = data.ServerEra;
         updateData.ServerBanner = data.ServerBanner;
         updateData.ServerWebsite = data.ServerWebsite;
+        updateData.IsPublic = data.IsPublic;
 
         UserSession.UpdateServerTmp = updateData;
         UserSession.UpdateServerId = data.Id;

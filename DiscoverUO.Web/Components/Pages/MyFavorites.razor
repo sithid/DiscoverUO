@@ -14,7 +14,7 @@
 
 <MudContainer>
     <MudPaper>
-        <MudItem xs="12" Class="mt-4 pa-4 mud-theme-secondary">
+        <MudItem xs="12" Class="mt-4 pa-4 mud-theme-primary">
             <MudCard>
                 <MudCardContent>
                     <MudText Typo="Typo.h2" Align="Align.Center" Color="Color.Primary" GutterBottom="true">Favorites</MudText>
@@ -30,7 +30,7 @@
     @foreach (FavoriteItemData tmpItem in UserSession.UserFavorites.FavoritedItems)
     {
         <MudPaper>
-            <MudItem Class="mt-4 pa-4 mud-theme-secondary">
+            <MudItem Class="mt-4 pa-4 mud-theme-primary">
                 <MudCard>
                     <MudCardContent>
                         <MudText Typo="Typo.h2" Align="Align.Center">@tmpItem.ServerName</MudText>

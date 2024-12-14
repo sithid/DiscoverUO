@@ -13,9 +13,16 @@ a, .btn-link {
 }
 
 .content {
-    padding-top: 1.1rem;
     max-width: 500px;
+    padding-top: 10px;
+    position: relative;
     margin: auto;
+}
+
+.footer {
+    position: absolute;
+    padding: 10px;
+    bottom: -1;
 }
 
 h1:focus {

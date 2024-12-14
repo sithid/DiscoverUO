@@ -47,7 +47,7 @@ namespace DiscoverUO.Web.Components.Data
         {
             Username = "Anonymous";
             Email = "anon@anon.net";
-            Role = UserRole.BasicUser;
+            Role = UserRole.Anonymous;
             UserAuthenticated = false;
             SecurityToken = string.Empty;
 
@@ -609,6 +609,7 @@ namespace DiscoverUO.Web.Components.Data
 
             var url = $"/api/servers/updateserver/{serverId}";
             var request = new HttpRequestMessage(HttpMethod.Put, url);
+
             request.Content = content;
 
             var response = client.SendAsync(request).Result;
@@ -762,6 +763,7 @@ namespace DiscoverUO.Web.Components.Data
 
                     var updateFavs = GetUserFavoritesData(client);
                     UpdateFavoriteTemp = null;
+
                     return favDataRsp;
                 }
                 else

@@ -8,7 +8,7 @@ namespace DiscoverUO.Api
 {
     public static class Permissions
     {
-        internal static readonly UserRole[] StandardPermissions = { UserRole.BasicUser, UserRole.AdvancedUser };
+        internal static readonly UserRole[] StandardPermissions = { UserRole.Anonymous, UserRole.BasicUser, UserRole.AdvancedUser };
         internal static readonly UserRole[] ElevatedPermissions = { UserRole.Moderator, UserRole.Admin, UserRole.Owner };
         internal static readonly UserRole[] AllPermissions = StandardPermissions.Concat(ElevatedPermissions).ToArray();
 
