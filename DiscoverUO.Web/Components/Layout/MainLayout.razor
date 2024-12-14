@@ -50,6 +50,7 @@
         UserSession.ConfigureAnonymousSession();
         snackbar.Add("Logout successful! Redirecting to home.", Severity.Success);
         navManager.NavigateTo("/");
+        navManager.Refresh(true);
     }
 
     private void AppBarNavToSignIn()
