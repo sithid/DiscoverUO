@@ -181,7 +181,7 @@
         }
       }
     },
-    "/api/servers/CreateServer": {
+    "/api/servers/create_server": {
       "post": {
         "tags": [
           "DiscoverUOServers"
@@ -207,29 +207,12 @@
         },
         "responses": {
           "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/IResponse"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/IResponse"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/IResponse"
-                }
-              }
-            }
+            "description": "OK"
           }
         }
       }
     },
-    "/api/servers/update/UpdateServer/{serverId}": {
+    "/api/servers/updateserver/{serverId}": {
       "put": {
         "tags": [
           "DiscoverUOServers"
@@ -288,7 +271,7 @@
         }
       }
     },
-    "/api/servers/ownership/transfer/{serverId}_{newOwnerId}": {
+    "/api/servers/ownership/transfer/{serverId}_{newOwnerName}": {
       "put": {
         "tags": [
           "DiscoverUOServers"
@@ -304,12 +287,11 @@
             }
           },
           {
-            "name": "newOwnerId",
+            "name": "newOwnerName",
             "in": "path",
             "required": true,
             "schema": {
-              "type": "integer",
-              "format": "int32"
+              "type": "string"
             }
           }
         ],
@@ -487,17 +469,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/FavoriteItemData"
+                  "$ref": "#/components/schemas/IResponse"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/FavoriteItemData"
+                  "$ref": "#/components/schemas/IResponse"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/FavoriteItemData"
+                  "$ref": "#/components/schemas/IResponse"
                 }
               }
             }
@@ -531,24 +513,7 @@
         },
         "responses": {
           "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/IResponse"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/IResponse"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/IResponse"
-                }
-              }
-            }
+            "description": "OK"
           }
         }
       }
@@ -707,29 +672,12 @@
         },
         "responses": {
           "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/IResponse"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/IResponse"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/IResponse"
-                }
-              }
-            }
+            "description": "OK"
           }
         }
       }
     },
-    "/api/users/profiles/view/{id}": {
+    "/api/users/profiles/view/id/{id}": {
       "get": {
         "tags": [
           "DiscoverUOUsers"
@@ -769,7 +717,46 @@
         }
       }
     },
-    "/api/users/view/dashboard": {
+    "/api/users/profiles/view/{owner}": {
+      "get": {
+        "tags": [
+          "DiscoverUOUsers"
+        ],
+        "parameters": [
+          {
+            "name": "owner",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/IResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/users/view": {
       "get": {
         "tags": [
           "DiscoverUOUsers"
@@ -972,7 +959,65 @@
         }
       }
     },
-    "/api/users/update/UpdatePassword/{id}": {
+    "/api/users/updateuser/{username}": {
+      "put": {
+        "tags": [
+          "DiscoverUOUsers"
+        ],
+        "parameters": [
+          {
+            "name": "username",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateUserData"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateUserData"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateUserData"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/IResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/users/password/update/id/{id}": {
       "put": {
         "tags": [
           "DiscoverUOUsers"
@@ -1038,26 +1083,77 @@
         }
       }
     },
-    "/api/users/profiles/update/UpdateProfile/{id}": {
+    "/api/users/password/update/{username}": {
       "put": {
         "tags": [
           "DiscoverUOUsers"
         ],
         "parameters": [
           {
-            "name": "ownerId",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "id",
+            "name": "username",
             "in": "path",
             "required": true,
             "schema": {
               "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateUserPasswordData"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateUserPasswordData"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateUserPasswordData"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/IResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/users/profiles/update/{profId}": {
+      "put": {
+        "tags": [
+          "DiscoverUOUsers"
+        ],
+        "parameters": [
+          {
+            "name": "profId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
             }
           }
         ],
@@ -1308,24 +1404,7 @@
         },
         "responses": {
           "200": {
-            "description": "OK",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/IResponse"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/IResponse"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/IResponse"
-                }
-              }
-            }
+            "description": "OK"
           }
         }
       }
@@ -1350,6 +1429,14 @@
       "FavoriteItemData": {
         "type": "object",
         "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "serverId": {
+            "type": "integer",
+            "format": "int32"
+          },
           "serverName": {
             "type": "string",
             "nullable": true
@@ -1466,6 +1553,10 @@
       "ProfileData": {
         "type": "object",
         "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
           "userBiography": {
             "type": "string",
             "nullable": true
@@ -1571,6 +1662,9 @@
             "type": "integer",
             "format": "int32"
           },
+          "pvPEnabled": {
+            "type": "boolean"
+          },
           "serverEra": {
             "type": "string",
             "nullable": true
@@ -1582,9 +1676,6 @@
           "serverBanner": {
             "type": "string",
             "nullable": true
-          },
-          "pvPEnabled": {
-            "type": "boolean"
           },
           "isPublic": {
             "type": "boolean"

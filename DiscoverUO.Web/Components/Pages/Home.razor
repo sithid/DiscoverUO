@@ -3,8 +3,31 @@
 
 <PageTitle>DiscoverUO Home</PageTitle>
 
-<MudText Style="font-size: 64px" Align="Align.Center" Color="Color.Primary" GutterBottom="true">Welcome to DiscoverUO!</MudText>
-<MudContainer MaxWidth="MaxWidth.Medium">
+<MudContainer MaxWidth="MaxWidth.Large">
+    <MudPaper>
+        <MudItem xs="16" Class="mt-4 pa-4 mud-theme-secondary">
+            <MudCard>
+                <MudCardHeader>
+                    <MudText Typo="Typo.h1" Align="Align.Center" Color="Color.Primary" GutterBottom="true">Welcome to DiscoverUO!</MudText>
+                </MudCardHeader>
+                <MudCardContent>
+                    <MudText Typo="Typo.h4" Align="Align.Center" Color="Color.Primary" GutterBottom="true">
+                        DiscoverUO is a public server listing website designed for the average UO player.  We aim to provide a simple way to
+                        view and share player ran Ultima Online servers.  You can either browse the public serverlist anonymously, or register a user to access
+                        additional features. 
+                    </MudText>
+                    <MudText Typo="Typo.h5" Align="Align.Center" Color="Color.Primary" GutterBottom="true">
+                        Please review our Terms Of Use
+                            <MudLink Href="/terms" Target="_blank">
+                                HERE
+                            </MudLink>
+                        before registering.
+                    </MudText>
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+    </MudPaper>
+
     @if( UserSession.PublicServers.Count > 0 )
     {
         <PublicServersComponent/>

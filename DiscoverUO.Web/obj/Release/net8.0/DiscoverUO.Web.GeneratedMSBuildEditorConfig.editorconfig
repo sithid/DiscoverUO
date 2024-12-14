@@ -27,6 +27,18 @@ build_property.EnableCodeStyleSeverity =
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xBcHAucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/demon/OneDrive/Documents/GitHub/DiscoverUO/DiscoverUO.Web/Components/Controls/Favorites/AddCustomFavoritesItemComponent.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xDb250cm9sc1xGYXZvcml0ZXNcQWRkQ3VzdG9tRmF2b3JpdGVzSXRlbUNvbXBvbmVudC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/demon/OneDrive/Documents/GitHub/DiscoverUO/DiscoverUO.Web/Components/Controls/Favorites/UpdateFavoritesItemComponent.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xDb250cm9sc1xGYXZvcml0ZXNcVXBkYXRlRmF2b3JpdGVzSXRlbUNvbXBvbmVudC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/demon/OneDrive/Documents/GitHub/DiscoverUO/DiscoverUO.Web/Components/Controls/Servers/AddServerComponent.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xDb250cm9sc1xTZXJ2ZXJzXEFkZFNlcnZlckNvbXBvbmVudC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/demon/OneDrive/Documents/GitHub/DiscoverUO/DiscoverUO.Web/Components/Controls/Servers/MyServersComponent.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xDb250cm9sc1xTZXJ2ZXJzXE15U2VydmVyc0NvbXBvbmVudC5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
@@ -39,6 +51,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xDb250cm9sc1xTZXJ2ZXJzXFNlcnZlckNvbXBvbmVudC5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/demon/OneDrive/Documents/GitHub/DiscoverUO/DiscoverUO.Web/Components/Controls/Servers/UpdateServerComponent.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xDb250cm9sc1xTZXJ2ZXJzXFVwZGF0ZVNlcnZlckNvbXBvbmVudC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/demon/OneDrive/Documents/GitHub/DiscoverUO/DiscoverUO.Web/Components/Controls/Users/RegisterComponent.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xDb250cm9sc1xVc2Vyc1xSZWdpc3RlckNvbXBvbmVudC5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
@@ -47,12 +63,20 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xDb250cm9sc1xVc2Vyc1xTaWduSW5Db21wb25lbnQucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/demon/OneDrive/Documents/GitHub/DiscoverUO/DiscoverUO.Web/Components/Pages/Dashboard.razor]
-build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xEYXNoYm9hcmQucmF6b3I=
+[C:/Users/demon/OneDrive/Documents/GitHub/DiscoverUO/DiscoverUO.Web/Components/Controls/Users/UpdateUserComponent.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xDb250cm9sc1xVc2Vyc1xVcGRhdGVVc2VyQ29tcG9uZW50LnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/demon/OneDrive/Documents/GitHub/DiscoverUO/DiscoverUO.Web/Components/Pages/Error.razor]
-build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xFcnJvci5yYXpvcg==
+[C:/Users/demon/OneDrive/Documents/GitHub/DiscoverUO/DiscoverUO.Web/Components/Pages/AddCustomFavoritesItem.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xBZGRDdXN0b21GYXZvcml0ZXNJdGVtLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/demon/OneDrive/Documents/GitHub/DiscoverUO/DiscoverUO.Web/Components/Pages/CreateServer.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xDcmVhdGVTZXJ2ZXIucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/demon/OneDrive/Documents/GitHub/DiscoverUO/DiscoverUO.Web/Components/Pages/Dashboard.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xEYXNoYm9hcmQucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/demon/OneDrive/Documents/GitHub/DiscoverUO/DiscoverUO.Web/Components/Pages/Home.razor]
@@ -73,6 +97,18 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/demon/OneDrive/Documents/GitHub/DiscoverUO/DiscoverUO.Web/Components/Pages/SignIn.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xTaWduSW4ucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/demon/OneDrive/Documents/GitHub/DiscoverUO/DiscoverUO.Web/Components/Pages/UpdateFavoritesItem.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xVcGRhdGVGYXZvcml0ZXNJdGVtLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/demon/OneDrive/Documents/GitHub/DiscoverUO/DiscoverUO.Web/Components/Pages/UpdateServerData.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xVcGRhdGVTZXJ2ZXJEYXRhLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/demon/OneDrive/Documents/GitHub/DiscoverUO/DiscoverUO.Web/Components/Pages/UpdateUserData.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xQYWdlc1xVcGRhdGVVc2VyRGF0YS5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/demon/OneDrive/Documents/GitHub/DiscoverUO/DiscoverUO.Web/Components/Routes.razor]

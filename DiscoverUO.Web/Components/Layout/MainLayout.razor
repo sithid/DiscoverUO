@@ -39,6 +39,10 @@
             @Body
         </CascadingValue>
     </MudMainContent>
+
+    <div class="footer" >
+        <MudText Typo="Typo.body1" Align="Align.Center" GutterBottom="true">DiscoverUO &copy 2024 James Glosser</MudText>
+    </div>
 </MudLayout>
 
 @code
@@ -49,8 +53,8 @@
     {
         UserSession.ConfigureAnonymousSession();
         snackbar.Add("Logout successful! Redirecting to home.", Severity.Success);
-        navManager.NavigateTo("/");
         navManager.Refresh(true);
+        navManager.NavigateTo("/");
     }
 
     private void AppBarNavToSignIn()
