@@ -68,7 +68,7 @@ namespace DiscoverUO.Web.Components.Data
 
         public IResponse GetPublicServersList(HttpClient client)
         {
-            var response = client.GetAsync("https://localhost:7015/api/servers/public").Result;
+            var response = client.GetAsync("/api/servers/public").Result;
 
             try
             {
@@ -114,7 +114,7 @@ namespace DiscoverUO.Web.Components.Data
         {
             try
             {
-                var httpResponse = client.PostAsJsonAsync("https://localhost:7015/api/users/authenticate", data).Result;
+                var httpResponse = client.PostAsJsonAsync("/api/users/authenticate", data).Result;
 
                 if (httpResponse.IsSuccessStatusCode)
                 {
@@ -194,7 +194,7 @@ namespace DiscoverUO.Web.Components.Data
 
         public IResponse RegisterUser(RegisterUserData newUserData, HttpClient client)
         {
-            var registerResponse = client.PostAsJsonAsync("https://localhost:7015/api/users/register", newUserData).Result;
+            var registerResponse = client.PostAsJsonAsync("/api/users/register", newUserData).Result;
 
             if (!registerResponse.IsSuccessStatusCode)
             {
@@ -218,7 +218,7 @@ namespace DiscoverUO.Web.Components.Data
         {
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", SecurityToken);
 
-            var response = client.GetAsync("https://localhost:7015/api/users/view").Result;
+            var response = client.GetAsync("/api/users/view").Result;
 
             try
             {
@@ -271,7 +271,7 @@ namespace DiscoverUO.Web.Components.Data
         {
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", SecurityToken);
 
-            var response = client.GetAsync("https://localhost:7015/api/users/profiles/view").Result;
+            var response = client.GetAsync("/api/users/profiles/view").Result;
 
             try
             {
@@ -319,7 +319,7 @@ namespace DiscoverUO.Web.Components.Data
         {
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", SecurityToken);
 
-            var response = client.GetAsync("https://localhost:7015/api/favorites/list/view").Result;
+            var response = client.GetAsync("/api/favorites/list/view").Result;
 
             try
             {
@@ -376,7 +376,7 @@ namespace DiscoverUO.Web.Components.Data
 
         public IResponse GetUserOwnedServers( HttpClient client )
         {
-            var response = client.GetAsync($"https://localhost:7015/api/servers/view/owner/{Username}").Result;
+            var response = client.GetAsync($"/api/servers/view/owner/{Username}").Result;
 
             try
             {
@@ -423,7 +423,7 @@ namespace DiscoverUO.Web.Components.Data
             var jsonContent = JsonSerializer.Serialize(data);
             var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
 
-            var url = $"https://localhost:7015/api/users/updateuser/{data.UserName}";
+            var url = $"/api/users/updateuser/{data.UserName}";
             var request = new HttpRequestMessage(HttpMethod.Put, url);
             request.Content = content;
 
@@ -470,7 +470,7 @@ namespace DiscoverUO.Web.Components.Data
             var jsonContent = JsonSerializer.Serialize(data);
             var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
 
-            var url = $"https://localhost:7015/api/users/profiles/update/{data.Id}";
+            var url = $"/api/users/profiles/update/{data.Id}";
             var request = new HttpRequestMessage(HttpMethod.Put, url);
             request.Content = content;
 
@@ -517,7 +517,7 @@ namespace DiscoverUO.Web.Components.Data
             var jsonContent = JsonSerializer.Serialize(data);
             var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
 
-            var url = $"https://localhost:7015/api/users/password/update/{username}";
+            var url = $"/api/users/password/update/{username}";
             var request = new HttpRequestMessage(HttpMethod.Put, url);
             request.Content = content;
 
@@ -561,7 +561,7 @@ namespace DiscoverUO.Web.Components.Data
 
         public IResponse AddServer(ServerRegistrationData data, HttpClient client )
         {
-            var createServerRsp = client.PostAsJsonAsync("https://localhost:7015/api/servers/create_server", data).Result;
+            var createServerRsp = client.PostAsJsonAsync("/api/servers/create_server", data).Result;
 
             try
             {
@@ -607,7 +607,7 @@ namespace DiscoverUO.Web.Components.Data
             var jsonContent = JsonSerializer.Serialize(data);
             var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
 
-            var url = $"https://localhost:7015/api/servers/updateserver/{serverId}";
+            var url = $"/api/servers/updateserver/{serverId}";
             var request = new HttpRequestMessage(HttpMethod.Put, url);
             request.Content = content;
 
@@ -655,7 +655,7 @@ namespace DiscoverUO.Web.Components.Data
 
         public IResponse RemoveServer( int serverId, ServerData data, HttpClient client )
         {
-            string url = $"https://localhost:7015/api/servers/delete/{serverId}";
+            string url = $"/api/servers/delete/{serverId}";
 
             var request = new HttpRequestMessage(HttpMethod.Delete, url);
 
@@ -702,7 +702,7 @@ namespace DiscoverUO.Web.Components.Data
 
         public IResponse AddUserFavoritesItem(FavoriteItemData itemData, HttpClient client)
         {
-            var addFavRsp = client.PostAsJsonAsync("https://localhost:7015/api/favorites/list/item/add", itemData).Result;
+            var addFavRsp = client.PostAsJsonAsync("/api/favorites/list/item/add", itemData).Result;
 
             try
             {
@@ -747,7 +747,7 @@ namespace DiscoverUO.Web.Components.Data
             var jsonContent = JsonSerializer.Serialize(itemData);
             var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
 
-            var url = $"https://localhost:7015/api/favorites/list/item/update/{itemData.Id}";
+            var url = $"/api/favorites/list/item/update/{itemData.Id}";
             var request = new HttpRequestMessage(HttpMethod.Put, url);
             request.Content = content;
 
@@ -791,7 +791,7 @@ namespace DiscoverUO.Web.Components.Data
 
         public IResponse RemoveItemFromFavorites(int favId, HttpClient client)
         {
-            string url = $"https://localhost:7015/api/favorites/list/item/delete/{favId}";
+            string url = $"/api/favorites/list/item/delete/{favId}";
 
             var request = new HttpRequestMessage(HttpMethod.Delete, url);
 

@@ -46,7 +46,7 @@ namespace DiscoverUO.Api.Controllers
         [HttpPost("authenticate")]
         public async Task<ActionResult<IResponse>> Authenticate(AuthenticationData loginDto)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.UserName == loginDto.Username);
+            var user = await _context.Users.FirstOrDefaultAsync(u => string.Equals(u.UserName.ToLower(), loginDto.Username.ToLower()));
 
             if (user == null)
             {
@@ -74,7 +74,7 @@ namespace DiscoverUO.Api.Controllers
 
             var identityInfo = new IdentityData
             {
-                Username = user.UserName,
+                Username = user.UserName.ToLower(),
                 Role = user.Role,
                 SecurityToken = GenerateToken(user)
             };
@@ -106,7 +106,7 @@ namespace DiscoverUO.Api.Controllers
                 return BadRequest(failedResponse);
             }
 
-            if ( string.IsNullOrEmpty( registerUserData.UserName ) || string.IsNullOrEmpty( registerUserData.Password ) )
+            if ( string.IsNullOrEmpty( registerUserData.UserName.ToLower() ) || string.IsNullOrEmpty( registerUserData.Password ) )
             {
                 var registerUserResponse = new RequestFailedResponse
                 {
@@ -142,7 +142,7 @@ namespace DiscoverUO.Api.Controllers
             user.Role = UserRole.BasicUser;
             user.CreationDate = DateTime.Now.ToString();
 
-            var userProfile = new UserProfile { OwnerId = user.Id, UserDisplayName = user.UserName };
+            var userProfile = new UserProfile { OwnerId = user.Id, UserDisplayName = user.UserName.ToLower() };
             user.Profile = userProfile;
 
             var favoritesList = new UserFavoritesList { OwnerId = user.Id };
@@ -209,7 +209,7 @@ namespace DiscoverUO.Api.Controllers
         [HttpGet("profiles/view/{owner}")]
         public async Task<ActionResult<IResponse>> ViewProfileByDisplayName(string owner)
         {
-            var profileOwner = await _context.Users.FirstOrDefaultAsync(user => user.UserName == owner);
+            var profileOwner = await _context.Users.FirstOrDefaultAsync(user => string.Equals(user.UserName.ToLower(), owner));
 
             if( profileOwner == null)
             {
@@ -271,7 +271,7 @@ namespace DiscoverUO.Api.Controllers
                 return NotFound(notFound);
             }
 
-            Console.WriteLine($"Current User found: {user.UserName}, {user.Id}");
+            Console.WriteLine($"Current User found: {user.UserName.ToLower()}, {user.Id}");
 
             var userData = _mapper.Map<UserEntityData>(user);
             var userDataRsp = new UserEntityResponse
@@ -325,9 +325,7 @@ namespace DiscoverUO.Api.Controllers
         public async Task<ActionResult<IResponse>> GetUserByName(string userName)
         {
             var user = await _context.Users
-                .Include(u => u.Profile)
-                .Include(u => u.Favorites)
-                .FirstOrDefaultAsync(u => u.UserName == userName);
+                .FirstOrDefaultAsync(u => string.Equals( u.UserName.ToLower(),userName.ToLower()));
 
             if (user == null)
             {
@@ -391,7 +389,7 @@ namespace DiscoverUO.Api.Controllers
             var profileResponse = new ProfileResponse
             {
                 Success = true,
-                Message = $"User profile for {currentUser.UserName} found.",
+                Message = $"User profile for {currentUser.UserName.ToLower()} found.",
                 StatusCode = HttpStatusCode.OK,
                 Entity = userProfileData
             };
@@ -458,7 +456,7 @@ namespace DiscoverUO.Api.Controllers
                 }
             }
 
-            if( userNameExists(updateUserRequest.UserName).Result )
+            if( userNameExists(updateUserRequest.UserName.ToLower()).Result )
             {
                 var userBadRequest = new RequestFailedResponse
                 {
@@ -470,7 +468,7 @@ namespace DiscoverUO.Api.Controllers
                 return Unauthorized(userBadRequest);
             }
 
-            targetUser.UserName = updateUserRequest.UserName;
+            targetUser.UserName = updateUserRequest.UserName.ToLower();
             targetUser.Email = updateUserRequest.Email;
 
             _context.Entry(targetUser).State = EntityState.Modified;
@@ -535,7 +533,7 @@ namespace DiscoverUO.Api.Controllers
                 return Unauthorized(userNoPerms);
             }
 
-            var targetUser = await _context.Users.FirstOrDefaultAsync(u => string.Equals(u.UserName, username));
+            var targetUser = await _context.Users.FirstOrDefaultAsync(u => string.Equals(u.UserName.ToLower(), username.ToLower()));
 
             if (targetUser == null)
             {
@@ -549,7 +547,7 @@ namespace DiscoverUO.Api.Controllers
                 return NotFound(notFound);
             }
 
-            if (currentUser.UserName != username )
+            if (currentUser.UserName.ToLower() != username.ToLower())
             {
                 if (!Permissions.HasElevatedRole(currentUser.Role) && !Permissions.HasHigherPermission(currentUser.Role, targetUser.Role))
                 {
@@ -564,7 +562,7 @@ namespace DiscoverUO.Api.Controllers
                 }
             }
 
-            if (userNameExists(updateUserRequest.UserName).Result)
+            if (userNameExists(updateUserRequest.UserName.ToLower()).Result)
             {
                 var userBadRequest = new RequestFailedResponse
                 {
@@ -576,7 +574,7 @@ namespace DiscoverUO.Api.Controllers
                 return Unauthorized(userBadRequest);
             }
 
-            targetUser.UserName = updateUserRequest.UserName;
+            targetUser.UserName = updateUserRequest.UserName.ToLower();
             targetUser.Email = updateUserRequest.Email;
 
             _context.Entry(targetUser).State = EntityState.Modified;
@@ -598,7 +596,7 @@ namespace DiscoverUO.Api.Controllers
             }
 
             var updatedUser = await _context.Users
-                .FirstOrDefaultAsync(u => string.Equals( u.UserName, updateUserRequest.UserName));
+                .FirstOrDefaultAsync(u => string.Equals( u.UserName.ToLower(), updateUserRequest.UserName.ToLower()));
 
             var updateUserResponse = new UserEntityResponse
             {
@@ -750,7 +748,7 @@ namespace DiscoverUO.Api.Controllers
                 return Unauthorized(userNoPerms);
             }
 
-            var user = await _context.Users.FirstOrDefaultAsync(u => string.Equals( u.UserName, username));
+            var user = await _context.Users.FirstOrDefaultAsync(u => string.Equals( u.UserName.ToLower(), username.ToLower()));
 
             if (user == null)
             {
@@ -815,7 +813,7 @@ namespace DiscoverUO.Api.Controllers
             }
 
             var updatedUser = await _context.Users
-                .FirstOrDefaultAsync(u => string.Equals(u.UserName, username));
+                .FirstOrDefaultAsync(u => string.Equals(u.UserName.ToLower(), username.ToLower()));
 
             var updatedUserResponse = new UserEntityResponse
             {

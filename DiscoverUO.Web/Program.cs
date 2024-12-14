@@ -13,7 +13,7 @@ namespace DiscoverUO.Web
 
             #region Dependency Injection & Services
 
-            builder.Services.AddScoped<HttpClient>();
+            builder.Services.AddScoped<HttpClient>(sp => new HttpClient { BaseAddress = new Uri("http://localhost:5219") });
             builder.Services.AddBlazoredLocalStorage();
             builder.Services.AddMudServices();
             builder.Services.AddRazorComponents().AddInteractiveServerComponents();
