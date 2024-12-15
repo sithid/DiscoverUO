@@ -48,7 +48,7 @@ created even when using object-relational mappers like Entity Framework.
 
 Make a generic class and use it.
 ```
-- `DataManager.cs` from `DiscoverUO.Web.Components.Data` and `Utilities.cs` from `DiscoverUO.Api` for specific functions that would be considered integral to the application.
+- `SessionManager.cs` from `DiscoverUO.Web.Components.Data` and `Utilities.cs` from `DiscoverUO.Api` for specific functions that would be considered integral to the application.
 - Review controllers for additional methods/functions including endpoints and a couple helper methods.
 - Review the entire `DiscoverUO.Lib.Shared` namespace for DTO models (classes whos name ends in `Data`).
 - Review `DiscoverUO.Api.Models` for entity models.
