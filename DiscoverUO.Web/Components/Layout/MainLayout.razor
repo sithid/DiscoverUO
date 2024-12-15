@@ -32,7 +32,7 @@
             <MudIconButton ButtonType="ButtonType.Button" Icon="@Icons.Material.Filled.Logout" Color="Color.Inherit" Edge="Edge.End" OnClick="@AppBarSignOut" />
         }
     </MudAppBar>
-    <MudMainContent>
+    <MudMainContent Class="main-image">_
         <CascadingValue Value="@UserSession">
             @Body
         </CascadingValue>
@@ -92,6 +92,7 @@
 
     MudTheme UOTheme = new MudTheme()
     {
+         
         Typography = new Typography()
         {
             Default = new Default()
@@ -107,7 +108,7 @@
 
             Background = "#bebdbc",
             BackgroundGray = "#404040",
-            AppbarBackground = "#606060"
+            AppbarBackground = "#606060",
 
             // 797971
         },

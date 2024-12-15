@@ -24,7 +24,6 @@ main {
     height: 3.5rem;
     display: flex;
     align-items: center;
-
     .top-row ::deep a, .top-row ::deep .btn-link {
         white-space: nowrap;
         margin-left: .1rem;
