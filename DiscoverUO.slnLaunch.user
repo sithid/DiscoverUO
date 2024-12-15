@@ -11,6 +11,11 @@
         "Path": "DiscoverUO.Web\\DiscoverUO.Web.csproj",
         "Action": "Start",
         "DebugTarget": "https"
+      },
+      {
+        "Path": "DiscoverUO.Desktop\\DiscoverUO.Desktop.csproj",
+        "Action": "Start",
+        "DebugTarget": "DiscoverUO.Desktop"
       }
     ]
   }

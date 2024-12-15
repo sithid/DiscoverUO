@@ -4,27 +4,36 @@
 @using System.Net
 @inject NavigationManager navManager
 @inject HttpClient _client
+@inject ISnackbar snackbar
 
 @page "/myservers"
 
 <PageTitle>My Servers</PageTitle>
 
 <MudContainer>
-    <MudPaper>
-        <MudItem xs="12" Class="mt-4 pa-4 mud-theme-primary">
-            <MudCard>
-                <MudCardContent>
-                    <MudText Typo="Typo.h2" Align="Align.Center" Color="Color.Primary" GutterBottom="true">User Added Servers</MudText>
-                    <MudText Typo="Typo.h5" Align="Align.Center" Color="Color.Primary" GutterBottom="true">This is where you will see all of the servers you have added.</MudText>
-                </MudCardContent>
-                <MudCardActions>
-                    <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="@AddServerOnClick">Add Public Server</MudButton>
-                </MudCardActions>
-            </MudCard>
-        </MudItem>
-    </MudPaper>
+    @if (!UserSession.UserAuthenticated)
+    {
+        snackbar.Add("You must be signed in to view your dashboard.  Redirecting you to sign in.", Severity.Warning);
+        navManager.NavigateTo("/signin");
+    }
+    else
+    {
+        <MudPaper>
+            <MudItem xs="12" Class="mt-4 pa-4 mud-theme-primary">
+                <MudCard>
+                    <MudCardContent>
+                        <MudText Typo="Typo.h2" Align="Align.Center" Color="Color.Primary" GutterBottom="true">User Added Servers</MudText>
+                        <MudText Typo="Typo.h5" Align="Align.Center" Color="Color.Primary" GutterBottom="true">This is where you will see all of the servers you have added.</MudText>
+                    </MudCardContent>
+                    <MudCardActions>
+                        <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="@AddServerOnClick">Add Public Server</MudButton>
+                    </MudCardActions>
+                </MudCard>
+            </MudItem>
+        </MudPaper>
 
-    <MyServersComponent/>
+        <MyServersComponent/>
+    }
 </MudContainer>
 @code{
 

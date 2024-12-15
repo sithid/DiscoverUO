@@ -6,7 +6,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DiscoverUO.Lib.Shared
+namespace DiscoverUO.Lib.Shared.Data
 {
     public class ExceptionThrownResponse : IResponse
     {

@@ -6,11 +6,11 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DiscoverUO.Lib.Shared
+namespace DiscoverUO.Lib.Shared.Data
 {
     public class RequestFailedResponse : IResponse
     {
-        public bool Success { get;set; }
+        public bool Success { get; set; }
         public string Message { get; set; }
         public HttpStatusCode StatusCode { get; set; }
     }

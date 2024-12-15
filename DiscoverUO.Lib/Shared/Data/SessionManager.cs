@@ -1,16 +1,15 @@
-﻿using DiscoverUO.Lib.Shared;
-using DiscoverUO.Lib.Shared.Favorites;
-using DiscoverUO.Lib.Shared.Profiles;
-using DiscoverUO.Lib.Shared.Users;
-using System.Net;
-using System.Text.Json;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using DiscoverUO.Lib.Shared.Contracts;
-using DiscoverUO.Lib.Shared.Servers;
+﻿using System.Net;
 using System.Text;
-using System.Net.Sockets;
-namespace DiscoverUO.Web.Components.Data
+using System.Text.Json;
+using System.Net.Http.Json;
+using System.Net.Http.Headers;
+using DiscoverUO.Lib.Shared.Users;
+using DiscoverUO.Lib.Shared.Servers;
+using DiscoverUO.Lib.Shared.Profiles;
+using DiscoverUO.Lib.Shared.Contracts;
+using DiscoverUO.Lib.Shared.Favorites;
+
+namespace DiscoverUO.Lib.Shared.Data
 {
     public class SessionManager
     {

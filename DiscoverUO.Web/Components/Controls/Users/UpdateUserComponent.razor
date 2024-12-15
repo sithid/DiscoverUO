@@ -69,7 +69,6 @@
         UserPasswordData.NewPassword = string.Empty;
 
         UserProfileData = new ProfileData();
-        UserProfileData.Id = UserSession.UserProfile.Id;
         UserProfileData.UserDisplayName = UserSession.UserProfile.UserDisplayName;
         UserProfileData.UserBiography = UserSession.UserProfile.UserBiography;
         UserProfileData.UserAvatar = UserSession.UserProfile.UserAvatar;
@@ -78,8 +77,6 @@
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        UserSession.GetUserData(client);
-        UserSession.GetUserProfileData(client);
 
         BindData();
 

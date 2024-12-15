@@ -9,7 +9,7 @@
 
 @if (UserSession.PublicServers != null)
 {
-    @foreach (ServerData server in UserSession.UserOwnedServers)
+    @foreach( ServerData server in UserSession.UserOwnedServers )
     {
         <ServerComponent ServerData="@server" />
     }

@@ -1,16 +1,18 @@
 ﻿@using Blazored.LocalStorage
 @inject HttpClient _client
 
-@if (UserSession.PublicServers != null)
+@if( UserSession.PublicServers != null )
 {
     @foreach (ServerData server in UserSession.PublicServers )
     {
-        <ServerComponent ServerData="@server" />
+        if( server.IsPublic || ( UserSession.Role >= UserRole.Moderator ) )
+        {
+            <ServerComponent ServerData="@server" />
+        }
     }
 }
 @code
 {
-
     [CascadingParameter]
     public SessionManager UserSession{ get; set; }
 }

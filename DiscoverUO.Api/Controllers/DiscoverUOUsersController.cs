@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using DiscoverUO.Api.Models;
 using DiscoverUO.Lib.Shared.Users;
-using DiscoverUO.Lib.Shared.Favorites;
 using DiscoverUO.Lib.Shared.Profiles;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -13,9 +12,7 @@ using System.Net;
 using System.Security.Claims;
 using System.Text;
 using DiscoverUO.Lib.Shared.Contracts;
-using DiscoverUO.Lib.Shared;
-using Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Templates.BlazorIdentity.Pages;
-using Microsoft.EntityFrameworkCore.ChangeTracking.Internal;
+using DiscoverUO.Lib.Shared.Data;
 
 namespace DiscoverUO.Api.Controllers
 {
@@ -122,7 +119,7 @@ namespace DiscoverUO.Api.Controllers
 
             var passwordHash = BCrypt.Net.BCrypt.HashPassword(registerUserData.Password );
             
-            if( userNameExists( usernameToLower ).Result )
+            if( userNameExists( usernameToLower, 0).Result )
             {
                 var registerUserResponse = new RequestFailedResponse
                 {
@@ -136,12 +133,14 @@ namespace DiscoverUO.Api.Controllers
 
             var user = _mapper.Map<User>(registerUserData);
 
-
+            user.UserName = registerUserData.UserName;
+            user.Email = registerUserData.Email;
             user.PasswordHash = passwordHash;
-                
-            user.Role = UserRole.BasicUser;
+            user.DailyVotesRemaining = 1;
             user.CreationDate = DateTime.Now.ToString();
-
+            
+            user.Role = UserRole.BasicUser;
+            
             var userProfile = new UserProfile { OwnerId = user.Id, UserDisplayName = user.UserName.ToLower() };
             user.Profile = userProfile;
 
@@ -456,7 +455,7 @@ namespace DiscoverUO.Api.Controllers
                 }
             }
 
-            if( userNameExists(updateUserRequest.UserName.ToLower()).Result )
+            if( userNameExists(updateUserRequest.UserName.ToLower(), userId).Result )
             {
                 var userBadRequest = new RequestFailedResponse
                 {
@@ -562,7 +561,7 @@ namespace DiscoverUO.Api.Controllers
                 }
             }
 
-            if (userNameExists(updateUserRequest.UserName.ToLower()).Result)
+            if (userNameExists(updateUserRequest.UserName.ToLower(), targetUser.Id).Result)
             {
                 var userBadRequest = new RequestFailedResponse
                 {
@@ -777,7 +776,6 @@ namespace DiscoverUO.Api.Controllers
                 }
             }
 
-
             var userCurrentPassword = BCrypt.Net.BCrypt.HashPassword(updatePasswordRequest.CurrentPassword);
 
             if (!BCrypt.Net.BCrypt.Verify(updatePasswordRequest.CurrentPassword, user.PasswordHash))
@@ -860,6 +858,12 @@ namespace DiscoverUO.Api.Controllers
             }
 
             var profile = _mapper.Map<UserProfile>(profileRequest);
+
+            userProfile.UserDisplayName = profile.UserDisplayName;
+            userProfile.UserAvatar = profile.UserAvatar;
+            userProfile.UserBiography = profile.UserBiography;
+
+            _context.Entry( userProfile ).State = EntityState.Modified;
 
             try
             {
@@ -1188,10 +1192,13 @@ namespace DiscoverUO.Api.Controllers
 
             var user = _mapper.Map<User>(registerUserData);
 
+            user.UserName = registerUserData.UserName;
+            user.Email = registerUserData.Email;
             user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(registerUserData.Password);
-
-            user.Role = registerUserData.Role;
+            user.DailyVotesRemaining = 1;
             user.CreationDate = DateTime.Now.ToString();
+            
+            user.Role = registerUserData.Role;
 
             var userProfile = new UserProfile { OwnerId = user.Id, UserDisplayName = user.UserName };
             user.Profile = userProfile;
@@ -1238,12 +1245,12 @@ namespace DiscoverUO.Api.Controllers
             return tokenHandler.WriteToken(tokenString);
         }
 
-        private async Task<bool> userNameExists(string userName)
+        private async Task<bool> userNameExists(string userName, int userId )
         {
 
             var user = await _context.Users.FirstOrDefaultAsync(u => string.Equals( u.UserName.ToLower(), userName));
 
-            if (user != null )
+            if (user != null && user.Id != userId )
                 return true;
 
             return false;

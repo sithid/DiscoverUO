@@ -15,10 +15,12 @@
             <MudTextField Variant="Variant.Text" T="string" Label="Username" Typo="Typo.input" @bind-Value="@Details.Username" />
             <MudTextField Variant="Variant.Text" T="string" Label="Password" Typo="Typo.input" @bind-Value="@Details.Password" InputType="InputType.Password" />
             <MudButton Size="Size.Medium" Variant="Variant.Text" OnClick="@HandleSignIn">Sign In</MudButton>
+
             @if (ShowUIResponseMessage)
             {
                 <MudAlert Severity="Severity.Error"> @UIResponseMessage </MudAlert>
             }
+
         </MudForm>
     </MudItem>
 </MudPaper>

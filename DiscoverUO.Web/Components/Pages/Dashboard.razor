@@ -3,43 +3,51 @@
 @using DiscoverUO.Lib.Shared.Favorites
 @using DiscoverUO.Lib.Shared.Servers
 @using DiscoverUO.Lib.Shared.Users
-@using DiscoverUO.Web.Components.Data
 @using System.Net.Http.Headers
 @inject NavigationManager navManager
 @inject HttpClient client
+@inject ISnackbar snackbar
 
 <PageTitle>Dashboard</PageTitle>
 
 <MudContainer>
-    <MudPaper>
-        <MudItem xs="12" Class="mt-4 pa-4 mud-theme-primary">
-            <MudCard>
-                <MudCardHeader>
-                    <MudText Typo="Typo.h1">Welcome Back, @UserSession.UserProfile.UserDisplayName</MudText>
-                    @if (showAvatar)
-                    {
-                        <MudCardMedia Image="@UserSession.UserProfile.UserAvatar" />
-                    }
-                </MudCardHeader>
-                <MudCardContent>
-                    <MudText Align="Align.Center" Typo="Typo.h5">User Email: @UserSession.Email</MudText>
-                    <MudText Align="Align.Center" Typo="Typo.h5">User Creation Date: @UserSession.CreationDate</MudText>
-                    <MudText Align="Align.Center" Typo="Typo.h5">User Remaining Votes : @UserSession.DailyVotesRemaining</MudText>
-                </MudCardContent>
-                <MudCardContent>
-                    <MudText Align="Align.Center" Typo="Typo.h5">User Biography:</MudText>
-                    <MudText Align="Align.Center" Typo="Typo.h5">@UserSession.UserProfile.UserBiography</MudText>
-                </MudCardContent>
-                <MudCardActions>
-                    <MudSpacer />
-                    <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="@FavoritesOnClick">Favorites</MudButton>
-                    <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="@MyServersOnClick">My Servers</MudButton>
-                    <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="@EditProfileOnClick">Edit Profile</MudButton>
-                    <MudSpacer />
-                </MudCardActions>
-            </MudCard>
-        </MudItem>
-    </MudPaper>
+    @if (!UserSession.UserAuthenticated)
+    {
+        snackbar.Add("You must be signed in to view your dashboard.  Redirecting you to sign in.", Severity.Warning);
+        navManager.NavigateTo("/signin");
+    }
+    else
+    {
+        <MudPaper>
+            <MudItem xs="12" Class="mt-4 pa-4 mud-theme-primary">
+                <MudCard>
+                    <MudCardHeader>
+                        <MudText Typo="Typo.h1">Welcome Back, @UserSession.UserProfile.UserDisplayName</MudText>
+                        @if (showAvatar)
+                        {
+                            <MudCardMedia Image="@UserSession.UserProfile.UserAvatar" />
+                        }
+                    </MudCardHeader>
+                    <MudCardContent>
+                        <MudText Align="Align.Center" Typo="Typo.h5">User Email: @UserSession.Email</MudText>
+                        <MudText Align="Align.Center" Typo="Typo.h5">User Creation Date: @UserSession.CreationDate</MudText>
+                        <MudText Align="Align.Center" Typo="Typo.h5">User Remaining Votes : @UserSession.DailyVotesRemaining</MudText>
+                    </MudCardContent>
+                    <MudCardContent>
+                        <MudText Align="Align.Center" Typo="Typo.h5">User Biography:</MudText>
+                        <MudText Align="Align.Center" Typo="Typo.h5">@UserSession.UserProfile.UserBiography</MudText>
+                    </MudCardContent>
+                    <MudCardActions>
+                        <MudSpacer />
+                        <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="@FavoritesOnClick">Favorites</MudButton>
+                        <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="@MyServersOnClick">My Servers</MudButton>
+                        <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="@EditProfileOnClick">Edit Profile</MudButton>
+                        <MudSpacer />
+                    </MudCardActions>
+                </MudCard>
+            </MudItem>
+        </MudPaper>
+    }
 </MudContainer>
 
 @code

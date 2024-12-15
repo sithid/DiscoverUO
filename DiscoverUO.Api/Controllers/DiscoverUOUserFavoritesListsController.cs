@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using DiscoverUO.Api.Models;
-using DiscoverUO.Lib.Shared;
+using DiscoverUO.Lib.Shared.Data;
 using DiscoverUO.Lib.Shared.Contracts;
 using DiscoverUO.Lib.Shared.Favorites;
 using Microsoft.AspNetCore.Authorization;
