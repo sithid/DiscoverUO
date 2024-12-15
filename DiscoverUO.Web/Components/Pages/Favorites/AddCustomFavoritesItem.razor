@@ -1,14 +1,22 @@
-﻿@inject HttpClient client
+﻿@using System.Net.Http.Headers;
+@using DiscoverUO.Lib.Shared
+@using DiscoverUO.Lib.Shared.Contracts
+@using DiscoverUO.Lib.Shared.Favorites
+@using DiscoverUO.Web.Components.Controls.Favorites
+@using System.Net
+
+@inject HttpClient client
 @inject NavigationManager navManager
 @inject ISnackbar snackbar
-@page "/servers/update"
 
-<PageTitle>Update Server</PageTitle>
+@page "/favorites/add"
+
+<PageTitle>Favorites</PageTitle>
 
 @if (UserSession.UserAuthenticated)
 {
     <MudContainer>
-        <UpdateServerComponent />
+        <AddCustomFavoritesItemComponent/>
     </MudContainer>
 }
 else
@@ -19,6 +27,7 @@ else
 
 @code
 {
+
     [CascadingParameter]
     public SessionManager UserSession { get; set; }
 

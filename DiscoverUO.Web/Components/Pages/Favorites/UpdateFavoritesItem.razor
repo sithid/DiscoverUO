@@ -1,13 +1,14 @@
-﻿@using System.Net.Http.Headers;
+﻿@using System.Net
+@using System.Net.Http.Headers;
 @using DiscoverUO.Lib.Shared
 @using DiscoverUO.Lib.Shared.Contracts
 @using DiscoverUO.Lib.Shared.Favorites
 @using DiscoverUO.Web.Components.Controls.Favorites
-@using Blazored.LocalStorage
-@using System.Net
+
 @inject HttpClient client
 @inject NavigationManager navManager
 @inject ISnackbar snackbar
+
 @page "/favorites/update"
 
 <PageTitle>Update Favorite</PageTitle>

@@ -1,12 +1,15 @@
-﻿@page "/dashboard"
-@using DiscoverUO.Lib.Shared
+﻿@using DiscoverUO.Lib.Shared
+@using System.Net.Http.Headers
 @using DiscoverUO.Lib.Shared.Favorites
 @using DiscoverUO.Lib.Shared.Servers
 @using DiscoverUO.Lib.Shared.Users
-@using System.Net.Http.Headers
-@inject NavigationManager navManager
+
 @inject HttpClient client
 @inject ISnackbar snackbar
+@inject NavigationManager navManager
+
+
+@page "/dashboard"
 
 <PageTitle>Dashboard</PageTitle>
 
@@ -67,16 +70,16 @@
 
     private void EditProfileOnClick()
     {
-        navManager.NavigateTo("/user/update");
+        navManager.NavigateTo("/users/update");
     }
 
     private void FavoritesOnClick()
     {
-        navManager.NavigateTo("/myfavorites");
+        navManager.NavigateTo("/favorites/myfavorites");
     }
 
     private void MyServersOnClick()
     {
-        navManager.NavigateTo("/myservers");
+        navManager.NavigateTo("/servers/myservers");
     }
 }

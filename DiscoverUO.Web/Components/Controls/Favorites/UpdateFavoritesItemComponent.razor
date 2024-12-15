@@ -1,9 +1,10 @@
-﻿@using System.Text.RegularExpressions
+﻿@using DiscoverUO.Lib.Shared
+@using System.Text.RegularExpressions
 @using System.ComponentModel.DataAnnotations
-@using DiscoverUO.Lib.Shared
+
 @inject HttpClient client
-@inject NavigationManager navManager
 @inject ISnackbar snackbar
+@inject NavigationManager navManager
 
 <MudPaper Class="ma-2 mt-2 pa-16">
     <MudItem>
@@ -129,7 +130,7 @@
         if (addFavRsp.Success )
         {
             snackbar.Add(addFavRsp.Message, Severity.Success);
-            navManager.NavigateTo("/myfavorites");
+            navManager.NavigateTo("/favorites/myfavorites");
         }
         else
         {

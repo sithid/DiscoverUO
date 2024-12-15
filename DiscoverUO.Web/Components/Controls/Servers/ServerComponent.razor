@@ -1,13 +1,13 @@
 ﻿@using System.Net
-@using System.Net.Http;
-@using System.Net.Http.Headers;
+@using System.Net.Http
 @using DiscoverUO.Lib.Shared
-@using DiscoverUO.Lib.Shared.Data;
+@using System.Net.Http.Headers
+@using DiscoverUO.Lib.Shared.Data
 @using DiscoverUO.Lib.Shared.Contracts
 
+@inject HttpClient client
 @inject ISnackbar snackbar
 @inject NavigationManager navManager
-@inject HttpClient client
 
 @if( ServerData != null )
 {

@@ -15,18 +15,6 @@
           }
         }
       },
-      "Blazored.LocalStorage/4.5.0": {
-        "type": "package",
-        "dependencies": {
-          "Microsoft.AspNetCore.Components.Web": "8.0.0"
-        },
-        "compile": {
-          "lib/net8.0/Blazored.LocalStorage.dll": {}
-        },
-        "runtime": {
-          "lib/net8.0/Blazored.LocalStorage.dll": {}
-        }
-      },
       "Microsoft.AspNetCore.Authentication.JwtBearer/8.0.10": {
         "type": "package",
         "dependencies": {
@@ -811,22 +799,6 @@
         "lib/netstandard2.1/BCrypt.Net-Next.dll",
         "lib/netstandard2.1/BCrypt.Net-Next.xml",
         "readme.md"
-      ]
-    },
-    "Blazored.LocalStorage/4.5.0": {
-      "sha512": "6nZuJwA7zNIKx83IsObiHXZb09ponJOpCClU3en+hI8ZFvrOKXeOw+H7TegQZQrvdR1n9fkrVkEBQZg8vx6ZTw==",
-      "type": "package",
-      "path": "blazored.localstorage/4.5.0",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "README.md",
-        "blazored.localstorage.4.5.0.nupkg.sha512",
-        "blazored.localstorage.nuspec",
-        "icon.png",
-        "lib/net6.0/Blazored.LocalStorage.dll",
-        "lib/net7.0/Blazored.LocalStorage.dll",
-        "lib/net8.0/Blazored.LocalStorage.dll"
       ]
     },
     "Microsoft.AspNetCore.Authentication.JwtBearer/8.0.10": {
@@ -1983,7 +1955,6 @@
   "projectFileDependencyGroups": {
     "net8.0": [
       "BCrypt.Net-Next >= 4.0.3",
-      "Blazored.LocalStorage >= 4.5.0",
       "DiscoverUO.Lib >= 1.0.0",
       "Microsoft.AspNetCore.Authentication.JwtBearer >= 8.0.10",
       "Microsoft.AspNetCore.Components.WebAssembly.Authentication >= 8.0.10",
@@ -2050,10 +2021,6 @@
           "BCrypt.Net-Next": {
             "target": "Package",
             "version": "[4.0.3, )"
-          },
-          "Blazored.LocalStorage": {
-            "target": "Package",
-            "version": "[4.5.0, )"
           },
           "Microsoft.AspNetCore.Authentication.JwtBearer": {
             "target": "Package",

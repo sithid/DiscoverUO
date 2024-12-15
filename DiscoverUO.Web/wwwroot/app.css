@@ -21,7 +21,8 @@ a, .btn-link {
 
 .footer {
     position: absolute;
-    padding: 15px;
+    padding: 10px;
+    margin: auto;
     bottom: 0;
 }
 
