@@ -25,10 +25,6 @@
             <MudItem xs="12" Class="mt-4 pa-4 mud-theme-primary">
                 <MudCard>
                     <MudCardHeader>
-                        @if (showAvatar)
-                        {
-                            <MudCardMedia Image="@UserSession.UserProfile.UserAvatar" />
-                        }
                     </MudCardHeader>
                     <MudCardContent>
                         <MudText Align="Align.Center" Typo="Typo.h1">Welcome Back</MudText>
@@ -68,8 +64,6 @@
     {
         if (UserSession == null)
             navManager.NavigateTo("/singin");
-
-        UserSession.GetUserProfileData(client);
     }
 
     private void EditUserLoginDataOnClick()

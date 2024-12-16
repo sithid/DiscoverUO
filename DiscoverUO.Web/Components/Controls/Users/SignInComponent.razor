@@ -32,7 +32,7 @@
 
     public string UIResponseMessage { get; set; }
     public bool ShowUIResponseMessage { get; set; }
-    public LoginDetails Details = new LoginDetails();
+    public AuthenticationData Details = new AuthenticationData();
 
     public async Task HandleSignIn()
     {
@@ -43,16 +43,10 @@
             return;
         }
 
-        var userName = Details.Username.ToLower();
-        var password = Details.Password;
-
-        AuthenticationData data = new AuthenticationData(userName, password, false);
-
-        var loginResult = UserSession.UserSignIn(data, client);
+        var loginResult = UserSession.UserSignIn(Details, client);
 
         if( loginResult.Success )
         {
-            StateHasChanged();
             snackbar.Add("Login successful! Redirecteding to your dashboard.", Severity.Success);
             navManager.NavigateTo("/dashboard");
         }
@@ -61,12 +55,8 @@
             UIResponseMessage = loginResult.Message;
             ShowUIResponseMessage = true;
         }
-    }
 
-    public class LoginDetails
-    {
-        public string Username{ get; set; }
+        StateHasChanged();
 
-        public string Password{ get; set; }
     }
 }
