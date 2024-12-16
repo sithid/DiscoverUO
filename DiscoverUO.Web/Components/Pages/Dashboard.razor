@@ -25,13 +25,15 @@
             <MudItem xs="12" Class="mt-4 pa-4 mud-theme-primary">
                 <MudCard>
                     <MudCardHeader>
-                        <MudText Typo="Typo.h1">Welcome Back, @UserSession.UserProfile.UserDisplayName</MudText>
                         @if (showAvatar)
                         {
                             <MudCardMedia Image="@UserSession.UserProfile.UserAvatar" />
                         }
                     </MudCardHeader>
                     <MudCardContent>
+                        <MudText Align="Align.Center" Typo="Typo.h1">Welcome Back</MudText>
+                        <MudText Align="Align.Center" Typo="Typo.h3">@UserSession.UserProfile.UserDisplayName</MudText>
+                        <MudSpacer />
                         <MudText Align="Align.Center" Typo="Typo.h5">User Email: @UserSession.Email</MudText>
                         <MudText Align="Align.Center" Typo="Typo.h5">User Creation Date: @UserSession.CreationDate</MudText>
                         <MudText Align="Align.Center" Typo="Typo.h5">User Remaining Votes : @UserSession.DailyVotesRemaining</MudText>
@@ -44,7 +46,9 @@
                         <MudSpacer />
                         <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="@FavoritesOnClick">Favorites</MudButton>
                         <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="@MyServersOnClick">My Servers</MudButton>
-                        <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="@EditProfileOnClick">Edit Profile</MudButton>
+                        <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="@EditUserLoginDataOnClick">Update Login Details</MudButton>
+                        <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="@EditProfileOnClick">Update Profile</MudButton>
+                        <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="@EditPasswordOnClick">Update Password</MudButton>
                         <MudSpacer />
                     </MudCardActions>
                 </MudCard>
@@ -68,9 +72,20 @@
         UserSession.GetUserProfileData(client);
     }
 
+    private void EditUserLoginDataOnClick()
+    {
+        snackbar.Add("Debug: EditUserLoginDataOnClick has been clicked!", Severity.Success);
+        //navManager.NavigateTo("/users/update_logon");
+    }
+
     private void EditProfileOnClick()
     {
-        navManager.NavigateTo("/users/update");
+        navManager.NavigateTo("/users/update_profile");
+    }
+
+    private void EditPasswordOnClick()
+    {
+        navManager.NavigateTo("/users/update_password");
     }
 
     private void FavoritesOnClick()

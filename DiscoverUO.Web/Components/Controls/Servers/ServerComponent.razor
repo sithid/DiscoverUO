@@ -15,18 +15,18 @@
         <MudItem Class="mt-4 pa-4 mud-theme-primary">
             <MudCard>
                 <MudCardContent>
-                    <MudText Typo="Typo.h2" Align="Align.Center">@ServerData.ServerName</MudText>
+                    <MudText Color="Color.Inherit"  Typo="Typo.h2" Align="Align.Center">@ServerData.ServerName</MudText>
                     @if (ShowBanner( ServerData.ServerBanner ))
                     {
                         <MudCardMedia Height="150" Image="@ServerData.ServerBanner" /> 
                     }
-                    <MudText Typo="Typo.h5" Align="Align.Left">Server Era: @ServerData.ServerEra, PvP Enabled: @ServerData.PvPEnabled, @ServerData.Votes Votes</MudText>
-                    <MudText Typo="Typo.h5" Align="Align.Left">Server Address: @ServerData.ServerAddress</MudText>
-                    <MudText Typo="Typo.h5" Align="Align.Left">Server Port: @ServerData.ServerPort</MudText>
-                    <MudText Typo="Typo.h5" Align="Align.Left">
+                    <MudText Color="Color.Inherit" Typo="Typo.h5" Align="Align.Left">Server Era: @ServerData.ServerEra, PvP Enabled: @ServerData.PvPEnabled, @ServerData.Votes Votes</MudText>
+                    <MudText Color="Color.Inherit" Typo="Typo.h5" Align="Align.Left">Server Address: @ServerData.ServerAddress</MudText>
+                    <MudText Color="Color.Inherit" Typo="Typo.h5" Align="Align.Left">Server Port: @ServerData.ServerPort</MudText>
+                    <MudText Color="Color.Inherit" Typo="Typo.h5" Align="Align.Left">
                         Shard Website: <a target="_blank" href="@ServerData.ServerWebsite">@ServerData.ServerWebsite</a>
                     </MudText>
-                    <MudText Typo="Typo.h5" Align="Align.Left">Server ID: @ServerData.Id</MudText>
+                    <MudText Color="Color.Inherit" Typo="Typo.h5" Align="Align.Left">Server ID: @ServerData.Id</MudText>
                 </MudCardContent>
                 <MudCardActions>
                     <MudSpacer />
@@ -71,8 +71,8 @@
         updateData.ServerWebsite = data.ServerWebsite;
         updateData.IsPublic = data.IsPublic;
 
-        UserSession.UpdateServerTmp = updateData;
-        UserSession.UpdateServerId = data.Id;
+        UserSession.UpdatingServerTmp = updateData;
+        UserSession.UpdatingServerId = data.Id;
 
         navManager.NavigateTo("/servers/update");
     }

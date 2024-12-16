@@ -58,15 +58,15 @@
 
     private void SetBindData()
     {
-        serverName = UserSession.UpdateFavoriteTemp.ServerName;
-        serverAddress = UserSession.UpdateFavoriteTemp.ServerAddress;
-        serverPort = UserSession.UpdateFavoriteTemp.ServerPort;
-        pvpEnabled = UserSession.UpdateFavoriteTemp.PvPEnabled;
-        serverEra = UserSession.UpdateFavoriteTemp.ServerEra;
-        serverBannerUri = UserSession.UpdateFavoriteTemp.ServerBanner;
-        serverWebsiteUri = UserSession.UpdateFavoriteTemp.ServerWebsite;
-        favoriteId = UserSession.UpdateFavoriteTemp.Id;
-        serverId = UserSession.UpdateFavoriteTemp.ServerId;
+        serverName = UserSession.UpdatingFavoriteTemp.ServerName;
+        serverAddress = UserSession.UpdatingFavoriteTemp.ServerAddress;
+        serverPort = UserSession.UpdatingFavoriteTemp.ServerPort;
+        pvpEnabled = UserSession.UpdatingFavoriteTemp.PvPEnabled;
+        serverEra = UserSession.UpdatingFavoriteTemp.ServerEra;
+        serverBannerUri = UserSession.UpdatingFavoriteTemp.ServerBanner;
+        serverWebsiteUri = UserSession.UpdatingFavoriteTemp.ServerWebsite;
+        favoriteId = UserSession.UpdatingFavoriteTemp.Id;
+        serverId = UserSession.UpdatingFavoriteTemp.ServerId;
     }
 
     private bool ValidItemData( FavoriteItemData data )
@@ -107,7 +107,7 @@
 
     private void SubmitUpdate()
     {
-        UserSession.UpdateFavoriteTemp = new FavoriteItemData
+        UserSession.UpdatingFavoriteTemp = new FavoriteItemData
         {
             Id = favoriteId,
             ServerId = serverId,
@@ -120,12 +120,12 @@
             ServerBanner = serverBannerUri
         };
 
-        if (!ValidItemData(UserSession.UpdateFavoriteTemp))
+        if (!ValidItemData(UserSession.UpdatingFavoriteTemp))
         {
             return;
         }
 
-        var addFavRsp = UserSession.UpdateUserFavoritesItem(UserSession.UpdateFavoriteTemp, client);
+        var addFavRsp = UserSession.UpdateUserFavoritesItem(UserSession.UpdatingFavoriteTemp, client);
 
         if (addFavRsp.Success )
         {

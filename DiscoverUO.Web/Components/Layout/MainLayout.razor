@@ -48,7 +48,7 @@
 
     private void AppBarSignOut()
     {
-        UserSession.ConfigureAnonymousSession();
+        UserSession.SignOut();
         snackbar.Add("Logout successful! Redirecting to home.", Severity.Success);
         navManager.NavigateTo("/");
         navManager.Refresh(true);

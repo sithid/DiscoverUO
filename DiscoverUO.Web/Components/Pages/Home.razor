@@ -10,18 +10,18 @@
             <MudCard>
                 <MudCardMedia Height="600" Image="/images/DiscoverUO-BG.jfif" />
                 <MudCardContent>
-                    <MudText Typo="Typo.h2" Align="Align.Center" Color="Color.Primary" GutterBottom="true">Welcome to DiscoverUO!</MudText>
-                    <MudText InLine="true" Typo="Typo.body2" Align="Align.Justify" Color="Color.Primary" GutterBottom="true">
+                    <MudText Typo="Typo.h2" Align="Align.Center" Color="Color.Inherit" GutterBottom="true">Welcome to DiscoverUO!</MudText>
+                    <MudText InLine="true" Typo="Typo.body2" Align="Align.Justify" Color="Color.Inherit" GutterBottom="true">
                         DiscoverUO is a public server listing website designed for the average UO player.
                     </MudText>
-                    <MudText Inline="true" Typo="Typo.body2" Align="Align.Justify" Color="Color.Primary" GutterBottom="true">
+                    <MudText Inline="true" Typo="Typo.body2" Align="Align.Justify" Color="Color.Inherit" GutterBottom="true">
                         We aim to provide a simple way to view and share player ran Ultima Online servers.
                     </MudText>
-                    <MudText Inline="true" Typo="Typo.body2" Align="Align.Justify" Color="Color.Primary" GutterBottom="true">
+                    <MudText Inline="true" Typo="Typo.body2" Align="Align.Justify" Color="Color.Inherit" GutterBottom="true">
                         You can either browse the public serverlist anonymously, or register a user to access additional features. 
                     </MudText>
-                    <MudText Typo="Typo.h6" Align="Align.Center" Color="Color.Primary" GutterBottom="true">
-                        Please review our Terms Of Use <MudLink Href="/terms" Target="_blank">HERE</MudLink> before registering.
+                    <MudText Typo="Typo.h6" Align="Align.Center" Color="Color.Inherit" GutterBottom="true">
+                        Please review our Terms Of Use <MudLink Color="Color.Inherit" Href="/terms" Target="_blank">HERE</MudLink> before registering.
                     </MudText>
                 </MudCardContent>
             </MudCard>
@@ -34,7 +34,7 @@
             <MudItem xs="16" Class="mt-4 pa-4 mud-theme-primary">
                 <MudCard>
                     <MudCardContent>
-                        <MudText Typo="Typo.h2" Align="Align.Center" Color="Color.Primary" GutterBottom="true">Public Servers</MudText>
+                        <MudText Typo="Typo.h2" Align="Align.Center" Color="Color.Inherit" GutterBottom="true">Public Servers</MudText>
                         <PublicServersComponent />
                     </MudCardContent>
                 </MudCard>
@@ -48,7 +48,7 @@
                 <MudCard>
                     <MudCardHeader>Public Server List</MudCardHeader>
                     <MudCardContent>
-                        <MudText Typo="Typo.h2" Align="Align.Center" Color="Color.Primary" GutterBottom="true">Empty</MudText>
+                        <MudText Typo="Typo.h2" Align="Align.Center" Color="Color.Inherit" GutterBottom="true">Empty</MudText>
                     </MudCardContent>
                 </MudCard>
             </MudItem>
@@ -66,25 +66,5 @@
 
         var updatePublicServers = UserSession.GetPublicServersList(client);
         var updateOwnedServers = UserSession.GetUserOwnedServers(client);
-    }
-
-    protected override void OnAfterRender(bool firstRender)
-    {
-        base.OnAfterRender(firstRender);
-
-        if( !firstRender )
-        {
-            var updatePublicServers = UserSession.GetPublicServersList(client);
-            var updateOwnedServers = UserSession.GetUserOwnedServers(client);
-
-            if (updatePublicServers.Success)
-            {
-                Console.WriteLine($"Public serverlist loaded: {UserSession.PublicServers.Count}");
-            }
-            if (updateOwnedServers.Success)
-            {
-                Console.WriteLine($"User owned servers loaded: {UserSession.UserOwnedServers.Count}");
-            }
-        }
     }
 }

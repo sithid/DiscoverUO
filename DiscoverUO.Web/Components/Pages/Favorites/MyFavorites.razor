@@ -24,11 +24,11 @@
             <MudItem xs="12" Class="mt-4 pa-4 mud-theme-primary">
                 <MudCard>
                     <MudCardContent>
-                        <MudText Typo="Typo.h2" Align="Align.Center" Color="Color.Primary" GutterBottom="true">Favorites</MudText>
-                        <MudText Typo="Typo.h5" Align="Align.Center" Color="Color.Primary" GutterBottom="true">This is where you can add, remove, and edit your favorites list.</MudText>
+                        <MudText Typo="Typo.h2" Align="Align.Center" Color="Color.Inherit" GutterBottom="true">Favorites</MudText>
+                        <MudText Typo="Typo.h5" Align="Align.Center" Color="Color.Inherit" GutterBottom="true">This is where you can add, remove, and edit your favorites list.</MudText>
                     </MudCardContent>
                     <MudCardActions>
-                        <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="@AddCustomFavoriteOnClick">Add Custom Favorite</MudButton>
+                        <MudButton Variant="Variant.Outlined" Color="Color.Inherit" OnClick="@AddCustomFavoriteOnClick">Add Custom Favorite</MudButton>
                     </MudCardActions>
                 </MudCard>
             </MudItem>
@@ -113,7 +113,7 @@
 
     private void UpdateOnClick(FavoriteItemData data )
     {
-        UserSession.UpdateFavoriteTemp = data;
+        UserSession.UpdatingFavoriteTemp = data;
         navManager.NavigateTo("/favorites/update");
     }
 

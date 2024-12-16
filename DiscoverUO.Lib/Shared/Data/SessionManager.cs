@@ -30,9 +30,9 @@ namespace DiscoverUO.Lib.Shared.Data
         public List<ServerData> PublicServers { get; set; }
         public List<ServerData> UserOwnedServers { get; set; }
 
-        public FavoriteItemData UpdateFavoriteTemp { get; set; }
-        public ServerUpdateData UpdateServerTmp { get; set; }
-        public int UpdateServerId { get; set; }
+        public FavoriteItemData UpdatingFavoriteTemp { get; set; }
+        public ServerUpdateData UpdatingServerTmp { get; set; }
+        public int UpdatingServerId { get; set; }
 
         // Multiple uses for this in the future.  One use would be for data analysis.
         private Dictionary<int, IResponse> ResponseCache { get; set; } = new Dictionary<int, IResponse>();
@@ -42,27 +42,35 @@ namespace DiscoverUO.Lib.Shared.Data
             ConfigureAnonymousSession();
         }
 
+        public void SignOut()
+        {
+            ConfigureAnonymousSession();
+
+        }
+
         public void ConfigureAnonymousSession()
         {
+            UserAuthenticated = false;
             Username = "Anonymous";
             Email = "anon@anon.net";
             Role = UserRole.Anonymous;
-            UserAuthenticated = false;
+
             SecurityToken = string.Empty;
 
             UserProfile = new ProfileData();
             UserFavorites = new FavoritesData();
             UserFavorites.FavoritedItems = new List<FavoriteItemData>();
-            UpdateFavoriteTemp = null;
+
+            UpdatingFavoriteTemp = null;
 
             PublicServers = new List<ServerData>();
             UserOwnedServers = new List<ServerData>();
-            UpdateServerTmp = null;
+            UpdatingServerTmp = null;
 
             DailyVotesRemaining = 0;
             ProfileId = 0;
             FavoritesId = 0;
-            UpdateServerId = 0;
+            UpdatingServerId = 0;
         }
 
         public IResponse GetPublicServersList(HttpClient client)
@@ -623,8 +631,8 @@ namespace DiscoverUO.Lib.Shared.Data
                     var updatePublicServers = GetPublicServersList(client);
                     var updateOwnedServers = GetUserOwnedServers(client);
 
-                    UpdateServerTmp = null;
-                    UpdateServerId = 0;
+                    UpdatingServerTmp = null;
+                    UpdatingServerId = 0;
 
                     return favDataRsp;
                 }
@@ -761,7 +769,7 @@ namespace DiscoverUO.Lib.Shared.Data
                     ResponseCache.Add(ResponseCache.Count, favDataRsp);
 
                     var updateFavs = GetUserFavoritesData(client);
-                    UpdateFavoriteTemp = null;
+                    UpdatingFavoriteTemp = null;
 
                     return favDataRsp;
                 }

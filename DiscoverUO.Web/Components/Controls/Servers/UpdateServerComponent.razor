@@ -51,14 +51,14 @@
 
     private void SetBindData()
     {
-        updateData.ServerName = UserSession.UpdateServerTmp.ServerName;
-        updateData.ServerAddress = UserSession.UpdateServerTmp.ServerAddress;
-        updateData.ServerPort = UserSession.UpdateServerTmp.ServerPort;
-        updateData.PvPEnabled = UserSession.UpdateServerTmp.PvPEnabled;
-        updateData.IsPublic = UserSession.UpdateServerTmp.IsPublic;
-        updateData.ServerEra = UserSession.UpdateServerTmp.ServerEra;
-        updateData.ServerBanner = UserSession.UpdateServerTmp.ServerBanner;
-        updateData.ServerWebsite = UserSession.UpdateServerTmp.ServerWebsite;
+        updateData.ServerName = UserSession.UpdatingServerTmp.ServerName;
+        updateData.ServerAddress = UserSession.UpdatingServerTmp.ServerAddress;
+        updateData.ServerPort = UserSession.UpdatingServerTmp.ServerPort;
+        updateData.PvPEnabled = UserSession.UpdatingServerTmp.PvPEnabled;
+        updateData.IsPublic = UserSession.UpdatingServerTmp.IsPublic;
+        updateData.ServerEra = UserSession.UpdatingServerTmp.ServerEra;
+        updateData.ServerBanner = UserSession.UpdatingServerTmp.ServerBanner;
+        updateData.ServerWebsite = UserSession.UpdatingServerTmp.ServerWebsite;
     }
 
     private bool ValidItemData(ServerUpdateData data)
@@ -99,14 +99,14 @@
 
     private void SubmitUpdate()
     {
-        UserSession.UpdateServerTmp = updateData;
+        UserSession.UpdatingServerTmp = updateData;
 
-        if (!ValidItemData(UserSession.UpdateServerTmp))
+        if (!ValidItemData(UserSession.UpdatingServerTmp))
         {
             return;
         }
 
-        var updateServerRsp = UserSession.UpdateServer(UserSession.UpdateServerId, UserSession.UpdateServerTmp, client);
+        var updateServerRsp = UserSession.UpdateServer(UserSession.UpdatingServerId, UserSession.UpdatingServerTmp, client);
 
         if (updateServerRsp.Success)
         {
