@@ -1,0 +1,26 @@
+﻿@inject ISnackbar snackbar
+
+@if (UserSession.UserFavorites != null)
+{
+    if (UserSession.UserFavorites.FavoritedItems != null )
+    {
+        @foreach (FavoriteItemData fav in UserSession.UserFavorites.FavoritedItems)
+        {
+            <FavoriteItemComponent FavoriteItem="@fav" />
+        }
+    }
+    else
+    {
+        snackbar.Add("An error occured loading your favorited items.", Severity.Error);
+    }
+}
+else
+{
+    snackbar.Add("An error occured loading your favorites list.", Severity.Error);
+}
+
+@code
+{
+    [CascadingParameter]
+    public SessionManager UserSession { get; set; }
+}

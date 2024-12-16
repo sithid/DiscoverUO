@@ -1,14 +1,4 @@
-﻿@using System.Net
-@using System.Net.Http
-@using DiscoverUO.Lib.Shared
-@using System.Net.Http.Headers
-@using DiscoverUO.Lib.Shared.Contracts
-
-@inject HttpClient client
-@inject ISnackbar snackbar
-@inject NavigationManager navManager
-
-@if (UserSession.PublicServers != null)
+﻿@if (UserSession.PublicServers != null)
 {
     @foreach( ServerData server in UserSession.UserOwnedServers )
     {

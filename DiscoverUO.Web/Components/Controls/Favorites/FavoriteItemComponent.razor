@@ -1,0 +1,136 @@
+﻿@inject HttpClient client
+@inject ISnackbar snackbar
+@inject NavigationManager navManager
+
+@if( UserSession.UserAuthenticated )
+{
+    <MudPaper>
+        <MudItem Class="mt-4 pa-4 mud-theme-primary">
+            <MudCard>
+                <MudCardContent>
+                    <MudText Typo="Typo.h2" Align="Align.Center">@FavoriteItem.ServerName</MudText>
+
+                    @if (ShowBanner(FavoriteItem.ServerBanner))
+                    {
+                        <MudCardMedia Height="150" Image="@FavoriteItem.ServerBanner" />
+                    }
+
+                    <MudText Typo="Typo.h5" Align="Align.Left">Server Era: @FavoriteItem.ServerEra, PvP Enabled: @FavoriteItem.PvPEnabled, FavoriteID: @FavoriteItem.Id</MudText>
+                    <MudText Typo="Typo.h5" Align="Align.Left">Server Address: @FavoriteItem.ServerAddress</MudText>
+                    <MudText Typo="Typo.h5" Align="Align.Left">Server Port: @FavoriteItem.ServerPort</MudText>
+                    <MudText Typo="Typo.h5" Align="Align.Left">
+                        Server Website: <a target="_blank" href="@FavoriteItem.ServerWebsite">@FavoriteItem.ServerWebsite</a>
+                    </MudText>
+
+                </MudCardContent>
+                <MudCardActions>
+                    @if (FavoriteItem.ServerId >= 0)
+                    {
+                        <MudSpacer />
+                        <MudText Typo="Typo.h5" Align="Align.Center">Server ID: @FavoriteItem.ServerId</MudText>
+                        <MudSpacer />
+                    }
+                    else
+                    {
+                        <MudSpacer />
+                        <MudSpacer />
+                    }
+
+                    @if (UserSession.UserAuthenticated)
+                    {
+                        <MudButton Variant="Variant.Outlined" OnClick="@(() => RemoveItemOnClick(FavoriteItem.Id))" Color="Color.Primary">Remove</MudButton>
+                        <MudButton Variant="Variant.Outlined" OnClick="@(() => UpdateOnClick(FavoriteItem))" Color="Color.Primary">Update</MudButton>
+                    }
+                    <MudSpacer />
+                </MudCardActions>
+            </MudCard>
+        </MudItem>
+    </MudPaper>
+}
+else
+{
+    snackbar.Add("You must be signed in to view your favorites.");
+    navManager.NavigateTo("/signin");
+}
+
+@code
+{
+    [CascadingParameter]
+    public SessionManager UserSession { get; set; }
+
+    [Parameter]
+    public FavoriteItemData FavoriteItem{ get; set; }
+
+    public bool showBanner { get; set; }
+    private string serverDetails = string.Empty;
+    private string connectionDetails = string.Empty;
+
+    private bool ShowBanner(string banner)
+    {
+        if (!string.IsNullOrEmpty(banner))
+        {
+            if (IsValidUrl(banner))
+            {
+                if (IsValidImageUrl(banner))
+                    return true;
+            }
+        }
+
+        return false;
+    }
+
+    private void UpdateOnClick(FavoriteItemData data)
+    {
+        UserSession.UpdatingFavoriteTemp = data;
+        navManager.NavigateTo("/favorites/update");
+    }
+
+    private void RemoveItemOnClick(int favId)
+    {
+        var removeFavRsp = UserSession.RemoveItemFromFavorites(favId, client);
+
+        if (removeFavRsp.Success)
+        {
+            UserSession.UserFavorites.FavoritedItems.RemoveAll(x => x.Id == favId);
+            snackbar.Add(removeFavRsp.Message, Severity.Success);
+        }
+        else
+        {
+            snackbar.Add(removeFavRsp.Message, Severity.Error);
+        }
+
+        StateHasChanged();
+        navManager.Refresh();
+    }
+
+    public static bool IsValidUrl(string url)
+    {
+        try
+        {
+            Uri.TryCreate(url, UriKind.Absolute, out Uri result);
+            return (result != null) && (result.Scheme == Uri.UriSchemeHttp || result.Scheme == Uri.UriSchemeHttps);
+        }
+        catch (Exception)
+        {
+            return false;
+        }
+    }
+
+    public bool IsValidImageUrl(string imageUrl)
+    {
+        using (var httpClient = new HttpClient())
+        {
+            httpClient.DefaultRequestHeaders.Accept.TryParseAdd("image/*");
+
+            try
+            {
+                var response = httpClient.SendAsync(new HttpRequestMessage(HttpMethod.Head, imageUrl)).Result;
+                return response.IsSuccessStatusCode && response.Content.Headers.ContentType.MediaType.StartsWith("image/");
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+    }
+}

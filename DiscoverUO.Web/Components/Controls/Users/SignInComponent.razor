@@ -11,10 +11,10 @@
 <MudPaper Class="ma-2 mt-2 pa-16">
     <MudItem>
         <MudForm title="Current User" Spacing="4">
-            <MudText Typo="Typo.h1" Align="Align.Justify">Log in to DiscoverUO</MudText>
+            <MudText Typo="Typo.h1" Align="Align.Justify">User Sign In</MudText>
             <MudTextField Variant="Variant.Text" T="string" Label="Username" Typo="Typo.input" @bind-Value="@Details.Username" />
             <MudTextField Variant="Variant.Text" T="string" Label="Password" Typo="Typo.input" @bind-Value="@Details.Password" InputType="InputType.Password" />
-            <MudButton Size="Size.Medium" Variant="Variant.Text" OnClick="@HandleSignIn">Sign In</MudButton>
+            <MudButton Color="Color.Inherit" Size="Size.Medium" Variant="Variant.Text" OnClick="@HandleSignIn">Sign In</MudButton>
 
             @if (ShowUIResponseMessage)
             {

@@ -1,6 +1,6 @@
 ﻿@if( UserSession.PublicServers != null )
 {
-    @foreach (ServerData server in UserSession.PublicServers )
+    foreach (ServerData server in UserSession.PublicServers )
     {
         if( server.IsPublic || ( UserSession.Role >= UserRole.Moderator ) )
         {

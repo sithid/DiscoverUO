@@ -43,6 +43,9 @@
     <Content Update="Components\Pages\Register.razor">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
     </Content>
+    <Content Update="Components\Pages\Servers\MyServers.razor">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </Content>
     <Content Update="Components\Pages\Servers\UpdateServerData.razor">
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
     </Content>

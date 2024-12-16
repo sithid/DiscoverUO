@@ -2,41 +2,50 @@
 @inject ISnackbar snackbar
 @inject NavigationManager navManager
 
-@page "/servers/myservers"
+@page "/servers/public"
 
 <PageTitle>My Servers</PageTitle>
 
 <MudContainer>
-    @if (!UserSession.UserAuthenticated)
-    {
-        snackbar.Add("You must be signed in to view your dashboard.  Redirecting you to sign in.", Severity.Warning);
-        navManager.NavigateTo("/signin");
-    }
-    else
+    @if (UserSession.PublicServers.Count > 0)
     {
         <MudPaper>
-            <MudItem xs="12" Class="mt-4 pa-4 mud-theme-primary">
+            <MudItem xs="16" Class="mt-4 pa-4 mud-theme-primary">
                 <MudCard>
                     <MudCardContent>
-                        <MudText Typo="Typo.h2" Align="Align.Center" Color="Color.Inherit" GutterBottom="true">User Added Servers</MudText>
-                        <MudText Typo="Typo.h5" Align="Align.Center" Color="Color.Inherit" GutterBottom="true">This is where you will see all of the servers you have added.</MudText>
+                        <MudText Typo="Typo.h2" Align="Align.Center" Color="Color.Inherit" GutterBottom="true">Public Servers</MudText>
+                        <MudText Typo="Typo.h5" Align="Align.Center" Color="Color.Inherit" GutterBottom="true" Inline="true">This is the public server list.  Here you will find</MudText>
+                        <MudText Typo="Typo.h5" Align="Align.Center" Color="Color.Inherit" GutterBottom="true" Inline="true">servers that have been added by other users and staff.</MudText>
                     </MudCardContent>
                     <MudCardActions>
                         <MudButton Variant="Variant.Outlined" Color="Color.Inherit" OnClick="@AddServerOnClick">Add Public Server</MudButton>
                     </MudCardActions>
                     <MudCardContent>
-                        <MyServersComponent />
+                        <PublicServersComponent />
+                    </MudCardContent>
+                </MudCard>
+            </MudItem>
+        </MudPaper>
+    }
+    else
+    {
+        <MudPaper>
+            <MudItem xs="16" Class="mt-4 pa-4 mud-theme-primary">
+                <MudCard>
+                    <MudCardHeader>Public Server List</MudCardHeader>
+                    <MudCardContent>
+                        <MudText Typo="Typo.h2" Align="Align.Center" Color="Color.Inherit" GutterBottom="true">Empty</MudText>
                     </MudCardContent>
                 </MudCard>
             </MudItem>
         </MudPaper>
     }
 </MudContainer>
-@code{
-
+@code
+{
     [CascadingParameter]
-    public SessionManager UserSession{ get; set; }
-    
+    public SessionManager UserSession { get; set; }
+
     protected override void OnInitialized()
     {
         base.OnInitialized();
