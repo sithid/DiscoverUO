@@ -19,7 +19,16 @@
                     <MudText Color="Color.Inherit" Typo="Typo.h5" Align="Align.Left">
                         Shard Website: <a target="_blank" href="@ServerData.ServerWebsite">@ServerData.ServerWebsite</a>
                     </MudText>
-                    <MudText Color="Color.Inherit" Typo="Typo.h5" Align="Align.Left">Server ID: @ServerData.Id</MudText>
+                    @if( ServerData.IsPublic )
+                    {
+                        <MudText Inline="true" Color="Color.Inherit" Typo="Typo.h5" Align="Align.Left">Server ID: @ServerData.Id</MudText>
+                        <MudText Inline="true" Color="Color.Success" Typo="Typo.h5" Align="Align.Left">Public</MudText>
+                    }
+                    else
+                    {
+                        <MudText Inline="true" Color="Color.Inherit" Typo="Typo.h5" Align="Align.Left">Server ID: @ServerData.Id</MudText>
+                        <MudText Inline="true" Color="Color.Error" Typo="Typo.h5" Align="Align.Left">Private</MudText>
+                    }
                 </MudCardContent>
                 <MudCardActions>
                     <MudSpacer />

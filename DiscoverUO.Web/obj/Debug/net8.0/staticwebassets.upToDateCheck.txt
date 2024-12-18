@@ -1,0 +1,3 @@
+wwwroot\app.css
+wwwroot\favicon.png
+wwwroot\images\DiscoverUO-BG.jfif

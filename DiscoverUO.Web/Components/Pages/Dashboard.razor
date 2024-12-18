@@ -35,16 +35,16 @@
                         <MudText Align="Align.Center" Typo="Typo.h5">User Remaining Votes : @UserSession.DailyVotesRemaining</MudText>
                     </MudCardContent>
                     <MudCardContent>
-                        <MudText Align="Align.Center" Typo="Typo.h5">User Biography:</MudText>
-                        <MudText Align="Align.Center" Typo="Typo.h5">@UserSession.UserProfile.UserBiography</MudText>
+                        <MudText Align="Align.Left" Typo="Typo.h5">User Biography:</MudText>
+                        <MudText Align="Align.Justify" Typo="Typo.h5">@UserSession.UserProfile.UserBiography</MudText>
                     </MudCardContent>
                     <MudCardActions>
                         <MudSpacer />
-                        <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="@FavoritesOnClick">Favorites</MudButton>
-                        <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="@MyServersOnClick">My Servers</MudButton>
-                        <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="@EditUserLoginDataOnClick">Update Login Details</MudButton>
-                        <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="@EditProfileOnClick">Update Profile</MudButton>
-                        <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="@EditPasswordOnClick">Update Password</MudButton>
+                        <MudButton Variant="Variant.Outlined" Color="Color.Inherit" OnClick="@FavoritesOnClick">Favorites</MudButton>
+                        <MudButton Variant="Variant.Outlined" Color="Color.Inherit" OnClick="@MyServersOnClick">My Servers</MudButton>
+                        <MudButton Variant="Variant.Outlined" Color="Color.Inherit" OnClick="@EditUserLoginDataOnClick">Update Login Details</MudButton>
+                        <MudButton Variant="Variant.Outlined" Color="Color.Inherit" OnClick="@EditProfileOnClick">Update Profile</MudButton>
+                        <MudButton Variant="Variant.Outlined" Color="Color.Inherit" OnClick="@EditPasswordOnClick">Update Password</MudButton>
                         <MudSpacer />
                     </MudCardActions>
                 </MudCard>

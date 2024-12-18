@@ -1,12 +1,70 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\Users\\demon\\OneDrive\\Documents\\GitHub\\DiscoverUO\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{9B917F67-7909-480D-B1C6-814F10248080}|DiscoverUO.Desktop\\DiscoverUO.Desktop.csproj|c:\\users\\demon\\onedrive\\documents\\github\\discoveruo\\discoveruo.desktop\\discoveruomainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{9B917F67-7909-480D-B1C6-814F10248080}|DiscoverUO.Desktop\\DiscoverUO.Desktop.csproj|solutionrelative:discoveruo.desktop\\discoveruomainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9AB945B4-62B7-440A-84D3-3C18A325C477}|DiscoverUO.Lib\\DiscoverUO.Lib.csproj|c:\\users\\demon\\onedrive\\documents\\github\\discoveruo\\discoveruo.lib\\shared\\data\\sessionmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9AB945B4-62B7-440A-84D3-3C18A325C477}|DiscoverUO.Lib\\DiscoverUO.Lib.csproj|solutionrelative:discoveruo.lib\\shared\\data\\sessionmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9B917F67-7909-480D-B1C6-814F10248080}|DiscoverUO.Desktop\\DiscoverUO.Desktop.csproj|c:\\users\\demon\\onedrive\\documents\\github\\discoveruo\\discoveruo.desktop\\discoveruomainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9B917F67-7909-480D-B1C6-814F10248080}|DiscoverUO.Desktop\\DiscoverUO.Desktop.csproj|solutionrelative:discoveruo.desktop\\discoveruomainform.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
       "VerticalTabListWidth": 256,
-      "DocumentGroups": []
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "DiscoverUOMainForm.cs",
+              "DocumentMoniker": "C:\\Users\\demon\\OneDrive\\Documents\\GitHub\\DiscoverUO\\DiscoverUO.Desktop\\DiscoverUOMainForm.cs",
+              "RelativeDocumentMoniker": "DiscoverUO.Desktop\\DiscoverUOMainForm.cs",
+              "ToolTip": "C:\\Users\\demon\\OneDrive\\Documents\\GitHub\\DiscoverUO\\DiscoverUO.Desktop\\DiscoverUOMainForm.cs",
+              "RelativeToolTip": "DiscoverUO.Desktop\\DiscoverUOMainForm.cs",
+              "ViewState": "AgIAABQAAAAAAAAAAAAmwCMAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-18T05:46:51.427Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "DiscoverUOMainForm.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\demon\\OneDrive\\Documents\\GitHub\\DiscoverUO\\DiscoverUO.Desktop\\DiscoverUOMainForm.cs",
+              "RelativeDocumentMoniker": "DiscoverUO.Desktop\\DiscoverUOMainForm.cs",
+              "ToolTip": "C:\\Users\\demon\\OneDrive\\Documents\\GitHub\\DiscoverUO\\DiscoverUO.Desktop\\DiscoverUOMainForm.cs [Design]",
+              "RelativeToolTip": "DiscoverUO.Desktop\\DiscoverUOMainForm.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-18T05:46:47.158Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "SessionManager.cs",
+              "DocumentMoniker": "C:\\Users\\demon\\OneDrive\\Documents\\GitHub\\DiscoverUO\\DiscoverUO.Lib\\Shared\\Data\\SessionManager.cs",
+              "RelativeDocumentMoniker": "DiscoverUO.Lib\\Shared\\Data\\SessionManager.cs",
+              "ToolTip": "C:\\Users\\demon\\OneDrive\\Documents\\GitHub\\DiscoverUO\\DiscoverUO.Lib\\Shared\\Data\\SessionManager.cs",
+              "RelativeToolTip": "DiscoverUO.Lib\\Shared\\Data\\SessionManager.cs",
+              "ViewState": "AgIAAMsAAAAAAAAAAAAmwLIAAACaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-18T05:38:09.173Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
     }
   ]
 }

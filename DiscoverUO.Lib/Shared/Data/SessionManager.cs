@@ -176,7 +176,7 @@ namespace DiscoverUO.Lib.Shared.Data
                     return new BasicSuccessResponse
                     {
                         Success = true,
-                        Message = $"User Data: {miscMes}, Favorites: {favMes}, Profile: {profMes}",
+                        Message = $"Authenticated: {UserAuthenticated}\n\r User Data: {miscMes}\n\r Owned Servers: {ownedMes}\n\r Favorites: {favMes}\n\r Profile: {profMes}",
                         StatusCode = HttpStatusCode.OK
                     };
                 }
