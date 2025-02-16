@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("DiscoverUO.Web")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ea14547cefaf36dd97ed374e482dff6e825a9af4")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c236c70e100f538c718afb7dc1b8952bd79f340f")]
 [assembly: System.Reflection.AssemblyProductAttribute("DiscoverUO.Web")]
 [assembly: System.Reflection.AssemblyTitleAttribute("DiscoverUO.Web")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

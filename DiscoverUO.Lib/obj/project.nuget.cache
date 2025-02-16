@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "5ivgdq2Jrus=",
+  "dgSpecHash": "4elOnSKo374=",
   "success": true,
-  "projectFilePath": "C:\\Users\\demon\\OneDrive\\Documents\\GitHub\\DiscoverUO\\DiscoverUO.Desktop\\DiscoverUO.Desktop.csproj",
+  "projectFilePath": "C:\\Users\\demon\\OneDrive\\Documents\\GitHub\\DiscoverUO\\DiscoverUO.Lib\\DiscoverUO.Lib.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\demon\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
     "C:\\Users\\demon\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512"
