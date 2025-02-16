@@ -3,6 +3,8 @@
 - A Blazor WebApp © 2024, James Glosser
 - demonicurges05@gmail.com 
 
+[View Code Review Summary](code_review_summary.txt)
+
 ## Purpose
 DiscoverUO is a place where users can discover and share Ultima Online servers that are administered and maintained by players just like themselves.
 
