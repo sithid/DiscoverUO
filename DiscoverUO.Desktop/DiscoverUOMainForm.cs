@@ -10,28 +10,36 @@ namespace DiscoverUO.Desktop
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public SessionManager UserSession { get; set; }
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public HttpClient SessionClient { get; set; }
+
         public DiscoverUOMainForm()
         {
             UserSession = new SessionManager();
+            SessionClient = new HttpClient();
+            SessionClient.BaseAddress = new Uri("http://localhost:5219");
+
             InitializeComponent();
         }
 
         private void mainMenuAuthenticationButton_Click(object sender, EventArgs e)
         {
             AuthenticationData data = new AuthenticationData();
-            HttpClient client = new HttpClient();
-
-            client.BaseAddress = new Uri("http://localhost:5219");
 
             data.Username = "Admin";
             data.Password = "toast7S$";
 
-            var rsp = UserSession.UserSignIn(data, client);
+            var rsp = UserSession.UserSignIn(data, SessionClient);
 
             MessageBox.Show(rsp.Message);
         }
 
         private void DiscoverUOMainForm_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void mainMenuDashboardButton_Click(object sender, EventArgs e)
         {
 
         }

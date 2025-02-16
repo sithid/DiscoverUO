@@ -399,7 +399,7 @@ namespace DiscoverUO.Api.Controllers
             var updatedServerResponse = new ServerDataResponse
             {
                 Success = true,
-                Message = "Server created successfully.",
+                Message = "Server updated successfully.",
                 StatusCode = HttpStatusCode.OK,
                 Entity = updatedServerData
             };

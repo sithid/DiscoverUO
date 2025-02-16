@@ -66,7 +66,7 @@
             // mainMenuAddPublicServerButton
             // 
             this.mainMenuAddPublicServerButton.Name = "mainMenuAddPublicServerButton";
-            this.mainMenuAddPublicServerButton.Size = new Size(167, 22);
+            this.mainMenuAddPublicServerButton.Size = new Size(180, 22);
             this.mainMenuAddPublicServerButton.Text = "Add Public Server";
             // 
             // mainMenuMyServersButton
@@ -85,7 +85,7 @@
             // mainMenuAddFavoriteButton
             // 
             this.mainMenuAddFavoriteButton.Name = "mainMenuAddFavoriteButton";
-            this.mainMenuAddFavoriteButton.Size = new Size(141, 22);
+            this.mainMenuAddFavoriteButton.Size = new Size(180, 22);
             this.mainMenuAddFavoriteButton.Text = "Add Favorite";
             // 
             // mainMenuUserButton
@@ -99,15 +99,16 @@
             // mainMenuAuthenticationButton
             // 
             this.mainMenuAuthenticationButton.Name = "mainMenuAuthenticationButton";
-            this.mainMenuAuthenticationButton.Size = new Size(153, 22);
+            this.mainMenuAuthenticationButton.Size = new Size(180, 22);
             this.mainMenuAuthenticationButton.Text = "Authentication";
             this.mainMenuAuthenticationButton.Click += this.mainMenuAuthenticationButton_Click;
             // 
             // mainMenuDashboardButton
             // 
             this.mainMenuDashboardButton.Name = "mainMenuDashboardButton";
-            this.mainMenuDashboardButton.Size = new Size(153, 22);
+            this.mainMenuDashboardButton.Size = new Size(180, 22);
             this.mainMenuDashboardButton.Text = "Dashboard";
+            this.mainMenuDashboardButton.Click += this.mainMenuDashboardButton_Click;
             // 
             // DiscoverUOMainForm
             // 
