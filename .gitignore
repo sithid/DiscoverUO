@@ -1,0 +1,70 @@
+# .NET Core
+bin/
+obj/
+*.dll
+*.pdb
+*.user
+*.suo
+*.cache
+*.log
+
+# Visual Studio
+.vs/
+*.vspscc
+*.vssscc
+*_i.c
+*_p.c
+*.ncb
+*.sdf
+*.opensdf
+*.sln.docstates
+*.userosscache
+*.sln.ide/
+
+# Visual Studio Code
+.vscode/
+*.code-workspace
+
+# SQLite
+*.db
+*.db-shm
+*.db-wal
+
+# Environment Files
+*.env
+appsettings.*.json
+!appsettings.json
+!appsettings.Development.json
+
+# Build results
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+[Ww][Ii][Nn]32/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+
+# User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Tye
+.tye/
+
+# Others
+*.swp
+*.*~
+project.lock.json
+.DS_Store
+*.pyc 
